@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-09-26
+
 ### Added
 
 - Automatically tag newer package versions on pushes to `main` and call the release workflow; manual tagging is no longer part of publishing. Failed runs can reuse their existing tag without moving it.
@@ -137,7 +139,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit and integration tests against a synthetic sample book.
 
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.2.0...v0.3.0
