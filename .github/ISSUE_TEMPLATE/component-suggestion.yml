@@ -1,0 +1,60 @@
+name: Suggest a Make It or Buy It component
+description: Propose a shared sauce, dip, topping, seasoning, side, staple, or protein.
+title: 'Component suggestion: '
+body:
+- type: input
+  id: name
+  attributes:
+    label: Component name
+  validations:
+    required: true
+- type: dropdown
+  id: kind
+  attributes:
+    label: Component type
+    options:
+    - Sauces
+    - Dips
+    - Toppings
+    - Seasonings
+    - Sides
+    - Staples
+    - Proteins
+  validations:
+    required: true
+- type: textarea
+  id: uses
+  attributes:
+    label: Which recipes would use it?
+    description: Link to existing recipes or describe proposed ones. Explain the regional style or authenticity
+      where relevant.
+  validations:
+    required: true
+- type: textarea
+  id: scratch
+  attributes:
+    label: From-scratch version
+    description: Link to a reliable source or provide your own original ingredients, quantities, yield,
+      and numbered steps. Do not paste someone else’s recipe prose.
+  validations:
+    required: true
+- type: textarea
+  id: quick
+  attributes:
+    label: Buy-it option
+    description: Recommend a specific style or product, how much to use, and any adjustments. If you need
+      help finding a good shortcut, say so.
+  validations:
+    required: true
+- type: textarea
+  id: practical
+  attributes:
+    label: Timing, storage, and cooking experience
+    description: Have you made it? Include active time, total time, make-ahead tips, and realistic storage
+      guidance.
+- type: textarea
+  id: rights
+  attributes:
+    label: Sources, photos, and permissions
+    description: Images are optional. Identify third-party text/images, creator, source, license or permission,
+      and required credit. Attribution alone is not permission.

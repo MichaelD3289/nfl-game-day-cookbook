@@ -28,6 +28,21 @@ Markdown/YAML ──discover──▶ Pydantic models ──validate──▶ re
       ──▶ post-build: PDF named destinations ─▶ pagemap.json ─▶ manifest checks
 ```
 
+## Contributing
+
+Recipe suggestions, homemade components, division dish-offs, rivalry menus, and other
+game-day spreads are welcome—even without coding experience.
+See [CONTRIBUTING.md](CONTRIBUTING.md) to suggest a dish or open a pull request.
+Please follow the [code of conduct](CODE_OF_CONDUCT.md); report security issues using
+[SECURITY.md](SECURITY.md).
+
+## License
+
+Software and developer documentation: [MIT](LICENSE).
+Original cookbook writing and original images: [CC BY 4.0](LICENSE-CONTENT.md).
+Both allow commercial reuse under their terms. Third-party recipes, photos, and other
+material retain their own rights; see [third-party notices](THIRD_PARTY.md).
+
 ## Requirements
 
 - [uv](https://docs.astral.sh/uv/). Python and every Python dependency are managed with

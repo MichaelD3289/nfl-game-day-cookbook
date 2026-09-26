@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- MIT licensing for software/developer documentation and CC BY 4.0 for original cookbook content, with explicit third-party exclusions and contribution terms.
+
+- Read-only PR validation, owner review routing, recipe, component, division dish-off, game-day menu, and PR templates, contributor guidance, conduct/security policies, and weekly GitHub Actions dependency updates.
+
 ### Changed
 
 - Organize README links into a read/download table with the public cookbook website, PDF, and HTML archive, plus release assets and earlier versions.

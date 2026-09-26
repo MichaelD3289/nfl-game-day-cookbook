@@ -1,0 +1,58 @@
+name: Suggest a division dish-off
+description: Design a coordinated menu using dishes from one NFL division.
+title: 'Division dish-off: '
+body:
+- type: input
+  id: title
+  attributes:
+    label: Menu name
+    description: A fun name is welcome.
+  validations:
+    required: true
+- type: dropdown
+  id: division
+  attributes:
+    label: Division
+    options:
+    - AFC East
+    - AFC North
+    - AFC South
+    - AFC West
+    - NFC East
+    - NFC North
+    - NFC South
+    - NFC West
+  validations:
+    required: true
+- type: textarea
+  id: recipes
+  attributes:
+    label: Dishes and teams
+    description: List recipe links or IDs and the team for each. Use teams from this division; note any
+      new recipes that need separate suggestions.
+  validations:
+    required: true
+- type: textarea
+  id: description
+  attributes:
+    label: Why these dishes work together
+    description: Think about flavors, courses, portions, and a balanced meal.
+  validations:
+    required: true
+- type: textarea
+  id: prep
+  attributes:
+    label: Prep note
+    description: Describe shared ingredients, make-ahead work, or the order to cook and serve.
+  validations:
+    required: true
+- type: textarea
+  id: practical
+  attributes:
+    label: Serving size, time, and cost
+    description: Optional estimates; distinguish active work from waiting time.
+- type: textarea
+  id: sources
+  attributes:
+    label: Supporting sources
+    description: Include any new factual claims or third-party material and its reuse permission.
