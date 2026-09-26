@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Agent rules now ask for each task to run in a git worktree under `.worktrees/`, removed after its branch is merged; `.worktrees/` is git-ignored.
+
 - Organize README links into a read/download table with the public cookbook website, PDF, and HTML archive, plus release assets and earlier versions.
 
 ## [0.5.0] - 2026-09-26
