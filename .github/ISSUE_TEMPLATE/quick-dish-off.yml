@@ -1,0 +1,24 @@
+name: Suggest a division dish-off idea (quick)
+description: Pitch a menu that pits one division's dishes against each other.
+title: 'Dish-off idea: '
+labels:
+- needs-research
+- 'suggestion: dish-off'
+body:
+- type: input
+  id: division
+  attributes:
+    label: Division
+  validations:
+    required: true
+- type: textarea
+  id: idea
+  attributes:
+    label: Dish-off idea
+    description: The dishes or teams you have in mind and why they work together.
+  validations:
+    required: true
+- type: textarea
+  id: details
+  attributes:
+    label: Anything else? (optional)

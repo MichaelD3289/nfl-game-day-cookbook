@@ -1,5 +1,5 @@
 name: Suggest a recipe
-description: Suggest a local dish or improve an existing recipe—no coding required.
+description: Suggest a local dish with full details—no coding required. For a quick idea or a fix, use the quick templates.
 title: "Recipe suggestion: "
 body:
   - type: input

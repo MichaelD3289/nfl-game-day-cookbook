@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Quick issue templates for edits and for recipe, component, menu, and dish-off ideas, where one or two fields are enough; they are labelled `needs-research`.
+
 - Queue Dependabot pull requests for squash auto-merge once human review and required validation pass, without automatically approving changes.
 
 - MIT licensing for software/developer documentation and CC BY 4.0 for original cookbook content, with explicit third-party exclusions and contribution terms.

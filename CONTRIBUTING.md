@@ -19,6 +19,16 @@ content are all welcome. Link existing dishes where possible. If a menu needs a 
 recipe or component, open a linked suggestion for that item too. Photos are optional;
 you do not need to install tools to contribute an idea.
 
+### Quick ideas and fixes
+
+Only have a sentence? A dish name, or "this needs 2 tbsp, not 1," is enough. Use a
+quick form and we'll research it before changing the book:
+[edit](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=suggest-edit.yml),
+[recipe idea](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=quick-recipe.yml),
+[component idea](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=quick-component.yml),
+[menu idea](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=quick-menu.yml), or
+[dish-off idea](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=quick-dish-off.yml).
+
 ## Submit a pull request
 
 1. Fork the repository and make a branch from current `main`.
