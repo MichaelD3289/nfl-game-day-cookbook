@@ -3,15 +3,17 @@ id: roast-pork-sandwich
 title: Roast pork sandwich
 description: "Herb-seasoned pork layered into rolls with garlicky greens and melted provolone."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: sharp provolone amount and type per the source headnote. Photo replaced with a CC BY 2.0 Tommy DiNic's roast pork photo, license verified on Flickr.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#roast-pork-sandwich
 course: meals
 location: Philadelphia, PA
 yield: 6 sandwiches
 prep: 15 minutes (source listed)
 cook: 3 hours 5 minutes, plus 13 hours chilling/cooling
 image: roast-pork-sandwich.jpg
-photo_credit: www.bonappetit.com
+photo_credit: Krista (scaredykat) on Flickr, CC BY 2.0
 index:
   main_ingredient: pork-and-sausage
   practical_time: over-60-minutes

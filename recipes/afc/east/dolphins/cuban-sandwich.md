@@ -3,15 +3,17 @@ id: cuban-sandwich
 title: Cuban sandwich
 description: "A pressed sandwich of roast pork, ham, Swiss cheese, dill pickles, and yellow mustard."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: cook time aligned with the source. Photo replaced with Todd Van Hoosear's CC BY-SA 2.0 Versailles (Miami) Cuban, license verified on Wikimedia Commons.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#cuban-sandwich
 course: meals
 location: Miami, FL
 yield: 4 sandwiches
 prep: 35 minutes active
 cook: about 20 minutes pressing
 image: cuban-sandwich.jpg
-photo_credit: King Arthur Baking
+photo_credit: Todd Van Hoosear, CC BY-SA 2.0, via Wikimedia Commons (resized)
 index:
   main_ingredient: pork-and-sausage
   practical_time: 31-to-60-minutes

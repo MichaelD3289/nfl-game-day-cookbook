@@ -3,15 +3,17 @@ id: chicken-wings-with-mumbo-sauce
 title: Chicken wings with mumbo sauce
 description: "Buttermilk-marinated fried chicken wings drizzled with sweet, tangy, lightly spicy D.C. mumbo sauce."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: replaced the paywalled Washington Post source with D.C. chef Anthony Thomas's open TODAY recipe (buttermilk-dredged wings, ketchup-vinegar-pineapple mumbo sauce), corroborated by Black Foodie, Food Republic and WETA. Photo replaced with a CC BY 2.0 D.C. carryout wings-and-mumbo photo, license verified on Wikimedia Commons. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#chicken-wings-with-mumbo-sauce
 course: appetizers
 location: Washington, DC
 yield: 2 pounds wings, about 4 appetizer portions
 prep: 20 minutes active (estimated) plus at least 2 hours marinating
 cook: About 35 minutes, frying in batches (estimated)
 image: chicken-wings-with-mumbo-sauce.jpg
-photo_credit: The Washington Post
+photo_credit: tanyaboza on Flickr, CC BY 2.0, via Wikimedia Commons
 index:
   main_ingredient: poultry
   practical_time: over-60-minutes

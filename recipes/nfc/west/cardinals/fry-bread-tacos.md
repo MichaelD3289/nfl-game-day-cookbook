@@ -3,15 +3,17 @@ id: fry-bread-tacos
 title: Fry bread tacos
 description: "Golden fry bread topped with seasoned beef, refried beans, and a choice of taco toppings."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: dough rest moved before shaping; piercing step and olives added. Photo replaced with Gregg Montesi's CC0 Arizona Navajo tacos, license verified on Wikimedia Commons.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#fry-bread-tacos
 course: meals
 location: Phoenix metro, AZ
 yield: 6 servings
 prep: 10 minutes
 cook: 10 minutes
 image: fry-bread-tacos.jpg
-photo_credit: Instant Pot
+photo_credit: Gregg Montesi, CC0, via Wikimedia Commons
 index:
   main_ingredient: beef
   practical_time: up-to-30-minutes

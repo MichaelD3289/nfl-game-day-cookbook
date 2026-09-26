@@ -33,6 +33,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The Kansas City burnt ends rub is now labeled as a half batch of AmazingRibs' Big Bad Beef Rub.
 
+- The Cuban sandwich, roast pork, pimento cheese, fry bread tacos and mumbo sauce wings have new openly licensed photos, credited to their photographers and licenses.
+
 ## [0.5.0] - 2026-09-26
 
 ### Added
