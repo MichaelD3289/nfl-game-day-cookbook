@@ -3,8 +3,10 @@ id: colorado-pork-green-chile
 title: Colorado pork green chile
 description: "Pork and potatoes simmered with roasted green chiles, tomatillos, tomatoes, and warm spices."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Edible Denver source; faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#colorado-pork-green-chile
 course: meals
 location: Denver, CO
 yield: 6 servings

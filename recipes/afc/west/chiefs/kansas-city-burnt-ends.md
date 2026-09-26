@@ -3,8 +3,10 @@ id: kansas-city-burnt-ends
 title: Kansas City burnt ends
 description: "Smoked brisket-point cubes glazed with sweet barbecue sauce for a rich, caramelized finish."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: rub amounts verified against AmazingRibs' Big Bad Beef Rub recipe card (exactly half the source batch, about 1/4 cup); labeled as a half batch.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#kansas-city-burnt-ends
 course: meals
 location: Kansas City, MO
 yield: 8 servings
@@ -30,7 +32,7 @@ quick_options:
 - ¼ cup beef broth, for foil wrap
 - About 4 cups hardwood chunks or chips (8 ounces total), for smoker
 
-### Big Bad Beef Rub
+### Big Bad Beef Rub (half batch)
 
 - 1½ tablespoons coarse black pepper
 - 1½ teaspoons sugar

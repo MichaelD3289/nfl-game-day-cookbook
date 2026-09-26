@@ -3,15 +3,17 @@ id: pimento-cheese-sandwiches
 title: Pimento cheese sandwiches
 description: "A creamy spread of cheddar, pepper Jack, pimientos, and mayonnaise on soft white bread."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: faithful to source; photo replaced with a CC BY 2.0 cold pimento cheese sandwich, license verified on Flickr. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#pimento-cheese-sandwiches
 course: meals
 location: Charlotte, NC
 yield: 4 sandwiches
 prep: 10 minutes
 cook: No cooking
 image: pimento-cheese-sandwiches.jpg
-photo_credit: Food.com
+photo_credit: AVID Vines on Flickr, CC BY 2.0
 index:
   main_ingredient: meatless
   practical_time: variable-or-make-ahead

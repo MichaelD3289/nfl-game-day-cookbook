@@ -3,8 +3,10 @@ id: shrimp-po-boy
 title: Shrimp po'boy
 description: "Crisp cornmeal-coated shrimp in French rolls with lettuce, tomato, pickles, and rémoulade."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: New Orleans fit strong; Epicurious (Bon Appétit Test Kitchen) source matches in every amount and step. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#shrimp-po-boy
 course: meals
 location: New Orleans, LA
 yield: 4 servings

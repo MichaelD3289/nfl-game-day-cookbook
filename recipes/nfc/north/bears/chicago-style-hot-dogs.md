@@ -3,8 +3,10 @@ id: chicago-style-hot-dogs
 title: Chicago style hot dogs
 description: "All-beef hot dogs with mustard, relish, onion, tomato, pickle, sport peppers, and celery salt."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: two sport peppers per dog; relish amount labeled as an estimate.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#chicago-style-hot-dogs
 course: meals
 location: Chicago, IL
 yield: 4 hot dogs
@@ -28,16 +30,16 @@ quick_options:
 - 4 Vienna Beef natural-casing all-beef hot dogs (or another natural-casing all-beef frank)
 - 4 poppy-seed hot dog buns
 - Yellow mustard, for a line on each dog {{component:american-yellow-mustard}}
-- Chicago-style sweet green relish, homemade or Vienna Beef prepared, about 1 tablespoon per dog {{component:chicago-sweet-green-relish}}
+- Chicago-style sweet green relish, homemade or Vienna Beef prepared, about 1 tablespoon per dog (estimated; the source does not specify) {{component:chicago-sweet-green-relish}}
 - 1 small white onion, finely diced
 - 1 small tomato, cut into wedges or strips
 - 1 cold-pack kosher dill pickle, cut lengthwise into 4 spears
-- 4–8 pickled sport peppers (1–2 per dog)
+- 8 pickled sport peppers (2 per dog)
 - Celery salt, a small dash per dog
 
 ## Instructions
 
 1. Heat the franks gently in simmering water until hot, about 5 minutes; keep the water below a hard boil so the casings do not split.
 2. Steam the poppy-seed buns briefly until soft and warm. Put one frank in each bun.
-3. Add a line of yellow mustard, then relish and diced onion. Tuck a tomato piece along one side and a pickle spear along the other; add 1–2 sport peppers.
+3. Add a line of yellow mustard, then relish and diced onion. Tuck a tomato piece along one side and a pickle spear along the other; add 2 sport peppers.
 4. Finish each with a small dash of celery salt and serve immediately.

@@ -3,8 +3,10 @@ id: beer-brats
 title: Beer brats
 description: "Bratwurst gently poached in lager and onion, then grilled and served in buns."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: gentle poach and 160°F endpoint labeled as this book's method.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#beer-brats
 course: meals
 location: Green Bay, WI
 yield: 10 servings (10 brats)
@@ -36,7 +38,7 @@ quick_options:
 
 ## Instructions
 
-1. Put the raw brats, onion, and beer in a large pot over medium-high heat. Bring the beer just to a simmer, then lower heat and gently poach raw brats about 10–12 minutes, until the centers reach 160°F.
+1. Put the raw brats, onion, and beer in a large pot over medium-high heat. Bring the beer just to a simmer, then lower heat and gently poach raw brats about 10–12 minutes, until the centers reach 160°F. The gentle poach and 160°F endpoint are this book's method; the source brings the beer to a boil and cooks the brats through.
 2. Heat a grill over medium-high and clean and oil the grate. Reduce to medium and grill the brats, turning often, until browned, about 5 minutes.
 3. Serve the brats in buns with ketchup, mustard, sauerkraut, or other desired toppings.
 

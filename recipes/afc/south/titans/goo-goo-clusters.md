@@ -3,8 +3,10 @@ id: goo-goo-clusters
 title: Goo Goo Clusters
 description: "Chocolate-covered clusters of homemade nougat, caramel, and salted roasted peanuts."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Nashville confection; copycat faithful. Readability B.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#goo-goo-clusters
 course: desserts
 location: Nashville, TN
 yield: 12 small clusters

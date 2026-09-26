@@ -3,8 +3,10 @@ id: berger-cookies
 title: Berger cookies
 description: "Soft vanilla cookies topped with a thick layer of rich chocolate frosting."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Baltimore fit strong; Sugar Spun Run copycat matches in every amount and step. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#berger-cookies
 course: desserts
 location: Baltimore, MD
 yield: 30 cookies

@@ -3,8 +3,10 @@ id: new-york-bagels
 title: New York bagels
 description: "Chewy yeast-raised bagels, boiled in a malted water bath and baked until golden."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: King Arthur's all-purpose framing noted.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#new-york-bagels
 course: meals
 location: New York City metro
 yield: 8 large or 12 standard bagels
@@ -47,3 +49,5 @@ source:
 3. Heat oven to 425°F. Bring water-bath ingredients to a gentle boil in a wide pan. Poke a hole through each ball and widen to 1 1/2–2 inches.
 4. Boil bagels in batches without crowding: 2 minutes on the first side and 1 minute after flipping. Lift out with a skimmer and return to prepared baking sheets. Add seeds while wet, if desired.
 5. Bake 20–25 minutes until deeply browned, turning bagels over after about 15 minutes. Cool on a rack before slicing.
+
+King Arthur presents this as an all-purpose boiled-and-baked bagel rather than a New York recipe; the book uses it to represent the New York style of a malted water bath, a boil before baking and a chewy crust.

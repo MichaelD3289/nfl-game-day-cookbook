@@ -3,8 +3,10 @@ id: new-york-style-pizza
 title: New York style pizza
 description: "A thin-crust pizza layered with tomato sauce, mozzarella, and Parmesan."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: dough storage and 3/4-inch border from the source added.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#new-york-style-pizza
 course: meals
 location: New York City metro
 yield: One 12- to 13-inch pizza, plus extra dough
@@ -52,8 +54,8 @@ source:
 2. Place dough in an oiled bowl and let rise until doubled, about 1 1/2 hours. Divide into two balls; this recipe bakes one pizza and saves the second ball.
 3. Mix crushed tomatoes, garlic, oil, oregano, sugar, salt and pepper for sauce.
 4. Preheat a pizza stone, steel or inverted sheet in a 500°F oven. Stretch one dough ball to a 12- to 13-inch round on floured parchment.
-5. Spread 1/2 cup sauce on dough, leaving a border; add Parmesan and both mozzarellas. Bake about 5 minutes, remove parchment, then bake another 5 to 10 minutes until browned and cheese melts.
-6. Let the finished pizza rest on a rack for a minute before cutting, so steam does not soften the thin base. Refrigerate or freeze the unused dough ball.
+5. Spread 1/2 cup sauce on dough, leaving a 3/4-inch border; add Parmesan and both mozzarellas. Bake about 5 minutes, remove parchment, then bake another 5 to 10 minutes until browned and cheese melts.
+6. Let the finished pizza rest on a rack for a minute before cutting, so steam does not soften the thin base. Wrap the unused dough ball and refrigerate up to 2 days or freeze up to 3 months; bring it to room temperature before using.
 
 ## Kitchen Notes
 

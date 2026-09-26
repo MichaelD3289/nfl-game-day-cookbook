@@ -3,8 +3,10 @@ id: cheese-coneys
 title: Cheese coneys
 description: "Small hot dogs topped with spiced beef chili, mustard, onion, and finely shredded cheddar."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: cocoa, roll and cheese details specified; roll warming clarified.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#cheese-coneys
 course: meals
 location: Cincinnati, OH
 yield: 6 cheese coneys
@@ -27,7 +29,7 @@ source:
 - 1 tablespoon minced garlic
 - 1 pound 85%-lean ground beef
 - Kosher salt to taste
-- 1 tablespoon unsweetened cocoa powder
+- 1 tablespoon unsweetened Dutch-process cocoa powder
 - 1/2 teaspoon ground cinnamon
 - 1/2 teaspoon ground allspice
 - 1 can (8 ounces) low-sodium tomato sauce
@@ -36,15 +38,15 @@ source:
 - 1 teaspoon Worcestershire sauce
 - 1 tablespoon chili powder
 - 6 small all-beef hot dogs
-- 6 soft hot dog buns (steam for a parlor-style coney)
+- 6 long potato rolls, such as Martin's (toast, or steam for a parlor-style coney)
 - Yellow mustard for serving
-- 4 ounces finely shredded mild yellow cheddar (sharp is a stronger alternative), about 2 cups
+- 4 ounces finely shredded sharp cheddar (about 2 cups)
 
 ## Instructions
 
 1. For the chili, soften onion in olive oil over medium heat, 8 to 10 minutes. Add garlic for 30 seconds, then brown ground beef and season with salt.
 2. Stir in cocoa, cinnamon and allspice for 1 minute. Add tomato sauce, water, vinegar, Worcestershire and chili powder; simmer 18 to 20 minutes until thick.
-3. Heat the hot dogs through to steaming in hot water, or grill 6–8 minutes over medium-high heat for the source’s charred variation. Steam or gently warm buns.
+3. Heat the hot dogs through to steaming in hot water, or grill 6–8 minutes over medium-high heat for the source’s charred variation. Toast, steam or gently warm the rolls.
 4. Put a dog in each bun and top with chili, chopped onion, mustard and shredded cheddar.
 
 ## Kitchen Notes

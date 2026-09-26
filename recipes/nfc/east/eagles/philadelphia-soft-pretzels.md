@@ -3,8 +3,10 @@ id: philadelphia-soft-pretzels
 title: Philadelphia soft pretzels
 description: "Soft, chewy yeast pretzels with a salted crust, served with optional yellow mustard."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Philly pretzel fit; King Arthur faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#philadelphia-soft-pretzels
 course: appetizers
 location: Philadelphia, PA
 yield: 16 pretzels

@@ -3,8 +3,10 @@ id: mission-style-burritos
 title: Mission style burritos
 description: "Large flour tortillas packed with carne asada, Mexican rice, beans, and burrito fixings."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: reduced bean salt labeled against the source's 2 teaspoons.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#mission-style-burritos
 course: meals
 location: San Francisco Bay Area, CA
 yield: 3–4 large burritos
@@ -54,7 +56,7 @@ quick_options:
 - 1 1/2 cups chicken or vegetable broth
 - 1/3 cup diced onion and 1 peeled garlic clove
 - 1 teaspoon mild chili powder; 1/2 teaspoon each paprika, cumin and black pepper; 1 bay leaf
-- Optional 1/2 teaspoon chipotle powder; start with 1/2 teaspoon kosher salt, then adjust after simmering
+- Optional 1/2 teaspoon chipotle powder; start with 1/2 teaspoon kosher salt (reduced from the source's 2 teaspoons), then adjust after simmering
 
 ### Pico
 

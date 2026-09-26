@@ -19,3 +19,4 @@ generated/
 .env
 .env.*
 .claude/settings.local.json
+.worktrees/

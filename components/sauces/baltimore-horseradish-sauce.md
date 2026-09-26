@@ -2,7 +2,7 @@
 id: baltimore-horseradish-sauce
 title: Baltimore horseradish sauce
 status: published
-yield: about 1 1/2 cups, more than one 8-sandwich batch needs
+yield: about 1 1/2 cups
 quick_buy: Use Tulkoff Tiger Horseradish Sauce or another creamy prepared horseradish sauce.
 source:
   url: https://barbecuebible.com/recipe/pit-beef-horseradish-sauce/
@@ -19,7 +19,7 @@ source:
 ## From Scratch
 
 1. Whisk mayonnaise, horseradish, zest and lemon juice until smooth.
-2. Season to taste, then use about 1 tablespoon per sandwich; refrigerate any extra.
+2. Season to taste, then use about 1 1/2 tablespoons per sandwich; refrigerate any extra.
 
 ## Note
 

@@ -3,8 +3,10 @@ id: baltimore-crab-cakes
 title: Baltimore crab cakes
 description: "Pan-fried lump-crab cakes seasoned with Old Bay, with just enough bread to bind them."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Old Bay/McCormick Chesapeake crab cakes; faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#baltimore-crab-cakes
 course: meals
 location: Baltimore, MD
 yield: 4 crab cakes

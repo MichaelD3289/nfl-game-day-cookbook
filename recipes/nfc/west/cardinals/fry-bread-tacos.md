@@ -3,15 +3,17 @@ id: fry-bread-tacos
 title: Fry bread tacos
 description: "Golden fry bread topped with seasoned beef, refried beans, and a choice of taco toppings."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: dough rest moved before shaping; piercing step and olives added. Photo replaced with Gregg Montesi's CC0 Arizona Navajo tacos, license verified on Wikimedia Commons.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#fry-bread-tacos
 course: meals
 location: Phoenix metro, AZ
 yield: 6 servings
 prep: 10 minutes
 cook: 10 minutes
 image: fry-bread-tacos.jpg
-photo_credit: Instant Pot
+photo_credit: Gregg Montesi, CC0, via Wikimedia Commons
 index:
   main_ingredient: beef
   practical_time: up-to-30-minutes
@@ -35,13 +37,13 @@ quick_options:
 - 1 tablespoon lard or margarine
 - 1 1/2 cups warm water
 - Neutral vegetable or canola oil to 3/4-inch depth in skillet
-- Optional toppings for six: 1 cup shredded cheddar or Monterey Jack, 1 diced tomato, 1/2 diced white onion, 1/2 cup roasted green chiles, 1/2 cup roasted salsa verde (homemade or jarred), and 1/2 cup sour cream; choose to taste {{component:roasted-salsa-verde}}
+- Optional toppings for six: 1 cup shredded cheddar or Monterey Jack, 1 diced tomato, 1/2 diced white onion, 1/2 cup roasted green chiles, 1/2 cup roasted salsa verde (homemade or jarred), 1/2 cup sour cream and sliced olives; choose to taste {{component:roasted-salsa-verde}}
 
 ## Instructions
 
 1. Brown the ground beef, stir in the suggested chile-cumin seasoning, adding a splash of water if the skillet is dry; taste and adjust salt or chile, stir in refried beans and set aside.
-2. Combine flour, baking powder, salt, sugar and powdered milk. Work in the lard or margarine, then add warm water and mix to a soft dough; refrigerate until needed.
+2. Combine flour, baking powder, salt, sugar and powdered milk. Work in the lard or margarine, then add warm water and mix to a soft dough. Cover and let it rest at least 15 minutes (an editorial rest that makes shaping easier), refrigerating if holding longer.
 3. Heat 3/4 inch of oil in a heavy skillet to 375°F.
-4. Shape the dough into about six discs 1/4–3/8 inch thick. Fry until golden on both sides and drain on paper.
-5. Let mixed fry-bread dough rest covered at least 15 minutes if time allows; this editorial rest makes shaping easier. Keep frying oil near 375°F and drain on a rack.
+4. Shape the dough into about six discs 1/4–3/8 inch thick and pierce each disc before frying so it does not balloon.
+5. Fry until golden on both sides, keeping the oil near 375°F, and drain on a rack or paper towels.
 6. Top each fry bread with the meat mixture and desired accompaniments.

@@ -3,8 +3,10 @@ id: green-chile-breakfast-burritos
 title: Green chile breakfast burritos
 description: "Flour tortillas filled with eggs, bacon, potatoes, and cheddar, served with pork green chile."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: Denver-style green chile swap labeled.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#green-chile-breakfast-burritos
 course: meals
 location: Denver, CO
 yield: 5–6 burritos
@@ -31,7 +33,7 @@ source:
 - 4 small garlic cloves, chopped
 - 5 large eggs, lightly beaten
 - 5–6 warm 8–10-inch flour tortillas
-- 3–4 cups prepared Colorado-style pork green chile, warmed (use the booklet’s Colorado pork green chile recipe)
+- 3–4 cups prepared Colorado-style pork green chile, warmed (use the booklet’s Colorado pork green chile recipe; the source smothers with its own Hatch pork green chili, and ours is a Denver-style swap)
 - 2 cups freshly grated cheddar cheese
 
 ## Instructions

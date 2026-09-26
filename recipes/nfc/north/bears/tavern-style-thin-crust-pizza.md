@@ -3,8 +3,10 @@ id: tavern-style-thin-crust-pizza
 title: Tavern style thin-crust pizza
 description: "A crisp, thin-crust pizza with tomato sauce and cheese, cut into small sharing squares."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Chicago tavern cut; King Arthur source matches. Giardiniera component now follows Lou Malnati's next-day hot giardiniera (InsideHook), completing the review. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#tavern-style-thin-crust-pizza
 course: meals
 location: Chicago, IL
 yield: 332 g dough, enough for two 12-inch pizzas

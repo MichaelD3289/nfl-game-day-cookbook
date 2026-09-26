@@ -3,8 +3,10 @@ id: polish-boy-sandwich
 title: Polish Boy sandwich
 description: "Smoked kielbasa piled with fries, creamy coleslaw, and tangy barbecue sauce in a bun."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: turkey kielbasa noted; quick sauce style clarified.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#polish-boy-sandwich
 course: meals
 location: Cleveland, OH
 yield: 2 servings
@@ -21,13 +23,13 @@ source:
 quick_options:
   quick-creamy-coleslaw: Use a good deli-style creamy cabbage slaw, about 1/2 cup per Polish Boy.
   oven-fries: Use fully cooked frozen shoestring fries, heated until crisp according to the package.
-  kansas-city-barbecue-sauce: Use KC Masterpiece Sweet Honey & Molasses or another Kansas City-style tomato-and-molasses sauce.
+  kansas-city-barbecue-sauce: Use a Kansas City-style tomato-and-molasses sauce, such as KC Masterpiece Sweet Honey & Molasses.
 ---
 
 ## Ingredients
 
 - 2 hot dog buns, toasted
-- 2 links fully cooked smoked pork kielbasa
+- 2 links fully cooked smoked pork kielbasa (the source uses turkey kielbasa)
 - 1/2 of a 32-ounce package frozen french fries, cooked according to package directions {{component:oven-fries}}
 - 1/4 cup tangy tomato-based barbecue sauce (or Cleveland-style hot sauce) {{component:kansas-city-barbecue-sauce}}
 - 1 cup creamy prepared cabbage coleslaw {{component:quick-creamy-coleslaw}}

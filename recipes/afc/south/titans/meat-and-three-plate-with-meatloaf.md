@@ -3,8 +3,10 @@ id: meat-and-three-plate-with-meatloaf
 title: Meat-and-three plate with meatloaf
 description: "Beef meatloaf with tomato Creole sauce, served as the centerpiece of a meat-and-three plate."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Arnold's (Nashville) meatloaf; faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#meat-and-three-plate-with-meatloaf
 course: meals
 location: Nashville, TN
 yield: 6 servings

@@ -3,8 +3,10 @@ id: chicken-booyah
 title: Chicken booyah
 description: "A hearty, long-simmered chicken-and-beef stew loaded with potatoes and mixed vegetables."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: remaining onion added with the vegetables; late corn and peas labeled as this book's adjustment.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#chicken-booyah
 course: meals
 location: Green Bay, WI
 yield: 10–12 servings
@@ -48,7 +50,7 @@ source:
 
 1. Put beef, some of the onion, bay leaves, salt, pepper, and enough water to fill the pot about one-third full into a large pot. Simmer 30 minutes, skimming as needed.
 2. Add chicken and enough water to cover it; simmer 1–2 hours until tender. Prepare the vegetables while it cooks.
-3. Remove the meats when tender. Add cabbage, celery, carrots, tomatoes, and potatoes first, returning to a simmer after each. Add green beans later; reserve quick-cooking corn and peas for roughly the final 20–30 minutes so they remain intact. Debone and chop the chicken and beef, then return them to the pot after the vegetables have been added.
+3. Remove the meats when tender. Add the remaining onion with the cabbage, celery, carrots, tomatoes, and potatoes, returning to a simmer after each. Add green beans later; reserve quick-cooking corn and peas for roughly the final 20–30 minutes so they remain intact (this book's adjustment; the source adds all vegetables before the long simmer). Debone and chop the chicken and beef, then return them to the pot after the vegetables have been added.
 4. Simmer at least 2 more hours. If broth is weak, reduce it uncovered; replace evaporated liquid with low-sodium stock as needed. Add lemon juice and soy sauce, then salt in 1/4-teaspoon increments. Only if needed, add low-sodium chicken base 1 teaspoon at a time, tasting between additions.
 
 ## Kitchen Notes

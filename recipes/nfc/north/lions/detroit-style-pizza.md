@@ -3,8 +3,10 @@ id: detroit-style-pizza
 title: Detroit style pizza
 description: "Thick rectangular pizza with a crisp cheese edge and tomato sauce over the toppings."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: King Arthur Detroit pizza; faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#detroit-style-pizza
 course: meals
 location: Detroit, MI
 yield: One 13-by-9-inch pizza

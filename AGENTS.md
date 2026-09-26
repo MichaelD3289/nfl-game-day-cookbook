@@ -50,6 +50,11 @@ Rules for any human or AI agent editing this repository.
     stable version at that exact pushed commit; tags on other commits are not moved
     or automatically published. See the release skill for retry and merge behavior.
 
+14. **Work in a worktree.** Do each task on its own branch in a git worktree under
+    `.worktrees/<name>/` (`git worktree add .worktrees/<name> -b <branch> main`), not in
+    the main checkout. After the branch is merged, remove it with
+    `git worktree remove .worktrees/<name>` and delete the merged branch.
+
 ## Task skills
 
 Step-by-step playbooks for common work live in `.claude/skills/*/SKILL.md`:

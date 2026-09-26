@@ -3,8 +3,10 @@ id: pastrami-on-rye-jets
 title: Pastrami on rye
 description: "Warm deli pastrami and spicy brown mustard on toasted rye, with optional deli toppings."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: optional cheese melt and sauerkraut/coleslaw steps aligned with the source.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#pastrami-on-rye-jets
 course: meals
 location: New York City metro
 yield: 4 sandwiches
@@ -39,7 +41,7 @@ source:
 1. Steam pastrami over simmering water for 5 to 8 minutes until hot and tender.
 2. Butter one side of each bread slice and toast butter-side down in a skillet for 2 to 3 minutes.
 3. Warm and drain sauerkraut if using. Spread mustard on the untoasted bread sides.
-4. Divide hot pastrami among four sandwiches; add optional cheese, sauerkraut or coleslaw, and close sandwiches. Serve immediately with pickles.
+4. Divide hot pastrami among four sandwiches; if using cheese, top the pastrami with it and broil about 60 seconds to melt. Add sauerkraut or coleslaw, if desired, and close sandwiches. Serve immediately with pickles.
 
 ## Kitchen Notes
 

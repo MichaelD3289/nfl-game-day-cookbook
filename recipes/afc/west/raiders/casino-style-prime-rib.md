@@ -3,8 +3,10 @@ id: casino-style-prime-rib
 title: Casino style prime rib
 description: "A garlic-and-pepper standing rib roast, with optional pan jus and horseradish cream."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: pan jus component reduction aligned with the source.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#casino-style-prime-rib
 course: meals
 location: Las Vegas, NV
 yield: 6–8 servings

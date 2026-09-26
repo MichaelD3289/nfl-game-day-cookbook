@@ -3,8 +3,10 @@ id: lemon-pepper-wet-wings
 title: Lemon-pepper wet wings
 description: "Crisp fried wings tossed in a buttery lemon-pepper sauce with fresh lemon juice and zest."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Atlanta fit strong; faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#lemon-pepper-wet-wings
 course: appetizers
 location: Atlanta, GA
 yield: 36 wing sections
