@@ -2,33 +2,31 @@
 id: chicago-oil-packed-giardiniera
 title: Chicago oil-packed giardiniera
 status: published
-yield: About 1 1/2 quarts
+yield: About 2 quarts with the oil and vinegar (this book's estimate; the source gives none)
 quick_buy: Use oil-packed Chicago-style giardiniera such as J.P. Graziano, Ditka's, or Marconi; choose mild or hot.
 source:
-  url: https://www.chilipeppermadness.com/recipes/giardiniera/
+  url: https://www.insidehook.com/food/giardiniera-chicago-pizzeria-italian-beef-pizza-recipe
 ---
 
 ## Ingredients
 
-- 1 cup diced cauliflower
-- 5 jalapeños plus 5 sport or serrano peppers, finely diced (use bell pepper for mild)
-- 1 medium carrot and 2 celery stalks, finely diced
-- 1/2 cup kosher salt for the overnight soak
-- 1 cup olive oil
-- 1 cup white wine vinegar
-- 4 garlic cloves, minced
-- 2 teaspoons dried oregano
-- 1/2 teaspoon celery seed
-- 1 tablespoon red-pepper flakes
-- 1/2 cup chopped green olives
-- Black pepper to taste
+- 2 large celery stalks, cut in large dice
+- 2 large carrots, cut in large dice
+- 1 1/2 cups cauliflower florets
+- 1 1/2 cups sliced green olives
+- 1 cup salt, plus cold water to cover, for the brine
+- 2 teaspoons red chili flakes
+- 1 teaspoon black pepper
+- 4 cloves garlic, minced
+- 2 cups white wine vinegar
+- 2 cups extra-virgin olive oil
 
 ## From Scratch
 
-1. Cover diced vegetables with cold water and the salt; refrigerate 12 hours. Drain and rinse well.
-2. Mix with oil, vinegar, garlic, oregano, celery seed, pepper flakes, olives, and black pepper.
-3. Pack into clean jars under the liquid and refrigerate at least 2 days before using. Drain lightly for pizza or sandwiches. Keep refrigerated; do not treat as shelf-stable canned food.
+1. Stir the celery, carrots, cauliflower and olives with the salt in a glass or stainless bowl. Cover with cold water, cover the bowl and refrigerate 12–24 hours.
+2. Drain, rinse the vegetables well with cold water and return them to the clean bowl.
+3. Mix the chili flakes, black pepper and garlic, stir in the oil and vinegar, and pour over the vegetables. Cover and refrigerate overnight; it is ready the next day. Drain lightly for pizza or sandwiches.
 
 ## Note
 
-Allow 12 hours brining plus at least 2 days refrigerated marinating, with about 20 minutes active work (estimated). This vinegar-containing home version follows the source’s Chicago-style option. Keep refrigerated; use within 2 weeks. Choose pepper heat to taste.
+This is Lou Malnati's hot giardiniera as published by InsideHook, so it is ready in about 2 days. Its heat comes from chili flakes rather than the sliced serranos or sport peppers many Chicago jars use. For that fresh-pepper bite, add 1 or 2 sliced serranos to the brine (this book's variation). Keep it refrigerated with the vegetables under the liquid, and use it within about 1 month (this book's estimate). Allow about 20 minutes active work (estimated).

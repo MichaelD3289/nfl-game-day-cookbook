@@ -29,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Recipe adaptations and editorial estimates are now labeled as such, including the Buffalo wing dip note, New York bagel framing, Jets pastrami assembly, and the chicken-finger, guacamole, prime rib jus and hotdish sauce components.
 
+- Recipes that relied on paywalled or blocked sources now follow open, regionally attributed ones. Pit beef uses The Meatwave's charcoal-grilled bottom round, with a per-sandwich tiger sauce amount. Mumbo sauce wings use D.C. chef Anthony Thomas's recipe, and the Mumbo Meets Tex-Mex prep plan now marinates them ahead. Chicago giardiniera follows Lou Malnati's hot giardiniera, ready the next day instead of after a week. Viet-Cajun crawfish follows Edible Houston's lemongrass, ginger and citrus boil with garlic butter.
+
 - The Kansas City burnt ends rub is now labeled as a half batch of AmazingRibs' Big Bad Beef Rub.
 
 ## [0.5.0] - 2026-09-26
