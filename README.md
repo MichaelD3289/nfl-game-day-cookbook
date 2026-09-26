@@ -157,6 +157,24 @@ The website uses the same published sources as the PDF, with separate web templa
 and styles, searchable recipes, division/team navigation, menus, indexes, photos,
 and linked Q quick-option cards. Editorial review metadata stays private.
 
+### Publishing to GitHub Pages
+
+One-time repository setup: in **Settings → Pages**, choose **GitHub Actions** as
+the build/deployment source. In **Settings → Environments → github-pages**, allow
+the release workflow's version tags (`v*`) under deployment branch/tag rules.
+
+Pushing a version tag runs validation, builds both formats, uploads the PDF and
+`nfl-game-day-website.zip` to the release, and deploys the newest stable version to
+`https://MichaelD3289.github.io/nfl-game-day-cookbook/`. The workflow serializes
+publishers and checks stable tags and the latest release again before deployment.
+Older tag rebuilds and prereleases cannot replace the current site.
+
+The website shows its build version and links to the latest PDF and earlier GitHub
+releases. Earlier HTML outputs can be downloaded as ZIPs and served locally;
+browsable version archives are not deployed. Tags created before HTML support keep
+their existing release assets; their original workflow cannot generate a website.
+A new tag containing this implementation is needed for the first website deployment.
+
 ### Short recipe descriptions
 
 Recipes may include a one-sentence `description` in front matter. Describe the

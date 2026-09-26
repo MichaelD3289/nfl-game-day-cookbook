@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `make website` builds a searchable, mobile-friendly HTML cookbook from the same
   published sources, with matching recipe cards, indexes and scratch-component links.
+- Version-tag releases include a downloadable website archive and deploy the newest
+  stable version to GitHub Pages; older tags and prereleases cannot replace it.
 
 - README download link that automatically follows the latest released cookbook PDF,
   with links to all assets for the latest release, release notes and earlier versions.
