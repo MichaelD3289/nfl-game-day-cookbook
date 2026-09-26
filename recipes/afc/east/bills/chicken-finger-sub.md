@@ -5,13 +5,13 @@ status: published
 course: meals
 location: Buffalo, NY
 yield: 1 sub
-prep: 5–10 min (estimated)
-cook: About 5 min oven warming
+prep: 5–10 minutes assembly; about 1 hour marinating if making tenders
+cook: About 5 minutes oven warming; add 20–30 minutes for scratch tender breading and frying
 image: chicken-finger-sub.jpg
 photo_credit: tastecooking.com
 index:
   main_ingredient: poultry
-  practical_time: up-to-30-minutes
+  practical_time: variable-or-make-ahead
   cost: moderate
 source:
   url: https://tastecooking.com/recipes/chicken-finger-sub/
@@ -23,8 +23,7 @@ quick_options:
 
 ## Ingredients
 
-- 1/4 cup Frank’s RedHot Original cayenne pepper sauce {{component:buffalo-wing-sauce}}
-- 1 tablespoon butter
+- 1/4 cup finished homemade Buffalo wing sauce, or prepared Buffalo Wings Sauce {{component:buffalo-wing-sauce}}
 - 2 fully cooked, crisp fried chicken tenders {{component:crisp-chicken-fingers}}
 - 1 soft sub roll
 - 2 slices provolone
@@ -35,10 +34,10 @@ quick_options:
 
 ## Instructions
 
-1. Heat oven to 300°F. Warm Frank’s Original with butter until melted; toss fully cooked, crisp chicken tenders in the sauce.
+1. Heat oven to 300°F. Warm the finished Buffalo sauce gently; toss the hot, fully cooked crisp chicken tenders in it. If using refrigerated cooked tenders, reheat them fully before saucing; the 5-minute sandwich warming step is not a raw-chicken cooking step.
 2. Open the roll, add chicken and provolone, and warm in the oven for about 5 minutes.
 3. Add lettuce, onion, tomato and blue cheese dressing.
 
 ## Kitchen Notes
 
-Timing note: Only quick assembly when pre-cooked chicken fingers are on hand; cooking homemade fingers is outside this card.
+Timing assumes hot cooked tenders and finished sauce and dip. From scratch, allow about 1 hour marinating plus 20–30 minutes breading and frying for the tender batch; sauce takes about 10 minutes and dip about 10 minutes, which can overlap. The linked sauce is a variation on the source’s simple hot-sauce-and-butter coating.

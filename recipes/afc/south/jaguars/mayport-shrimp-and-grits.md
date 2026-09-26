@@ -6,7 +6,7 @@ course: meals
 location: Jacksonville, FL
 yield: 4 servings
 prep: 10–15 min (estimated)
-cook: About 4–5 min shrimp plus package grits time
+cook: About 30–40 minutes scratch grits plus 4–5 minutes shrimp; coarse grits may take longer
 image: mayport-shrimp-and-grits.jpg
 photo_credit: jacksonvillemag.com
 index:
@@ -42,4 +42,4 @@ quick_options:
 
 ## Kitchen Notes
 
-Timing note: Grits are a prepared product cooked by package directions; timing varies by brand.
+Start homemade grits first; prepare the shrimp ingredients while they simmer and cook the shrimp just before serving. Allow about 45–60 minutes overall (estimated), depending on the grind. Prepared Gracious Grits follows the original Jacksonville recipe and can shorten the time; follow its package directions.

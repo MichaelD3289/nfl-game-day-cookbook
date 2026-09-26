@@ -29,10 +29,10 @@ quick_options:
 1. Thaw the sealed shrimp bag overnight in the refrigerator, or submerge the sealed bag in cold water until thawed; keep cold. Remove shrimp from packaging.
 2. Bring 4 quarts water to a full boil. Meanwhile combine 4 cups ice and 1 cup water in a large bowl.
 3. Set a timer for 2 minutes 15 seconds. Add the thawed shrimp to boiling water, immediately remove pot from heat, stir, and start timer. Transfer shrimp to ice bath when it sounds; stir for about 3 minutes, until completely cold.
-4. Drain well and arrange cold shrimp around a serving dish with St. Elmo Cocktail Sauce. This sauce is intentionally very horseradish-forward; use a small amount first and offer more separately.
+4. Drain well and arrange cold shrimp around a serving dish with the homemade horseradish cocktail sauce or St. Elmo’s bottled sauce. This sauce is intentionally very horseradish-forward; use a small amount first and offer more separately.
 
 ## Kitchen Notes
 
-Prep: Thawing time varies; overnight if thawed in refrigerator
+Prep: Thawing time varies; overnight if thawed in refrigerator. The homemade sauce also needs an overnight vinegar soak; prepare it while the shrimp thaw. The homemade version is an approximation, not St. Elmo’s verified formula.
 
 Cook: 2 minutes 15 seconds poaching; 3 minutes in ice bath

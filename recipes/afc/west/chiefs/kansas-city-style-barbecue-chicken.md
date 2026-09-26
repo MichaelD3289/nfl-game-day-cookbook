@@ -39,7 +39,7 @@ quick_options:
 
 ### Kansas City barbecue sauce
 
-- 2½ cups ketchup {{component:kansas-city-barbecue-sauce}}
+- 2½ cups ketchup
 - ½ cup packed dark brown sugar
 - ¼ cup molasses
 - 3 tablespoons cider vinegar
@@ -47,10 +47,11 @@ quick_options:
 - 1 teaspoon liquid smoke
 - 1 teaspoon kosher salt
 - ⅛ teaspoon cayenne
+- Alternative: about 3 cups finished Kansas City barbecue sauce, homemade or bottled, replacing the entire sauce mixture above {{component:kansas-city-barbecue-sauce}}
 
 ## Instructions
 
-1. Make the sauce: combine ketchup, brown sugar, molasses, cider vinegar, Worcestershire, liquid smoke, salt and cayenne in a saucepan. Bring to a simmer over medium heat, stirring until sugar dissolves. Simmer 5–10 minutes, stirring occasionally, then cool to room temperature.
+1. Make the sauce: combine ketchup, brown sugar, molasses, cider vinegar, Worcestershire, liquid smoke, salt and cayenne in a saucepan. Bring to a simmer over medium heat, stirring until sugar dissolves. Simmer 5–10 minutes, stirring occasionally, then cool to room temperature. If using the linked alternate sauce or a purchased sauce, omit all eight sauce ingredients above and start with the finished sauce.
 2. Make the rub: mix light brown sugar, paprika, salt, pepper, garlic powder, onion powder, dry mustard, chili powder and cayenne. Measure out ¼ cup for this chicken; save the remainder in a sealed container for another use.
 3. Prepare a smoker for steady 250°F heat using a mild fruitwood or hickory. Pat the trussed chicken dry and rub the measured seasoning over the whole surface, including the cavity. Set it breast-side up on the smoker grate and smoke about 3½ hours.
 4. Brush the chicken with about half of the sauce and continue smoking 30 minutes, or until an instant-read thermometer reads at least 165°F in the thickest breast and inner thigh without touching bone. If it has not reached temperature, keep smoking and check every 10–15 minutes.
