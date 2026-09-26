@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Recipe photos are now cropped to a centred square and resized for each output: the website serves lazy-loaded WebP images of about 400px, and the PDF embeds small progressive JPEGs of about 500px with location and other metadata removed. Original photos in `recipes/` are never modified, and `nfl-book build` and `nfl-book website` report total photo size before and after.
+- Photo size, format and quality for the website and PDF are set under `photos:` in `data/book.yml`. An unreadable photo now fails the build with an error that names the file.
 - The Chicago tavern-style pizza recipe is shorter so it stays on one page with its full-size square photo.
 - Agent rules now also forbid AI attribution in pull request titles and descriptions.
 
