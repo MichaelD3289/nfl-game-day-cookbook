@@ -1,0 +1,33 @@
+name: Queue Dependabot auto-merge
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  queue:
+    if: >-
+      github.repository == 'MichaelD3289/nfl-game-day-cookbook' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # Deliberately no checkout or execution of PR code. Main's ruleset enforces
+      # human/code-owner approval, current Validate checks, and resolved threads.
+      # This workflow queues auto-merge; it never approves or bypasses protections.
+      - name: Enable squash auto-merge
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+        run: gh pr merge "$PR_NUMBER" --auto --squash --match-head-commit "$PR_HEAD"

@@ -93,3 +93,12 @@ before merging. Do not approve an unfamiliar workflow change without reading it.
 
 Be constructive and follow [our code of conduct](CODE_OF_CONDUCT.md).
 Report vulnerabilities through [SECURITY.md](SECURITY.md), not a public issue.
+
+## Dependency updates
+
+Dependabot PRs are queued for squash auto-merge. They still require human/code-owner
+approval, a passing current `Validate` check, an up-to-date branch, and resolved review
+threads. New commits dismiss stale approvals, so an updated PR may need another review.
+Major updates also require your review; nothing is automatically approved. The queuing
+workflow never checks out PR code or bypasses branch protections. Maintainers can
+disable auto-merge on an individual PR when more investigation is needed.
