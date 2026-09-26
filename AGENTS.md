@@ -49,6 +49,7 @@ Step-by-step playbooks for common work live in `.claude/skills/*/SKILL.md`:
 | Skill | Use it for |
 | --- | --- |
 | `add-recipe` | Adding a recipe for a team |
+| `review-recipes` | Authenticity/source-quality audit of one recipe, a list, or all recipes |
 | `update-recipe` | Editing, renaming, moving, retiring or shortening a recipe |
 | `add-component` | "Make It or Buy It" components and `{{component:id}}` markers |
 | `menus-and-dish-offs` | Game-day menus and division dish-offs |

@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `review-recipes` agent skill: research workers check a recipe, a list, a team or
+  division, or the whole book for city fit, authenticity, source fidelity, ingredient
+  specificity and Make It or Buy It coverage, and report proposed fixes by default.
 - Optional `last_reviewed_at` and `last_reviewed_notes` recipe metadata for editorial
   reviews. They never print; existing recipes start with empty fields.
 

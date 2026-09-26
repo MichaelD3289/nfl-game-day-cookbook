@@ -116,6 +116,15 @@ See `AGENTS.md` for the rules contributors (human or AI) follow.
 
 ## Recipe quality reviews
 
+Use the project Claude skill: `/review-recipes buffalo-wings`,
+`/review-recipes buffalo-wings, beer-brats`, `/review-recipes afc/east/bills`, or
+`/review-recipes all`.
+It coordinates research workers and an editorial orchestrator across city fit,
+authenticity, source fidelity, ingredient specificity and Make It or Buy It coverage.
+Default mode recommends corrections and records completed-review metadata;
+`--apply` also applies adjudicated fixes, while `--read-only` preserves metadata.
+Reports go under `docs/reviews/`. See `.claude/skills/review-recipes/SKILL.md`.
+
 Recipes support optional, non-printing metadata:
 
 ```yaml
