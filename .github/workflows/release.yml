@@ -59,7 +59,7 @@ jobs:
             exit 1
           fi
 
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
 
@@ -146,4 +146,4 @@ jobs:
       - name: Deploy website
         id: deployment
         if: steps.pages-gate.outputs.deploy == 'true'
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
