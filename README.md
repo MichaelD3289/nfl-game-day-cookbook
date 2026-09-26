@@ -182,6 +182,11 @@ The website uses the same published sources as the PDF, with separate web templa
 and styles, searchable recipes, division/team navigation, menus, indexes, photos,
 and linked Q quick-option cards. Editorial review metadata stays private.
 
+Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
+prompts. They open prefilled quick issue templates on GitHub and, once
+`suggestion_form_url` is set in `data/book.yml`, a form that needs no GitHub
+account. Setup is in [docs/website-suggestions.md](docs/website-suggestions.md).
+
 ### Publishing to GitHub Pages
 
 One-time repository setup: in **Settings → Pages**, choose **GitHub Actions** as

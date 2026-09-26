@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import html
+import json
 import re
 import shutil
 import subprocess
@@ -10,6 +11,7 @@ import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlencode
 
 import yaml
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
@@ -18,9 +20,18 @@ from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.pipeline import build_media, load
 from nfl_book.project import Project
 from nfl_book.render.pages import Media, PageSpec, build_pages
-from nfl_book.resolve import resolve
+from nfl_book.resolve import BookModel, resolve
 
-RELEASES = "https://github.com/MichaelD3289/nfl-game-day-cookbook/releases"
+REPOSITORY = "https://github.com/MichaelD3289/nfl-game-day-cookbook"
+RELEASES = f"{REPOSITORY}/releases"
+# Quick issue form per suggestion kind: (template, title prefix, field used in the title).
+SUGGESTION_FORMS = {
+    "edit": ("suggest-edit.yml", "Edit suggestion: ", "item"),
+    "recipe": ("quick-recipe.yml", "Recipe idea: ", "dish"),
+    "component": ("quick-component.yml", "Component idea: ", "name"),
+    "menu": ("quick-menu.yml", "Menu idea: ", ""),
+    "dish-off": ("quick-dish-off.yml", "Dish-off idea: ", ""),
+}
 
 
 @dataclass(frozen=True)
@@ -47,6 +58,59 @@ def _web_body(text: str) -> str:
     # Print cover annotations: preserve prose and provide the equivalent visible Q.
     text = text.replace(r"`\QMark{}\ `{=latex}", "[Q]{.q-mark}")
     return re.sub(r"```\{=latex\}\n.*?\n```", "", text, flags=re.DOTALL)
+
+
+def _suggestion(kind: str, lead: str, **fields: str) -> dict[str, str]:
+    """A prefilled GitHub issue link plus the same fields for the anonymous form."""
+    template, prefix, title_field = SUGGESTION_FORMS[kind]
+    query = {"template": template, "title": prefix + fields.get(title_field, "")}
+    query.update({k: v for k, v in fields.items() if v})
+    return {
+        "kind": kind,
+        "lead": lead,
+        "github": f"{REPOSITORY}/issues/new?{urlencode(query)}",
+        "fields": json.dumps(fields, ensure_ascii=False),
+    }
+
+
+def _add_suggestions(project: Project, model: BookModel, pages: list[PageSpec]) -> None:
+    def source(path: Path) -> str:
+        return path.relative_to(project.content_root).as_posix()
+
+    items = {f"recipe:{r.id}": (r.path, f"{r.title} ({r.team.name})") for r in model.recipes}
+    items.update({f"component:{c.id}": (c.path, c.title) for c in model.components})
+    for page in pages:
+        context = page.context
+        if page.template in ("recipe.qmd.j2", "component.qmd.j2"):
+            path, name = items[context["label"]]
+            noun = "recipe" if page.template == "recipe.qmd.j2" else "component"
+            context["suggest"] = _suggestion(
+                "edit",
+                f"Spot something to fix in this {noun}?",
+                item=f"{name} [{context['label']}]",
+                page=source(path),
+            )
+        elif page.template == "division.qmd.j2":
+            for team in context["teams"]:
+                team["suggest"] = _suggestion(
+                    "recipe",
+                    f"Know another {team['name']} dish?",
+                    team=f"{team['name']} ({team['location']})",
+                )
+            context["suggest"] = _suggestion(
+                "recipe", f"Missing a dish from a {context['name']} team?", team=""
+            )
+            context["suggest_dishoff"] = _suggestion(
+                "dish-off",
+                f"Have an idea for a {context['name']} dish-off?",
+                division=context["name"],
+            )
+        elif page.slug == "game-day-menus":
+            context["suggest"] = _suggestion("menu", "Have an idea for a game-day menu?")
+        elif page.slug == "make-it-or-buy-it":
+            context["suggest"] = _suggestion(
+                "component", "Know a sauce, dip, or side we should add?"
+            )
 
 
 def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
@@ -108,6 +172,7 @@ def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnos
     for page in pages:
         page.context["recipe_descriptions"] = descriptions
         page.context["menu_previews"] = menu_previews
+    _add_suggestions(project, model, pages)
     return pages, loaded.diagnostics
 
 
@@ -125,10 +190,13 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
         keep_trailing_newline=True,
     )
     env.filters.update(md=_markdown, web_body=_web_body, anchor=_anchor)
-    env.globals.update(route=lambda label: routes[label])
+    book = load(project).settings.book
+    env.globals.update(
+        route=lambda label: routes[label], suggestion_form_url=book.suggestion_form_url
+    )
     metadata = tomllib.loads((project.root / "pyproject.toml").read_text())
     version = metadata["project"]["version"]
-    pdf = load(project).settings.book.output_filename
+    pdf = book.output_filename
     download = f"{RELEASES}/latest/download/{pdf}"
     for page in pages:
         context = page.context
@@ -142,8 +210,21 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
         body = env.get_template(page.template).render(**context, version=version, download=download)
         body = re.sub(r"(?m)^(:{3,}[^\n]*)$", r"\n\1\n", body)
         (build_dir / _filename(page)).write_text(f"---\n{front}---\n\n{body}")
+    resources = ["assets/**"]
+    html_format: dict[str, Any] = {
+        "theme": "cosmo",
+        "css": "website.css",
+        "toc": False,
+        "anchor-sections": False,
+        "smooth-scroll": True,
+        "lang": "en",
+    }
+    if book.suggestion_form_url:
+        resources.append("suggest.js")
+        html_format["include-after-body"] = {"text": '<script src="suggest.js"></script>'}
+        shutil.copyfile(project.styles_dir / "website-suggest.js", build_dir / "suggest.js")
     config = {
-        "project": {"type": "website", "output-dir": "_site", "resources": ["assets/**"]},
+        "project": {"type": "website", "output-dir": "_site", "resources": resources},
         "website": {
             "title": pages[0].context["title"],
             "search": {"location": "sidebar", "type": "textbox"},
@@ -160,16 +241,7 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
                 "right": f"Edition {html.escape(version)}",
             },
         },
-        "format": {
-            "html": {
-                "theme": "cosmo",
-                "css": "website.css",
-                "toc": False,
-                "anchor-sections": False,
-                "smooth-scroll": True,
-                "lang": "en",
-            }
-        },
+        "format": {"html": html_format},
     }
     (build_dir / "_quarto.yml").write_text(yaml.safe_dump(config, sort_keys=False))
     shutil.copyfile(project.styles_dir / "website.css", build_dir / "website.css")

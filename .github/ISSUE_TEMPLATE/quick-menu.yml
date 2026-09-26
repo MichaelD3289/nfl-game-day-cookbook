@@ -1,0 +1,30 @@
+name: Suggest a game-day menu idea (quick)
+description: Pitch a rivalry spread, shared-prep plan, or other game-day menu in a sentence or two.
+title: 'Menu idea: '
+labels:
+- needs-research
+- 'suggestion: menu'
+body:
+- type: textarea
+  id: idea
+  attributes:
+    label: Menu idea
+    description: The teams, matchup, or occasion, and any dishes you have in mind.
+  validations:
+    required: true
+- type: dropdown
+  id: kind
+  attributes:
+    label: Menu type (optional)
+    options:
+    - Grudge Match Grub
+    - Shared Prep
+    - Across the League
+    - Premium Day
+    - Fast Day
+    - Budget Day
+    - Not sure
+- type: textarea
+  id: details
+  attributes:
+    label: Anything else? (optional)
