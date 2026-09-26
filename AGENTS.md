@@ -39,8 +39,9 @@ Rules for any human or AI agent editing this repository.
     version.
 12. **Commit through the `logical-commits` skill.** Every commit is one coherent,
     Conventional Commit change that passes `make check` by itself, carries its own
-    CHANGELOG entry and has no AI attribution. Present the commit plan and get approval
-    before staging.
+    CHANGELOG entry and has no AI attribution. Pull request titles and descriptions carry
+    no AI attribution either; `.claude/settings.json` turns Claude Code's off. Present the
+    commit plan and get approval before staging.
 
 13. **Release tags belong to automation.** Follow `creating-release`: prepare the
     version and dated changelog, then merge/push to `main`. Never create, push, move,
