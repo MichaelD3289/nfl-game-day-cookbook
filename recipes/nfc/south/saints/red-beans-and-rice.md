@@ -1,6 +1,7 @@
 ---
 id: red-beans-and-rice
 title: Red beans and rice
+description: "Red beans simmered with smoked sausage and the vegetable trinity, served over white rice."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

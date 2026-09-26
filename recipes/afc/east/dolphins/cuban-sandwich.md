@@ -1,6 +1,7 @@
 ---
 id: cuban-sandwich
 title: Cuban sandwich
+description: "A pressed sandwich of roast pork, ham, Swiss cheese, dill pickles, and yellow mustard."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

@@ -52,3 +52,17 @@ description: Change how the cookbook looks - fonts, colours, margins, recipe pag
 5. If `pages.py` changed, add or adjust a test in `tests/unit/test_pages.py`.
 6. Run `make check`.
 7. Add a `CHANGELOG.md` entry under `[Unreleased]` → `Changed`.
+
+## Website layout
+
+`templates/website/*.qmd.j2` and `styles/website.css` are the separate HTML
+presentation. `src/nfl_book/website.py` reuses the resolved book's page contexts,
+then Quarto produces `dist/site/`. The print-only rules above (one page, TeX tokens,
+page anchors and LaTeX filters) apply to PDF templates, not these web templates.
+Preserve the shared palette, Q cards, and source content; use responsive columns
+and normal links instead of page numbers. Never change recipes to fit the screen.
+
+Run `make website` and inspect home, a dense recipe, a component, and an index at
+desktop and phone widths. The build checks local links, images and fragments.
+Keep published-only and private-metadata tests green with `make check`. Do not
+edit the PDF templates or styles when making a website-only layout change.

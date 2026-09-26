@@ -1,6 +1,7 @@
 ---
 id: black-and-white-cookies
 title: Black-and-white cookies
+description: "Soft, cake-like cookies finished with half vanilla and half chocolate icing."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

@@ -1,6 +1,7 @@
 ---
 id: casino-style-prime-rib
 title: Casino style prime rib
+description: "A garlic-and-pepper standing rib roast, with optional pan jus and horseradish cream."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

@@ -1,6 +1,7 @@
 ---
 id: new-york-style-cheese-pizza
 title: New York style cheese pizza
+description: "A thin, foldable pizza with tomato sauce, mozzarella, and a scattering of Parmesan."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

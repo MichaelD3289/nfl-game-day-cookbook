@@ -1,6 +1,7 @@
 ---
 id: jucy-lucy-cheese-stuffed-burgers
 title: Jucy Lucy cheese-stuffed burgers
+description: "Beef burgers sealed around American cheese, served with browned onions and pickles."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

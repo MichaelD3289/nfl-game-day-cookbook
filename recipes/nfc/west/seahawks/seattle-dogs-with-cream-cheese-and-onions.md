@@ -1,6 +1,7 @@
 ---
 id: seattle-dogs-with-cream-cheese-and-onions
 title: Seattle dogs with cream cheese and onions
+description: "Hot dogs in toasted buns with warm cream cheese, golden onions, and yellow mustard."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

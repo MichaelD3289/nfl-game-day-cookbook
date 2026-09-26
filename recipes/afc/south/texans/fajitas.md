@@ -1,6 +1,7 @@
 ---
 id: fajitas
 title: Fajitas
+description: "Seasoned skirt steak with peppers and onions, served with warm flour tortillas."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

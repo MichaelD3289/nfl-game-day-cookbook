@@ -1,6 +1,7 @@
 ---
 id: chipped-ham-barbecue-sandwiches
 title: Chipped ham barbecue sandwiches
+description: "Paper-thin shaved ham warmed in a sweet, tangy tomato barbecue sauce and piled onto buns."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

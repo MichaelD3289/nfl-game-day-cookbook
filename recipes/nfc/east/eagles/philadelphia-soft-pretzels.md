@@ -1,6 +1,7 @@
 ---
 id: philadelphia-soft-pretzels
 title: Philadelphia soft pretzels
+description: "Soft, chewy yeast pretzels with a salted crust, served with optional yellow mustard."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

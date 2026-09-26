@@ -1,6 +1,7 @@
 ---
 id: cuban-frita-burger
 title: Cuban frita burger
+description: "A paprika-seasoned beef burger topped with onion and crisp shredded potatoes."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

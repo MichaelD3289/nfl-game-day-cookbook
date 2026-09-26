@@ -1,6 +1,7 @@
 ---
 id: tavern-style-thin-crust-pizza
 title: Tavern style thin-crust pizza
+description: "A crisp, thin-crust pizza with tomato sauce and cheese, cut into small sharing squares."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

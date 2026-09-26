@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Short dish descriptions on website recipe lists, with editable descriptions added
+  to all 90 recipe files. These summaries do not change the printed booklet.
+- Compact game-day menu cards show the included dishes and link to each recipe
+  and the full menu's prep plan.
+
+- `make website` builds a searchable, mobile-friendly HTML cookbook from the same
+  published sources, with matching recipe cards, indexes and scratch-component links.
+
 - README download link that automatically follows the latest released cookbook PDF,
   with links to all assets for the latest release, release notes and earlier versions.
 

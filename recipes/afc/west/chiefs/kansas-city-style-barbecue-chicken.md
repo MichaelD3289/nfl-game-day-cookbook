@@ -1,6 +1,7 @@
 ---
 id: kansas-city-style-barbecue-chicken
 title: Kansas City style barbecue chicken
+description: "Rubbed whole chicken with a sweet tomato-and-molasses barbecue sauce."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

@@ -1,6 +1,7 @@
 ---
 id: spanish-bean-soup
 title: Spanish bean soup
+description: "A chickpea-and-potato soup with ham, salt pork, Spanish chorizo, and saffron."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

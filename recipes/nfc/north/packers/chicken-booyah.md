@@ -1,6 +1,7 @@
 ---
 id: chicken-booyah
 title: Chicken booyah
+description: "A hearty, long-simmered chicken-and-beef stew loaded with potatoes and mixed vegetables."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

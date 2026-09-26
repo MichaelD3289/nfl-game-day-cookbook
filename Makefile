@@ -1,5 +1,5 @@
 # Thin wrappers around the nfl-book CLI and dev tools. Everything runs via uv.
-.PHONY: book check links preview pdf test lint clean
+.PHONY: book check links preview pdf website test lint clean
 
 UV ?= uv
 BOOK = $(UV) run nfl-book
@@ -25,6 +25,9 @@ preview:
 
 pdf:
 	$(BOOK) build
+
+website:
+	$(BOOK) website
 
 test:
 	$(UV) run pytest

@@ -1,6 +1,7 @@
 ---
 id: baltimore-crab-cakes
 title: Baltimore crab cakes
+description: "Pan-fried lump-crab cakes seasoned with Old Bay, with just enough bread to bind them."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

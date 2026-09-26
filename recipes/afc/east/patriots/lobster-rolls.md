@@ -1,6 +1,7 @@
 ---
 id: lobster-rolls
 title: Lobster rolls
+description: "Tender lobster in a light mayonnaise dressing, tucked into butter-toasted split-top buns."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

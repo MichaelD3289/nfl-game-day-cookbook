@@ -1,6 +1,7 @@
 ---
 id: beignets
 title: Beignets
+description: "Puffy, deep-fried yeast dough squares generously dusted with powdered sugar."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

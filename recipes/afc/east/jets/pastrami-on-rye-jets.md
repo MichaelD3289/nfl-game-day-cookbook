@@ -1,6 +1,7 @@
 ---
 id: pastrami-on-rye-jets
 title: Pastrami on rye
+description: "Warm deli pastrami and spicy brown mustard on toasted rye, with optional deli toppings."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

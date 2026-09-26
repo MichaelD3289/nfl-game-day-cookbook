@@ -1,0 +1,56 @@
+{% macro anchor(label) %}<span id="{{ label|anchor|e }}"></span>
+
+{% endmacro %}
+{% macro link(ref, description=true) %}<a href="{{ route(ref.label)|e }}">{{ ref.title|e }}</a>{% if ref.note %} <span class="ref-note">{{ ref.note|e }}</span>{% endif %}{% if description and recipe_descriptions.get(ref.label) %} <span class="dish-description">{{ recipe_descriptions[ref.label]|e }}</span>{% endif %}{% endmacro %}
+{% macro ingredients(groups) %}
+{% for group in groups %}
+{% if group.heading %}
+### {{ group.heading|md }}
+{% endif %}
+{% for item in group.items %}
+- {{ item.text }}{% if item.ref %} <a class="q-mark" href="{{ route(item.ref)|e }}" aria-label="Make {{ item.text|striptags|e }} from scratch">Q</a>{% endif %}
+{% endfor %}
+{% endfor %}
+{% endmacro %}
+{% macro refs(entries) %}
+{% for ref in entries %}
+- {{ link(ref) }}
+{% endfor %}
+{% endmacro %}
+{% macro source(src, credit='') %}
+{% if src or credit %}
+::: {.recipe-source}
+{% if src %}
+{% if src.qr %}
+![QR code for recipe source]({{ src.qr }}){.source-qr}
+{% endif %}
+**Recipe source:** <a href="{{ src.href|e }}">{{ (src.title or src.display)|e }}</a>  
+<small>{{ src.display|e }}</small>
+{% endif %}
+{% if credit %}
+Photo: {{ credit }}
+{% endif %}
+:::
+{% endif %}
+{% endmacro %}
+{% macro menu(item) %}
+::: {.menu-card}
+{{ anchor(item.label) }}
+## {{ item.title|md }}
+{% if item.subtitle %}
+{{ item.subtitle }}
+{% endif %}
+{{ refs(item.recipes) }}
+{% if item.why_it_works %}
+### Why it works
+{{ item.why_it_works }}
+{% endif %}
+{% if item.description %}
+{{ item.description }}
+{% endif %}
+{% if item.prep_plan or item.prep_note %}
+### Prep plan
+{{ item.prep_plan or item.prep_note }}
+{% endif %}
+:::
+{% endmacro %}

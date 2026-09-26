@@ -1,6 +1,7 @@
 ---
 id: pimento-cheese-sandwiches
 title: Pimento cheese sandwiches
+description: "A creamy spread of cheddar, pepper Jack, pimientos, and mayonnaise on soft white bread."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

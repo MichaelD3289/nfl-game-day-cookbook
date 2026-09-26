@@ -1,6 +1,7 @@
 ---
 id: green-chile-breakfast-burritos
 title: Green chile breakfast burritos
+description: "Flour tortillas filled with eggs, bacon, potatoes, and cheddar, served with pork green chile."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

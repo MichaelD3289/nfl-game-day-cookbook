@@ -1,6 +1,7 @@
 ---
 id: primanti-style-sandwiches
 title: Primanti style sandwiches
+description: "Thick Italian bread stacked with capicola, provolone, fries, vinegar slaw, and tomato."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

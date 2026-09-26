@@ -22,6 +22,9 @@ from nfl_book.models.nfl import Division, Team
 class RecipeMeta(StrictModel):
     id: Slug
     title: NonEmpty
+    description: NonEmpty | None = Field(
+        None, description="Short dish summary for website browsing; not printed in the PDF."
+    )
     status: Status
     course: Slug
     location: str | None = Field(None, description="Overrides the team's location text.")

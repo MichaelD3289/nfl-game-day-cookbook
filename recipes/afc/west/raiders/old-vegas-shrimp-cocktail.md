@@ -1,6 +1,7 @@
 ---
 id: old-vegas-shrimp-cocktail
 title: Old Vegas shrimp cocktail
+description: "Small chilled shrimp served with a tangy tomato-and-horseradish cocktail sauce."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

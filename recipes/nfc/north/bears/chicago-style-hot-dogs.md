@@ -1,6 +1,7 @@
 ---
 id: chicago-style-hot-dogs
 title: Chicago style hot dogs
+description: "All-beef hot dogs with mustard, relish, onion, tomato, pickle, sport peppers, and celery salt."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

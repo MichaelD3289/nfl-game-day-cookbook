@@ -1,6 +1,7 @@
 ---
 id: nashville-hot-chicken
 title: Nashville hot chicken
+description: "Crisp fried chicken coated in a fiery cayenne-spiced oil."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

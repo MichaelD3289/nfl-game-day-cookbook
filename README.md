@@ -142,3 +142,26 @@ last_reviewed_notes: null  # outcome, outstanding findings and report path
 A review date does not mean a recipe passed. Incomplete reviews do not replace
 prior completed-review metadata. Existing recipes begin with empty fields; no
 historical review dates are inferred. These fields do not affect booklet content.
+
+## Website output
+
+```sh
+make website                              # offline HTML build -> dist/site/
+uv run nfl-book website --no-render        # generate only -> generated/site/
+python3 -m http.server 8000 --directory dist/site
+```
+
+Open `http://localhost:8000` after starting the preview server. Quarto is required
+for the HTML build; TinyTeX is needed only for the PDF. Local builds never deploy.
+The website uses the same published sources as the PDF, with separate web templates
+and styles, searchable recipes, division/team navigation, menus, indexes, photos,
+and linked Q quick-option cards. Editorial review metadata stays private.
+
+### Short recipe descriptions
+
+Recipes may include a one-sentence `description` in front matter. Describe the
+actual dish and its defining ingredients in plain language (roughly 12–22 words).
+The website displays this as small subtext in team cards, recipe lists and indexes;
+it is not printed in the PDF. New recipe scaffolds include an empty field.
+Game-day menu preview cards list their linked dishes, team/course labels and a
+link to the full prep plan; they omit the longer summaries to stay compact.

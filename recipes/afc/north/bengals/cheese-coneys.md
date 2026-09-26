@@ -1,6 +1,7 @@
 ---
 id: cheese-coneys
 title: Cheese coneys
+description: "Small hot dogs topped with spiced beef chili, mustard, onion, and finely shredded cheddar."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

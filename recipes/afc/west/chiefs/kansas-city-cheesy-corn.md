@@ -1,6 +1,7 @@
 ---
 id: kansas-city-cheesy-corn
 title: Kansas City cheesy corn
+description: "Sweet corn and diced smoked ham in a creamy sauce with cheddar and smoked cheddar."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

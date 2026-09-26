@@ -49,7 +49,9 @@ def main(
         Path | None, typer.Option(help="Content root holding recipes/, components/, menus/.")
     ] = None,
     generated: Annotated[Path | None, typer.Option(help="Generated build directory.")] = None,
-    dist: Annotated[Path | None, typer.Option(help="Output directory for the PDF.")] = None,
+    dist: Annotated[
+        Path | None, typer.Option(help="Output directory for the PDF and website.")
+    ] = None,
 ) -> None:
     state.root, state.content, state.generated, state.dist = root, content, generated, dist
 
@@ -144,6 +146,27 @@ def build(
     out.print(f"QMD: {result.document}")
     if result.pdf:
         out.print(f"PDF: {result.pdf}")
+
+
+@app.command()
+def website(
+    no_render: Annotated[
+        bool, typer.Option("--no-render", help="Generate website QMD without compiling HTML.")
+    ] = False,
+) -> None:
+    """Build the static website in dist/site (offline, published content only)."""
+    from nfl_book.website import build_website
+
+    project = None
+    try:
+        project = state.project()
+        result = build_website(project, render=not no_render)
+    except BookError as exc:
+        fail(exc, project.root if project else None)
+    report(result.diagnostics, project.root)
+    out.print(f"Website sources: {result.document.parent}")
+    if result.site:
+        out.print(f"Website: {result.site}")
 
 
 @app.command()

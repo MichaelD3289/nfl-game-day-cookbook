@@ -1,6 +1,7 @@
 ---
 id: kansas-city-burnt-ends
 title: Kansas City burnt ends
+description: "Smoked brisket-point cubes glazed with sweet barbecue sauce for a rich, caramelized finish."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

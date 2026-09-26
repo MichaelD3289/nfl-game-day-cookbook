@@ -1,6 +1,7 @@
 ---
 id: cuban-black-beans-and-rice
 title: Cuban black beans and rice
+description: "Black beans simmered with peppers, onion, garlic, and bay leaves, served with white rice."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

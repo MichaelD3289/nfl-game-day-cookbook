@@ -1,6 +1,7 @@
 ---
 id: viet-cajun-crawfish
 title: Viet-Cajun crawfish
+description: "A crawfish, corn, and potato boil finished with garlic, lemongrass, and cayenne butter."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

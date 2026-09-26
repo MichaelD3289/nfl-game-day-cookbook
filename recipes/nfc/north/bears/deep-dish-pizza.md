@@ -1,6 +1,7 @@
 ---
 id: deep-dish-pizza
 title: Deep-dish pizza
+description: "A deep, buttery crust filled with mozzarella, sausage or vegetables, and tomato sauce."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

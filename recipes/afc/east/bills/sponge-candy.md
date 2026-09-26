@@ -1,6 +1,7 @@
 ---
 id: sponge-candy
 title: Sponge candy
+description: "Airy, crunchy caramel candy broken into pieces and dipped in chocolate."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

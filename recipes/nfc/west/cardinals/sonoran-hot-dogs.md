@@ -1,6 +1,7 @@
 ---
 id: sonoran-hot-dogs
 title: Sonoran hot dogs
+description: "Bacon-wrapped hot dogs in soft rolls with pinto beans, vegetables, and jalapeño sauce."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

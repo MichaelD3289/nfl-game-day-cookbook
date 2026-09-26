@@ -1,6 +1,7 @@
 ---
 id: detroit-style-pizza
 title: Detroit style pizza
+description: "Thick rectangular pizza with a crisp cheese edge and tomato sauce over the toppings."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null

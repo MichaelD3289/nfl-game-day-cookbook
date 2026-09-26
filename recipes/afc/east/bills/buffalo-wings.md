@@ -1,6 +1,7 @@
 ---
 id: buffalo-wings
 title: Buffalo wings
+description: "Crisp, deep-fried chicken wings tossed in Buffalo sauce, with blue-cheese dip and celery."
 status: published
 last_reviewed_at: null
 last_reviewed_notes: null
