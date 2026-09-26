@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `CLAUDE.md` imports `AGENTS.md`, so Claude Code sessions load the agent rules.
 - `creating-release` agent skill: picks the SemVer bump from `[Unreleased]`, bumps with
   `uv version --bump`, dates the changelog, then commits and tags.
+- GitHub Actions release workflow: pushing a `v*` tag builds the book and publishes
+  the PDF to a GitHub Release, with that version's changelog section as the notes.
+  It can also be run manually for any existing tag.
 
 ### Changed
 

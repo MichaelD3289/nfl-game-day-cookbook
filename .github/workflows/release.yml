@@ -1,0 +1,74 @@
+# Build the book for every pushed version tag and attach the PDF to a GitHub Release.
+# Run it manually from the Actions tab with an existing tag to (re)build that version,
+# including tags created before this workflow existed.
+# Runs offline apart from tool setup: short links come from the committed
+# data/shortlinks.yml, so this never runs `make links`.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing version tag to build and publish, e.g. v0.2.0
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.tag || github.ref_name }}
+      PDF: dist/nfl-game-day-recipe-booklet.pdf
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.10.18
+          tinytex: true
+
+      - name: Check the tag matches the package version
+        run: |
+          version="$(uv version --short)"
+          if [ "$TAG" != "v$version" ]; then
+            echo "::error::Tag $TAG does not match pyproject.toml version $version"
+            exit 1
+          fi
+
+      - name: Check
+        run: make check
+
+      - name: Build PDF
+        run: make pdf
+
+      - name: Extract release notes from CHANGELOG.md
+        run: |
+          awk -v v="${TAG#v}" '
+            index($0, "## [" v "]") == 1 { on = 1; next }
+            on && /^## \[/ { exit }
+            on { print }
+          ' CHANGELOG.md > release-notes.md
+          if [ ! -s release-notes.md ]; then
+            echo "::error::CHANGELOG.md has no section for ${TAG#v}"
+            exit 1
+          fi
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "$PDF" --clobber
+          else
+            gh release create "$TAG" "$PDF" --title "$TAG" --notes-file release-notes.md
+          fi

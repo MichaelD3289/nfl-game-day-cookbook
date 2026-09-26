@@ -65,4 +65,9 @@ goes to `0.3.0`. Go to `1.0.0` only when the user asks for it.
 7. **Tag:**
    `git tag -a vX.Y.Z -m "vX.Y.Z"`
 8. **Report** the version, the bump and why, the commit and the tag. Tell the user to
-   push with `git push --follow-tags`.
+   push with `git push --follow-tags`. Pushing the tag triggers
+   `.github/workflows/release.yml`, which checks that the tag matches the package
+   version, runs `make check` and `make pdf`, and publishes a GitHub Release with the
+   PDF attached and that version's CHANGELOG section as its notes. To rebuild an
+   existing tag, run the Release workflow manually from the Actions tab (or
+   `gh workflow run release.yml -f tag=vX.Y.Z`); it replaces the PDF on that release.
