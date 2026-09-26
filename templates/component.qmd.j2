@@ -1,0 +1,39 @@
+<% import "_macros.qmd.j2" as m %>
+```{=latex}
+\ComponentPage{<< label >>}{<< title|tex >>}{<< kind|tex >>}
+\RecipeMeta{<< meta_line|tex >>}
+\begin{BuyItCard}
+<< quick_buy|tex >>
+\end{BuyItCard}
+\begin{RecipeIngredients}
+```
+<< m.ingredients(groups) >>
+
+```{=latex}
+\end{RecipeIngredients}\hfill\begin{RecipeInstructions}[From Scratch]
+```
+
+<< method >>
+
+```{=latex}
+\end{RecipeInstructions}
+```
+<% if note %>
+
+```{=latex}
+\begin{KitchenNotes}[Note]
+```
+
+<< note >>
+
+```{=latex}
+\end{KitchenNotes}
+```
+<% endif %>
+<% if used_in %>
+
+```{=latex}
+\ComponentUsedIn{<% for ref in used_in %>\BookRefLink{<< ref.label >>}{<< ref.title|tex >>}~(p.\,\BookPageRef{<< ref.label >>})<% if not loop.last %>; <% endif %><% endfor %>}
+```
+<% endif %>
+<< m.source(source, "") >>

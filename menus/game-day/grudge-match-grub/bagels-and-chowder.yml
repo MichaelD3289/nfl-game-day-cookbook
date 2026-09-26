@@ -1,0 +1,11 @@
+id: bagels-and-chowder
+title: Bagels & Chowder
+subtitle: Jets vs Patriots
+status: published
+order: 10
+recipes:
+- new-york-bagels
+- new-england-clam-chowder
+- boston-cream-pie
+why_it_works: Warm bagels and clam chowder make a hearty lunch before pie.
+prep_plan: Make bagels and pie ahead; warm chowder to serve.

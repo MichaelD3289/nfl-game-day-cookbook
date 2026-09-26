@@ -1,0 +1,37 @@
+---
+id: cuban-sandwich
+title: Cuban sandwich
+status: published
+course: meals
+location: Miami, FL
+yield: 4 sandwiches
+prep: 35 minutes active
+cook: 35 minutes total
+image: cuban-sandwich.jpg
+photo_credit: King Arthur Baking
+index:
+  main_ingredient: pork-and-sausage
+  practical_time: 31-to-60-minutes
+  cost: moderate
+source:
+  url: https://www.foodnetwork.com/recipes/food-network-kitchen/cubano-9343989
+quick_options:
+  cuban-mojo-pork: Buy fully cooked mojo roast pork from a Cuban restaurant or deli; plain roast pork is milder.
+  american-yellow-mustard: Use French's Classic Yellow or another plain American yellow mustard for the familiar ballpark flavor.
+---
+
+## Ingredients
+
+- Yellow mustard, for spreading {{component:american-yellow-mustard}}
+- 1 loaf Cuban bread or soft Italian loaf if Cuban bread is unavailable, split
+- 6 ounces thinly sliced mojo roast pork (or plain roasted pork) {{component:cuban-mojo-pork}}
+- 6 ounces sliced sweet ham
+- 6 ounces sliced Swiss cheese
+- 6 to 8 dill pickle slices
+- Melted butter, for brushing
+
+## Instructions
+
+1. Heat oven to 425°F. Spread mustard on the cut bread, then layer roast pork, ham, Swiss and pickles.
+2. Brush the outside with melted butter and wrap in foil. Press between two baking sheets with an ovenproof skillet on top.
+3. Bake about 20 minutes until hot and cheese melts. Cool slightly, unwrap and cut into four sandwiches.

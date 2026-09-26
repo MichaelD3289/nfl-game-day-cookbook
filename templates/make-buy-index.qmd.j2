@@ -1,0 +1,14 @@
+```{=latex}
+\SectionPage{<< label >>}{Make It or Buy It}{Components marked \QMark{} in recipes. Make them from scratch, or grab the store-bought shortcut.}
+<% for kind in kinds %>
+\SectionGroup{<< kind.title|tex >>}{}
+<% for entry in kind.components %>
+\MakeBuyEntry{<< entry.ref.label >>}{<< entry.ref.title|tex >>}
+<% if entry.used_in %>
+\MakeBuyUsedBy{<< entry.used_in|map("tex")|join(", ") >>}
+<% endif %>
+<% endfor %>
+<% else %>
+\SectionEmpty{No components yet.}
+<% endfor %>
+```

@@ -1,0 +1,5 @@
+# Book-level settings. Authored configuration.
+title: NFL Game Day Recipe Booklet
+subtitle: Regional game-day food from all 32 teams
+output_filename: nfl-game-day-recipe-booklet.pdf
+paper: letter

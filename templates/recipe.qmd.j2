@@ -1,0 +1,40 @@
+<% import "_macros.qmd.j2" as m %>
+```{=latex}
+\RecipePage{<< label >>}{<< title|tex >>}{<< team|tex >>}{<< location|tex >>}{<< course|tex >>}{<< division|tex >>}{<< meta_line|tex >>}{<< image or "" >>}
+<% if quick_options %>
+\begin{QuickOptionsCard}
+<% for option in quick_options %>
+\QuickOption{<< option.label >>}{<< option.title|tex >>}{<< option.text|tex >>}
+<% endfor %>
+\end{QuickOptionsCard}
+<% endif %>
+\begin{RecipeIngredients}
+```
+<% if compact_ingredients %><< m.ingredients_compact(groups) >><% else %><< m.ingredients(groups) >><% endif %>
+
+```{=latex}
+\end{RecipeIngredients}\hfill\begin{RecipeInstructions}
+```
+
+<< instructions >>
+
+```{=latex}
+\end{RecipeInstructions}
+```
+<% if kitchen_notes %>
+
+```{=latex}
+\begin{KitchenNotes}
+```
+
+<< kitchen_notes >>
+
+```{=latex}
+\end{KitchenNotes}
+```
+<% endif %>
+<< m.source(source, photo_credit) >>
+
+```{=latex}
+\BookEnd{<< end_label >>}
+```

@@ -1,0 +1,29 @@
+```{=latex}
+\DivisionPage{<< label >>}{<< name|tex >>}{<< conference|tex >>}
+<% for team in teams %>
+\DivisionTeam{<< team.label >>}{<< team.name|tex >>}{<< team.location|tex >>}
+<% for ref in team.recipes %>
+\DivisionRecipe{<< ref.label >>}{<< ref.title|tex >>}{<< ref.note|tex >>}
+<% else %>
+\DivisionEmptyTeam
+<% endfor %>
+<% endfor %>
+<% if dishoffs %>
+\begin{DivisionDishOffs}
+<% for card in dishoffs %>
+\begin{DivisionDishOffCard}{<< card.title|tex >>}
+<% if card.description %>
+<< card.description|tex >>\par\vspace{3pt}
+<% endif %>
+<% for ref in card.recipes %>
+\DishOffRecipe{<< ref.label >>}{<< ref.title|tex >>}{<< ref.note|tex >>}
+<% endfor %>
+<% if card.prep_note %>
+\CardHeading{Prep note}
+<< card.prep_note|tex >>
+<% endif %>
+\end{DivisionDishOffCard}
+<% endfor %>
+\end{DivisionDishOffs}
+<% endif %>
+```

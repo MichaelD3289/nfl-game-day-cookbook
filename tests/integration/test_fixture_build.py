@@ -1,0 +1,107 @@
+"""End-to-end proof on the synthetic fixture book.
+
+The QMD half always runs. The PDF half needs Quarto + TinyTeX and is skipped
+when they are not installed.
+"""
+
+from __future__ import annotations
+
+import json
+import shutil
+
+import pytest
+
+from nfl_book import pipeline
+from nfl_book.project import Project
+
+
+def pages(project: Project) -> dict[str, str]:
+    build_dir = project.book_build_dir
+    return {
+        p.name: p.read_text(encoding="utf-8") for p in sorted((build_dir / "pages").glob("*.qmd"))
+    }
+
+
+def page(project: Project, suffix: str) -> str:
+    matches = [text for name, text in pages(project).items() if name.endswith(f"-{suffix}.qmd")]
+    assert len(matches) == 1, f"expected one page ending in {suffix}"
+    return matches[0]
+
+
+@pytest.fixture
+def built(fixture_book: Project) -> Project:
+    result = pipeline.build(fixture_book, pdf=False)
+    assert result.document.is_file()
+    assert result.pdf is None
+    assert result.diagnostics.ok
+    return fixture_book
+
+
+def test_recipe_page_marks_components(built: Project) -> None:
+    wings = page(built, "recipe-test-citrus-wings")
+    assert r"\QMark{}\ComponentRef{component:test-wing-sauce}" in wings
+    assert r"\begin{QuickOptionsCard}" in wings
+    assert r"\QuickOption{component:test-wing-sauce}" in wings
+    assert r"\BookEnd{recipe:test-citrus-wings:end}" in wings
+
+
+def test_drafts_are_excluded(built: Project) -> None:
+    everything = "\n".join(pages(built).values())
+    assert "test-draft-nachos" not in everything
+    assert "test-draft-side" not in everything
+
+
+def test_transitive_component_page_is_included(built: Project) -> None:
+    seasoning = page(built, "component-test-cajun-seasoning")
+    # Used only through the wing sauce, but still credited to the wings.
+    assert "recipe:test-citrus-wings" in seasoning
+
+
+def test_menus_and_dishoffs(built: Project) -> None:
+    division = page(built, "division-afc-east")
+    assert r"\DishOffRecipe{recipe:test-buffalo-sliders}" in division
+    assert "Test AFC East Dish-Off" in division
+    assert "Test Quick Kickoff" in page(built, "menus-fast-day-1")
+
+
+def test_no_page_numbers_in_source(built: Project) -> None:
+    """Every cross-reference is a label; numbers are LaTeX's job."""
+    everything = "\n".join(pages(built).values())
+    assert r"\BookPageRef{recipe:test-citrus-wings}" in everything
+    assert "p. " not in everything
+
+
+def test_manifest_lists_every_anchor(built: Project) -> None:
+    manifest = json.loads((built.book_build_dir / "manifest.json").read_text(encoding="utf-8"))
+    anchors = {a for p in manifest["pages"] for a in p["anchors"]}
+    assert {
+        "section:contents",
+        "division:afc-east",
+        "recipe:test-buffalo-sliders",
+        "recipe:test-citrus-wings:end",
+        "component:test-cajun-seasoning",
+        "menu:test-quick-kickoff",
+    } <= anchors
+    assert not any("draft" in a for a in anchors)
+    spans = [tuple(s) for p in manifest["pages"] for s in p["spans"]]
+    assert ("recipe:test-citrus-wings", "recipe:test-citrus-wings:end") in spans
+
+
+def test_build_is_deterministic(fixture_book: Project) -> None:
+    pipeline.build(fixture_book, pdf=False)
+    first = pages(fixture_book)
+    qr = {p.name: p.read_bytes() for p in (fixture_book.generated_dir / "qr").glob("*.png")}
+    pipeline.build(fixture_book, pdf=False)
+    assert pages(fixture_book) == first
+    assert {p.name: p.read_bytes() for p in (fixture_book.generated_dir / "qr").glob("*.png")} == qr
+    assert len(qr) == 3
+
+
+@pytest.mark.pdf
+@pytest.mark.skipif(shutil.which("quarto") is None, reason="Quarto is not installed")
+def test_fixture_pdf(fixture_book: Project) -> None:
+    result = pipeline.build(fixture_book, pdf=True, strict=True)
+    assert result.pdf is not None and result.pdf.is_file()
+    assert result.diagnostics.ok
+    pagemap = json.loads(fixture_book.pagemap_file.read_text(encoding="utf-8"))
+    assert "recipe:test-citrus-wings" in pagemap

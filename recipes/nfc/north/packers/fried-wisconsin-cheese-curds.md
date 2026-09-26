@@ -1,0 +1,40 @@
+---
+id: fried-wisconsin-cheese-curds
+title: Fried Wisconsin cheese curds
+status: published
+course: appetizers
+location: Green Bay, WI
+yield: 4 servings
+prep: 15 min active (source listed)
+cook: About 1 min fry per batch
+image: fried-wisconsin-cheese-curds.jpg
+photo_credit: Cooking Professionally
+index:
+  main_ingredient: meatless
+  practical_time: up-to-30-minutes
+  cost: pantry-friendly
+source:
+  url: https://www.foodnetwork.com/recipes/amanda-freitag/fried-cheese-curds-3168939
+---
+
+## Ingredients
+
+- 1 cup all-purpose flour
+- 1 1/2 teaspoons baking powder
+- 1/2 teaspoon salt
+- 1 cup club soda
+- 1 pound fresh Wisconsin cheddar cheese curds (white or yellow; cold, well drained)
+- 4 cups vegetable or canola oil, for frying
+
+### For serving
+
+- Marinara or another dipping sauce
+
+## Instructions
+
+1. Whisk together flour, baking powder, and salt. Stir in club soda until smooth, then add curds and coat them in the batter.
+2. Heat oil in a heavy skillet or pot to 360°F. Lift a few battered curds at a time into 360°F oil; fry about 1 minute, turning halfway, until golden. Allow oil to return to temperature between batches. Drain on paper towels and serve with dipping sauce.
+
+## Kitchen Notes
+
+Timing note: Source explicitly lists 15 minutes active and total, including setup/heating.

@@ -1,0 +1,34 @@
+<#- Shared QMD snippets. Markdown passes through verbatim; macro args use |tex. #>
+<% macro ingredients(groups) %>
+<% for group in groups %>
+<% if group.heading %>
+
+```{=latex}
+\IngredientGroup{<< group.heading|tex >>}
+```
+<% endif %>
+
+<% for item in group.items %>
+- << item.text >><% if item.ref %> `\QMark{}\ComponentRef{<< item.ref >>}`{=latex}<% endif %>
+
+<% endfor %>
+<% endfor %>
+<% endmacro %>
+
+<% macro ingredients_compact(groups) %>
+<% for group in groups %>
+
+<% if group.heading %>`\IngredientRunIn{<< group.heading|tex >>}`{=latex}<% endif %>
+<% for item in group.items %><< item.text >><% if item.ref %> `\QMark{}\ComponentRef{<< item.ref >>}`{=latex}<% endif %><% if not loop.last %>; <% endif %><% endfor %>
+
+<% endfor %>
+<% endmacro %>
+
+<% macro source(src, credit) %>
+<% if src or credit %>
+
+```{=latex}
+\RecipeSource{<< src.title|tex if src else "" >>}{<< src.href|tex_url if src else "" >>}{<< src.display|tex if src else "" >>}{<< src.qr if src else "" >>}{<< credit|tex >>}
+```
+<% endif %>
+<% endmacro %>

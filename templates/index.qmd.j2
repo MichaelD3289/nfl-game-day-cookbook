@@ -1,0 +1,16 @@
+```{=latex}
+\IndexPage{<< label >>}{<< title|tex >>}{<< intro|tex >>}
+<% set filled = sections|selectattr("entries")|list %>
+<% if filled %>
+\begin{IndexColumns}
+<% for section in filled %>
+\IndexBucket{<< section.title|tex >>}
+<% for ref in section.entries %>
+\IndexEntry{<< ref.label >>}{<< ref.title|tex >>}{<< ref.note|tex >>}
+<% endfor %>
+<% endfor %>
+\end{IndexColumns}
+<% else %>
+\SectionEmpty{No published recipes yet.}
+<% endif %>
+```

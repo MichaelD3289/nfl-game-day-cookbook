@@ -1,0 +1,19 @@
+```{=latex}
+\GameDayCardsPage{<< type_title|tex >>}
+<% for menu in menus %>
+\BookAnchor{<< menu.label >>}
+\begin{GameDayMenuCard}{<< menu.title|tex >>}{<< menu.subtitle|tex >>}
+<% for ref in menu.recipes %>
+\MenuRecipe{<< ref.label >>}{<< ref.title|tex >>}{<< ref.note|tex >>}
+<% endfor %>
+<% if menu.why_it_works %>
+\CardHeading{Why it works}
+<< menu.why_it_works|tex >>\par
+<% endif %>
+<% if menu.prep_plan %>
+\CardHeading{Prep plan}
+<< menu.prep_plan|tex >>\par
+<% endif %>
+\end{GameDayMenuCard}
+<% endfor %>
+```

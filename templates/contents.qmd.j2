@@ -1,0 +1,18 @@
+```{=latex}
+\ContentsPage
+\BookAnchor{<< label >>}
+<% for ref in indexes %>
+\ContentsSection{<< ref.label >>}{<< ref.title|tex >>}
+<% endfor %>
+<% for division in divisions %>
+\ContentsSection{<< division.ref.label >>}{<< division.ref.title|tex >>}
+<% for team in division.teams %>
+\ContentsTeam{<< team.name|tex >>}
+<% for ref in team.recipes %>
+\ContentsEntry{<< ref.label >>}{<< ref.title|tex >>}
+<% endfor %>
+<% endfor %>
+<% endfor %>
+\ContentsSection{<< game_day.label >>}{<< game_day.title|tex >>}
+\ContentsSection{<< make_buy.label >>}{<< make_buy.title|tex >>}
+```

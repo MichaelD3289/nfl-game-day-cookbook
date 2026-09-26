@@ -1,0 +1,45 @@
+%% theme.tex -- the ONLY place for colours, fonts and dimensions.
+%% book.tex and the templates refer to these tokens by name; restyle the
+%% book by editing this file, never by hard-coding values elsewhere.
+
+% ---------------------------------------------------------------- colours
+\usepackage{xcolor}
+\definecolor{BookNavy}{HTML}{0B2545}      % top bar, headings
+\definecolor{BookRed}{HTML}{C8102E}       % accents, Q marker, eyebrows
+\definecolor{BookPaleBlue}{HTML}{EAF2FB}  % card background
+\definecolor{BookCardFrame}{HTML}{A9C1DE} % card border
+\definecolor{BookInk}{HTML}{1B2430}       % body text, links
+\definecolor{BookMuted}{HTML}{5A6A7E}     % secondary text
+\definecolor{BookRule}{HTML}{C9D6E6}      % hairlines
+
+% ---------------------------------------------------------------- fonts
+% TeX Gyre fonts: free, pdflatex-friendly, auto-installed by TinyTeX.
+\usepackage[T1]{fontenc}
+\usepackage{tgpagella}
+\usepackage{tgheros}
+\renewcommand{\familydefault}{\sfdefault}
+\newcommand{\BookDisplayFont}{\fontfamily{qpl}\fontseries{b}\selectfont}
+\newcommand{\BookCoverTitleSize}{\fontsize{40}{46}\selectfont}
+\newcommand{\BookSectionSize}{\fontsize{30}{36}\selectfont}
+\newcommand{\BookTitleSize}{\fontsize{24}{28}\selectfont}
+\newcommand{\BookBodySize}{\small}
+\newcommand{\BookNoteSize}{\footnotesize}
+\newcommand{\BookEyebrowFont}{\footnotesize\bfseries}
+\newcommand{\BookHeadingFont}{\small\bfseries}
+\newcommand{\BookMetaFont}{\small\color{BookMuted}}
+\newcommand{\BookSourceFont}{\footnotesize\color{BookMuted}}
+\newcommand{\BookFooterFont}{\footnotesize\color{BookMuted}}
+\newcommand{\BookTopBarFont}{\small\bfseries\color{white}}
+
+% ---------------------------------------------------------------- dimensions
+\usepackage{geometry}
+\geometry{top=0.85in, bottom=0.8in, left=0.7in, right=0.7in, footskip=0.4in}
+\newlength{\BookTopBarHeight}\setlength{\BookTopBarHeight}{0.42in}
+\newlength{\BookTopBarInset}\setlength{\BookTopBarInset}{0.7in}
+\newlength{\BookCardArc}\setlength{\BookCardArc}{3pt}
+\newlength{\BookCardPad}\setlength{\BookCardPad}{6pt}
+\newlength{\BookQRSize}\setlength{\BookQRSize}{0.65in}
+\newlength{\BookPhotoHeight}\setlength{\BookPhotoHeight}{1.55in}
+\newlength{\BookPhotoWidth}\setlength{\BookPhotoWidth}{2.1in}
+\newcommand{\BookIngredientsWidth}{0.42\linewidth}
+\newcommand{\BookInstructionsWidth}{0.54\linewidth}

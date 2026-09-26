@@ -1,0 +1,22 @@
+# Game Day Menu types, in publication order. Authored configuration.
+# Menu files live at menus/game-day/<type id>/<menu id>.yml.
+# Add a type here (and its directory) to introduce a new menu family.
+menu_types:
+  - id: grudge-match-grub
+    title: Grudge Match Grub
+    description: Rivalry spreads that put both sides of a matchup on the table.
+  - id: shared-prep
+    title: Shared Prep
+    description: Menus built around components that do double duty.
+  - id: across-the-league
+    title: Across the League
+    description: A tour of regional favorites from different corners of the league.
+  - id: premium-day
+    title: Premium Day
+    description: Splurge-worthy spreads for the biggest games.
+  - id: fast-day
+    title: Fast Day
+    description: Quick menus for early kickoffs and short notice.
+  - id: budget-day
+    title: Budget Day
+    description: Crowd-pleasing spreads built from pantry-friendly recipes.

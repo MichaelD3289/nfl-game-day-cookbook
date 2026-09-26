@@ -1,0 +1,11 @@
+```{=latex}
+\SectionPage{<< label >>}{Game Day Menus}{Complete spreads built from recipes in this book.}
+<% for group in groups %>
+\SectionGroup{<< group.title|tex >>}{<< group.description|tex >>}
+<% for ref in group.menus %>
+\IndexEntry{<< ref.label >>}{<< ref.title|tex >>}{<< ref.note|tex >>}
+<% endfor %>
+<% else %>
+\SectionEmpty{No game day menus yet.}
+<% endfor %>
+```

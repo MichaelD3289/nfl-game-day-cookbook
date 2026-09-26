@@ -1,0 +1,62 @@
+# Search index definitions. Authored configuration.
+#
+# Each entry produces one generated index page listing
+#   recipe title / team / page number
+# grouped by bucket, in the order listed here.
+#
+# kind: field  (declarative; no Python needed)
+#   field:    dotted path into recipe front matter. Top-level `course`, or
+#             `index.<key>` for keys under the recipe's `index:` mapping.
+#   required: published recipes must provide a value.
+#   multiple: allow a list of bucket ids (recipe appears in each bucket).
+#
+# Custom computed indexes: register a Python class with
+# @register_index_kind("<kind>") in nfl_book.indexes and reference that kind here.
+#
+# The `course` index is special only in that recipe pages also use its
+# labels for the breadcrumb/footer; `short_label` is the singular form.
+indexes:
+  - id: course
+    title: Index by Course
+    kind: field
+    field: course
+    required: true
+    buckets:
+      - {id: appetizers, label: Appetizers, short_label: Appetizer}
+      - {id: sides, label: Sides, short_label: Side}
+      - {id: meals, label: Meals, short_label: Meal}
+      - {id: desserts, label: Desserts, short_label: Dessert}
+
+  - id: main-ingredient
+    title: Index by Main Ingredient
+    kind: field
+    field: index.main_ingredient
+    required: true
+    buckets:
+      - {id: beef, label: Beef}
+      - {id: pork-and-sausage, label: Pork and Sausage}
+      - {id: poultry, label: Poultry}
+      - {id: seafood, label: Seafood}
+      - {id: mixed-meat, label: Mixed Meat}
+      - {id: meatless, label: Meatless}
+
+  - id: practical-time
+    title: Index by Practical Time
+    kind: field
+    field: index.practical_time
+    required: true
+    buckets:
+      - {id: up-to-30-minutes, label: Up to 30 Minutes}
+      - {id: 31-to-60-minutes, label: 31 to 60 Minutes}
+      - {id: over-60-minutes, label: Over 60 Minutes}
+      - {id: variable-or-make-ahead, label: Variable or Make Ahead}
+
+  - id: ingredient-cost
+    title: Index by Ingredient Cost
+    kind: field
+    field: index.cost
+    required: true
+    buckets:
+      - {id: pantry-friendly, label: Pantry Friendly}
+      - {id: moderate, label: Moderate}
+      - {id: premium, label: Premium}
