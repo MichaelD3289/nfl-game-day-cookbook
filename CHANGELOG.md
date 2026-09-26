@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The Chicago tavern-style pizza recipe is shorter so it stays on one page with its full-size square photo.
 - Agent rules now also forbid AI attribution in pull request titles and descriptions.
 
 ## [0.6.1] - 2026-09-26

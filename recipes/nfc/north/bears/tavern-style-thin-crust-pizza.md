@@ -55,17 +55,12 @@ quick_options:
 - 50 g (1/4 cup) Chicago-style giardiniera, drained, patted dry, and chopped {{component:chicago-oil-packed-giardiniera}}
 - 14 g (1/4 cup) finely grated Parmigiano-Reggiano
 - 2 teaspoons dried oregano
-
-- Optional: 1/4 teaspoon fennel seed per 12-inch pizza, or to preference
+- Optional: 1/4 teaspoon fennel seed
 
 ## Instructions
 
 1. Whisk water, sugar, salt, and yeast. Combine flour and cornmeal, work in the cold butter until the mixture resembles coarse sand, then mix in the wet ingredients.
 2. Divide the dough in half, shape into balls, cover, and rest 30 minutes. Roll each into a 13-inch round on parchment. Stack the rounds, cover loosely, and refrigerate 8–12 hours or up to 3 days.
 3. Blend the sauce ingredients until mostly smooth; adjust salt and sugar to taste.
-4. Heat oven to 475°F with a baking stone or steel inside for at least 1 hour. Top one dough round edge-to-edge with 1/2 cup sauce, 4 ounces shredded mozzarella, 1/4 cup Parmesan, 4 ounces small raw sausage pieces, 1/4 cup chopped giardiniera and a light pinch of fennel seed. The topping quantities are for one pizza; reserve or double for the second round.
+4. Heat oven to 475°F with a baking stone or steel inside for at least 1 hour. Top one dough round edge-to-edge with sauce, mozzarella, Parmesan, small pieces of raw sausage, giardiniera and fennel seed.
 5. Bake on the stone or steel for 7–10 minutes until deeply browned and crisp. Add oregano immediately, then cut into small squares.
-
-## Kitchen Notes
-
-Timing note: Dough rests 30 minutes then chills 8–12 hours; oven/stone preheat at least 1 hour.
