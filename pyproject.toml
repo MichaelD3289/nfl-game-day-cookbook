@@ -1,6 +1,6 @@
 [project]
 name = "nfl-game-day-cookbook"
-version = "0.6.1"
+version = "0.7.0"
 description = "Book-as-code publishing system for the NFL Game Day recipe booklet."
 readme = "README.md"
 authors = [
