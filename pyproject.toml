@@ -74,6 +74,8 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "PTH"]
+# Recipe text uses en dashes for ranges and × for multipliers.
+allowed-confusables = ["–", "×"]
 
 [tool.mypy]
 python_version = "3.11"

@@ -124,3 +124,29 @@ def test_tests_fixtures_are_not_in_production(empty_book: Project) -> None:
     diags, recipes = run(Project.create(empty_book.root))
     assert diags.errors == []
     assert not any(r.startswith("test-") for r in recipes)
+
+
+def test_unreadable_amount_names_file_and_line(fixture_book: Project, write: Write) -> None:
+    text = RECIPE.format(id="probe", extra="").replace("- 1 thing", "- 1 thing\n- 2tbsp butter")
+    path = write("recipes/afc/east/bills/probe.md", text)
+    diags, recipes = run(fixture_book)
+    assert "probe" not in recipes
+    problems = messages_for(diags, path)
+    assert any("Ingredients line 2" in m and "'2tbsp'" in m for m in problems), problems
+
+
+def test_servings_field_and_yield_fallback(fixture_book: Project, write: Write) -> None:
+    write("recipes/afc/east/bills/probe.md", RECIPE.format(id="probe", extra="servings: 3-5\n"))
+    write("recipes/afc/east/jets/probe-two.md", RECIPE.format(id="probe-two", extra=""))
+    content = discover(fixture_book, load_settings(fixture_book), Diagnostics())
+    servings = {r.id: r.servings for r in content.recipes}
+    assert servings["probe"] == (3, 5)
+    assert servings["probe-two"] == (2, 2)  # from "yield: 2 servings"
+    assert servings["test-buffalo-sliders"] == (4, 6)
+
+
+def test_bad_servings_value_names_file(fixture_book: Project, write: Write) -> None:
+    text = RECIPE.format(id="probe", extra="servings: 8-6\n")
+    path = write("recipes/afc/east/bills/probe.md", text)
+    diags, _ = run(fixture_book)
+    assert any(d.path == path and d.code == "schema" for d in diags), list(diags)

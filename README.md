@@ -78,6 +78,7 @@ title: Buffalo Chicken Sliders
 status: draft                  # draft | testing | published | retired
 course: appetizers             # a bucket of the `course` index
 yield: 12 sliders
+servings: 4-6                  # optional; people fed, when yield isn't "N servings"
 index:                         # one value per index in data/indexes.yml
   main_ingredient: poultry
   practical_time: under-30-minutes
@@ -96,6 +97,11 @@ source:
 
 ...
 ```
+
+Ingredient lines stay free text, but the build reads their amounts so the website can
+scale them (see below). Lead with the amount (`1 1/2 cups beef broth`, `3 garlic
+cloves`) and write a space before the unit. Add `{{no-scale}}` to a line whose amount
+must not change with the batch size, such as frying oil measured by pot depth.
 
 Components use the sections `## Ingredients`, `## From Scratch` and an optional
 `## Note`, plus the front-matter fields `quick_buy` and `always_include`. A component

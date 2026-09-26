@@ -49,7 +49,9 @@ Optional.
 
 - Add it in a recipe's `## Ingredients`:
   `- 1/2 cup sauce {{component:<id>}}`
-- Put at most one reference per line.
+- Put at most one reference per line. It can share the line with `{{no-scale}}`.
+- Write ingredient amounts as for recipes (amount first, space before the unit) so
+  the component page can be scaled on the website.
 - Components may reference other components, but cycles are errors.
 - A recipe can override the buy text with `quick_options: {<id>: ...}`.
 - A component that no published recipe reaches is dropped from the book unless

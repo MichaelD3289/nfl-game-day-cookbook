@@ -25,7 +25,7 @@ def test_marker_tolerates_inner_whitespace() -> None:
 def test_malformed_marker_is_rejected() -> None:
     item, problems = parse_ingredient("dip {{componet:blue-cheese-dip}}")
     assert item is None
-    assert "malformed reference" in problems[0]
+    assert "malformed marker" in problems[0]
 
 
 def test_two_markers_on_one_line_are_rejected() -> None:
@@ -67,3 +67,39 @@ def test_empty_group_and_empty_section() -> None:
 def test_find_markers_ignores_single_braces() -> None:
     assert find_markers("use { } and $ freely") == []
     assert find_markers("see {{component:x}}") == ["{{component:x}}"]
+
+
+def test_amounts_are_located_in_display_text() -> None:
+    item, problems = parse_ingredient("1 1/2 cups dip {{component:blue-cheese-dip}}")
+    assert problems == []
+    assert item is not None
+    assert [item.text[a.start : a.end] for a in item.amounts] == ["1 1/2 cups"]
+
+
+def test_no_scale_marker_is_stripped_and_disables_scaling() -> None:
+    item, problems = parse_ingredient("2 quarts oil for frying {{no-scale}}")
+    assert problems == []
+    assert item is not None
+    assert item.text == "2 quarts oil for frying"
+    assert item.amounts == ()
+
+
+def test_no_scale_marker_combines_with_component_marker() -> None:
+    item, problems = parse_ingredient("1 cup sauce {{no-scale}} {{component:wing-sauce}}")
+    assert problems == []
+    assert item is not None
+    assert (item.text, item.component, item.amounts) == ("1 cup sauce", "wing-sauce", ())
+
+
+def test_no_scale_marker_needs_an_amount() -> None:
+    _, problems = parse_ingredient("Salt, to taste {{no-scale}}")
+    assert any("only needed on a line with an amount" in p for p in problems)
+
+
+def test_unreadable_amount_suggests_no_scale() -> None:
+    item, problems = parse_ingredient("500g flour")
+    assert item is None
+    assert "space between the amount and unit" in problems[0]
+    assert "{{no-scale}}" in problems[0]
+    item, problems = parse_ingredient("500g flour {{no-scale}}")
+    assert problems == []
