@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- README download link that automatically follows the latest released cookbook PDF,
+  with links to all assets for the latest release, release notes and earlier versions.
+
 - `review-recipes` agent skill: research workers check a recipe, a list, a team or
   division, or the whole book for city fit, authenticity, source fidelity, ingredient
   specificity and Make It or Buy It coverage, and report proposed fixes by default.

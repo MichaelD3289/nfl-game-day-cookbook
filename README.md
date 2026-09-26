@@ -1,5 +1,12 @@
 # NFL Game Day Cookbook
 
+**[Download the latest cookbook (PDF)](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-recipe-booklet.pdf)**
+
+This link follows the latest published release automatically.
+
+[View all assets for the latest release](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest) ·
+[View release notes and earlier versions](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases).
+
 A "book as code" pipeline. Recipes are authored as Markdown with YAML front matter.
 The pipeline validates them, resolves them into a book model, renders that model to
 Quarto QMD through Jinja2 templates, and compiles a PDF with Quarto + LaTeX. LaTeX
