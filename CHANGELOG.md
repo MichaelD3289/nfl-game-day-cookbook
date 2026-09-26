@@ -15,6 +15,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Agent rules now also forbid AI attribution in pull request titles and descriptions.
 
+## [0.6.1] - 2026-09-26
+
+### Changed
+
+- Agent rules now ask for each task to run in a git worktree under `.worktrees/`, removed after its branch is merged; `.worktrees/` is git-ignored.
+
+### Fixed
+
+- AFC recipes follow their sources more closely: Boston cream pie, clam chowder, Cuban frita and Cuban sandwich, cheese coneys, Cincinnati chili, Polish Boy, Nashville hot chicken, green chile burritos, both French dips (yield, onion and jus note), and LA street dogs (jalapeños cooked, finishing salt).
+
+- NFC recipes follow their sources more closely: black-and-white cookies, New York pizza, Giants pastrami (Katz's warming method correctly credited), Chicago and Detroit dogs, beer brats, booyah, Jucy Lucy, deviled crab, Tampa Cuban, peach cobbler, beignets, jambalaya, muffuletta, red beans, Mission burritos, fry bread tacos, half-smokes, Philly cheesesteak, roast pork and water ice.
+
+- Recipe adaptations and editorial estimates are now labeled as such, including the Buffalo wing dip note, New York bagel framing, Jets pastrami assembly, and the chicken-finger, guacamole, prime rib jus and hotdish sauce components.
+
+- Recipes that relied on paywalled or blocked sources now follow open, regionally attributed ones. Pit beef uses The Meatwave's charcoal-grilled bottom round, with a per-sandwich tiger sauce amount. Mumbo sauce wings use D.C. chef Anthony Thomas's recipe, and the Mumbo Meets Tex-Mex prep plan now marinates them ahead. Chicago giardiniera follows Lou Malnati's hot giardiniera, ready the next day instead of after a week. Viet-Cajun crawfish follows Edible Houston's lemongrass, ginger and citrus boil with garlic butter.
+
+- The Kansas City burnt ends rub is now labeled as a half batch of AmazingRibs' Big Bad Beef Rub.
+
+- The Cuban sandwich, roast pork, pimento cheese, fry bread tacos and mumbo sauce wings have new openly licensed photos, credited to their photographers and licenses.
+
 ## [0.6.0] - 2026-09-26
 
 ### Added
@@ -167,7 +187,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit and integration tests against a synthetic sample book.
 
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.1...HEAD
+[0.6.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.3.1...v0.4.0

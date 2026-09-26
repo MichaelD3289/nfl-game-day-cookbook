@@ -3,8 +3,10 @@ id: fried-wisconsin-cheese-curds
 title: Fried Wisconsin cheese curds
 description: "Fresh cheddar curds coated in a light batter and fried until golden and molten inside."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Wisconsin curds; faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#fried-wisconsin-cheese-curds
 course: appetizers
 location: Green Bay, WI
 yield: 4 servings

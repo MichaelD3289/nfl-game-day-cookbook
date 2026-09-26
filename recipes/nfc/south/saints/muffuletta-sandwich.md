@@ -3,8 +3,10 @@ id: muffuletta-sandwich
 title: Muffuletta sandwich
 description: "A round sesame loaf layered with deli meats, provolone, and a tangy olive-and-vegetable salad."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: green niçoise olives restored per the Saveur source.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#muffuletta-sandwich
 course: meals
 location: New Orleans, LA
 yield: 4 sandwiches
@@ -31,7 +33,7 @@ source:
 - 2 small carrots, roughly chopped
 - 2 small celery ribs, thinly sliced
 - 3 tablespoons water
-- 3/4 cup chopped pitted briny green olives (such as Spanish or Calabrese; not specifically Niçoise)
+- 3/4 cup chopped pitted green niçoise olives (or another briny green olive)
 - 1/2 cup chopped pitted Kalamata olives
 - 1/2 cup chopped roasted red peppers
 - 1/4 cup drained sliced pickled banana peppers

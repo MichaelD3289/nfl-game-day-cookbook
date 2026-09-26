@@ -3,8 +3,10 @@ id: italian-beef-sandwiches
 title: Italian beef sandwiches
 description: "Thinly sliced seasoned beef on soft rolls with savory juice, sweet peppers, and giardiniera."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Chicago fit strong; amazingribs source matches. Giardiniera component now follows Lou Malnati's next-day hot giardiniera (InsideHook), completing the review. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#italian-beef-sandwiches
 course: meals
 location: Chicago, IL
 yield: 10 sandwiches

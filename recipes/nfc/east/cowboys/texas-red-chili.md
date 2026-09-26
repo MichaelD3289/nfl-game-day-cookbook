@@ -3,8 +3,10 @@ id: texas-red-chili
 title: Texas red chili
 description: "Chunks of beef chuck simmered in a rich dried-chile sauce, without beans."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Texas red; faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#texas-red-chili
 course: meals
 location: Dallas, TX
 yield: 6 servings

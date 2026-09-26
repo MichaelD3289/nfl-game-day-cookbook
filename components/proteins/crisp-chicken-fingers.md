@@ -23,7 +23,7 @@ source:
 
 ## From Scratch
 
-1. Marinate raw tenders in 1 cup buttermilk and the hot sauce for 1 hour in the refrigerator.
+1. Marinate raw tenders in 1 cup buttermilk and the hot sauce for 1 hour in the refrigerator (a food-safety adaptation; the source does not say to refrigerate).
 2. Mix flour, garlic powder, onion powder, cayenne, salt and pepper; divide flour between two bowls and put remaining buttermilk in a third.
 3. Heat 2 inches canola oil to 360°F. Coat tenders in flour, then buttermilk, then flour again; fry in batches about 5 minutes until golden and 165°F inside. Drain on a rack.
 4. Use two crisp tenders for each sandwich; toss with the measured Buffalo sauce on the sandwich recipe.

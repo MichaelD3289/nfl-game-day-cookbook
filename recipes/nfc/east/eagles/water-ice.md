@@ -3,8 +3,10 @@ id: water-ice
 title: Water ice
 description: "A smooth, dairy-free frozen treat flavored with lime and sweetened with simple syrup."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: lime extract amount clarified; storage made its own step.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#water-ice
 course: desserts
 location: Philadelphia, PA
 yield: About 6–8 small cups (estimate)
@@ -24,14 +26,15 @@ source:
 
 - 4 1/2 cups cold water
 - 1 cup sugar
-- 1–2 teaspoons concentrated lime extract, beginning with 1 teaspoon and tasting after mixing
+- 1–2 teaspoons pure lime extract, such as The Spice House, beginning with 1 teaspoon and tasting after mixing
 - 4–5 drops neon green food coloring, optional for the familiar shop look
 
 ## Instructions
 
 1. In a small pot, heat 1 cup of the water with the sugar, stirring occasionally, just until the sugar dissolves and the liquid is clear. Remove from the heat.
 2. Stir in the remaining cold water and 1 teaspoon lime extract. Taste and add up to 1 more teaspoon if needed; add food coloring only if you want the vivid green look.
-3. Pour into a chilled ice-cream-maker bowl and churn until slushy, about 20–25 minutes. To store, transfer to jars or another container; allow it to soften to a slushy texture and stir before serving.
+3. Pour into a chilled ice-cream-maker bowl and churn until slushy, about 20–25 minutes.
+4. To store, transfer to jars or another container; allow it to soften to a slushy texture and stir before serving.
 
 ## Kitchen Notes
 

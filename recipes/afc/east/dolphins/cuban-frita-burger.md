@@ -3,8 +3,10 @@ id: cuban-frita-burger
 title: Cuban frita burger
 description: "A paprika-seasoned beef burger topped with onion and crisp shredded potatoes."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: Spanish paprika amount aligned with the source.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#cuban-frita-burger
 course: meals
 location: Miami, FL
 yield: 5 burgers
@@ -23,7 +25,7 @@ source:
 ## Ingredients
 
 - 1 pound ground chuck
-- 3 tablespoons sweet Spanish paprika (pimentón dulce)
+- 3 tablespoons Spanish paprika
 - 2 teaspoons granulated garlic powder
 - 1 teaspoon onion powder
 - 1/4 teaspoon cumin

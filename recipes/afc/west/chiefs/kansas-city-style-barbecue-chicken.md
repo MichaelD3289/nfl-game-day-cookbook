@@ -3,8 +3,10 @@ id: kansas-city-style-barbecue-chicken
 title: Kansas City style barbecue chicken
 description: "Rubbed whole chicken with a sweet tomato-and-molasses barbecue sauce."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: KC fit; QVC source matches in rub, sauce and method. Readability B.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#kansas-city-style-barbecue-chicken
 course: meals
 location: Kansas City, MO
 image: kansas-city-style-barbecue-chicken.jpg

@@ -3,8 +3,10 @@ id: half-smoke-chili-dogs
 title: Half-smoke chili dogs
 description: "Smoked beef-and-pork sausages in buns with beef chili, yellow mustard, and chopped onion."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: half-smoke example and yellow mustard component added.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#half-smoke-chili-dogs
 course: meals
 location: Washington, DC
 yield: 6 chili half-smokes
@@ -22,10 +24,10 @@ source:
 
 ## Ingredients
 
-- 6 smoked beef-and-pork half-smoke sausages (Ben's Original if available)
+- 6 smoked beef-and-pork half-smoke sausages (such as the half-smokes sold by Ben's Chili Bowl, if available)
 - 6 soft hot dog buns
 - ½ white onion, finely chopped
-- Yellow mustard
+- Yellow mustard {{component:american-yellow-mustard}}
 
 ### Chili spice mix
 

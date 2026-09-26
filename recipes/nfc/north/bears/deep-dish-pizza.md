@@ -3,8 +3,10 @@ id: deep-dish-pizza
 title: Deep-dish pizza
 description: "A deep, buttery crust filled with mozzarella, sausage or vegetables, and tomato sauce."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: King Arthur Chicago deep dish; faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#deep-dish-pizza
 course: meals
 location: Chicago, IL
 yield: See recipe

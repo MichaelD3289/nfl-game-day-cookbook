@@ -3,8 +3,10 @@ id: spanish-bean-soup
 title: Spanish bean soup
 description: "A chickpea-and-potato soup with ham, salt pork, Spanish chorizo, and saffron."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Columbia Restaurant soup; faithful. Readability B.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#spanish-bean-soup
 course: meals
 location: Tampa, FL
 yield: 4 servings

@@ -2,7 +2,7 @@
 id: hotdish-cream-sauce
 title: Hotdish cream sauce
 status: published
-yield: About 3 1/2 cups
+yield: About 3 1/2 cups (estimated)
 quick_buy: Use two 10–10.5 ounce cans Campbell's condensed cream of mushroom soup, undiluted, for the classic quick hotdish.
 source:
   url: https://www.modernfarmhouseeats.com/homemade-tater-tot-hotdish/
@@ -12,7 +12,7 @@ source:
 
 - 1 1/2 cups milk
 - 3/4 cup all-purpose flour
-- 2 cups low-sodium chicken broth
+- 2 cups low-sodium chicken broth (low-sodium is this book's choice)
 - 1 tablespoon soy sauce
 - 1 1/2 teaspoons Worcestershire sauce
 - 1/2 teaspoon salt
@@ -27,4 +27,4 @@ source:
 
 ## Note
 
-Allow about 10 minutes (estimated). This is the source’s homemade cream sauce, not a mushroom-soup clone. For mushroom flavor, sauté 8 ounces finely chopped cremini mushrooms in 1 tablespoon butter until their liquid evaporates; fold into the sauce. That variation adds about 10 minutes.
+Allow about 10 minutes (estimated). This is the source’s homemade cream sauce, not a mushroom-soup clone. Editorial variation, not from the source: for mushroom flavor, sauté 8 ounces finely chopped cremini mushrooms in 1 tablespoon butter until their liquid evaporates; fold into the sauce. That variation adds about 10 minutes.

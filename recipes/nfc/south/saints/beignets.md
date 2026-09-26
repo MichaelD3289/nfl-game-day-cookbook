@@ -3,8 +3,10 @@ id: beignets
 title: Beignets
 description: "Puffy, deep-fried yeast dough squares generously dusted with powdered sugar."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: hot-oil basting added to the frying step.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#beignets
 course: desserts
 location: New Orleans, LA
 yield: About 22 beignets
@@ -40,4 +42,4 @@ source:
 3. Cover and let rise until doubled, 1 1/2 to 2 hours, or refrigerate overnight for 8 to 10 hours.
 4. Heat oil to 370°F. Roll dough into a 17-by-11-inch rectangle about 1/4 inch thick and cut into 20 to 22 squares.
 5. If yeast has not foamed after 15 minutes, use fresh yeast before proceeding. Keep oil near 370°F between small batches; overcrowding cools oil and makes beignets greasy.
-6. Fry 3 to 4 pieces at a time until golden, 1 to 2 minutes per side. Drain and dust generously with powdered sugar while warm.
+6. Fry 3 to 4 pieces at a time immediately spooning hot oil over the tops so they puff, then fry until golden, 1 to 2 minutes per side. Drain and dust generously with powdered sugar while warm.

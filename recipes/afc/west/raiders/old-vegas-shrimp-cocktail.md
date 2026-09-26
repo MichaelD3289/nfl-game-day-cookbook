@@ -3,8 +3,10 @@ id: old-vegas-shrimp-cocktail
 title: Old Vegas shrimp cocktail
 description: "Small chilled shrimp served with a tangy tomato-and-horseradish cocktail sauce."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Golden Gate-style Vegas cocktail; faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#old-vegas-shrimp-cocktail
 course: appetizers
 location: Las Vegas, NV
 yield: See recipe

@@ -3,8 +3,10 @@ id: nashville-hot-chicken
 title: Nashville hot chicken
 description: "Crisp fried chicken coated in a fiery cayenne-spiced oil."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: salt amount given for both kosher salt brands.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#nashville-hot-chicken
 course: meals
 location: Nashville, TN
 yield: 8 servings
@@ -42,7 +44,7 @@ source:
 
 ## Instructions
 
-1. Season chicken all over with black pepper and the larger portion of salt. Cover and refrigerate 3–24 hours.
+1. Season chicken all over with black pepper and 2 tablespoons Diamond Crystal (1 tablespoon Morton) kosher salt. Cover and refrigerate 3–24 hours.
 2. Whisk eggs, buttermilk and 2 tablespoons vinegar-style hot sauce. In another bowl, whisk flour and remaining salt. Heat about 2 inches of vegetable oil in a heavy Dutch oven to 325°F; leave plenty of headroom.
 3. Pat chicken dry. Dredge in flour, dip in buttermilk mixture, then dredge in flour again. Fry in uncrowded batches, turning occasionally and keeping oil near 325°F, about 15–18 minutes. Check the thickest parts: at least 165°F for all pieces is the simplest safe endpoint. Drain on a rack.
 4. Whisk cayenne, brown sugar, chili powder, garlic powder and paprika. Carefully whisk in 1 cup hot frying oil to make the spicy brush-on paste. Brush chicken thoroughly and serve on white bread with dill pickle slices.

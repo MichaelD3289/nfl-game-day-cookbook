@@ -3,8 +3,10 @@ id: bacon-wrapped-la-street-dogs-chargers
 title: Bacon-wrapped LA street dogs
 description: "Bacon-wrapped hot dogs with sautéed peppers and onions, jalapeños, and a trio of condiments."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: source's finishing salt added (shared fix with the Rams version).
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#bacon-wrapped-la-street-dogs-chargers
 course: meals
 location: Los Angeles, CA
 yield: 4 servings
@@ -37,6 +39,6 @@ source:
 ## Instructions
 
 1. Wrap one slice of bacon tightly around each hot dog, tucking the ends underneath. Heat a griddle or large skillet over medium.
-2. Place dogs seam down. Cook roughly 7 minutes on the first side, then rotate until bacon is crisp and hot dog is heated throughout, about 20–22 minutes total. Avoid high heat that burns bacon before it renders.
+2. Place dogs seam down. Cook roughly 7 minutes on the first side, sprinkle lightly with sea salt or seasoning salt, then rotate until bacon is crisp and hot dog is heated throughout, about 20–22 minutes total. Avoid high heat that burns bacon before it renders.
 3. When bacon releases fat, add sliced bell pepper, onion and halved jalapeños. Add up to 2 teaspoons olive oil if needed. Cook, tossing, until softened and charred in spots.
 4. Warm buns for about 1 minute. Place each bacon-wrapped dog in a bun; add grilled vegetables and cilantro. Drizzle with ketchup, yellow mustard and mayonnaise, dividing the source amounts across four dogs.

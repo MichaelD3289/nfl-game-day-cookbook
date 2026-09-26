@@ -3,13 +3,15 @@ id: new-england-clam-chowder
 title: New England clam chowder
 description: "A creamy clam-and-potato soup with bacon, onion, and rich clam broth."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: cook and total time aligned with the source.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#new-england-clam-chowder
 course: meals
 location: Boston, MA
 yield: 8 to 10 servings
 prep: 45 minutes hands-on
-cook: 1 hour 15 minutes total
+cook: about 30 minutes (1 hour 15 minutes total with prep)
 image: new-england-clam-chowder.jpg
 photo_credit: Yankee / New England
 index:

@@ -3,8 +3,10 @@ id: detroit-coney-dogs
 title: Detroit Coney dogs
 description: "Natural-casing beef hot dogs topped with a seasoned beef sauce, mustard, and onion."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: source's 1/4 cup water restored.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#detroit-coney-dogs
 course: meals
 location: Detroit, MI
 yield: 8 servings
@@ -37,6 +39,7 @@ source:
 - 2 small pinches sugar
 - 1 (15-ounce) can tomato puree (not tomato sauce)
 - 3–4 tablespoons prepared yellow mustard, or to taste
+- 1/4 cup water
 - 8 natural-casing all-beef hot dogs (National Coney Island style if available)
 - 8 hot dog buns
 
@@ -47,5 +50,5 @@ source:
 ## Instructions
 
 1. Cook the ground beef, onion, and garlic in a pot over medium heat, breaking the beef into very small crumbles.
-2. When the beef is cooked, keep the fat in the pot and stir in the spices, sugar, tomato puree, and mustard. Cover and simmer on low for 30 minutes, stirring occasionally; uncover and simmer another 10 minutes to thicken.
+2. When the beef is cooked, keep the fat in the pot and stir in the spices, sugar, tomato puree, mustard, and water. Cover and simmer on low for 30 minutes, stirring occasionally; uncover and simmer another 10 minutes to thicken.
 3. Steam or gently simmer the natural-casing franks until hot, and steam the buns until soft. Serve in warmed buns topped with chili, mustard, and diced onion.

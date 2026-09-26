@@ -3,8 +3,10 @@ id: haluski-cabbage-and-noodles
 title: Haluski, cabbage and noodles
 description: "Buttery egg noodles tossed with softened cabbage and onion, with optional browned kielbasa."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Pittsburgh fit; faithful with minor wording gaps. Readability B.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#haluski-cabbage-and-noodles
 course: meals
 location: Pittsburgh, PA
 yield: 8 servings

@@ -3,8 +3,10 @@ id: sponge-candy
 title: Sponge candy
 description: "Airy, crunchy caramel candy broken into pieces and dipped in chocolate."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Buffalo confection; source matches; clear endpoints. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#sponge-candy
 course: desserts
 location: Buffalo, NY
 yield: 16 servings

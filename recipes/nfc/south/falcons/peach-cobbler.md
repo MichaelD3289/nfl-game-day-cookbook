@@ -3,8 +3,10 @@ id: peach-cobbler
 title: Peach cobbler
 description: "Juicy peaches baked beneath a tender cream-biscuit topping."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: biscuit-cutting method aligned with King Arthur.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#peach-cobbler
 course: desserts
 location: Atlanta, GA
 yield: 12 servings
@@ -47,5 +49,5 @@ source:
 1. Heat oven to 350°F and lightly grease a 9-inch round baking dish. If using frozen peaches, thaw them and bring to room temperature.
 2. Mix filling sugar and cornstarch first to distribute the thickener. Toss with sliced peaches, lemon juice, vanilla and salt; spread evenly in the dish.
 3. Whisk flour, salt, baking powder and 2 teaspoons sugar. Add heavy cream gradually, mixing only until the dough holds together without dry flour.
-4. Pat dough about 3/4 inch thick and cut small biscuit rounds, or divide into evenly spaced rustic mounds over peaches so steam can escape. Brush with milk or melted butter; sprinkle with coarse sugar if desired.
+4. Pat dough into a second lightly greased 9-inch round pan and cut as many 2-inch biscuits as you can, leaving them in the pan. Invert the pan onto a lightly floured surface, rapping it to release the dough, then space the cut biscuits over the peaches; bake any leftover dough separately. Brush with milk or melted butter; sprinkle with coarse sugar if desired.
 5. Bake 45–50 minutes until topping is golden and peach filling bubbles at the center. Rest 20–30 minutes so juices set; serve warm.

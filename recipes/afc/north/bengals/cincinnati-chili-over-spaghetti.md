@@ -3,8 +3,10 @@ id: cincinnati-chili-over-spaghetti
 title: Cincinnati chili over spaghetti
 description: "Warmly spiced beef chili over spaghetti, finished with cheddar and optional beans and onion."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: sweet onions specified; source's pinto beans noted.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#cincinnati-chili-over-spaghetti
 course: meals
 location: Cincinnati, OH
 yield: 8 servings
@@ -23,7 +25,7 @@ source:
 ## Ingredients
 
 - 4 tablespoons extra-virgin olive oil
-- 2 sweet onions, finely chopped, plus more for topping
+- 2 sweet onions (such as Vidalia), finely chopped, plus more for topping
 - 2 pounds ground beef chuck
 - Kosher salt and freshly ground black pepper (recipe uses 1/2 teaspoon of each)
 - 4 cloves garlic, minced
@@ -38,7 +40,7 @@ source:
 - 1/4 teaspoon ground cloves
 - 1/4 teaspoon cayenne pepper
 - 1 pound spaghetti, cooked
-- For topping 8 servings: about 2 cups warm red kidney beans (optional four-way style) and 4 cups finely shredded mild yellow cheddar; add to preference
+- For topping 8 servings: about 2 cups warm red kidney beans (optional four-way style; the source uses pinto beans) and 4 cups finely shredded mild yellow cheddar; add to preference
 - Oyster crackers, optional
 
 ## Instructions

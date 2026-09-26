@@ -3,8 +3,10 @@ id: breaded-pork-tenderloin-sandwich
 title: Breaded pork tenderloin sandwich
 description: "A wide, breaded pork cutlet fried until crisp and served on a soft bun with classic toppings."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Visit Indiana source; faithful, minor ambiguity. Readability B.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#breaded-pork-tenderloin-sandwich
 course: meals
 location: Indianapolis, IN
 yield: 4 servings

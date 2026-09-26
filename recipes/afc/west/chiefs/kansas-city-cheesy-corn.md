@@ -3,8 +3,10 @@ id: kansas-city-cheesy-corn
 title: Kansas City cheesy corn
 description: "Sweet corn and diced smoked ham in a creamy sauce with cheddar and smoked cheddar."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: KC fit plausible; Serious Eats (Liz Cook) source matches in every amount. Readability B.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#kansas-city-cheesy-corn
 course: sides
 location: Kansas City, MO
 yield: 6 to 8 servings
