@@ -1,0 +1,40 @@
+name: Suggest a recipe
+description: Suggest a local dish or improve an existing recipe—no coding required.
+title: "Recipe suggestion: "
+body:
+  - type: input
+    id: team
+    attributes:
+      label: Team and city
+    validations:
+      required: true
+  - type: input
+    id: dish
+    attributes:
+      label: Dish name
+    validations:
+      required: true
+  - type: textarea
+    id: connection
+    attributes:
+      label: What makes this dish local?
+      description: Share its history, local popularity, or regional preparation, with supporting links if possible.
+    validations:
+      required: true
+  - type: textarea
+    id: recipe
+    attributes:
+      label: Recipe sources or your own recipe
+      description: Link to sources rather than pasting someone else's article. Tell us whether you cooked it and what makes this version authentic.
+    validations:
+      required: true
+  - type: textarea
+    id: rights
+    attributes:
+      label: Photos and permissions
+      description: Photos are optional. If offering one, give its creator, source, license or permission, and required attribution. A link does not grant permission to copy it.
+  - type: textarea
+    id: practical
+    attributes:
+      label: Practical tips
+      description: Timing, cost, specific regional ingredients, homemade components, or high-quality store-bought alternatives.
