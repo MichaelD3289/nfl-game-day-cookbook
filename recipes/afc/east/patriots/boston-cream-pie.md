@@ -3,8 +3,10 @@ id: boston-cream-pie
 title: Boston cream pie
 description: "Layers of vanilla cake filled with custard and finished with a chocolate glaze."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: milk type, boil point, bake time and chocolate option aligned with King Arthur.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#boston-cream-pie
 course: desserts
 location: Boston, MA
 yield: One 9-inch double-layer cake
@@ -31,12 +33,12 @@ source:
 - 1 1/4 teaspoons table salt
 - 2 teaspoons baking powder
 - 4 tablespoons unsalted butter
-- 1 cup milk
+- 1 cup milk, preferably whole
 - 2 teaspoons vanilla extract
 
 ### Filling
 
-- 2 1/2 cups milk
+- 2 1/2 cups milk, preferably whole
 - 1/2 cup sugar
 - 1/4 teaspoon table salt
 - 1/3 cup cornstarch
@@ -47,14 +49,14 @@ source:
 ### Glaze
 
 - 1/4 cup heavy cream
-- 1/3 cup chopped dark or semisweet chocolate
+- 1/3 cup chopped dark or semisweet chocolate (or chocolate chips)
 - 1/2 teaspoon vanilla extract
 
 ## Instructions
 
 1. Heat oven to 325°F and grease two 9-inch round pans. Beat cake sugar and eggs until fluffy; slowly add oil.
-2. Whisk cake flour, 1 1/4 teaspoons salt and baking powder separately. Heat the 1 cup cake milk with 4 tablespoons butter until steaming; stir in 2 teaspoons vanilla, then gradually mix into cake batter.
-3. Divide between pans and bake 30 to 35 minutes. Cool 10 minutes in pans, then completely on racks.
+2. Whisk cake flour, 1 1/4 teaspoons salt and baking powder separately. Heat the 1 cup cake milk with 4 tablespoons butter just to a boil; stir in 2 teaspoons vanilla, then gradually mix into cake batter.
+3. Divide between pans and bake 30 to 35 minutes, until a toothpick inserted in the center comes out clean and the top feels set. Cool 10 minutes in pans, then completely on racks.
 4. For filling, simmer 2 cups milk with sugar and salt. Whisk remaining 1/2 cup milk with cornstarch, yolks and whole egg; temper with hot milk and return through a strainer to saucepan.
 5. Whisk over medium heat until it boils and thickens; cook 2 minutes. Add vanilla, cover surface and chill.
 6. Spread pastry cream over one cake layer and top with the second.

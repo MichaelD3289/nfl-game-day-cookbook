@@ -3,8 +3,10 @@ id: lobster-rolls
 title: Lobster rolls
 description: "Tender lobster in a light mayonnaise dressing, tucked into butter-toasted split-top buns."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: New England fit strong; The Kitchn source (read live) matches. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#lobster-rolls
 course: meals
 location: Boston, MA
 yield: 4 rolls

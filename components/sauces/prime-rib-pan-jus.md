@@ -20,7 +20,7 @@ source:
 
 1. After moving roast to its rest, spoon off excess fat from the pan but keep brown bits and juices. Use a stovetop-safe metal roasting pan over medium heat, or transfer drippings to a saucepan.
 2. Pour in wine; scrape the pan and simmer until reduced by about half.
-3. Add beef stock and simmer until reduced by about one-third to one-half. Stir in thyme, strain if desired, and season to taste.
+3. Add beef stock and simmer until reduced by about half. Stir in thyme, strain if desired, and season to taste.
 
 ## Note
 

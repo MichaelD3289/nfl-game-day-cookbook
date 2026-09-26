@@ -21,6 +21,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Organize README links into a read/download table with the public cookbook website, PDF, and HTML archive, plus release assets and earlier versions.
 
+### Fixed
+
+- AFC recipes follow their sources more closely: Boston cream pie, clam chowder, Cuban frita and Cuban sandwich, cheese coneys, Cincinnati chili, Polish Boy, Nashville hot chicken, green chile burritos, both French dips (yield, onion and jus note), and LA street dogs (jalapeños cooked, finishing salt).
+
+- NFC recipes follow their sources more closely: black-and-white cookies, New York pizza, Giants pastrami (Katz's warming method correctly credited), Chicago and Detroit dogs, beer brats, booyah, Jucy Lucy, deviled crab, Tampa Cuban, peach cobbler, beignets, jambalaya, muffuletta, red beans, Mission burritos, fry bread tacos, half-smokes, Philly cheesesteak, roast pork and water ice.
+
+- Recipe adaptations and editorial estimates are now labeled as such, including the Buffalo wing dip note, New York bagel framing, Jets pastrami assembly, and the chicken-finger, guacamole, prime rib jus and hotdish sauce components.
+
+- The Kansas City burnt ends rub is now labeled as a half batch of AmazingRibs' Big Bad Beef Rub.
+
 ## [0.5.0] - 2026-09-26
 
 ### Added

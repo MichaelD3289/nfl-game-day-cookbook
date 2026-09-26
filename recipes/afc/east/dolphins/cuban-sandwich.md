@@ -9,7 +9,7 @@ course: meals
 location: Miami, FL
 yield: 4 sandwiches
 prep: 35 minutes active
-cook: 35 minutes total
+cook: about 20 minutes pressing
 image: cuban-sandwich.jpg
 photo_credit: King Arthur Baking
 index:

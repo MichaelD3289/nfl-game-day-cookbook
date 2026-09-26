@@ -3,8 +3,10 @@ id: primanti-style-sandwiches
 title: Primanti style sandwiches
 description: "Thick Italian bread stacked with capicola, provolone, fries, vinegar slaw, and tomato."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Primanti fit strong; source read via alternate copy. Readability B.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#primanti-style-sandwiches
 course: meals
 location: Pittsburgh, PA
 yield: 2 servings

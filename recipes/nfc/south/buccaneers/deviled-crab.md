@@ -3,12 +3,14 @@ id: deviled-crab
 title: Deviled crab
 description: "Crisp bread-shell croquettes filled with crab in a spicy tomato-and-pepper mixture."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: dough test moved before shaping; chilling time clarified.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#deviled-crab
 course: appetizers
 location: Tampa, FL
 yield: About 20 croquettes
-prep: 45 minutes active plus about 4 hours chilling
+prep: 45 minutes active plus about 4–6 hours chilling (dough and filling chill in parallel)
 cook: About 30 minutes active cooking
 image: deviled-crab.jpg
 photo_credit: recipesfoodandcooking.com
@@ -57,7 +59,7 @@ source:
 1. Soak torn white bread in water for 15 minutes, then squeeze nearly dry. Add enough finely ground Cuban bread to form a pliable dough; mix in paprika and salt. Chill about 2 hours.
 2. For filling, slowly sauté onion, bell pepper, garlic and red pepper in olive oil for 15 minutes. Add bay leaves, sugar, salt, water and tomato paste; cook uncovered about 20 minutes until moisture evaporates.
 3. Stir in crab briefly, remove bay leaves, and chill filling about 2 hours.
-4. Flatten about 3 tablespoons bread dough around 1 tablespoon crab filling and seal into a pointed croquette.
-5. Mix eggs, milk, salt and pepper in one bowl; combine breadcrumbs and flour in another. Coat each croquette in crumbs, egg, then crumbs again. Chill about 2 hours.
-6. After chilling the bread dough and crab filling separately, test a small portion: the dough should wrap without cracking or oozing. Add only enough ground Cuban bread to make it pliable.
+4. After chilling the bread dough and crab filling separately, test a small portion: the dough should wrap without cracking or oozing. Add only enough ground Cuban bread to make it pliable.
+5. Flatten about 3 tablespoons bread dough around 1 tablespoon crab filling and seal into a pointed croquette.
+6. Mix eggs, milk, salt and pepper in one bowl; combine breadcrumbs and flour in another. Coat each croquette in crumbs, egg, then crumbs again. Chill about 2 hours.
 7. Fry chilled croquettes at 350°F in small batches until evenly golden; drain on a rack or paper towels. Since filling is already cooked, the goal is a crisp hot center, not prolonged frying.

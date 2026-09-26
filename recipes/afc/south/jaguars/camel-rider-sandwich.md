@@ -3,8 +3,10 @@ id: camel-rider-sandwich
 title: Camel Rider sandwich
 description: "A soft pita pocket stuffed with deli meats, American cheese, lettuce, tomato, and tangy dressing."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Jacksonville fit strong; faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#camel-rider-sandwich
 course: meals
 location: Jacksonville, FL
 yield: 4 sandwiches

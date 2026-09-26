@@ -44,7 +44,7 @@ source:
 - Pinch red pepper flakes
 - 1/4 cup chopped jarred Italian long hot peppers or other pickled spicy peppers
 - 6 (7- to 8-inch) seeded Italian long rolls or sturdy Italian hoagie/sub rolls
-- 12 to 18 thin slices provolone cheese (about 10 ounces)
+- 12 to 18 thin slices sharp provolone (provolone piccante), about 10 ounces
 
 ## Instructions
 
@@ -53,7 +53,7 @@ source:
 3. Transfer pork to a board and cool to room temperature, about 1 hour. For the thinnest slices, chill roast until firm, at least 2 hours and up to 1 day; chill jus separately. Remove twine and slice pork against the grain as thin as possible.
 4. Reheat jus to a simmer and season with salt. Add sliced pork and accumulated juices; simmer gently about 1 minute, just until hot.
 5. Heat remaining 3 tablespoons oil in a large skillet. Cook broccoli rabe with salt and pepper, stirring occasionally, until tender and lightly browned, 6 to 9 minutes. Add garlic and a pinch of pepper flakes; cook about 1 minute. Stir in pickled peppers and 1 cup pork jus, simmer until reduced and rabe is very tender, about 5 minutes.
-6. Set split rolls cut side up on a baking sheet. Divide provolone among rolls and bake at 400°F until melted and edges begin to toast, about 3 minutes. Fill with pork and broccoli rabe; ladle remaining jus over sandwiches and serve.
+6. Set split rolls cut side up on a baking sheet. Divide sharp provolone among rolls and bake at 400°F until melted and edges begin to toast, about 3 minutes. Fill with pork and broccoli rabe; ladle remaining jus over sandwiches and serve.
 
 ## Kitchen Notes
 

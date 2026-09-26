@@ -3,8 +3,10 @@ id: buffalo-wings
 title: Buffalo wings
 description: "Crisp, deep-fried chicken wings tossed in Buffalo sauce, with blue-cheese dip and celery."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: note added on the James Beard source's own blue cheese dip.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#buffalo-wings
 course: appetizers
 location: Buffalo, NY
 yield: 6–8 servings
@@ -50,4 +52,4 @@ quick_options:
 
 ## Kitchen Notes
 
-The unbreaded deep-frying method follows the Anchor Bar-attributed James Beard recipe. The linked Chef John wing sauce and creamy blue-cheese dip are homemade variations with their own sources. Allow about 25 minutes active preparation plus 1 hour dip chilling before frying; batch time varies with pot size. A simpler classic sauce is 1 cup plain Frank’s Original whisked with 1/2 cup melted butter, in place of the entire linked sauce batch.
+The unbreaded deep-frying method follows the Anchor Bar-attributed James Beard recipe. The linked Chef John wing sauce and creamy blue-cheese dip are homemade variations with their own sources; the James Beard recipe's own dip is a simpler mix of mayonnaise, sour cream, crumbled blue cheese, lemon juice and garlic. Allow about 25 minutes active preparation plus 1 hour dip chilling before frying; batch time varies with pot size. A simpler classic sauce is 1 cup plain Frank’s Original whisked with 1/2 cup melted butter, in place of the entire linked sauce batch.

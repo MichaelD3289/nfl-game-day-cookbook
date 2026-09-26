@@ -3,8 +3,10 @@ id: sausage-kolaches-or-klobasneks
 title: Sausage kolaches or klobasneks
 description: "Soft, slightly sweet yeast rolls wrapped around cooked sausage, with optional cheddar."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Texas Czech bakery tradition; King Arthur faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#sausage-kolaches-or-klobasneks
 course: meals
 location: Houston, TX
 yield: About 20 sausage kolaches

@@ -3,13 +3,15 @@ id: black-and-white-cookies
 title: Black-and-white cookies
 description: "Soft, cake-like cookies finished with half vanilla and half chocolate icing."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: bake time and cookie spacing aligned with King Arthur.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#black-and-white-cookies
 course: desserts
 location: New York City metro
 yield: 24 large cookies
 prep: 30 minutes
-cook: 11 to 12 minutes bake; about 1 hour 11 minutes total
+cook: 10 to 12 minutes bake; about 1 hour 11 minutes total
 image: black-and-white-cookies.jpg
 photo_credit: King Arthur Baking
 index:
@@ -53,7 +55,7 @@ source:
 ## Instructions
 
 1. Heat oven to 400°F; line two baking sheets. Beat butter, sugar, salt, baking powder, lemon and vanilla, then beat in eggs one at a time.
-2. Alternate flour and milk into batter, starting and ending with flour. Scoop 1/4-cup mounds onto pans, flatten to about 3 inches, leaving space between.
-3. Bake 10 to 12 minutes until set; cool on pans.
+2. Alternate flour and milk into batter, starting and ending with flour. Scoop 1/4-cup mounds onto pans, flatten to about 3 inches, leaving 2 to 2 1/2 inches between them; they spread.
+3. Bake 10 to 12 minutes until set: 10 minutes gives a moister cookie, 12 a drier, more classic one. Cool on pans.
 4. Turn completely cool cookies flat-side up. Mix vanilla icing ingredients and coat one half of each flat side. Let set on a rack.
 5. Mix chocolate icing sugar, corn syrup, vanilla, hot water and optional espresso. Stir in melted chocolate and coat the remaining half. Rest about 30 minutes until set.

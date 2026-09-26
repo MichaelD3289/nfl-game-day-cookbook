@@ -3,8 +3,10 @@ id: seattle-dogs-with-cream-cheese-and-onions
 title: Seattle dogs with cream cheese and onions
 description: "Hot dogs in toasted buns with warm cream cheese, golden onions, and yellow mustard."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Seattle fit strong; faithful. NYT origin claim unverified. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#seattle-dogs-with-cream-cheese-and-onions
 course: meals
 location: Seattle, WA
 yield: 8 servings

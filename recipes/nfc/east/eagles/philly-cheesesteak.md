@@ -3,8 +3,10 @@ id: philly-cheesesteak
 title: Philly cheesesteak
 description: "Thinly shaved beef and cooked onion piled into hoagie rolls with melted American cheese."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: skillet cheese melt labeled as an adaptation.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#philly-cheesesteak
 course: meals
 location: Philadelphia, PA
 yield: 4 sandwiches
@@ -35,7 +37,7 @@ source:
 
 1. Heat the olive oil in a large skillet or griddle over medium heat. Cook the onion until golden, about 4 minutes; season with salt and pepper and set aside.
 2. Cook the shaved beef in the same skillet in a thin layer, turning or chopping it with a spatula until just browned. Return onions to the pan and divide the mixture into four portions. Add optional hot sauce or Worcestershire sparingly, if using.
-3. Cover each portion of beef with American cheese and let it melt directly over the meat. Open each roll and use a spatula to lift one cheesy portion into it. Add optional cherry peppers and serve hot.
+3. Cover each portion of beef with American cheese and let it melt directly over the meat in the skillet (an adaptation; the source melts the cheese under the broiler). Open each roll and use a spatula to lift one cheesy portion into it. Add optional cherry peppers and serve hot.
 
 ## Kitchen Notes
 

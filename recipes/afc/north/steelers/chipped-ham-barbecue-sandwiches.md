@@ -3,8 +3,10 @@ id: chipped-ham-barbecue-sandwiches
 title: Chipped ham barbecue sandwiches
 description: "Paper-thin shaved ham warmed in a sweet, tangy tomato barbecue sauce and piled onto buns."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Pittsburgh chipped-ham fit strong; faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#chipped-ham-barbecue-sandwiches
 course: meals
 location: Pittsburgh, PA
 yield: 4 servings

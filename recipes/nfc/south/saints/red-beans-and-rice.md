@@ -3,8 +3,10 @@ id: red-beans-and-rice
 title: Red beans and rice
 description: "Red beans simmered with smoked sausage and the vegetable trinity, served over white rice."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: mashing step labeled as an editorial tip.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#red-beans-and-rice
 course: meals
 location: New Orleans, LA
 yield: 6–8 servings
@@ -40,5 +42,5 @@ quick_options:
 1. Sort and rinse dried beans. Optional: soak them ahead according to preferred method, then drain; the source also permits unsoaked beans.
 2. In a heavy pot, cook sliced sausage over medium heat for about 5 minutes. Add butter, chopped onion/celery/green pepper and garlic; stir until onion softens and turns translucent.
 3. Add beans, 8 cups water and bay leaf. Bring to a rolling boil for 30 minutes, stirring every 10 minutes; add some of the remaining 2 cups water if beans are no longer covered.
-4. Lower to a gentle simmer and cook 1–2 hours or until beans are fully tender, stirring occasionally and adding water as needed. Mash a spoonful of beans against the pot wall to make the liquid creamy.
+4. Lower to a gentle simmer and cook 1–2 hours or until beans are fully tender, stirring occasionally and adding water as needed. Editorial tip: mash a spoonful of beans against the pot wall to make the liquid creamy.
 5. Discard bay leaf. Season with Cajun seasoning, salt and black pepper a little at a time, accounting for salty sausage. Spoon beans over hot cooked white rice.

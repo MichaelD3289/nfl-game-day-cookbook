@@ -3,8 +3,10 @@ id: seattle-style-chicken-teriyaki
 title: Seattle style chicken teriyaki
 description: "Marinated chicken thighs glazed with a sweet soy, ginger, and garlic teriyaki sauce."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Kept: Seattle fit (snippets); faithful. Readability A.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#seattle-style-chicken-teriyaki
 course: meals
 location: Seattle, WA
 yield: 4 servings

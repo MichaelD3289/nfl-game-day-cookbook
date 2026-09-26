@@ -3,8 +3,10 @@ id: fajitas
 title: Fajitas
 description: "Seasoned skirt steak with peppers and onions, served with warm flour tortillas."
 status: published
-last_reviewed_at: null
-last_reviewed_notes: null
+last_reviewed_at: 2026-09-26
+last_reviewed_notes: >-
+  Fixes applied and validated: guacamole component yield labeled as an estimate.
+  Report: docs/reviews/2026-09-26-recipe-review-all/report.md#fajitas
 course: meals
 location: Houston, TX
 yield: 4–6 servings
