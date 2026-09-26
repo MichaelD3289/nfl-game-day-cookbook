@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Organize README links into a read/download table with the public cookbook website, PDF, and HTML archive, plus release assets and earlier versions.
+
 ## [0.5.0] - 2026-09-26
 
 ### Added

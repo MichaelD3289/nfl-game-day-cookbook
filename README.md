@@ -1,11 +1,21 @@
 # NFL Game Day Cookbook
 
-**[Download the latest cookbook (PDF)](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-recipe-booklet.pdf)**
+## Read & download
 
-This link follows the latest published release automatically.
+Explore recipes online, print the cookbook, or download the website to serve locally.
 
-[View all assets for the latest release](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest) ·
-[View release notes and earlier versions](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases).
+| Format | Open or download |
+| --- | --- |
+| **Website** | [Browse the cookbook](https://michaeld3289.github.io/nfl-game-day-cookbook/) |
+| **Printable cookbook** | [Download PDF](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-recipe-booklet.pdf) |
+| **Website archive** | [Download HTML ZIP](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-website.zip) |
+
+These links follow the latest published stable release.
+
+[All release assets](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest) ·
+[Release notes & earlier versions](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases)
+
+## How it works
 
 A "book as code" pipeline. Recipes are authored as Markdown with YAML front matter.
 The pipeline validates them, resolves them into a book model, renders that model to
