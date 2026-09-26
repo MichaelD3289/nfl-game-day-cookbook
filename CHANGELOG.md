@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Project Claude Code settings (`.claude/settings.json`), shared by local and cloud sessions: no AI attribution in commits or pull requests, pre-approved routine checks (`make check`, tests, lint, read-only git), and blocks on reading `.env` files, editing `generated/` or `dist/`, and creating or pushing tags.
+
+### Changed
+
+- Agent rules now also forbid AI attribution in pull request titles and descriptions.
+
 ## [0.6.1] - 2026-09-26
 
 ### Changed
