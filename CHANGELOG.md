@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `logical-commits` agent skill, and an `AGENTS.md` rule that every commit follows it:
+  Conventional Commits, one green change per commit with its own changelog entry, and
+  a plan approved before staging.
+- `CLAUDE.md` imports `AGENTS.md`, so Claude Code sessions load the agent rules.
+- `creating-release` agent skill: picks the SemVer bump from `[Unreleased]`, bumps with
+  `uv version --bump`, dates the changelog, then commits and tags.
+
+### Changed
+
+- The `release` skill is now `changelog`, which covers writing entries only; releases
+  moved to `creating-release`.
+
 ### Fixed
 
 - Buffalo wings keep their unbreaded deep-frying method, use the linked homemade

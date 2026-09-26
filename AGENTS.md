@@ -35,8 +35,12 @@ Rules for any human or AI agent editing this repository.
     `CHANGELOG.md`, in the matching Keep a Changelog section (Added, Changed,
     Deprecated, Removed, Fixed, Security). Add it in the same change, not later.
     Describe the effect in one or two plain sentences, and do not repeat entries that
-    already cover your change. Only the `release` skill turns `[Unreleased]` into a
+    already cover your change. Only the `creating-release` skill turns `[Unreleased]` into a
     version.
+12. **Commit through the `logical-commits` skill.** Every commit is one coherent,
+    Conventional Commit change that passes `make check` by itself, carries its own
+    CHANGELOG entry and has no AI attribution. Present the commit plan and get approval
+    before staging.
 
 ## Task skills
 
@@ -52,7 +56,9 @@ Step-by-step playbooks for common work live in `.claude/skills/*/SKILL.md`:
 | `source-links` | Source URLs, `data/shortlinks.yml`, QR codes |
 | `build-pdf` | Building, previewing and debugging the PDF |
 | `layout-changes` | Anything in `styles/` or `templates/` |
-| `release` | CHANGELOG entries and version bumps |
+| `changelog` | Writing CHANGELOG entries |
+| `creating-release` | Choosing the SemVer bump, versioning with uv, tagging |
+| `logical-commits` | Planning and creating every commit |
 
 Recipe content is imported. Adding or editing individual recipes is normal work;
 follow the skill for it.
