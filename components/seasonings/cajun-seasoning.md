@@ -2,7 +2,7 @@
 id: cajun-seasoning
 title: Cajun seasoning
 status: published
-yield: about 1/2 cup
+yield: about 2/3 cup (estimated from ingredient volumes)
 quick_buy: A bottled Louisiana blend such as Tony Chachere’s Original Creole Seasoning or Slap Ya Mama; add sparingly and taste before salting.
 source:
   url: https://louisianacookin.com/cajun-spices-three-ways/
@@ -15,8 +15,8 @@ source:
 - 2 tablespoons fine salt
 - 4 teaspoons Hungarian sweet paprika
 - 2 teaspoons ground black pepper
-- 2 teaspoons dried oregano
-- 2 teaspoons dried thyme
+- 2 teaspoons ground dried oregano
+- 2 teaspoons ground dried thyme
 - 1 teaspoon ground cumin
 - 1/2 teaspoon dry mustard
 - 1/2 teaspoon ground celery seed
@@ -29,4 +29,4 @@ source:
 
 ## Note
 
-Start low when adding this salty blend to a pot that already contains sausage.
+Allow about 5 minutes. This is Louisiana Cookin’s basic blend; Cajun and Creole seasoning formulas vary. Start low when adding this salty blend to a pot that already contains sausage.

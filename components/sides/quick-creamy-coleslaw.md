@@ -27,4 +27,4 @@ source:
 
 ## Note
 
-Drain any excess liquid before piling slaw on the sandwich.
+Allow 15 minutes active preparation plus 30 minutes chilling. Drain any excess liquid before piling slaw on the sandwich.

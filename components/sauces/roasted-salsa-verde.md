@@ -11,12 +11,12 @@ source:
 ## Ingredients
 
 - 1/2 pound tomatillos, husked, rinsed, and halved
-- 1/4 cup white onion
+- 1/4 cup roughly chopped white onion
 - 1 garlic clove
 - 1 serrano pepper, stemmed and seeded
-- Canola oil for drizzling
+- 1 teaspoon canola oil, or enough to lightly coat the vegetables
 - 1 lime
-- 1 teaspoon salt, then adjust to taste
+- 1/4 teaspoon fine salt to start; add more to taste
 
 ## From Scratch
 
@@ -26,4 +26,4 @@ source:
 
 ## Note
 
-Roast the vegetables while the burrito rice or beans cook.
+Allow about 25 minutes total (estimated). Roast while the rice or beans cook. The starting salt is reduced from the source’s teaspoon to allow adjustment for the rest of the meal.

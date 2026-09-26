@@ -13,3 +13,9 @@ wheels/
 generated/
 *.pdf
 .quarto/
+
+# Local-only files
+.DS_Store
+.env
+.env.*
+.claude/settings.local.json

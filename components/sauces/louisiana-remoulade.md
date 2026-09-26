@@ -11,17 +11,17 @@ source:
 ## Ingredients
 
 - 1 1/2 cups mayonnaise
-- 1 1/2 tablespoons Creole mustard
+- 1 1/2 tablespoons Creole mustard, such as Zatarain’s
 - 1 tablespoon finely grated lemon zest
 - 1 1/2 tablespoons fresh lemon juice
 - 1 1/2 teaspoons Louisiana cayenne hot sauce, preferably Crystal
-- 1/4 to 1/2 teaspoon Creole seasoning (homemade blend in appendix or a bottled mix)
+- 1/4 to 1/2 teaspoon Cajun seasoning {{component:cajun-seasoning}}
 
 ## From Scratch
 
-1. Whisk all ingredients in a bowl until smooth. Start with 1/4 teaspoon Creole seasoning, then taste and add up to 1/2 teaspoon.
+1. Whisk all ingredients in a bowl until smooth. Start with 1/4 teaspoon seasoning, then taste and add up to 1/2 teaspoon.
 2. Cover and refrigerate until serving. Spread roughly 2–3 tablespoons on each split po’boy roll.
 
 ## Note
 
-Plain mayonnaise is also a traditional dressed-po’boy option.
+Allow about 5 minutes active preparation (estimated). The linked Cajun blend is a home substitution for the source’s Creole seasoning. Plain mayonnaise is also a traditional dressed-po’boy option. Refrigerate this lemon rémoulade and use within 3 days.

@@ -3,7 +3,7 @@ id: quick-guacamole
 title: Quick guacamole
 status: published
 yield: About 1½ cups
-quick_buy: Good refrigerated guacamole and fresh deli pico de gallo are convenient optional toppings. Commercial jarred salsa also works; no specific brand is essential to the fajita.
+quick_buy: Use refrigerated guacamole with avocado as the first ingredient, such as Wholly Guacamole Classic; allow about 2 tablespoons per fajita.
 source:
   url: https://www.rickbayless.com/recipe/guacamole-2/
 ---
@@ -22,4 +22,4 @@ source:
 
 ## Note
 
-Serve promptly, or press wrap against the surface to slow browning.
+Allow about 5–10 minutes (estimated). This smaller, simple condiment version follows Bayless’s avocado, salt and lime foundation; his fuller version adds tomato and fresh chile. Serve promptly, or press wrap against the surface and refrigerate to slow browning.

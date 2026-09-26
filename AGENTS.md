@@ -29,7 +29,30 @@ Rules for any human or AI agent editing this repository.
    package in the PR. Quarto and TinyTeX are installed by the user, not by scripts.
 10. **Keep it green.** Before finishing, run `make check` (ruff format and lint, strict
     mypy, pytest, `nfl-book validate`).
+11. **Log every change in the changelog.** Any change you make that a reader of the
+    book or a user of the tooling would notice (content, layout, CLI, Make targets,
+    config, agent rules and skills) gets an entry under `## [Unreleased]` in
+    `CHANGELOG.md`, in the matching Keep a Changelog section (Added, Changed,
+    Deprecated, Removed, Fixed, Security). Add it in the same change, not later.
+    Describe the effect in one or two plain sentences, and do not repeat entries that
+    already cover your change. Only the `release` skill turns `[Unreleased]` into a
+    version.
 
-Recipe import is a separate, not-yet-started phase. Do not bulk-create, scrape or
-migrate recipes, and do not use the `new` scaffold commands to fill production content
-until that phase is explicitly opened.
+## Task skills
+
+Step-by-step playbooks for common work live in `.claude/skills/*/SKILL.md`:
+
+| Skill | Use it for |
+| --- | --- |
+| `add-recipe` | Adding a recipe for a team |
+| `update-recipe` | Editing, renaming, moving, retiring or shortening a recipe |
+| `add-component` | "Make It or Buy It" components and `{{component:id}}` markers |
+| `menus-and-dish-offs` | Game-day menus and division dish-offs |
+| `add-index` | New or changed search indexes and recipe backfill |
+| `source-links` | Source URLs, `data/shortlinks.yml`, QR codes |
+| `build-pdf` | Building, previewing and debugging the PDF |
+| `layout-changes` | Anything in `styles/` or `templates/` |
+| `release` | CHANGELOG entries and version bumps |
+
+Recipe content is imported. Adding or editing individual recipes is normal work;
+follow the skill for it.

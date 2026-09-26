@@ -12,12 +12,13 @@
 \begin{DivisionDishOffs}
 <% for card in dishoffs %>
 \begin{DivisionDishOffCard}{<< card.title|tex >>}
-<% if card.description %>
-<< card.description|tex >>\par\vspace{3pt}
-<% endif %>
 <% for ref in card.recipes %>
 \DishOffRecipe{<< ref.label >>}{<< ref.title|tex >>}{<< ref.note|tex >>}
 <% endfor %>
+<% if card.description %>
+\par\vspace{\BookCardTitleGap}
+<< card.description|tex >>\par
+<% endif %>
 <% if card.prep_note %>
 \CardHeading{Prep note}
 << card.prep_note|tex >>

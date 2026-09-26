@@ -2,7 +2,7 @@
 id: cuban-mojo-pork
 title: Cuban mojo pork
 status: published
-yield: 3 to 4 pounds roast pork; freeze or reuse leftovers
+yield: about 2–3 pounds cooked pork (estimated); starts with 3–4 pounds raw
 quick_buy: Buy fully cooked mojo roast pork from a Cuban restaurant or deli; plain roast pork is milder.
 source:
   url: https://www.foodnetwork.com/fnk/recipes/instant-pot-cuban-mojo-pork-9574117
@@ -10,7 +10,7 @@ source:
 
 ## Ingredients
 
-- 3 to 4 pounds boneless pork shoulder
+- 3 to 4 pounds boneless pork shoulder, trimmed and cut into 4 pieces
 - 3/4 cup fresh orange juice
 - 1/4 cup fresh lime juice
 - 1/2 yellow onion
@@ -26,9 +26,10 @@ source:
 
 1. Blend citrus, onion, garlic, olive oil, oregano, cumin, salt and pepper into a mojo marinade.
 2. Slash pork lightly, coat with mojo and refrigerate 2–8 hours. Reserve marinade when removing pork.
-3. Sear pork in canola oil, about 5 minutes per side; return reserved marinade and pressure cook on high 1 hour. Let pressure fall naturally for 20 minutes.
-4. Strain and reduce pot liquid about 15 minutes, shred pork and toss with juices. For Cubanos, use about 6 ounces pork for the sandwich recipe.
+3. In a 6- or 8-quart electric pressure cooker, use the sauté setting to brown the pork in canola oil, working in batches. Add all the pork and reserved marinade. Check the cooker’s minimum-liquid requirement; loosen any browned bits with a little water if needed. Lock the lid and pressure-cook on high for 1 hour after pressure is reached.
+4. Let pressure release naturally for 20 minutes, then release any remaining pressure according to the manufacturer’s instructions before opening. The pork should pull apart easily; if still firm, pressure-cook a little longer.
+5. Strain and reduce pot liquid about 15 minutes, shred pork and toss with juices. For Cubanos, use about 6 ounces pork for the sandwich recipe.
 
 ## Note
 
-Make the pork ahead; save extra for bowls, sandwiches, or the Tampa Cuban sandwich.
+Allow 2–8 hours marinating plus roughly 2 hours cooking and pressure release. This citrus-garlic mojo uses orange and lime as a sour-orange substitute; pressure cooking is a home adaptation of roast pork. Make ahead for Cubanos, then chill and slice or shred.

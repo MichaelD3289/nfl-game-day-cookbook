@@ -4,6 +4,7 @@
 # Normal builds read this file and never touch the network.
 # Commit changes: the short URL is the stable identity printed in the book.
 links:
+  https://altonbrown.com/recipes/horseradish-cream-sauce/: https://tinyurl.com/2dk7xxle
   https://amazingribs.com/brisket-burnt-ends/: https://clck.ru/3W6nko
   https://amazingribs.com/tested-recipes/beef-and-bison-recipes/chicago-italian-beef-sandwich-recipe/: https://clck.ru/3W7H2u
   https://americanhistory.si.edu/sites/default/files/file-uploader/CUH%20July%2013%202018%20Boston%20Baked%20Beans.pdf: https://clck.ru/3W7H2n
@@ -13,6 +14,7 @@ links:
   https://burgerbeast.com/frita-cubana/: https://clck.ru/3W5ior
   https://clevelandmagazine.com/articles/pierogi/: https://clck.ru/3W5iou
   https://discovercaliforniawines.com/recipes/french-dip-sandwich-an-l-a-classic/: https://clck.ru/3W5ioz
+  https://eatsforone.com/2012/02/08/st-elmos-shrimp/: https://tinyurl.com/22cqwvjh
   https://edibledenver.com/ed-recipe/colorado-style-pork-green-chile/: https://clck.ru/3W5ip5
   https://feedthepudge.com/seattle-chicken-teriyaki/: https://clck.ru/3W5ip8
   https://fwtmagazine.com/the-ultimate-guide-to-jacksonvilles-iconic-camel-rider-sandwich/: https://clck.ru/3W5inG
@@ -37,6 +39,7 @@ links:
   : https://clck.ru/3W6wm9
   ? https://www.ajc.com/food-and-dining/the-livermush-legacy-lives-on-at-this-north-carolina-restaurant/F7JRB6QXGBB4ZEKQ76COG6NFEM/
   : https://clck.ru/3W5irE
+  https://www.allrecipes.com/recipe/219109/buffalo-chicken-wing-sauce/: https://tinyurl.com/y33jqn6y
   https://www.anediblemosaic.com/chocolate-covered-sponge-candy/: https://clck.ru/3W5irJ
   https://www.applegate.com/recipes/seattle-dog: https://clck.ru/3W5irL
   https://www.billstjohn.com/recipes/minnesota-tater-tot-hotdish: https://clck.ru/3W5irN
@@ -90,11 +93,13 @@ links:
   https://www.modernfarmhouseeats.com/homemade-tater-tot-hotdish/: https://clck.ru/3W6wno
   https://www.neworleans.com/restaurants/traditional-new-orleans-foods/jambalaya/: https://clck.ru/3W5iv4
   https://www.pantsinthekitchen.com/recipes/mission-burrito: https://clck.ru/3W6oZi
+  https://www.pauladeen.com/recipe/buttery-stone-ground-grits/: https://tinyurl.com/2y4lt9bw
   https://www.pbs.org/food/recipes/chicago-style-hot-dog: https://clck.ru/3W6obJ
   https://www.qvc.com/recipes/kansas-city-style-smoked-chicken.html: https://clck.ru/3W7H2o
   https://www.recipetineats.com/chili-dogs/: https://clck.ru/3W6ocf
   https://www.reneeskitchenadventures.com/2016/04/polish-boy-sandwich.html: https://clck.ru/3W5ivF
   https://www.rickbayless.com/recipe/guacamole-2/: https://clck.ru/3W6wns
+  https://www.rickbayless.com/recipe/salsa-mexicana/: https://tinyurl.com/2649aw95
   https://www.saveur.com/article/Recipes/Baked-Beans/: https://clck.ru/3W6od5
   https://www.saveur.com/article/Recipes/Goetta/: https://clck.ru/3W6odX
   https://www.saveur.com/article/Recipes/Muffuletta-Sandwich/: https://clck.ru/3W6oen

@@ -74,8 +74,9 @@ the book unless it sets `always_include: true`.
 
 ```sh
 uv sync                                   # install
+make book                                 # everything: make links, then make pdf
 uv run nfl-book validate [PATHS...]       # validate everything (optionally report only PATHS)
-uv run nfl-book prepare-links             # the ONLY network step: fill data/shortlinks.yml
+uv run nfl-book prepare-links             # the ONLY network step (or `make links`): fill data/shortlinks.yml
 uv run nfl-book preview PATH [--no-pdf]   # render one recipe/component (drafts allowed)
 uv run nfl-book build [--no-pdf] [--strict]   # published-only book -> dist/
 uv run nfl-book clean                     # remove generated/ and dist/

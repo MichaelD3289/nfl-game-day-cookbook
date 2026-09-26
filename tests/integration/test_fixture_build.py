@@ -105,3 +105,10 @@ def test_fixture_pdf(fixture_book: Project) -> None:
     assert result.diagnostics.ok
     pagemap = json.loads(fixture_book.pagemap_file.read_text(encoding="utf-8"))
     assert "recipe:test-citrus-wings" in pagemap
+
+
+def test_shortcuts_follow_cooking_instructions(built: Project) -> None:
+    wings = page(built, "recipe-test-citrus-wings")
+    assert wings.index(r"\end{RecipeInstructions}") < wings.index(r"\begin{QuickOptionsCard}")
+    component = page(built, "component-test-wing-sauce")
+    assert component.index(r"\end{RecipeInstructions}") < component.index(r"\begin{BuyItCard}")

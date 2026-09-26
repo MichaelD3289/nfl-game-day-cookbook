@@ -28,4 +28,4 @@ source:
 
 ## Note
 
-The neon color is optional; the sweet pickle flavor is the point. Keep refrigerated.
+Allow about 20 minutes active work plus overnight draining and cooling. The source leaves the salting quantity unspecified; 1 teaspoon is this book’s measured starting point. Neon color is optional. Keep refrigerated; this is not a canning recipe.

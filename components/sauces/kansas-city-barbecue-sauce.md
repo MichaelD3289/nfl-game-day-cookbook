@@ -29,4 +29,4 @@ source:
 
 ## Note
 
-Make one batch for barbecue chicken and burnt ends, then refrigerate the remainder.
+Allow about 10 minutes preparation plus 30–45 minutes simmering. Ardie Davis’s Kansas City-style sauce uses tomato, molasses and apricot preserves. Choose unsulphured dark molasses, not bitter blackstrap. Refrigerate extra sauce.

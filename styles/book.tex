@@ -61,17 +61,20 @@
   \pagestyle{BookPage}}
 
 % ============================================================ shared pieces
-\tcbset{BookCard/.style={enhanced, colback=BookPaleBlue, colframe=BookCardFrame,
-  colbacktitle=BookPaleBlue, coltitle=BookNavy, fonttitle=\BookHeadingFont,
-  titlerule=0.4pt, titlerule style=BookCardFrame, arc=\BookCardArc, boxrule=0.6pt,
-  left=\BookCardPad, right=\BookCardPad, top=3pt, bottom=4pt, fontupper=\BookBodySize,
-  before skip=4pt, after skip=8pt}}
+\tcbset{BookCard/.style={enhanced, colback=BookPaleBlue, colframe=BookPaleBlue,
+  colbacktitle=BookPaleBlue, coltitle=BookNavy, fonttitle=\BookCardLabelFont,
+  titlerule=\BookZero, arc=\BookCardArc, boxrule=\BookCardRuleWidth,
+  left=\BookCardPad, right=\BookCardPad, top=\BookCardTopPad, bottom=\BookCardBottomPad,
+  toptitle=\BookCardTopPad, bottomtitle=\BookCardTitleGap, fontupper=\BookBodySize,
+  before skip=\BookCardBeforeGap, after skip=\BookCardAfterGap}}
 
-\newcommand{\QMark}{{\setlength{\fboxsep}{1pt}\colorbox{BookRed}{\textcolor{white}{\scriptsize\bfseries\,Q\,}}}}
+\newcommand{\QMark}{\tikz[baseline=(q.base)]{%
+  \node[circle, fill=BookNavy, text=white, inner sep=\BookZero,
+    minimum size=\BookQSize, font=\BookQFont] (q) {Q};}}
 \newcommand{\ComponentRef}[1]{{\footnotesize\color{BookMuted}(\BookRefLink{#1}{p.\,\BookPageRef{#1}})}}
 \newcommand{\BookColumnHeading}[1]{{\BookHeadingFont\color{BookNavy}\MakeUppercase{#1}\par}\vspace{3pt}}
 \newcommand{\BookRule}{\par{\color{BookRule}\hrule}}
-\newcommand{\BookPageTitle}[1]{{\BookDisplayFont\BookSectionSize\color{BookNavy}#1\par}}
+\newcommand{\BookPageTitle}[1]{{\BookDisplayFont\BookSectionSize\color{BookInk}#1\par}}
 \newcommand{\RecipeMetaSep}{\quad\textbar\quad}
 
 \newcommand{\BookFrac}[2]{\raisebox{0.45ex}{\scriptsize#1}\kern-0.08em/\kern-0.08em\raisebox{-0.1ex}{\scriptsize#2}}
@@ -88,19 +91,29 @@
 
 % ============================================================ cover / contents
 \newcommand{\CoverPage}[3]{% title, subtitle, tagline
-  \BookTopBarfalse\thispagestyle{empty}%
-  \begin{center}
-    \vspace*{1.2in}
-    {\BookDisplayFont\BookCoverTitleSize\color{BookNavy}#1\par}\vspace{14pt}
-    \ifblank{#2}{}{{\Large\color{BookRed}#2\par}\vspace{8pt}}
-    \ifblank{#3}{}{{\large\itshape\color{BookMuted}#3\par}}
-  \end{center}\vspace{24pt}}
-\newcommand{\CoverStats}[4]{% recipes, teams, components, menus
-  \par\vfill
-  \begin{tcolorbox}[BookCard, halign=center]
-    \textbf{#1} recipes\RecipeMetaSep\textbf{#2} teams\RecipeMetaSep
-    \textbf{#3} make-it-or-buy-it components\RecipeMetaSep\textbf{#4} game day menus
-  \end{tcolorbox}}
+  \BookTopBartrue\renewcommand{\BookBreadcrumb}{}%
+  \renewcommand{\BookFooterLeft}{NFL Meals\ \textbar\ Game Day Recipe Booklet}%
+  \renewcommand{\BookFooterCenter}{}\thispagestyle{BookPage}%
+  \vspace*{\BookCoverTop}\noindent
+  \begin{minipage}[c]{\BookCoverAccent}
+    {\color{BookGold}\rule{\BookCoverAccent}{\BookCoverAccentHeight}}
+  \end{minipage}\hspace{\BookCoverInset}%
+  \begin{minipage}[c]{\dimexpr\linewidth-\BookCoverAccent-\BookCoverInset\relax}
+    {\BookDisplayFont\BookCoverTitleSize\color{BookInk}#1\par}
+    \vspace{\BookCoverTitleGap}
+    \ifblank{#2}{}{{\BookCoverSubtitleFont\color{BookInk}#2\par}}
+  \end{minipage}\par
+  \vspace{\BookCoverTitleGap}\hspace*{\BookCoverInset}%
+  {\BookCoverTaglineFont #3\par}
+  \vspace{\BookCoverRuleGap}\BookRule\vspace{\BookCoverBodyGap}}
+\newenvironment{CoverBody}{%
+  \noindent\hspace*{\BookCoverInset}\begin{minipage}{\dimexpr\linewidth-2\BookCoverInset\relax}
+  \BookCoverBodyFont\raggedright\setlength{\parskip}{\BookCoverParagraphGap}%
+}{\end{minipage}\par}
+\newenvironment{CoverFinePrint}{%
+  \par\vspace{\BookCoverFinePrintGap}\begingroup\BookSourceFont
+}{\par\endgroup}
+\newcommand{\CoverStats}[4]{}% Cover's authored tagline already provides the overview.
 
 \newcommand{\ContentsPage}{\BookSetContext{Contents}{Contents}{}\BookPageTitle{Contents}\vspace{12pt}}
 \newcommand{\ContentsSection}[2]{\par\vspace{10pt}\noindent{\bfseries\color{BookNavy}\BookRefLink{#1}{#2}\dotfill\BookPageRef{#1}}\par}
@@ -135,9 +148,12 @@
 \newenvironment{DivisionDishOffs}
   {\par\vfill\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=10pt]}
   {\end{tcbraster}}
-\newtcolorbox{DivisionDishOffCard}[1]{BookCard, title={Division Dish-Off: #1}}
-\newcommand{\DishOffRecipe}[3]{{\BookRefLink{#1}{#2} {\footnotesize\color{BookMuted}#3}\dotfill\BookPageRef{#1}\par}}
-\newcommand{\CardHeading}[1]{\par\vspace{4pt}\noindent{\bfseries\small\color{BookNavy}#1}\par}
+\newtcolorbox{DivisionDishOffCard}[1]{BookCard,
+  fontupper=\BookCompactCardBodyFont,
+  title={{\BookCardLabelFont DIVISION DISH-OFF}\par\vspace{\BookCardTitleGap}%
+    {\BookSmallCardTitleFont\color{BookInk}#1}}}
+\newcommand{\DishOffRecipe}[3]{{\BookRefLink{#1}{#2}\ {\BookNoteSize\color{BookMuted}/ #3}\hfill\BookPageRef{#1}\par}}
+\newcommand{\CardHeading}[1]{\par\vspace{\BookCardSectionGap}\noindent{\BookCardLabelFont\color{BookNavy}\MakeUppercase{#1}}\par\vspace{\BookCardTitleGap}}
 
 % ============================================================ recipes
 \newcommand{\RecipePage}[8]{% label, title, team, location, course, division, meta line, photo
@@ -145,7 +161,7 @@
   \noindent\BookAnchor{#1}%
   \begin{minipage}[t]{\ifblank{#8}{\linewidth}{\dimexpr\linewidth-\BookPhotoWidth-1em\relax}}
     \vspace{0pt}{\BookEyebrowFont\color{BookRed}\MakeUppercase{#5}}\hfill{\BookEyebrowFont\color{BookMuted}#3\ \textbullet\ #4}\par
-    \vspace{2pt}{\BookDisplayFont\BookTitleSize\color{BookNavy}\raggedright#2\par}\vspace{4pt}
+    \vspace{2pt}{\BookRecipeTitleFont\color{BookInk}\raggedright#2\par}\vspace{4pt}
     \ifblank{#7}{}{{\BookMetaFont\raggedright#7\par}}%
   \end{minipage}%
   \ifblank{#8}{}{\hfill\begin{minipage}[t]{\BookPhotoWidth}\vspace{0pt}\raggedleft
@@ -154,9 +170,9 @@
 \newcommand{\IngredientRunIn}[1]{{\bfseries\footnotesize\color{BookRed}\MakeUppercase{#1}:}\ }
 \newcommand{\RecipeMeta}[1]{\ifblank{#1}{}{{\BookMetaFont #1\par}}\vspace{4pt}\BookRule\vspace{8pt}}
 \newcommand{\IngredientGroup}[1]{\par\vspace{3pt}{\bfseries\footnotesize\color{BookRed}#1\par}}
-\newtcolorbox{QuickOptionsCard}{BookCard, title={\QMark\ Quick Options}}
+\newtcolorbox{QuickOptionsCard}{BookCard, title={\QMark\ QUICK OPTIONS}}
 \newcommand{\QuickOption}[3]{% label, component title, quick-buy text
-  {\textbf{\BookRefLink{#1}{#2}}~{\footnotesize\color{BookMuted}p.\,\BookPageRef{#1}}\quad\textit{Buy:} #3\par}}
+  {\textbf{\BookRefLink{#1}{#2}}~{\footnotesize\color{BookMuted}p.\,\BookPageRef{#1}}\quad #3\par\vspace{\BookCardRowGap}}}
 \newenvironment{RecipeIngredients}
   {\noindent\begin{minipage}[t]{\BookIngredientsWidth}\BookColumnHeading{Ingredients}\BookBodySize
    \setlist{nosep, leftmargin=1.1em}}
@@ -165,7 +181,10 @@
   {\begin{minipage}[t]{\BookInstructionsWidth}\BookColumnHeading{#1}\BookBodySize
    \setlist[enumerate]{leftmargin=1.4em, itemsep=2pt, topsep=0pt}}
   {\end{minipage}\par}
-\newtcolorbox{KitchenNotes}[1][Kitchen Notes]{BookCard, title={#1}, fontupper=\BookNoteSize, before skip=6pt, after skip=4pt}
+\newtcolorbox{KitchenNotes}[1][Kitchen Notes]{BookCard, title={\MakeUppercase{#1}},
+  colback=white, colbacktitle=white, colframe=white, fontupper=\BookNoteSize,
+  left=\BookZero, right=\BookZero, top=\BookNotePad, bottom=\BookNotePad,
+  before skip=\BookNotePad, after skip=\BookNotePad}
 \newcommand{\RecipeSource}[5]{% source title, href, display url, qr image, photo credit
   \par\vfill\BookRule\vspace{6pt}\noindent
   \begin{minipage}[b]{\dimexpr\linewidth-\BookQRSize-1em\relax}\BookSourceFont
@@ -175,11 +194,25 @@
   \ifblank{#4}{}{\includegraphics[width=\BookQRSize]{#4}}\par}
 
 % ============================================================ game day menus
-\newcommand{\GameDayCardsPage}[1]{\BookSetContext{Game Day Menus}{Game Day Menus}{#1}}
-\newtcolorbox{GameDayMenuCard}[2]{BookCard, % title, subtitle
-  title={#1\ifblank{#2}{}{\hfill{\normalfont\small #2}}}}
-\newcommand{\MenuRecipe}[3]{% label, title, note
-  {\textbullet\ \BookRefLink{#1}{#2} {\footnotesize\color{BookMuted}#3}\dotfill\BookPageRef{#1}\par}}
+\newcommand{\BookMenuType}{}
+\newcommand{\GameDayCardsPage}[1]{%
+  \BookSetContext{Game Day Menus}{Game Day Menus}{#1}%
+  \renewcommand{\BookMenuType}{#1}%
+  \BookPageTitle{Game Day Menus}
+  {\BookMetaFont Choose a matchup or an occasion, then jump to the linked recipe pages.\par}
+  \vspace{\BookMenuHeaderGap}}
+\newtcolorbox{GameDayMenuCard}[2]{BookCard,
+  height=\BookMenuCardHeight, valign=top,
+  left=\BookMenuCardPad, right=\BookMenuCardPad,
+  toptitle=\BookMenuCardPad, bottom=\BookMenuCardPad,
+  fontupper=\BookCardBodyFont, after skip=\BookMenuCardGap,
+  title={{\BookCardLabelFont\MakeUppercase{\BookMenuType}}\par\vspace{\BookCardTitleGap}%
+    {\BookCardTitleFont\color{BookInk}#1}\par
+    \ifblank{#2}{}{\vspace{\BookCardTitleGap}{\normalfont\BookMetaFont #2}\par}},
+  before upper={\BookRule\vspace{\BookCardTitleGap}}}
+\newcommand{\MenuRecipe}[3]{%
+  {\noindent\BookRefLink{#1}{#2}\ {\BookNoteSize\color{BookMuted}/ #3}%
+  \hfill{\BookNoteSize\bfseries\BookPageRef{#1}}\par\vspace{\BookCardRowGap}}}
 
 % ============================================================ make it or buy it
 \newcommand{\MakeBuyEntry}[2]{\par\vspace{3pt}\noindent{\bfseries\BookRefLink{#1}{#2}}\dotfill\BookPageRef{#1}\par}
@@ -187,6 +220,6 @@
 \newcommand{\ComponentPage}[3]{% label, title, kind
   \BookSetContext{Make It or Buy It}{Make It or Buy It}{#3}%
   \noindent\BookAnchor{#1}{\BookEyebrowFont\color{BookRed}\MakeUppercase{Make It or Buy It}\ \textbullet\ #3}\par
-  \vspace{2pt}{\BookDisplayFont\BookTitleSize\color{BookNavy}#2\par}\vspace{4pt}}
-\newtcolorbox{BuyItCard}{BookCard, title={Buy It}}
+  \vspace{2pt}{\BookRecipeTitleFont\color{BookInk}#2\par}\vspace{4pt}}
+\newtcolorbox{BuyItCard}{BookCard, title={\QMark\ QUICK OPTION}}
 \newcommand{\ComponentUsedIn}[1]{\par\vspace{8pt}\noindent{\small\bfseries\color{BookNavy}Used in:} {\small #1}\par}

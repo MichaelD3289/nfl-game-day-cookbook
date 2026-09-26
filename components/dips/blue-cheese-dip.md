@@ -10,7 +10,7 @@ source:
 
 ## Ingredients
 
-- 4 ounces crumbled blue cheese (Maytag for mild; Roquefort for stronger)
+- 4 ounces crumbled blue cheese (American blue cheese such as Maytag, or stronger Roquefort)
 - 1/4 cup sour cream
 - 1/4 cup buttermilk
 - 2 tablespoons mayonnaise
@@ -25,4 +25,4 @@ source:
 
 ## Note
 
-Use a mild blue cheese for a softer flavor or a strong one for more bite. Thin with a little more buttermilk if you want a pourable dressing.
+Allow about 10 minutes active preparation (estimated). Choose blue cheese to taste; Maytag is an American option, not necessarily mild. Thin with a little more buttermilk if you want a pourable dressing.

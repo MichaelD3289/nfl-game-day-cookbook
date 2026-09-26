@@ -2,25 +2,26 @@
 id: horseradish-cocktail-sauce
 title: Horseradish cocktail sauce
 status: published
-yield: About 1¼ cups, enough for 16 jumbo shrimp with extra
-quick_buy: Use the actual St. Elmo 8-ounce jar; it is a strong, authentic shortcut. Serve its sauce alongside, as the card already does.
+yield: about 1 1/4–1 1/2 cups; enough for 16 jumbo shrimp with extra
+quick_buy: Use St. Elmo Cocktail Sauce for the restaurant’s own version; serve about 2 tablespoons per portion, with extra alongside.
 source:
-  url: https://store.stelmos.com/products/st-elmo-cocktail-sauce%E2%84%A2
+  url: https://eatsforone.com/2012/02/08/st-elmos-shrimp/
 ---
 
 ## Ingredients
 
-- 1 cup ketchup
-- 2 tablespoons finely grated fresh horseradish root, or hot prepared horseradish, drained; increase to ¼ cup for a fierce version
-- 1 teaspoon fresh lemon juice, plus more to taste
-- ¼ teaspoon Worcestershire sauce
+- 1 cup Heinz tomato ketchup
+- 1/4 cup finely grated fresh horseradish root, plus up to 2 tablespoons more for extra heat
+- 1/2 cup apple cider vinegar, for soaking and draining
+- Finely grated zest of 2 lemons
+- 2 teaspoons fresh lemon juice
 
 ## From Scratch
 
-1. Whisk ketchup, 2 tablespoons horseradish, lemon juice and Worcestershire in a small bowl.
-2. Taste with a chilled shrimp. Add horseradish, 1 teaspoon at a time, up to ¼ cup total, for the sinus-clearing Indianapolis profile.
-3. Cover and refrigerate at least 15 minutes; keep chilled until serving.
+1. Peel and finely grate the horseradish. Place the 1/4 cup grated root in a small nonreactive bowl with the vinegar and lemon zest. If using the extra root, keep it in a separate small bowl with enough of the measured vinegar to moisten it. Cover both bowls and refrigerate overnight.
+2. Drain through a fine strainer, pressing out excess vinegar. Stir the horseradish into the ketchup with the lemon juice. Begin with the portion made from 1/4 cup grated root; taste a little on a chilled shrimp before adding the extra horseradish.
+3. Cover and refrigerate until serving. Offer extra sauce separately so guests can choose their heat level.
 
 ## Note
 
-This is a St. Elmo-inspired home version, not the restaurant's proprietary formula. Increase horseradish gradually.
+Allow about 10 minutes active preparation plus overnight soaking. Adapted from Eric’s stronger home version in Eats for One, scaled to 1 cup ketchup. This is a documented home approximation, not a verified St. Elmo formula. Fresh root provides the characteristic horseradish bite; the restaurant’s bottled sauce remains the exact branded option.

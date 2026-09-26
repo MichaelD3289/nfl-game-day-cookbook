@@ -2,25 +2,26 @@
 id: prime-rib-horseradish-cream
 title: Prime rib horseradish cream
 status: published
-yield: About 1 cup
-quick_buy: Offer high-quality prepared horseradish cream and a beef-based prepared jus only as fast alternatives; warm the jus separately. Pan juices alone are also a simple scratch option.
+yield: About 1 1/4 cups
+quick_buy: Use a refrigerated creamy horseradish sauce, such as St. Elmo Creamy Horseradish; serve cold.
 source:
-  url: https://www.foodnetwork.com/recipes/bobby-flay/roast-prime-rib-with-thyme-au-jus-recipe-1944997
+  url: https://altonbrown.com/recipes/horseradish-cream-sauce/
 ---
 
 ## Ingredients
 
-- ¾ cup sour cream or crème fraîche
-- 3 tablespoons fresh grated horseradish or well-drained prepared horseradish
+- 1 cup sour cream
+- 1/4 cup finely grated fresh horseradish root
+- 1 tablespoon Dijon mustard
 - 1 teaspoon white wine vinegar
-- ¼ teaspoon sugar
-- Kosher salt and freshly ground pepper, to taste
+- 1/2 teaspoon kosher salt
+- 1/4 teaspoon freshly ground black pepper
 
 ## From Scratch
 
-1. Whisk all ingredients together; taste and adjust horseradish.
-2. Cover and chill at least 30 minutes; serve cold with sliced prime rib.
+1. Peel and finely grate the horseradish. Measure it into a bowl with the sour cream, Dijon, vinegar, salt and pepper; whisk until evenly combined.
+2. Cover and refrigerate at least 4 hours or overnight. Stir before serving cold with the roast.
 
 ## Note
 
-Adjust horseradish to suit the table, then serve chilled.
+Allow 10 minutes active preparation plus 4 hours chilling. This is Alton Brown’s steak-compatible horseradish cream, not a claimed casino formula. For a home substitution, use well-drained plain prepared horseradish and adjust vinegar after tasting; creamy bottled sauce belongs in the quick option.

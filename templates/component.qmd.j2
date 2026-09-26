@@ -2,9 +2,6 @@
 ```{=latex}
 \ComponentPage{<< label >>}{<< title|tex >>}{<< kind|tex >>}
 \RecipeMeta{<< meta_line|tex >>}
-\begin{BuyItCard}
-<< quick_buy|tex >>
-\end{BuyItCard}
 \begin{RecipeIngredients}
 ```
 << m.ingredients(groups) >>
@@ -18,18 +15,18 @@
 ```{=latex}
 \end{RecipeInstructions}
 ```
-<% if note %>
-
 ```{=latex}
-\begin{KitchenNotes}[Note]
+\begin{BuyItCard}
+<< quick_buy|tex >>
 ```
+<% if note %>
 
 << note >>
 
-```{=latex}
-\end{KitchenNotes}
-```
 <% endif %>
+```{=latex}
+\end{BuyItCard}
+```
 <% if used_in %>
 
 ```{=latex}

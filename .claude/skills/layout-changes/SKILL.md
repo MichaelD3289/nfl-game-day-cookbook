@@ -1,0 +1,54 @@
+---
+name: layout-changes
+description: Change how the cookbook looks - fonts, colours, margins, recipe page layout, photo size, columns, cards, templates or LaTeX macros. Use for any edit to styles/ or templates/.
+---
+
+# Layout changes
+
+## Where things live
+
+| File | Owns |
+| --- | --- |
+| `styles/theme.tex` | **All** colours, fonts, sizes and dimensions (for example `\BookPhotoWidth`, `\BookPhotoHeight`, `\BookIngredientsWidth`, `\BookInstructionsWidth`, `\BookBodySize`, `\BookNoteSize`, geometry) |
+| `styles/book.tex` | Semantic macros (`\RecipePage`, `RecipeIngredients`, `KitchenNotes`, `\RecipeSource`, cards, index and contents pages). It contains no literal colours or sizes and refers only to theme tokens. |
+| `templates/*.qmd.j2` | Jinja2 (`<< >>` expressions, `<% %>` blocks) → QMD that calls those macros. `recipe.qmd.j2` and `_macros.qmd.j2` render recipe pages. |
+| `src/nfl_book/render/pages.py` | Builds the template context (for example `compact_ingredients`, and `COMPACT_INGREDIENTS_OVER = 24`). |
+
+## Rules
+
+1. To restyle, edit the tokens in `theme.tex`. Never hard-code a colour or size in
+   `book.tex` or in a template.
+2. Every recipe must stay **one page**, matching the print booklet:
+   - a photo at the top right beside the title
+   - two columns for ingredients and instructions
+   - compact Kitchen Notes
+   - source text and QR code at the bottom
+3. Never compute or print page numbers from Python. Use `\BookAnchor` together with
+   `\BookPageRef` / `\ComponentRef`.
+4. Keep every `\BookAnchor{<label>}` and `\BookEnd{<end_label>}` in place. The
+   post-build checks and the overflow check depend on them.
+5. `\RecipeMeta` is still used by `component.qmd.j2`. Before removing or renaming
+   a macro, run `grep -rn "\\MacroName" templates styles`.
+6. Pass values through the `|tex` filter in templates (and `|tex_url` for URLs).
+7. Don't change recipe content to fix a layout problem, and don't change the
+   layout to fix one long recipe.
+
+## Workflow
+
+1. Take a baseline:
+   ```sh
+   make pdf 2>&1 | grep -c overflows
+   ```
+2. Make the change.
+3. Rebuild:
+   ```sh
+   make pdf 2>&1 | grep -E "overflows|error"
+   ```
+4. Visually check a dense page (for example meat-and-three, mission-style
+   burritos or muffuletta), a recipe without a photo, a component page and an
+   index page. Render pages to PNG as described in the `build-pdf` skill.
+   - For reference, the original booklet uses letter paper, about 0.67in margins,
+     9.4pt body text and a 120pt square photo at the top right.
+5. If `pages.py` changed, add or adjust a test in `tests/unit/test_pages.py`.
+6. Run `make check`.
+7. Add a `CHANGELOG.md` entry under `[Unreleased]` → `Changed`.

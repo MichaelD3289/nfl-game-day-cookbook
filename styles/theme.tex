@@ -4,13 +4,13 @@
 
 % ---------------------------------------------------------------- colours
 \usepackage{xcolor}
-\definecolor{BookNavy}{HTML}{0B2545}      % top bar, headings
-\definecolor{BookRed}{HTML}{C8102E}       % accents, Q marker, eyebrows
-\definecolor{BookPaleBlue}{HTML}{EAF2FB}  % card background
-\definecolor{BookCardFrame}{HTML}{A9C1DE} % card border
-\definecolor{BookInk}{HTML}{1B2430}       % body text, links
-\definecolor{BookMuted}{HTML}{5A6A7E}     % secondary text
-\definecolor{BookRule}{HTML}{C9D6E6}      % hairlines
+\definecolor{BookNavy}{HTML}{194F70}      % top bar, headings
+\definecolor{BookRed}{HTML}{194F70}       % accents, Q marker, eyebrows
+\definecolor{BookPaleBlue}{HTML}{EAF0F4}  % card background
+\definecolor{BookCardFrame}{HTML}{D3E0E8} % card border
+\definecolor{BookInk}{HTML}{202B36}       % body text, links
+\definecolor{BookMuted}{HTML}{657383}     % secondary text
+\definecolor{BookRule}{HTML}{D3E0E8}      % hairlines
 
 % ---------------------------------------------------------------- fonts
 % TeX Gyre fonts: free, pdflatex-friendly, auto-installed by TinyTeX.
@@ -22,7 +22,7 @@
 \newcommand{\BookCoverTitleSize}{\fontsize{40}{46}\selectfont}
 \newcommand{\BookSectionSize}{\fontsize{30}{36}\selectfont}
 \newcommand{\BookTitleSize}{\fontsize{24}{28}\selectfont}
-\newcommand{\BookBodySize}{\small}
+\newcommand{\BookBodySize}{\fontsize{9.4}{12}\selectfont}
 \newcommand{\BookNoteSize}{\footnotesize}
 \newcommand{\BookEyebrowFont}{\footnotesize\bfseries}
 \newcommand{\BookHeadingFont}{\small\bfseries}
@@ -33,13 +33,55 @@
 
 % ---------------------------------------------------------------- dimensions
 \usepackage{geometry}
-\geometry{top=0.85in, bottom=0.8in, left=0.7in, right=0.7in, footskip=0.4in}
-\newlength{\BookTopBarHeight}\setlength{\BookTopBarHeight}{0.42in}
-\newlength{\BookTopBarInset}\setlength{\BookTopBarInset}{0.7in}
-\newlength{\BookCardArc}\setlength{\BookCardArc}{3pt}
-\newlength{\BookCardPad}\setlength{\BookCardPad}{6pt}
+\geometry{top=0.67in, bottom=0.67in, left=0.67in, right=0.67in, footskip=0.4in}
+\newlength{\BookTopBarHeight}\setlength{\BookTopBarHeight}{0.25in}
+\newlength{\BookTopBarInset}\setlength{\BookTopBarInset}{0.67in}
+\newlength{\BookCardArc}\setlength{\BookCardArc}{6pt}
+\newlength{\BookCardPad}\setlength{\BookCardPad}{9pt}
 \newlength{\BookQRSize}\setlength{\BookQRSize}{0.65in}
-\newlength{\BookPhotoHeight}\setlength{\BookPhotoHeight}{1.55in}
-\newlength{\BookPhotoWidth}\setlength{\BookPhotoWidth}{2.1in}
+\newlength{\BookPhotoHeight}\setlength{\BookPhotoHeight}{1.67in}
+\newlength{\BookPhotoWidth}\setlength{\BookPhotoWidth}{1.67in}
 \newcommand{\BookIngredientsWidth}{0.42\linewidth}
 \newcommand{\BookInstructionsWidth}{0.54\linewidth}
+
+% Reference-booklet cover and card tokens.
+\definecolor{BookGold}{HTML}{BC8C45}
+\newcommand{\BookCoverSubtitleFont}{\fontfamily{qpl}\selectfont\fontsize{23}{29}\selectfont}
+\newcommand{\BookCoverBodyFont}{\fontsize{10}{15}\selectfont\color{BookInk}}
+\newcommand{\BookCardTitleFont}{\BookDisplayFont\fontsize{21}{25}\selectfont}
+\newcommand{\BookSmallCardTitleFont}{\BookDisplayFont\fontsize{13}{16}\selectfont}
+\newcommand{\BookCardLabelFont}{\fontsize{8}{10}\selectfont\bfseries}
+\newcommand{\BookCardBodyFont}{\fontsize{9.4}{13}\selectfont}
+\newcommand{\BookCompactCardBodyFont}{\fontsize{8}{10.5}\selectfont}
+\newcommand{\BookCoverTaglineFont}{\fontsize{10}{14}\selectfont\color{BookMuted}}
+\newcommand{\BookRecipeTitleFont}{\sffamily\bfseries\BookTitleSize}
+\newlength{\BookCoverTop}\setlength{\BookCoverTop}{0.85in}
+\newlength{\BookCoverInset}\setlength{\BookCoverInset}{20pt}
+\newlength{\BookCoverAccent}\setlength{\BookCoverAccent}{4pt}
+\newlength{\BookCoverAccentHeight}\setlength{\BookCoverAccentHeight}{98pt}
+\newlength{\BookCoverTitleGap}\setlength{\BookCoverTitleGap}{9pt}
+\newlength{\BookCoverRuleGap}\setlength{\BookCoverRuleGap}{25pt}
+\newlength{\BookCoverBodyGap}\setlength{\BookCoverBodyGap}{26pt}
+\newlength{\BookCoverParagraphGap}\setlength{\BookCoverParagraphGap}{16pt}
+\newlength{\BookCoverFinePrintGap}\setlength{\BookCoverFinePrintGap}{55pt}
+\newlength{\BookMenuCardHeight}\setlength{\BookMenuCardHeight}{3.3in}
+\newlength{\BookMenuCardPad}\setlength{\BookMenuCardPad}{15pt}
+\newlength{\BookMenuCardGap}\setlength{\BookMenuCardGap}{12pt}
+\newlength{\BookCardTopPad}\setlength{\BookCardTopPad}{9pt}
+\newlength{\BookCardBottomPad}\setlength{\BookCardBottomPad}{10pt}
+\newlength{\BookCardTitleGap}\setlength{\BookCardTitleGap}{5pt}
+\newlength{\BookCardSectionGap}\setlength{\BookCardSectionGap}{13pt}
+\newlength{\BookCardRowGap}\setlength{\BookCardRowGap}{4pt}
+\newlength{\BookCardBeforeGap}\setlength{\BookCardBeforeGap}{8pt}
+\newlength{\BookCardAfterGap}\setlength{\BookCardAfterGap}{10pt}
+\newlength{\BookCardRuleWidth}\setlength{\BookCardRuleWidth}{0pt}
+\newlength{\BookDishOffMinHeight}\setlength{\BookDishOffMinHeight}{1.4in}
+\newlength{\BookQRadius}\setlength{\BookQRadius}{4.5pt}
+\newlength{\BookQSize}\setlength{\BookQSize}{10pt}
+\newlength{\BookNotePad}\setlength{\BookNotePad}{5pt}
+\newlength{\BookMenuHeaderGap}\setlength{\BookMenuHeaderGap}{18pt}
+\newlength{\BookZero}\setlength{\BookZero}{0pt}
+\newlength{\BookThinRule}\setlength{\BookThinRule}{0.4pt}
+\newlength{\BookCoverBottomGap}\setlength{\BookCoverBottomGap}{12pt}
+
+\newcommand{\BookQFont}{\fontsize{7}{8}\selectfont\bfseries}

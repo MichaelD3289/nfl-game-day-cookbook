@@ -17,10 +17,18 @@ Menus section offer ready-made combinations for matchups and occasions.
 The Make It or Buy It section has from-scratch versions of sauces, toppings,
 and staples used in the recipes, along with convenient store-bought choices.
 
-**Q** Quick option: a Q beside an ingredient points to a ready-to-buy suggestion
+`\QMark{}\ `{=latex} Quick option: a Q beside an ingredient points to a ready-to-buy suggestion
 on that recipe page. Use the card link to open the from-scratch version in Make
 It or Buy It.
+
+```{=latex}
+\begin{CoverFinePrint}
+```
 
 Time groups include preparation and stated waiting; estimates are labeled on
 recipe pages. Cost groups are rough ingredient-cost guides, not price quotes;
 local prices and portions vary.
+
+```{=latex}
+\end{CoverFinePrint}
+```

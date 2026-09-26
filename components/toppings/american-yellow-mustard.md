@@ -26,4 +26,4 @@ source:
 
 ## Note
 
-Chill covered and use within one month; the sharpness softens after a few days.
+Allow about 15–20 minutes active cooking (estimated), then refrigerate a few days for the sharpness to mellow. This is refrigerated mustard, not a tested canning recipe.

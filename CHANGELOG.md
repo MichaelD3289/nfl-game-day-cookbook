@@ -7,6 +7,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Buffalo wings keep their unbreaded deep-frying method, use the linked homemade
+  sauce and dip, and explain the classic hot-sauce-and-butter option.
+- Corrected sauce and dip references on Bills recipes and barbecue chicken so Q
+  options replace finished components, not individual base ingredients.
+- Updated affected recipe timing and the chicken-finger sub's practical-time index;
+  clarified scratch preparation versus quick assembly.
+
+## [0.2.0] - 2026-09-26
+
+### Added
+
+- PyPI keywords and trove classifiers in `pyproject.toml`.
+- Agent skills in `.claude/skills/` for adding and updating recipes, components,
+  menus, search indexes and source links, building the PDF, layout changes and releases.
+- `make links` target that runs `nfl-book prepare-links`.
+- `make book` target that runs `make links` then `make pdf`.
+- `docs/layout-guide.md`, the house rules for the cover, cards and recipe pages, and
+  the scratch-component source review in `docs/reviews/`.
+
+### Changed
+
+- Cover now follows the reference booklet's left-aligned title, gold accent,
+  generous paragraph spacing and illustrated Q-marker legend.
+- Shared cards use the reference blue-gray palette, rounded borderless panels,
+  larger menu titles and consistent spacing. Game-day menus have full page headings.
+- Quick-option cards follow recipe instructions; component shortcuts and notes share
+  one panel. The Q badge is blue and rounded throughout the book.
+- `AGENTS.md` now points to the task skills; the "import not started" notice is
+  removed.
+- `AGENTS.md` requires every agent to record its changes under `[Unreleased]` in
+  this changelog.
+- Package author email is now the GitHub noreply address.
+
+### Fixed
+
+- Reviewed all 21 Make It or Buy It components against their sources; corrected
+  missing ingredients, preparation details, yields, timing and shortcut wording.
+- Buffalo sauce now includes Chef John's homemade version.
+- Replaced mismatched source links for pico de gallo, grits, horseradish cream and
+  cocktail sauce; cached five new short URLs without replacing existing links.
+
 ## [0.1.0] - 2026-09-26
 
 ### Added

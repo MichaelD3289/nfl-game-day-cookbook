@@ -16,9 +16,9 @@ source:
 
 ## From Scratch
 
-1. Cut potatoes into even wedges or fries; dry well.
-2. At 425°F roast on a preheated sheet pan, in one layer, about 30–35 minutes until golden, shaking occasionally. For thin fries begin checking earlier.
+1. Heat oven to 425°F with a rimmed sheet pan inside for 5 minutes. Cut potatoes into even wedges; dry, then toss with the olive oil and salt.
+2. Carefully spread potatoes on the hot pan without crowding. Roast 30–35 minutes, turning occasionally, until browned outside and tender inside. Thin fries cook sooner.
 
 ## Note
 
-Spread the potatoes in a single layer for crisp edges.
+Allow about 40 minutes total. This plain adaptation omits the source’s parsley and Parmesan finish for sandwich use. Oven wedges are a home alternative to the fried potatoes normally used on a Polish Boy.

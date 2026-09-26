@@ -31,4 +31,4 @@ source:
 
 ## Note
 
-Chicago-style giardiniera is oil-packed. Keep this homemade version refrigerated.
+Allow 12 hours brining plus at least 2 days refrigerated marinating, with about 20 minutes active work (estimated). This vinegar-containing home version follows the source’s Chicago-style option. Keep refrigerated; use within 2 weeks. Choose pepper heat to taste.

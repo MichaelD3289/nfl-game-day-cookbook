@@ -10,7 +10,7 @@ source:
 
 ## Ingredients
 
-- 1 cup mayonnaise
+- 1 cup full-fat mayonnaise, preferably Hellmann’s as recommended by the source
 - 1/2 cup freshly grated or prepared plain white horseradish
 - 1/2 teaspoon finely grated lemon zest
 - 1 tablespoon fresh lemon juice
@@ -23,4 +23,4 @@ source:
 
 ## Note
 
-Start with less horseradish for a gentler sauce; add more after tasting.
+Allow about 5 minutes active preparation (estimated). Use plain prepared horseradish, not bottled creamy horseradish sauce. Start with less horseradish for a gentler sauce; add more after tasting.

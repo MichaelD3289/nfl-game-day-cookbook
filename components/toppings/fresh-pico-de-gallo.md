@@ -2,10 +2,10 @@
 id: fresh-pico-de-gallo
 title: Fresh pico de gallo
 status: published
-yield: About 1½ cups
-quick_buy: Good refrigerated guacamole and fresh deli pico de gallo are convenient optional toppings. Commercial jarred salsa also works; no specific brand is essential to the fajita.
+yield: about 2 cups (estimated; tomato size and draining vary)
+quick_buy: Use refrigerated fresh pico de gallo with tomato, white onion, chile and cilantro; allow about 2 tablespoons per fajita.
 source:
-  url: https://www.rickbayless.com/recipe/guacamole-2/
+  url: https://www.rickbayless.com/recipe/salsa-mexicana/
 ---
 
 ## Ingredients
@@ -19,9 +19,9 @@ source:
 
 ## From Scratch
 
-1. Combine tomatoes, onion, chile, cilantro and lime in a bowl.
+1. Rinse the diced onion in a fine strainer under cold water, then drain well. Combine with tomatoes, chile, cilantro and lime in a bowl.
 2. Season with salt and rest 10 minutes; taste and adjust chile, lime or salt.
 
 ## Note
 
-Drain any excess juice before using as a fajita topping.
+Allow about 10 minutes active preparation (estimated), plus the optional 10-minute rest. Drain any excess juice before using as a fajita topping.

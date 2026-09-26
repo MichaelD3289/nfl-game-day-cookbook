@@ -1,4 +1,4 @@
-"""The only network stage: fill the shortlink cache for published sources."""
+"""The only network stage: fill the shortlink cache for non-retired sources."""
 
 from __future__ import annotations
 
