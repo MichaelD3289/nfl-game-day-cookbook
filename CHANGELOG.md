@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-09-26
+
 ### Fixed
 
 - Rebuilding an older tag with the release workflow no longer marks it as the latest
@@ -103,7 +105,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit and integration tests against a synthetic sample book.
 
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/631ec41...v0.2.0
 [0.1.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/commit/631ec41
