@@ -1,7 +1,10 @@
 ---
 id: chicken-finger-sub
 title: Chicken finger sub
+description: "A warm sub with Buffalo-sauced chicken tenders, provolone, blue-cheese dressing, and fresh vegetables."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Buffalo, NY
 yield: 1 sub

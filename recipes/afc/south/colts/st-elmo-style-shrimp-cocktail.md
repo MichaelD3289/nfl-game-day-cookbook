@@ -1,7 +1,10 @@
 ---
 id: st-elmo-style-shrimp-cocktail
 title: St. Elmo style shrimp cocktail
+description: "Chilled jumbo shrimp served with a bold, horseradish-heavy cocktail sauce."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: appetizers
 location: Indianapolis, IN
 yield: 4 appetizer servings (4 shrimp each)

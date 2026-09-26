@@ -1,7 +1,10 @@
 ---
 id: pierogi
 title: Pierogi
+description: "Potato-and-cheddar dumplings finished with butter and onions, with sour cream for serving."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Pittsburgh, PA
 yield: About 2 1/2 dozen

@@ -1,7 +1,10 @@
 ---
 id: mission-style-burritos
 title: Mission style burritos
+description: "Large flour tortillas packed with carne asada, Mexican rice, beans, and burrito fixings."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: San Francisco Bay Area, CA
 yield: 3–4 large burritos

@@ -1,7 +1,10 @@
 ---
 id: deviled-crab
 title: Deviled crab
+description: "Crisp bread-shell croquettes filled with crab in a spicy tomato-and-pepper mixture."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: appetizers
 location: Tampa, FL
 yield: About 20 croquettes

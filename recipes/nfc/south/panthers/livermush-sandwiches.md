@@ -1,7 +1,10 @@
 ---
 id: livermush-sandwiches
 title: Livermush sandwiches
+description: "Crisp pan-fried livermush on toasted bread with mustard and grape jelly or jam."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Charlotte, NC
 yield: 1 sandwich

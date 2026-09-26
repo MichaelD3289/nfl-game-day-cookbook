@@ -1,7 +1,10 @@
 ---
 id: new-england-clam-chowder
 title: New England clam chowder
+description: "A creamy clam-and-potato soup with bacon, onion, and rich clam broth."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Boston, MA
 yield: 8 to 10 servings

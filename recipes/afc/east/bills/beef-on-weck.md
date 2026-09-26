@@ -1,7 +1,10 @@
 ---
 id: beef-on-weck
 title: Beef on weck
+description: "Thinly sliced roast beef on a caraway-and-salt roll, with jus and horseradish cream."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Buffalo, NY
 yield: 5 to 6 sandwiches

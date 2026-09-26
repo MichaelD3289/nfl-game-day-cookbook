@@ -1,7 +1,10 @@
 ---
 id: new-york-bagels
 title: New York bagels
+description: "Chewy yeast-raised bagels, boiled in a malted water bath and baked until golden."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: New York City metro
 yield: 8 large or 12 standard bagels

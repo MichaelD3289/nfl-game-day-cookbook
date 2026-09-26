@@ -1,7 +1,10 @@
 ---
 id: boston-baked-beans
 title: Boston baked beans
+description: "Slow-baked navy beans with molasses, brown sugar, mustard, and salt pork or bacon."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: sides
 location: Boston, MA
 yield: 8–10 servings

@@ -1,7 +1,10 @@
 ---
 id: pastrami-on-rye-giants
 title: Pastrami on rye
+description: "A simple deli sandwich of warm pastrami and spicy brown mustard on rye bread."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: New York City metro
 yield: 4 sandwiches

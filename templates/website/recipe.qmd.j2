@@ -1,0 +1,43 @@
+{% import '_macros.qmd.j2' as m with context %}
+{{ m.anchor(label) }}
+::: {.recipe-header}
+{% if image %}
+![{{ title|md }}]({{ image }}){.dish-photo}
+{% endif %}
+[{{ division|md }} · {{ team|md }}]{.eyebrow}
+
+# {{ title|md }}
+
+[{{ location|md }} · {{ course|md }}]{.recipe-location}
+
+{{ meta_line }}
+:::
+
+:::: {.recipe-columns}
+::: {.ingredients}
+## Ingredients
+{{ m.ingredients(groups) }}
+:::
+::: {.instructions}
+## Instructions
+{{ instructions }}
+:::
+::::
+
+{% if quick_options %}
+::: {.quick-card}
+## [Q]{.q-mark} Quick options
+{% for option in quick_options %}
+**{{ option.title|md }}** — {{ option.text }}  
+<a href="{{ route(option.label)|e }}">Make {{ option.title|e }} from scratch →</a>
+
+{% endfor %}
+:::
+{% endif %}
+{% if kitchen_notes %}
+::: {.kitchen-notes}
+## Kitchen notes
+{{ kitchen_notes }}
+:::
+{% endif %}
+{{ m.source(source, photo_credit) }}

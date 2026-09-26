@@ -1,7 +1,10 @@
 ---
 id: polish-boy-sandwich
 title: Polish Boy sandwich
+description: "Smoked kielbasa piled with fries, creamy coleslaw, and tangy barbecue sauce in a bun."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Cleveland, OH
 yield: 2 servings

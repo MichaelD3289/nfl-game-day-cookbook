@@ -1,7 +1,10 @@
 ---
 id: mayport-shrimp-and-grits
 title: Mayport shrimp and grits
+description: "Lemon-garlic shrimp spooned over creamy stone-ground grits, with Parmesan and parsley."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Jacksonville, FL
 yield: 4 servings

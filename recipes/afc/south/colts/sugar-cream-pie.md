@@ -1,7 +1,10 @@
 ---
 id: sugar-cream-pie
 title: Sugar cream pie
+description: "A buttery pie crust filled with sweet vanilla cream and a light dusting of nutmeg."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: desserts
 location: Indianapolis, IN
 yield: 8–10 servings

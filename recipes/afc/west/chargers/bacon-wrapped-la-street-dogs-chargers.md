@@ -1,7 +1,10 @@
 ---
 id: bacon-wrapped-la-street-dogs-chargers
 title: Bacon-wrapped LA street dogs
+description: "Bacon-wrapped hot dogs with sautéed peppers and onions, jalapeños, and a trio of condiments."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Los Angeles, CA
 yield: 4 servings

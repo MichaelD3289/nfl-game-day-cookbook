@@ -1,7 +1,10 @@
 ---
 id: goetta
 title: Goetta
+description: "Pan-fried slices of beef, pork, and steel-cut oats with a crisp crust."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Cincinnati, OH
 yield: 6–8 servings

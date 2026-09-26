@@ -1,5 +1,12 @@
 # NFL Game Day Cookbook
 
+**[Download the latest cookbook (PDF)](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-recipe-booklet.pdf)**
+
+This link follows the latest published release automatically.
+
+[View all assets for the latest release](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest) ·
+[View release notes and earlier versions](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases).
+
 A "book as code" pipeline. Recipes are authored as Markdown with YAML front matter.
 The pipeline validates them, resolves them into a book model, renders that model to
 Quarto QMD through Jinja2 templates, and compiles a PDF with Quarto + LaTeX. LaTeX
@@ -113,3 +120,85 @@ a published recipe whose URL is missing from it fails validation. QR codes are g
 deterministically from the full source URL; the printed link text uses the short URL.
 
 See `AGENTS.md` for the rules contributors (human or AI) follow.
+
+## Recipe quality reviews
+
+Use the project Claude skill: `/review-recipes buffalo-wings`,
+`/review-recipes buffalo-wings, beer-brats`, `/review-recipes afc/east/bills`, or
+`/review-recipes all`.
+It coordinates research workers and an editorial orchestrator across city fit,
+authenticity, source fidelity, ingredient specificity and Make It or Buy It coverage.
+Default mode recommends corrections and records completed-review metadata;
+`--apply` also applies adjudicated fixes, while `--read-only` preserves metadata.
+Reports go under `docs/reviews/`. See `.claude/skills/review-recipes/SKILL.md`.
+
+Recipes support optional, non-printing metadata:
+
+```yaml
+last_reviewed_at: null  # or YYYY-MM-DD after a completed review
+last_reviewed_notes: null  # outcome, outstanding findings and report path
+```
+
+A review date does not mean a recipe passed. Incomplete reviews do not replace
+prior completed-review metadata. Existing recipes begin with empty fields; no
+historical review dates are inferred. These fields do not affect booklet content.
+
+## Website output
+
+```sh
+make website                              # offline HTML build -> dist/site/
+uv run nfl-book website --no-render        # generate only -> generated/site/
+python3 -m http.server 8000 --directory dist/site
+```
+
+Open `http://localhost:8000` after starting the preview server. Quarto is required
+for the HTML build; TinyTeX is needed only for the PDF. Local builds never deploy.
+The website uses the same published sources as the PDF, with separate web templates
+and styles, searchable recipes, division/team navigation, menus, indexes, photos,
+and linked Q quick-option cards. Editorial review metadata stays private.
+
+### Publishing to GitHub Pages
+
+One-time repository setup: in **Settings → Pages**, choose **GitHub Actions** as
+the build/deployment source. In **Settings → Environments → github-pages**, allow
+`main` for the automatic release workflow (and `v*` if rebuilding from tag refs).
+
+Release by updating the version with `uv version`, dating its CHANGELOG section, and
+merging/pushing that commit to `main`. Do not create or push release tags manually.
+Two workflows handle publication:
+
+1. **Tag release from main** compares `pyproject.toml` with the highest existing stable
+   version tag numerically. A higher `X.Y.Z` version creates an annotated tag at the
+   pushed commit. Equal or lower versions create no tag; prerelease/development
+   versions are rejected. Other tag names are ignored.
+2. **Release** is called directly after tagging. It checks main ancestry, validates,
+   builds the PDF and website ZIP, publishes both assets, and deploys the newest stable
+   version to `https://MichaelD3289.github.io/nfl-game-day-cookbook/`.
+
+The direct call is necessary because tags pushed with GitHub's built-in token do not
+trigger another push workflow. No personal access token is required. Manually pushed
+tags do not trigger publication.
+
+Both merged branches and direct pushes to `main` are eligible. A failed automatic run
+can be rerun: the highest stable version's tag is reused only when it already points
+to that exact pushed commit. Equal-version tags on different commits and all lower
+versions are skipped. Squash merges and merge commits change commit identity, so do
+not pre-tag feature branches. Local-only tags are invisible to CI; let automation
+create the tag after merging. Existing tags are never moved. The Release workflow also permits rebuilding an existing tag from the
+Actions tab; it does not create tags. Fixes requiring source changes need a new version.
+Publishers are serialized, and older releases cannot replace the current site.
+
+The website shows its build version and links to the latest PDF and earlier GitHub
+releases. Earlier HTML outputs can be downloaded as ZIPs and served locally;
+browsable version archives are not deployed. Tags created before HTML support keep
+their existing release assets; their original workflow cannot generate a website.
+A new tag containing this implementation is needed for the first website deployment.
+
+### Short recipe descriptions
+
+Recipes may include a one-sentence `description` in front matter. Describe the
+actual dish and its defining ingredients in plain language (roughly 12–22 words).
+The website displays this as small subtext in team cards, recipe lists and indexes;
+it is not printed in the PDF. New recipe scaffolds include an empty field.
+Game-day menu preview cards list their linked dishes, team/course labels and a
+link to the full prep plan; they omit the longer summaries to stay compact.

@@ -1,7 +1,10 @@
 ---
 id: water-ice
 title: Water ice
+description: "A smooth, dairy-free frozen treat flavored with lime and sweetened with simple syrup."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: desserts
 location: Philadelphia, PA
 yield: About 6–8 small cups (estimate)

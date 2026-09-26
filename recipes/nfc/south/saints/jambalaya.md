@@ -1,7 +1,10 @@
 ---
 id: jambalaya
 title: Jambalaya
+description: "Chicken, andouille, and rice cooked with the vegetable trinity in a rich, seasoned broth."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: New Orleans, LA
 yield: 6 servings

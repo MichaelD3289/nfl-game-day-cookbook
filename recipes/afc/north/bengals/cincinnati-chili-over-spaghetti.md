@@ -1,7 +1,10 @@
 ---
 id: cincinnati-chili-over-spaghetti
 title: Cincinnati chili over spaghetti
+description: "Warmly spiced beef chili over spaghetti, finished with cheddar and optional beans and onion."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Cincinnati, OH
 yield: 8 servings

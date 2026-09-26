@@ -1,0 +1,24 @@
+{% import '_macros.qmd.j2' as m with context %}
+{{ m.anchor(label) }}
+[BUILD YOUR SPREAD]{.eyebrow}
+
+# Game Day Menus
+{% for group in groups %}
+## {{ group.title|md }}
+{{ group.description }}
+::: {.menu-preview-grid}
+{% for ref in group.menus %}
+::: {.menu-preview-card}
+### <a href="{{ route(ref.label)|e }}">{{ ref.title|e }}</a>
+{% if ref.note %}
+[{{ ref.note|md }}]{.menu-matchup}
+{% endif %}
+{% for recipe in menu_previews[ref.label].recipes %}
+- {{ m.link(recipe, false) }}
+{% endfor %}
+
+<a class="menu-plan-link" href="{{ route(ref.label)|e }}">View menu &amp; prep plan →</a>
+:::
+{% endfor %}
+:::
+{% endfor %}

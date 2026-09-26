@@ -1,7 +1,10 @@
 ---
 id: peach-cobbler
 title: Peach cobbler
+description: "Juicy peaches baked beneath a tender cream-biscuit topping."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: desserts
 location: Atlanta, GA
 yield: 12 servings

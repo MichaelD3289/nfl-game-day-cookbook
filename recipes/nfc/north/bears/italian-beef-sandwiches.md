@@ -1,7 +1,10 @@
 ---
 id: italian-beef-sandwiches
 title: Italian beef sandwiches
+description: "Thinly sliced seasoned beef on soft rolls with savory juice, sweet peppers, and giardiniera."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Chicago, IL
 yield: 10 sandwiches

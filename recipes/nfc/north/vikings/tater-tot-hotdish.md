@@ -1,7 +1,10 @@
 ---
 id: tater-tot-hotdish
 title: Tater tot hotdish
+description: "A creamy beef-and-vegetable casserole with cheddar and a crisp tater-tot topping."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Minneapolis, MN
 yield: 1 casserole; serves 6–10

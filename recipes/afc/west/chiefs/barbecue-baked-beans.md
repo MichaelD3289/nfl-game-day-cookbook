@@ -1,7 +1,10 @@
 ---
 id: barbecue-baked-beans
 title: Barbecue baked beans
+description: "Navy beans baked with sorghum, brown sugar, onion, and smoky barbecue meat."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: sides
 location: Kansas City, MO
 yield: 8 servings

@@ -1,7 +1,10 @@
 ---
 id: cioppino
 title: Cioppino
+description: "A hearty fish-and-shellfish stew in a tomato broth with vegetables, garlic, and herbs."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: San Francisco Bay Area, CA
 yield: 8 servings

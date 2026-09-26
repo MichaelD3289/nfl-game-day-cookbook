@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-09-26
+
+### Added
+
+- Automatically tag newer package versions on pushes to `main` and call the release workflow; manual tagging is no longer part of publishing. Failed runs can reuse their existing tag without moving it.
+
+### Fixed
+
+- Authenticate Quarto's TinyTeX release lookup during CI setup to avoid anonymous GitHub API limits.
+- Require release tags to point to commits on `main`, with tagging owned by the main-branch workflow. Agent rules, the release skill, and README document exact-commit retries and how existing tags interact with merges.
+
+## [0.4.0] - 2026-09-26
+
+### Added
+
+- Short dish descriptions on website recipe lists, with editable descriptions added
+  to all 90 recipe files. These summaries do not change the printed booklet.
+- Compact game-day menu cards show the included dishes and link to each recipe
+  and the full menu's prep plan.
+
+- `make website` builds a searchable, mobile-friendly HTML cookbook from the same
+  published sources, with matching recipe cards, indexes and scratch-component links.
+- Version-tag releases include a downloadable website archive and deploy the newest
+  stable version to GitHub Pages; older tags and prereleases cannot replace it.
+
+- README download link that automatically follows the latest released cookbook PDF,
+  with links to all assets for the latest release, release notes and earlier versions.
+
+- `review-recipes` agent skill: research workers check a recipe, a list, a team or
+  division, or the whole book for city fit, authenticity, source fidelity, ingredient
+  specificity and Make It or Buy It coverage, and report proposed fixes by default.
+- Optional `last_reviewed_at` and `last_reviewed_notes` recipe metadata for editorial
+  reviews. They never print; existing recipes start with empty fields.
+
 ## [0.3.1] - 2026-09-26
 
 ### Fixed
@@ -105,7 +139,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit and integration tests against a synthetic sample book.
 
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/631ec41...v0.2.0

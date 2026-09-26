@@ -1,7 +1,10 @@
 ---
 id: detroit-coney-dogs
 title: Detroit Coney dogs
+description: "Natural-casing beef hot dogs topped with a seasoned beef sauce, mustard, and onion."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Detroit, MI
 yield: 8 servings

@@ -1,7 +1,10 @@
 ---
 id: half-smoke-chili-dogs
 title: Half-smoke chili dogs
+description: "Smoked beef-and-pork sausages in buns with beef chili, yellow mustard, and chopped onion."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Washington, DC
 yield: 6 chili half-smokes

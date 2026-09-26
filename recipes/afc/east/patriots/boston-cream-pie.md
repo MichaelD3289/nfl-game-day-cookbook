@@ -1,7 +1,10 @@
 ---
 id: boston-cream-pie
 title: Boston cream pie
+description: "Layers of vanilla cake filled with custard and finished with a chocolate glaze."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: desserts
 location: Boston, MA
 yield: One 9-inch double-layer cake

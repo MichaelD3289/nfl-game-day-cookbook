@@ -1,7 +1,10 @@
 ---
 id: berger-cookies
 title: Berger cookies
+description: "Soft vanilla cookies topped with a thick layer of rich chocolate frosting."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: desserts
 location: Baltimore, MD
 yield: 30 cookies

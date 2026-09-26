@@ -1,0 +1,10 @@
+{% import '_macros.qmd.j2' as m with context %}
+{{ m.anchor(label) }}
+[FIND YOUR NEXT DISH]{.eyebrow}
+
+# {{ title|md }}
+{{ intro }}
+{% for section in sections %}
+## {{ section.title|md }}
+{{ m.refs(section.entries) }}
+{% endfor %}

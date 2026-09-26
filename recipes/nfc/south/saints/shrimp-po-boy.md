@@ -1,7 +1,10 @@
 ---
 id: shrimp-po-boy
 title: Shrimp po'boy
+description: "Crisp cornmeal-coated shrimp in French rolls with lettuce, tomato, pickles, and rémoulade."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: New Orleans, LA
 yield: 4 servings

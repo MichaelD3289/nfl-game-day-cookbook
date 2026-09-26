@@ -1,7 +1,10 @@
 ---
 id: french-dip-sandwiches-chargers
 title: French dip sandwiches
+description: "Thinly sliced roasted tri-tip on French rolls, served with savory beef jus for dipping."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Los Angeles, CA
 yield: 6 sandwiches

@@ -1,7 +1,10 @@
 ---
 id: beer-brats
 title: Beer brats
+description: "Bratwurst gently poached in lager and onion, then grilled and served in buns."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Green Bay, WI
 yield: 10 servings (10 brats)

@@ -1,4 +1,4 @@
-# Build the book for every pushed version tag and attach the PDF to a GitHub Release.
+# Build PDF and HTML after automated tagging; deploy the newest stable release to Pages.
 # Run it manually from the Actions tab with an existing tag to (re)build that version,
 # including tags created before this workflow existed.
 # Runs offline apart from tool setup: short links come from the committed
@@ -6,8 +6,12 @@
 name: Release
 
 on:
-  push:
-    tags: ["v*"]
+  workflow_call:
+    inputs:
+      tag:
+        description: Version tag created by the main workflow
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
       tag:
@@ -16,23 +20,53 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+# One publisher at a time; a fresh eligibility check also protects against old tags.
+concurrency:
+  group: cookbook-release
+  cancel-in-progress: false
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     env:
-      TAG: ${{ inputs.tag || github.ref_name }}
+      TAG: ${{ inputs.tag }}
       PDF: dist/nfl-game-day-recipe-booklet.pdf
+      WEBSITE: dist/nfl-game-day-website.zip
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ env.TAG }}
+          ref: refs/tags/${{ env.TAG }}
+          fetch-depth: 0
+
+      - name: Verify release tag is on main
+        run: |
+          if ! tag_commit="$(git rev-parse --verify "refs/tags/$TAG^{commit}")"; then
+            echo "::error::Release requires an existing version tag: $TAG"
+            exit 1
+          fi
+          if [ "$tag_commit" != "$(git rev-parse HEAD)" ]; then
+            echo "::error::Checked-out commit does not match tag $TAG"
+            exit 1
+          fi
+          if ! git merge-base --is-ancestor "$tag_commit" refs/remotes/origin/main; then
+            echo "::error::Tag $TAG is not on main. Merge the release commit into main before tagging."
+            exit 1
+          fi
 
       - uses: astral-sh/setup-uv@v6
         with:
           enable-cache: true
 
       - uses: quarto-dev/quarto-actions/setup@v2
+        env:
+          # Quarto reads GH_TOKEN when looking up the latest TinyTeX release.
+          GH_TOKEN: ${{ github.token }}
         with:
           version: 1.10.18
           tinytex: true
@@ -51,6 +85,14 @@ jobs:
       - name: Build PDF
         run: make pdf
 
+      - name: Build website
+        run: make website
+
+      - name: Package downloadable website
+        run: |
+          rm -f "$WEBSITE"
+          (cd dist/site && zip -qr ../nfl-game-day-website.zip .)
+
       - name: Extract release notes from CHANGELOG.md
         run: |
           awk -v v="${TAG#v}" '
@@ -66,14 +108,42 @@ jobs:
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
-        # Only the highest version tag is marked "Latest", so rebuilding an older tag
-        # never moves the releases/latest/download link back to an old PDF.
         run: |
-          highest="$(git ls-remote --tags --refs origin 'v*' | sed 's#.*refs/tags/##' | sort -V | tail -n 1)"
-          if [ "$TAG" = "$highest" ]; then latest=true; else latest=false; fi
+          latest="$(git ls-remote --tags --refs origin 'v*' | sed 's#.*refs/tags/##' | uv run python -m nfl_book.release_policy "$TAG")"
+          prerelease=true
+          if [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then prerelease=false; fi
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" "$PDF" --clobber
+            gh release upload "$TAG" "$PDF" "$WEBSITE" --clobber
+            if [ "$latest" = true ]; then gh release edit "$TAG" --latest; fi
           else
-            gh release create "$TAG" "$PDF" --title "$TAG" --notes-file release-notes.md \
-              --latest="$latest"
+            gh release create "$TAG" "$PDF" "$WEBSITE" --title "$TAG" --notes-file release-notes.md \
+              --latest="$latest" --prerelease="$prerelease"
           fi
+
+      - name: Check this is still the newest stable release
+        id: pages-gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          latest="$(git ls-remote --tags --refs origin 'v*' | sed 's#.*refs/tags/##' | uv run python -m nfl_book.release_policy "$TAG")"
+          deploy=false
+          if [ "$latest" = true ]; then
+            published="$(gh release view --json tagName --jq .tagName)"
+            if [ "$published" = "$TAG" ]; then deploy=true; fi
+          fi
+          echo "deploy=$deploy" >> "$GITHUB_OUTPUT"
+
+      - name: Configure Pages
+        if: steps.pages-gate.outputs.deploy == 'true'
+        uses: actions/configure-pages@v5
+
+      - name: Upload website for Pages
+        if: steps.pages-gate.outputs.deploy == 'true'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist/site
+
+      - name: Deploy website
+        id: deployment
+        if: steps.pages-gate.outputs.deploy == 'true'
+        uses: actions/deploy-pages@v4

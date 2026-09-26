@@ -1,7 +1,10 @@
 ---
 id: muffuletta-sandwich
 title: Muffuletta sandwich
+description: "A round sesame loaf layered with deli meats, provolone, and a tangy olive-and-vegetable salad."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: New Orleans, LA
 yield: 4 sandwiches

@@ -1,7 +1,10 @@
 ---
 id: pit-beef-sandwiches
 title: Pit beef sandwiches
+description: "Thinly sliced grilled beef on rolls with sweet onion and creamy horseradish sauce."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Baltimore, MD
 yield: 6–8 servings

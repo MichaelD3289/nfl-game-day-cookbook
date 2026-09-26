@@ -1,0 +1,7 @@
+{% import '_macros.qmd.j2' as m with context %}
+[GAME DAY MENUS]{.eyebrow}
+
+# {{ type_title|md }}
+{% for item in menus %}
+{{ m.menu(item) }}
+{% endfor %}

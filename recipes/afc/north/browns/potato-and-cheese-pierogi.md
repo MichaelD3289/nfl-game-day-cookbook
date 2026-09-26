@@ -1,7 +1,10 @@
 ---
 id: potato-and-cheese-pierogi
 title: Potato and cheese pierogi
+description: "Tender dumplings filled with mashed potatoes and creamy cheese, served with melted butter."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Cleveland, OH
 yield: 3–4 dozen

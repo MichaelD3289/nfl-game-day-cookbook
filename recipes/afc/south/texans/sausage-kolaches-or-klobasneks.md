@@ -1,7 +1,10 @@
 ---
 id: sausage-kolaches-or-klobasneks
 title: Sausage kolaches or klobasneks
+description: "Soft, slightly sweet yeast rolls wrapped around cooked sausage, with optional cheddar."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Houston, TX
 yield: About 20 sausage kolaches

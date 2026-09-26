@@ -1,0 +1,24 @@
+{% import '_macros.qmd.j2' as m with context %}
+{{ m.anchor(label) }}
+[{{ conference|md }}]{.eyebrow}
+
+# {{ name|md }}
+
+::: {.team-grid}
+{% for team in teams %}
+{% if team.recipes %}
+::: {.team-card}
+{{ m.anchor(team.label) }}
+## {{ team.name|md }}
+{{ team.location }}
+{{ m.refs(team.recipes) }}
+:::
+{% endif %}
+{% endfor %}
+:::
+{% if dishoffs %}
+# Division dish-offs
+{% for item in dishoffs %}
+{{ m.menu(item) }}
+{% endfor %}
+{% endif %}

@@ -1,7 +1,10 @@
 ---
 id: denver-omelet
 title: Denver omelet
+description: "A fluffy omelet filled with diced ham, bell peppers, and onion, with optional cheese."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Denver, CO
 yield: 4 omelets

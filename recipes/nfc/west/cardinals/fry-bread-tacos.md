@@ -1,7 +1,10 @@
 ---
 id: fry-bread-tacos
 title: Fry bread tacos
+description: "Golden fry bread topped with seasoned beef, refried beans, and a choice of taco toppings."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Phoenix metro, AZ
 yield: 6 servings

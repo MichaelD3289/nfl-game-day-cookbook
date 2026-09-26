@@ -1,7 +1,10 @@
 ---
 id: new-york-style-pizza
 title: New York style pizza
+description: "A thin-crust pizza layered with tomato sauce, mozzarella, and Parmesan."
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: New York City metro
 yield: One 12- to 13-inch pizza, plus extra dough
