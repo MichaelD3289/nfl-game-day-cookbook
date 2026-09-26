@@ -13,7 +13,7 @@ yield: 4 crab cakes
 prep: 10 minutes
 cook: 10 minutes
 image: baltimore-crab-cakes.jpg
-photo_credit: www.mccormick.com
+photo_credit: McCormick
 index:
   main_ingredient: seafood
   practical_time: up-to-30-minutes

@@ -13,7 +13,7 @@ yield: 6 chili half-smokes
 prep: 20 minutes (estimated)
 cook: 3 hours 30 minutes
 image: half-smoke-chili-dogs.jpg
-photo_credit: www.recipetineats.com
+photo_credit: RecipeTin Eats
 index:
   main_ingredient: mixed-meat
   practical_time: over-60-minutes

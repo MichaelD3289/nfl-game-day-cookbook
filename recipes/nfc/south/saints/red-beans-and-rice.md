@@ -13,7 +13,7 @@ yield: 6–8 servings
 prep: 15–20 minutes hands-on; optional soak is additional
 cook: About 2–3 hours (source lists 3 hours)
 image: red-beans-and-rice.jpg
-photo_credit: www.camelliabrand.com
+photo_credit: Camellia Brand
 index:
   main_ingredient: pork-and-sausage
   practical_time: variable-or-make-ahead

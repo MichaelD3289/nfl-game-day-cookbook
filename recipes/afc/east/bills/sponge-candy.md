@@ -13,7 +13,7 @@ yield: 16 servings
 prep: 45 minutes
 cook: 15 minutes
 image: sponge-candy.jpg
-photo_credit: anediblemosaic.com
+photo_credit: An Edible Mosaic
 index:
   main_ingredient: meatless
   practical_time: 31-to-60-minutes

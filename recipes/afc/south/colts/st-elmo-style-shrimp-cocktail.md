@@ -11,7 +11,7 @@ course: appetizers
 location: Indianapolis, IN
 yield: 4 appetizer servings (4 shrimp each)
 image: st-elmo-style-shrimp-cocktail.jpg
-photo_credit: store.stelmos.com
+photo_credit: St. Elmo Steak House
 index:
   main_ingredient: seafood
   practical_time: variable-or-make-ahead
