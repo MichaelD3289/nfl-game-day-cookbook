@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Queue Dependabot pull requests for squash auto-merge once human review and required validation pass, without automatically approving changes.
+
 - MIT licensing for software/developer documentation and CC BY 4.0 for original cookbook content, with explicit third-party exclusions and contribution terms.
 
 - Read-only PR validation, owner review routing, recipe, component, division dish-off, game-day menu, and PR templates, contributor guidance, conduct/security policies, and weekly GitHub Actions dependency updates.
