@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Rebuilding an older tag with the release workflow no longer marks it as the latest
+  release, so the latest-download link always serves the newest version.
 - Buffalo wings keep their unbreaded deep-frying method, use the linked homemade
   sauce and dip, and explain the classic hot-sauce-and-butter option.
 - Corrected sauce and dip references on Bills recipes and barbecue chicken so Q
