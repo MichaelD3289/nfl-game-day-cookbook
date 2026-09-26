@@ -39,9 +39,8 @@ Issues from the form:
   broken up for the same reason;
 - include the page they submitted from.
 
-An email address, if given, is **never posted**. The script emails it to the
-maintainer with the issue link, and the issue only says that contact details
-were left privately.
+The form doesn't ask for an email address, and the script never sends email. A
+typed GitHub username is the way to follow up with someone.
 
 ## One-time setup for the anonymous form
 
@@ -62,12 +61,13 @@ were left privately.
    | --- | --- |
    | `GITHUB_TOKEN` | The token from step 2 |
    | `REPO` | `MichaelD3289/nfl-game-day-cookbook` |
-   | `NOTIFY_EMAIL` | Optional. Where contact details go; defaults to the script owner. |
 
 5. **Create the labels from the script** (optional). Choose `createLabels` in the
    editor and click **Run**. Approve the permissions it asks for.
 6. **Deploy.** Choose **Deploy → New deployment → Web app**, with **Execute as: Me**
    and **Who has access: Anyone**. Copy the web app URL (ending in `/exec`).
+   Google asks you to allow one permission, connecting to an external service
+   (GitHub). The script doesn't need any other.
 7. **Turn on the button.** Set `suggestion_form_url` in `data/book.yml` to that URL
    and release as usual. `make website` builds the button in locally too.
 

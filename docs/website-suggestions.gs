@@ -59,7 +59,6 @@ function doPost(e) {
     }
     if (!withinRateLimit()) return reply({ ok: false, error: 'too many suggestions, try later' });
     var issue = createIssue(kind, fields, data.from || {}, clean(data.page, 500));
-    notifyPrivately(issue, data.from || {});
     return reply({ ok: true, url: issue.html_url });
   } catch (err) {
     console.error(err);
@@ -76,7 +75,6 @@ function createIssue(kind, fields, from, page) {
 
   var body = ['> [!NOTE]',
               '> Submitted **anonymously** through the website suggestion form by ' + who + '.'];
-  if (clean(from.email, 200)) body.push('> They left contact details privately with the maintainer.');
   body.push('> Research before turning this into a task.');
   kind.fields.forEach(function (spec) {
     body.push('', '### ' + spec[1], '', noMentions(clean(fields[spec[0]])) || '_No response_');
@@ -90,17 +88,6 @@ function createIssue(kind, fields, from, page) {
     labels: [ANONYMOUS_LABEL, 'needs-research', kind.label]
   });
   return JSON.parse(response.getContentText());
-}
-
-// Contact details are never posted publicly; they go to the maintainer by email.
-function notifyPrivately(issue, from) {
-  var email = clean(from.email, 200);
-  if (!email) return;
-  var to = PropertiesService.getScriptProperties().getProperty('NOTIFY_EMAIL') ||
-    Session.getEffectiveUser().getEmail();
-  MailApp.sendEmail(to, 'Contact for ' + issue.title,
-    'Issue: ' + issue.html_url + '\nName: ' + clean(from.name, 100) + '\nEmail: ' + email +
-    '\n\nThis address was not published on GitHub.');
 }
 
 function withinRateLimit() {

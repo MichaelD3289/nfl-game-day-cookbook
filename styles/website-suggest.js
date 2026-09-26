@@ -52,9 +52,7 @@
     { id: "name", label: "Your name or nickname (optional)",
       hint: "Shown publicly on the suggestion so we can credit you." },
     { id: "github", label: "GitHub username (optional)",
-      hint: "Linked on the suggestion. We can't verify it, so it isn't @mentioned." },
-    { id: "email", label: "Email (optional)", type: "email",
-      hint: "Never published. Sent privately to the maintainer in case of questions." }
+      hint: "Linked on the suggestion. We can't verify it, so it isn't @mentioned." }
   ];
 
   function el(tag, attrs, text) {
