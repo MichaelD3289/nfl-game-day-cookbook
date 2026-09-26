@@ -42,6 +42,14 @@ Rules for any human or AI agent editing this repository.
     CHANGELOG entry and has no AI attribution. Present the commit plan and get approval
     before staging.
 
+13. **Release tags belong to automation.** Follow `creating-release`: prepare the
+    version and dated changelog, then merge/push to `main`. Never create, push, move,
+    or delete release tags manually. `auto-tag.yml` compares the pushed version with
+    the highest stable tag and calls `release.yml` when eligible. This applies to both
+    merged branches and direct pushes. Existing tags are reused only for the highest
+    stable version at that exact pushed commit; tags on other commits are not moved
+    or automatically published. See the release skill for retry and merge behavior.
+
 ## Task skills
 
 Step-by-step playbooks for common work live in `.claude/skills/*/SKILL.md`:
@@ -58,7 +66,7 @@ Step-by-step playbooks for common work live in `.claude/skills/*/SKILL.md`:
 | `build-pdf` | Building, previewing and debugging the PDF |
 | `layout-changes` | Anything in `styles/` or `templates/` |
 | `changelog` | Writing CHANGELOG entries |
-| `creating-release` | Choosing the SemVer bump, versioning with uv, tagging |
+| `creating-release` | Preparing versions for automated tagging and publication on main |
 | `logical-commits` | Planning and creating every commit |
 
 Recipe content is imported. Adding or editing individual recipes is normal work;

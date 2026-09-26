@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Automatically tag newer package versions on pushes to `main` and call the release workflow; manual tagging is no longer part of publishing. Failed runs can reuse their existing tag without moving it.
+
+### Fixed
+
+- Authenticate Quarto's TinyTeX release lookup during CI setup to avoid anonymous GitHub API limits.
+- Require release tags to point to commits on `main`, with tagging owned by the main-branch workflow. Agent rules, the release skill, and README document exact-commit retries and how existing tags interact with merges.
+
 ## [0.4.0] - 2026-09-26
 
 ### Added

@@ -1,6 +1,6 @@
 ---
 name: creating-release
-description: Cut a new version of the NFL cookbook - pick the correct SemVer bump from CHANGELOG [Unreleased], bump with `uv version`, date the changelog, then commit and tag. Use when the user asks to release, cut, tag or bump a version.
+description: Cut a new version of the NFL cookbook - pick the correct SemVer bump from CHANGELOG [Unreleased], bump with `uv version`, date the changelog, then commit for automatic tagging on main. Use when the user asks to release, cut, tag or bump a version.
 ---
 
 # Creating a release
@@ -45,8 +45,10 @@ goes to `0.3.0`. Go to `1.0.0` only when the user asks for it.
 
 ## Steps
 
-1. **Start from a clean tree.** Commit pending work first as its own commits with the
-   `logical-commits` skill. The release commit contains only the release.
+1. **Prepare the release for `main`.** Commit pending work first using the
+   `logical-commits` skill. A release commit contains only version and changelog changes.
+   It may be prepared on a review branch, but publication happens only after it reaches
+   `main`. Never create or push tags manually; the workflow owns tagging.
 2. **Preview the bump:**
    `uv version --bump <major|minor|patch> --dry-run`
    This prints `old => new` and writes nothing.
@@ -62,12 +64,39 @@ goes to `0.3.0`. Go to `1.0.0` only when the user asks for it.
    `git add pyproject.toml uv.lock CHANGELOG.md`
    `git commit -m "chore(release): X.Y.Z"`
    No AI attribution.
-7. **Tag:**
-   `git tag -a vX.Y.Z -m "vX.Y.Z"`
-8. **Report** the version, the bump and why, the commit and the tag. Tell the user to
-   push with `git push --follow-tags`. Pushing the tag triggers
-   `.github/workflows/release.yml`, which checks that the tag matches the package
-   version, runs `make check` and `make pdf`, and publishes a GitHub Release with the
-   PDF attached and that version's CHANGELOG section as its notes. To rebuild an
-   existing tag, run the Release workflow manually from the Actions tab (or
-   `gh workflow run release.yml -f tag=vX.Y.Z`); it replaces the PDF on that release.
+7. **Merge/push the release commit to `main`.** Do not run `git tag` or push tags.
+   `.github/workflows/auto-tag.yml` reads the pushed commit's `pyproject.toml` and
+   compares its stable `X.Y.Z` version numerically with all existing stable version tags.
+   A higher version creates an annotated tag at that commit and directly calls
+   `.github/workflows/release.yml`. Equal or lower versions do not create tags.
+   Unsupported prerelease/development versions fail with a clear error.
+8. **Verify publication.** The release workflow checks main ancestry and the package
+   version, validates and builds PDF/HTML, publishes both assets, and deploys the newest
+   stable release to Pages. Report the workflow result and release URL.
+   Rerun a failed automatic workflow to reuse its tag at the same commit. For existing
+   assets, the Release workflow also supports manual rebuilding with an existing tag
+   (`gh workflow run release.yml --ref main -f tag=vX.Y.Z`); this never creates a tag.
+   Never move an already pushed tag. If a fix changes code or workflows, prepare a new
+   version using the bump rules above and merge it into `main`.
+
+## Existing tags and merge behavior
+
+The comparison uses the highest stable version number, not the newest tag by date.
+Both a merged branch and a direct push to `main` follow these rules:
+
+| State at the pushed `main` commit | Automatic result |
+| --- | --- |
+| Package version is higher than every existing stable tag | Create the version tag at this commit and run Release |
+| Package version equals the highest stable tag, and that tag points to this exact commit | Reuse the tag and run Release (safe retry) |
+| Same version tag points to a different commit | Skip; never move the existing tag |
+| Package version is lower than the highest stable tag | Skip, even if an older tag points to this commit |
+| A tag is pushed without a push to `main` | No automatic publication |
+
+Tags only present locally are invisible to CI. Do not pre-tag feature branches.
+Squash merges and merge commits change the commit identity; a pre-existing feature
+branch tag will not be reused at the resulting main commit. A fast-forward preserves
+identity, but tag reuse still requires the highest stable version and exact commit.
+If an existing tag prevents publication, prepare a newer version; never retag it.
+Manual rebuilding of an existing tag is separate from automatic tagging and still
+requires that tag's commit to be in `main` history. The workflow cannot prohibit an
+administrator from creating tags; these are project rules, not a GitHub tag ruleset.

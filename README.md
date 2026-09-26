@@ -161,13 +161,32 @@ and linked Q quick-option cards. Editorial review metadata stays private.
 
 One-time repository setup: in **Settings → Pages**, choose **GitHub Actions** as
 the build/deployment source. In **Settings → Environments → github-pages**, allow
-the release workflow's version tags (`v*`) under deployment branch/tag rules.
+`main` for the automatic release workflow (and `v*` if rebuilding from tag refs).
 
-Pushing a version tag runs validation, builds both formats, uploads the PDF and
-`nfl-game-day-website.zip` to the release, and deploys the newest stable version to
-`https://MichaelD3289.github.io/nfl-game-day-cookbook/`. The workflow serializes
-publishers and checks stable tags and the latest release again before deployment.
-Older tag rebuilds and prereleases cannot replace the current site.
+Release by updating the version with `uv version`, dating its CHANGELOG section, and
+merging/pushing that commit to `main`. Do not create or push release tags manually.
+Two workflows handle publication:
+
+1. **Tag release from main** compares `pyproject.toml` with the highest existing stable
+   version tag numerically. A higher `X.Y.Z` version creates an annotated tag at the
+   pushed commit. Equal or lower versions create no tag; prerelease/development
+   versions are rejected. Other tag names are ignored.
+2. **Release** is called directly after tagging. It checks main ancestry, validates,
+   builds the PDF and website ZIP, publishes both assets, and deploys the newest stable
+   version to `https://MichaelD3289.github.io/nfl-game-day-cookbook/`.
+
+The direct call is necessary because tags pushed with GitHub's built-in token do not
+trigger another push workflow. No personal access token is required. Manually pushed
+tags do not trigger publication.
+
+Both merged branches and direct pushes to `main` are eligible. A failed automatic run
+can be rerun: the highest stable version's tag is reused only when it already points
+to that exact pushed commit. Equal-version tags on different commits and all lower
+versions are skipped. Squash merges and merge commits change commit identity, so do
+not pre-tag feature branches. Local-only tags are invisible to CI; let automation
+create the tag after merging. Existing tags are never moved. The Release workflow also permits rebuilding an existing tag from the
+Actions tab; it does not create tags. Fixes requiring source changes need a new version.
+Publishers are serialized, and older releases cannot replace the current site.
 
 The website shows its build version and links to the latest PDF and earlier GitHub
 releases. Earlier HTML outputs can be downloaded as ZIPs and served locally;
