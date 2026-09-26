@@ -119,7 +119,7 @@ def _source(
         title=source.title or "",
         href=short or source.url,
         display=short or source.url,
-        qr=media.qr.get(f"{kind}:{item.id}", "") if short else "",
+        qr=media.qr.get(f"{kind}:{item.id}", ""),
     )
 
 

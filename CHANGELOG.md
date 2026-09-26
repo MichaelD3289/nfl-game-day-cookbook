@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Source QR codes now encode the full source URL instead of the short link; the
+  printed link text still shows the short URL.
 - Buffalo wings keep their unbreaded deep-frying method, use the linked homemade
   sauce and dip, and explain the classic hot-sauce-and-butter option.
 - Corrected sauce and dip references on Bills recipes and barbecue chicken so Q

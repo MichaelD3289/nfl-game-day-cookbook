@@ -1,4 +1,4 @@
-"""Deterministic QR codes for short URLs, written to ``generated/qr``."""
+"""Deterministic QR codes for full source URLs, written to ``generated/qr``."""
 
 from __future__ import annotations
 
@@ -32,10 +32,10 @@ def write_qr(path: Path, url: str) -> bool:
 def generate_qr_codes(
     items: Iterable[tuple[str, str, str]], qr_dir: Path, relative_to: str = "../qr"
 ) -> dict[str, str]:
-    """``items`` are (kind, id, short_url); returns media keys -> relative paths."""
+    """``items`` are (kind, id, url); returns media keys -> relative paths."""
     media = {}
-    for kind, item_id, short_url in items:
+    for kind, item_id, url in items:
         name = f"{kind}-{item_id}.png"
-        write_qr(qr_dir / name, short_url)
+        write_qr(qr_dir / name, url)
         media[f"{kind}:{item_id}"] = f"{relative_to}/{name}"
     return media

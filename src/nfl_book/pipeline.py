@@ -100,17 +100,12 @@ def _relative(target: Path, start: Path) -> str:
 
 
 def build_media(project: Project, model: BookModel, build_dir: Path) -> Media:
-    """QR codes (from cached short URLs) and recipe images, relative to ``build_dir``."""
+    """QR codes (from full source URLs) and recipe images, relative to ``build_dir``."""
     sourced: list[tuple[str, Recipe | Component]] = [
         *(("recipe", r) for r in model.recipes_by_id.values()),
         *(("component", c) for c in model.components_by_id.values()),
     ]
-    items = []
-    for kind, item in sourced:
-        source = item.meta.source
-        short = model.shortlinks.get(source.url) if source else None
-        if short:
-            items.append((kind, item.id, short))
+    items = [(kind, item.id, item.meta.source.url) for kind, item in sourced if item.meta.source]
     qr = generate_qr_codes(items, project.qr_dir, _relative(project.qr_dir, build_dir))
 
     images = {}

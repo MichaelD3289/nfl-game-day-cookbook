@@ -13,6 +13,7 @@ import pytest
 
 from nfl_book import pipeline
 from nfl_book.project import Project
+from nfl_book.qr import qr_png
 
 
 def pages(project: Project) -> dict[str, str]:
@@ -95,6 +96,15 @@ def test_build_is_deterministic(fixture_book: Project) -> None:
     assert pages(fixture_book) == first
     assert {p.name: p.read_bytes() for p in (fixture_book.generated_dir / "qr").glob("*.png")} == qr
     assert len(qr) == 3
+
+
+def test_qr_codes_encode_full_source_url(fixture_book: Project) -> None:
+    pipeline.build(fixture_book, pdf=False)
+    png = (fixture_book.generated_dir / "qr" / "recipe-test-citrus-wings.png").read_bytes()
+    assert png == qr_png("https://example.com/recipes/test-citrus-wings")
+    assert png != qr_png("https://example.org/s/wings")
+    # The printed link text stays the short URL.
+    assert "example.org/s/wings" in page(fixture_book, "test-citrus-wings")
 
 
 @pytest.mark.pdf

@@ -110,6 +110,6 @@ Source URLs in front matter are always full, canonical URLs. `prepare-links` sho
 any uncached URL of published content and appends the result to `data/shortlinks.yml`.
 It never rewrites existing entries or source files. Builds read that cache offline, so
 a published recipe whose URL is missing from it fails validation. QR codes are generated
-deterministically from the cached short URL.
+deterministically from the full source URL; the printed link text uses the short URL.
 
 See `AGENTS.md` for the rules contributors (human or AI) follow.

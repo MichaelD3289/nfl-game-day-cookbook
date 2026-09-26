@@ -17,6 +17,6 @@ description: Manage recipe/component source URLs, the data/shortlinks.yml cache 
 - Commit `data/shortlinks.yml` together with the content that needed it.
 - Every other command is offline. A published item whose URL is not in the cache
   fails `validate`/`build` (`preview` only warns) with an error naming the file. Run `prepare-links` to fix it.
-- QR codes are generated deterministically from the cached short URL at build
-  time. Nothing about them is committed.
+- QR codes are generated deterministically from the full source URL at build
+  time; the printed link text uses the short URL. Nothing about them is committed.
 - If the network is unavailable, tell the user. Don't invent short URLs.
