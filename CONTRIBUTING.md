@@ -28,6 +28,9 @@ quick form and we'll research it before changing the book:
 [component idea](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=quick-component.yml),
 [menu idea](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=quick-menu.yml), or
 [dish-off idea](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=quick-dish-off.yml).
+The website's **Suggest** buttons open these forms with the page's details filled in,
+and can also send a suggestion without a GitHub account
+(see [docs/website-suggestions.md](docs/website-suggestions.md)).
 
 ## Submit a pull request
 

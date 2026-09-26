@@ -3,7 +3,7 @@
 [BUILD YOUR SPREAD]{.eyebrow}
 
 # Game Day Menus
-{% for group in groups %}
+{{ m.suggest(suggest) }}{% for group in groups %}
 ## {{ group.title|md }}
 {{ group.description }}
 ::: {.menu-preview-grid}

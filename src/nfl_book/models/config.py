@@ -82,6 +82,11 @@ class BookConfig(StrictModel):
     subtitle: str | None = None
     output_filename: NonEmpty = "book.pdf"
     paper: str = "letter"
+    suggestion_form_url: str | None = Field(
+        None,
+        pattern=r"^https://",
+        description="Web app that files anonymous website suggestions as issues.",
+    )
 
 
 class CoverMeta(StrictModel):

@@ -54,3 +54,13 @@ Photo: {{ credit }}
 {% endif %}
 :::
 {% endmacro %}
+{% macro suggest(s, compact=false) %}
+
+```{=html}
+<div class="suggest{% if compact %} suggest-compact{% endif %}" data-kind="{{ s.kind|e }}" data-fields="{{ s.fields|e }}">
+<span class="suggest-lead">{{ s.lead|e }}</span>
+<span class="suggest-actions"><a class="suggest-github" href="{{ s.github|e }}" target="_blank" rel="noopener">Suggest on GitHub</a>{% if suggestion_form_url %}<button type="button" class="suggest-open" data-endpoint="{{ suggestion_form_url|e }}" hidden>Suggest without an account</button>{% endif %}</span>
+</div>
+```
+
+{% endmacro %}

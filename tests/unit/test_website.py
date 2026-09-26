@@ -1,6 +1,11 @@
 """Website generation reuses content without changing print output."""
 
+import html
+import json
+import re
+
 import pytest
+import yaml
 from typer.testing import CliRunner
 
 from nfl_book import pipeline
@@ -122,3 +127,63 @@ def test_recipe_descriptions_and_compact_menu_previews(fixture_book: Project) ->
     assert before == {
         p.name: p.read_bytes() for p in (fixture_book.book_build_dir / "pages").glob("*.qmd")
     }
+
+
+def test_suggestion_prompts_link_to_prefilled_quick_templates(fixture_book: Project) -> None:
+    from urllib.parse import parse_qs, urlsplit
+
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
+    href = re.search(r'class="suggest-github" href="([^"]+)"', wings)
+    assert href is not None
+    query = parse_qs(urlsplit(html.unescape(href.group(1))).query)
+    assert query["template"] == ["suggest-edit.yml"]
+    assert query["title"][0].startswith("Edit suggestion: Test Citrus Wings")
+    assert "[recipe:test-citrus-wings]" in query["item"][0]
+    assert query["page"][0].endswith("/test-citrus-wings.md")
+    assert "Spot something to fix in this recipe?" in wings
+    division = (site / "division-afc-east.qmd").read_text()
+    assert "template=quick-recipe.yml" in division
+    assert "template=quick-dish-off.yml" in division
+    assert "template=quick-menu.yml" in (site / "game-day-menus.qmd").read_text()
+    assert "template=quick-component.yml" in (site / "make-it-or-buy-it.qmd").read_text()
+    assert "suggest-edit.yml" in (site / "component-test-wing-sauce.qmd").read_text()
+    # Without a configured form only the GitHub path is offered.
+    assert "suggest-open" not in wings
+    assert not (site / "suggest.js").exists()
+    assert "suggest.js" not in (site / "_quarto.yml").read_text()
+
+
+def test_configured_form_adds_anonymous_button_and_script(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    book = fixture_book.content_root / "data/book.yml"
+    endpoint = "https://script.google.com/macros/s/test-deployment/exec"
+    book.write_text(
+        book.read_text().replace("suggestion_form_url:", f"suggestion_form_url: {endpoint}")
+    )
+    site = build_website(fixture_book, render=False).document.parent
+    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
+    assert f'class="suggest-open" data-endpoint="{endpoint}"' in wings
+    fields = re.search(r'data-fields="([^"]+)"', wings)
+    assert fields is not None
+    assert json.loads(html.unescape(fields.group(1)))["item"].startswith("Test Citrus Wings")
+    assert (site / "suggest.js").is_file()
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    assert "suggest.js" in config["project"]["resources"]
+    assert "suggest.js" in config["format"]["html"]["include-after-body"]["text"]
+
+
+def test_suggestion_form_url_must_be_https(fixture_book: Project) -> None:
+    from nfl_book.errors import ValidationFailed
+    from nfl_book.website import build_website
+
+    book = fixture_book.content_root / "data/book.yml"
+    book.write_text(
+        book.read_text().replace("suggestion_form_url:", "suggestion_form_url: http://x")
+    )
+    with pytest.raises(ValidationFailed) as raised:
+        build_website(fixture_book, render=False)
+    assert raised.value.diagnostics.errors[0].path == book
