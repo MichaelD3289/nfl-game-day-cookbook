@@ -339,3 +339,116 @@ main.content {
 @media (max-width: 640px) {
   .menu-preview-grid { grid-template-columns: 1fr; }
 }
+
+/* Suggestion prompts (GitHub link, plus an anonymous form when configured). */
+.suggest {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem 1rem;
+  border-top: 1px solid var(--book-rule);
+  margin: 2rem 0 1rem;
+  padding-top: 1rem;
+  font-size: .88rem;
+  color: var(--book-muted);
+}
+.suggest-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+.suggest-github, .suggest-open {
+  border: 1px solid var(--book-navy);
+  border-radius: 4px;
+  background: var(--book-paper);
+  color: var(--book-navy);
+  font: inherit;
+  font-weight: 700;
+  padding: .25rem .7rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.suggest-open {
+  background: var(--book-navy);
+  color: white;
+}
+.suggest-compact {
+  border-top: 0;
+  margin: .6rem 0 0;
+  padding-top: 0;
+  font-size: .78rem;
+}
+.suggest-compact .suggest-lead {
+  width: 100%;
+}
+.suggest-dialog {
+  width: min(560px, calc(100vw - 2rem));
+  border: 1px solid var(--book-rule);
+  border-radius: 8px;
+  padding: 1.5rem;
+  color: var(--book-ink);
+}
+.suggest-dialog::backdrop {
+  background: rgb(32 43 54 / .5);
+}
+.suggest-dialog h2 {
+  margin-top: 0;
+}
+.suggest-dialog fieldset {
+  margin: 1rem 0;
+}
+.suggest-dialog legend {
+  font-size: .9rem;
+  font-weight: 700;
+  color: var(--book-navy);
+}
+.suggest-note, .suggest-field small {
+  color: var(--book-muted);
+  font-size: .82rem;
+}
+.suggest-field {
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  margin-bottom: .8rem;
+}
+.suggest-field label {
+  font-weight: 700;
+  font-size: .88rem;
+}
+.suggest-field input, .suggest-field textarea {
+  border: 1px solid var(--book-rule);
+  border-radius: 4px;
+  padding: .4rem .5rem;
+  font: inherit;
+}
+.suggest-field input[readonly] {
+  background: var(--book-pale);
+}
+.suggest-trap {
+  position: absolute;
+  left: -10000px;
+}
+.suggest-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: .5rem;
+}
+.suggest-send, .suggest-cancel {
+  border: 1px solid var(--book-navy);
+  border-radius: 4px;
+  padding: .35rem .9rem;
+  font-weight: 700;
+  background: var(--book-paper);
+  color: var(--book-navy);
+}
+.suggest-send {
+  background: var(--book-navy);
+  color: white;
+}
+.suggest-status {
+  font-size: .85rem;
+}
+@media print {
+  .suggest { display: none; }
+}

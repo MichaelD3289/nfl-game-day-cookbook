@@ -1,0 +1,25 @@
+name: Suggest a recipe idea (quick)
+description: Name a local dish for a team. We research it and write it up.
+title: 'Recipe idea: '
+labels:
+- needs-research
+- 'suggestion: recipe'
+body:
+- type: input
+  id: team
+  attributes:
+    label: Team
+  validations:
+    required: true
+- type: input
+  id: dish
+  attributes:
+    label: Dish name or idea
+    description: A rough description is fine if you don't know the name.
+  validations:
+    required: true
+- type: textarea
+  id: details
+  attributes:
+    label: Anything else? (optional)
+    description: Why it's local, a link, or how you make it.

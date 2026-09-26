@@ -12,13 +12,16 @@
 ## {{ team.name|md }}
 {{ team.location }}
 {{ m.refs(team.recipes) }}
+{{ m.suggest(team.suggest, compact=true) }}
 :::
 {% endif %}
 {% endfor %}
 :::
+{{ m.suggest(suggest) }}
 {% if dishoffs %}
 # Division dish-offs
 {% for item in dishoffs %}
 {{ m.menu(item) }}
 {% endfor %}
 {% endif %}
+{{ m.suggest(suggest_dishoff) }}
