@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Buffalo wings keep their unbreaded deep-frying method, use the linked homemade
+  sauce and dip, and explain the classic hot-sauce-and-butter option.
+- Corrected sauce and dip references on Bills recipes and barbecue chicken so Q
+  options replace finished components, not individual base ingredients.
+- Updated affected recipe timing and the chicken-finger sub's practical-time index;
+  clarified scratch preparation versus quick assembly.
+
+## [0.3.0] - 2026-09-26
+
 ### Added
 
 - `logical-commits` agent skill, and an `AGENTS.md` rule that every commit follows it:
@@ -28,12 +39,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Source QR codes now encode the full source URL instead of the short link; the
   printed link text still shows the short URL.
-- Buffalo wings keep their unbreaded deep-frying method, use the linked homemade
-  sauce and dip, and explain the classic hot-sauce-and-butter option.
-- Corrected sauce and dip references on Bills recipes and barbecue chicken so Q
-  options replace finished components, not individual base ingredients.
-- Updated affected recipe timing and the chicken-finger sub's practical-time index;
-  clarified scratch preparation versus quick assembly.
 
 ## [0.2.0] - 2026-09-26
 
@@ -95,3 +100,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
+
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/631ec41...v0.2.0
+[0.1.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/commit/631ec41
