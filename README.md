@@ -202,7 +202,7 @@ Two workflows handle publication:
    pushed commit. Equal or lower versions create no tag; prerelease/development
    versions are rejected. Other tag names are ignored.
 2. **Release** is called directly after tagging. It checks main ancestry, validates,
-   builds the PDF and website ZIP, publishes both assets, and deploys the newest stable
+   builds the PDF and website ZIP, publishes both assets, and deploys every website
    version to `https://MichaelD3289.github.io/nfl-game-day-cookbook/`.
 
 The direct call is necessary because tags pushed with GitHub's built-in token do not
@@ -218,11 +218,30 @@ create the tag after merging. Existing tags are never moved. The Release workflo
 Actions tab; it does not create tags. Fixes requiring source changes need a new version.
 Publishers are serialized, and older releases cannot replace the current site.
 
-The website shows its build version and links to the latest PDF and earlier GitHub
-releases. Earlier HTML outputs can be downloaded as ZIPs and served locally;
-browsable version archives are not deployed. Tags created before HTML support keep
-their existing release assets; their original workflow cannot generate a website.
-A new tag containing this implementation is needed for the first website deployment.
+The website shows its build version and links to the latest PDF, an **All versions**
+page and earlier GitHub releases.
+
+#### Website versions
+
+Pages serves only its latest deployment, so each release deploys every version at
+once. The Release workflow downloads the website ZIP of each earlier stable release,
+and `python -m nfl_book.site_archive` assembles them offline into `_pages/`:
+
+- `/` serves the newest stable release, so existing links keep working;
+- `/vX.Y.Z/` serves each release with a website ZIP, including deep links such as
+  `/v0.6.0/recipe-<id>.html`;
+- older versions get a banner linking to the same page in the latest version (or its
+  home page if the page is gone), link to their own PDF, and carry `noindex`; the
+  `/vX.Y.Z/` copy of the latest release carries `noindex` too;
+- `versions.html` lists every kept version with its date and PDF.
+
+There is no `/latest/` folder; the root is the latest version. Prereleases and tags
+created before HTML support have no website ZIP and are not included. A missing or
+corrupt ZIP is skipped with a warning. Pages is deployed only when the assembled root
+is the newest stable tag, so rebuilding an older tag still deploys the full set with
+the newest release at the root, and a missing newest ZIP skips the deploy instead of
+putting older content there. Every version is kept; the workflow warns when the site
+nears the 1 GB Pages limit.
 
 ### Short recipe descriptions
 
