@@ -2,6 +2,8 @@
 id: philly-cheesesteak
 title: Philly cheesesteak
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Philadelphia, PA
 yield: 4 sandwiches

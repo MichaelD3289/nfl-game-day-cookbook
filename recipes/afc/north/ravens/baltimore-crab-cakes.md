@@ -2,6 +2,8 @@
 id: baltimore-crab-cakes
 title: Baltimore crab cakes
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Baltimore, MD
 yield: 4 crab cakes

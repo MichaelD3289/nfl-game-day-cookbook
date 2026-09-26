@@ -2,6 +2,8 @@
 id: fried-wisconsin-cheese-curds
 title: Fried Wisconsin cheese curds
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: appetizers
 location: Green Bay, WI
 yield: 4 servings

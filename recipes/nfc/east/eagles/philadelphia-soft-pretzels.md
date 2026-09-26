@@ -2,6 +2,8 @@
 id: philadelphia-soft-pretzels
 title: Philadelphia soft pretzels
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: appetizers
 location: Philadelphia, PA
 yield: 16 pretzels

@@ -2,6 +2,8 @@
 id: old-vegas-shrimp-cocktail
 title: Old Vegas shrimp cocktail
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: appetizers
 location: Las Vegas, NV
 yield: See recipe

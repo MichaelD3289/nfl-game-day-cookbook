@@ -2,6 +2,8 @@
 id: shrimp-po-boy
 title: Shrimp po'boy
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: New Orleans, LA
 yield: 4 servings

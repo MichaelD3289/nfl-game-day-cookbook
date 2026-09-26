@@ -2,6 +2,8 @@
 id: red-beans-and-rice
 title: Red beans and rice
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: New Orleans, LA
 yield: 6–8 servings

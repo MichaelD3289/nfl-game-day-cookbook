@@ -2,6 +2,8 @@
 id: bacon-wrapped-la-street-dogs-rams
 title: Bacon-wrapped LA street dogs
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Los Angeles, CA
 yield: 4 people

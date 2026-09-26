@@ -2,6 +2,8 @@
 id: new-york-style-pizza
 title: New York style pizza
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: New York City metro
 yield: One 12- to 13-inch pizza, plus extra dough

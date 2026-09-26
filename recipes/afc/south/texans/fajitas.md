@@ -2,6 +2,8 @@
 id: fajitas
 title: Fajitas
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Houston, TX
 yield: 4–6 servings

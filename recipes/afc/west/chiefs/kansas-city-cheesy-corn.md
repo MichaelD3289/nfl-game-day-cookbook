@@ -2,6 +2,8 @@
 id: kansas-city-cheesy-corn
 title: Kansas City cheesy corn
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: sides
 location: Kansas City, MO
 yield: 6 to 8 servings

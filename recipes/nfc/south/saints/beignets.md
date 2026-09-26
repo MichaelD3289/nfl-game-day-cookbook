@@ -2,6 +2,8 @@
 id: beignets
 title: Beignets
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: desserts
 location: New Orleans, LA
 yield: About 22 beignets

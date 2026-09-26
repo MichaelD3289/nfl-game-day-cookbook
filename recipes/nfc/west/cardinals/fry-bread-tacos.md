@@ -2,6 +2,8 @@
 id: fry-bread-tacos
 title: Fry bread tacos
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Phoenix metro, AZ
 yield: 6 servings

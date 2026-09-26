@@ -9,6 +9,7 @@ front matter: it is inferred from the file's location by discovery.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 
 from pydantic import Field, model_validator
@@ -27,6 +28,12 @@ class RecipeMeta(StrictModel):
     yield_: NonEmpty = Field(alias="yield")
     prep: str | None = None
     cook: str | None = None
+    last_reviewed_at: date | None = Field(
+        None, description="Last completed source review date; never rendered in the booklet."
+    )
+    last_reviewed_notes: str | None = Field(
+        None, description="Editorial review outcome/report reference; never rendered."
+    )
     index: dict[str, Slug | list[Slug]] = Field(
         default_factory=dict, description="Index bucket ids keyed by index field name."
     )

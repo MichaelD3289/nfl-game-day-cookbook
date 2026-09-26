@@ -2,6 +2,8 @@
 id: new-york-style-cheese-pizza
 title: New York style cheese pizza
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: New York City metro
 yield: Two 13-inch pizzas

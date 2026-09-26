@@ -2,6 +2,8 @@
 id: pierogi
 title: Pierogi
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Pittsburgh, PA
 yield: About 2 1/2 dozen

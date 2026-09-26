@@ -2,6 +2,8 @@
 id: muffuletta-sandwich
 title: Muffuletta sandwich
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: New Orleans, LA
 yield: 4 sandwiches

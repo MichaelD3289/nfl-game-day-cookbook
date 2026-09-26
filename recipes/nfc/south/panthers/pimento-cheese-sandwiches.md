@@ -2,6 +2,8 @@
 id: pimento-cheese-sandwiches
 title: Pimento cheese sandwiches
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Charlotte, NC
 yield: 4 sandwiches

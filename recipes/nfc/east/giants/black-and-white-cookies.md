@@ -2,6 +2,8 @@
 id: black-and-white-cookies
 title: Black-and-white cookies
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: desserts
 location: New York City metro
 yield: 24 large cookies

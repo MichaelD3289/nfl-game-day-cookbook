@@ -2,6 +2,8 @@
 id: seattle-dogs-with-cream-cheese-and-onions
 title: Seattle dogs with cream cheese and onions
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Seattle, WA
 yield: 8 servings

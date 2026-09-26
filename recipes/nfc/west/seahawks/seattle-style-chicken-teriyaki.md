@@ -2,6 +2,8 @@
 id: seattle-style-chicken-teriyaki
 title: Seattle style chicken teriyaki
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Seattle, WA
 yield: 4 servings

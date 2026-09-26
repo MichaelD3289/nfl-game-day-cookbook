@@ -2,6 +2,8 @@
 id: detroit-coney-dogs
 title: Detroit Coney dogs
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Detroit, MI
 yield: 8 servings

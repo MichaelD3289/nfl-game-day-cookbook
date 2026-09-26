@@ -2,6 +2,8 @@
 id: mission-style-burritos
 title: Mission style burritos
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: San Francisco Bay Area, CA
 yield: 3–4 large burritos

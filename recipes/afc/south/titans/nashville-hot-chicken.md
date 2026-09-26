@@ -2,6 +2,8 @@
 id: nashville-hot-chicken
 title: Nashville hot chicken
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Nashville, TN
 yield: 8 servings

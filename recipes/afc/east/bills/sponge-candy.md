@@ -2,6 +2,8 @@
 id: sponge-candy
 title: Sponge candy
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: desserts
 location: Buffalo, NY
 yield: 16 servings

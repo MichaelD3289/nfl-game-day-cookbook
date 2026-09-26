@@ -2,6 +2,8 @@
 id: sonoran-hot-dogs
 title: Sonoran hot dogs
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Phoenix metro, AZ
 yield: 8 dogs

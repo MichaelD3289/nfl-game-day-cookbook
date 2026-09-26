@@ -2,6 +2,8 @@
 id: italian-beef-sandwiches
 title: Italian beef sandwiches
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Chicago, IL
 yield: 10 sandwiches

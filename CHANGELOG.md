@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Optional `last_reviewed_at` and `last_reviewed_notes` recipe metadata for editorial
+  reviews. They never print; existing recipes start with empty fields.
+
 ## [0.3.1] - 2026-09-26
 
 ### Fixed

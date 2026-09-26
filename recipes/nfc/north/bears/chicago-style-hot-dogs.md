@@ -2,6 +2,8 @@
 id: chicago-style-hot-dogs
 title: Chicago style hot dogs
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Chicago, IL
 yield: 4 hot dogs

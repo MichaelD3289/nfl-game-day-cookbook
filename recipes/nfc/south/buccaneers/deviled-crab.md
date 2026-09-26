@@ -2,6 +2,8 @@
 id: deviled-crab
 title: Deviled crab
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: appetizers
 location: Tampa, FL
 yield: About 20 croquettes

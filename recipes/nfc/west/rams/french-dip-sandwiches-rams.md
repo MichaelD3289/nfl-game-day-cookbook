@@ -2,6 +2,8 @@
 id: french-dip-sandwiches-rams
 title: French dip sandwiches
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Los Angeles, CA
 yield: 6 sandwiches

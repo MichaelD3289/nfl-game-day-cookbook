@@ -2,6 +2,8 @@
 id: beer-brats
 title: Beer brats
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Green Bay, WI
 yield: 10 servings (10 brats)

@@ -2,6 +2,8 @@
 id: buffalo-wings
 title: Buffalo wings
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: appetizers
 location: Buffalo, NY
 yield: 6–8 servings

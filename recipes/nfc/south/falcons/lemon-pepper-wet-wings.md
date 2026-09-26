@@ -2,6 +2,8 @@
 id: lemon-pepper-wet-wings
 title: Lemon-pepper wet wings
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: appetizers
 location: Atlanta, GA
 yield: 36 wing sections

@@ -2,6 +2,8 @@
 id: denver-omelet
 title: Denver omelet
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Denver, CO
 yield: 4 omelets

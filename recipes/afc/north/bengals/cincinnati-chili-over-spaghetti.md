@@ -2,6 +2,8 @@
 id: cincinnati-chili-over-spaghetti
 title: Cincinnati chili over spaghetti
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Cincinnati, OH
 yield: 8 servings

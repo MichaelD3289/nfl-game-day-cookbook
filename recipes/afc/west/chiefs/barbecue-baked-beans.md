@@ -2,6 +2,8 @@
 id: barbecue-baked-beans
 title: Barbecue baked beans
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: sides
 location: Kansas City, MO
 yield: 8 servings

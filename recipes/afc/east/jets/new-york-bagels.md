@@ -2,6 +2,8 @@
 id: new-york-bagels
 title: New York bagels
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: New York City metro
 yield: 8 large or 12 standard bagels

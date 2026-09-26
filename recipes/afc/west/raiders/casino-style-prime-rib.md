@@ -2,6 +2,8 @@
 id: casino-style-prime-rib
 title: Casino style prime rib
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Las Vegas, NV
 yield: 6–8 servings

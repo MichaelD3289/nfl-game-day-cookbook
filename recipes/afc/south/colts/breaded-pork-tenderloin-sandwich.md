@@ -2,6 +2,8 @@
 id: breaded-pork-tenderloin-sandwich
 title: Breaded pork tenderloin sandwich
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Indianapolis, IN
 yield: 4 servings

@@ -2,6 +2,8 @@
 id: berger-cookies
 title: Berger cookies
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: desserts
 location: Baltimore, MD
 yield: 30 cookies

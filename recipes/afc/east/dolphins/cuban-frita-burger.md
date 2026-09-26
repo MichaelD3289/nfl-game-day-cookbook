@@ -2,6 +2,8 @@
 id: cuban-frita-burger
 title: Cuban frita burger
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Miami, FL
 yield: 5 burgers

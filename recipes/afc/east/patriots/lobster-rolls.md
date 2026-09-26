@@ -2,6 +2,8 @@
 id: lobster-rolls
 title: Lobster rolls
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Boston, MA
 yield: 4 rolls

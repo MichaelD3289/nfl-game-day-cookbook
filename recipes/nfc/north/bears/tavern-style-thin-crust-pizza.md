@@ -2,6 +2,8 @@
 id: tavern-style-thin-crust-pizza
 title: Tavern style thin-crust pizza
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Chicago, IL
 yield: 332 g dough, enough for two 12-inch pizzas

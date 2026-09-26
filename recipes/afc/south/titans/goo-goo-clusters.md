@@ -2,6 +2,8 @@
 id: goo-goo-clusters
 title: Goo Goo Clusters
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: desserts
 location: Nashville, TN
 yield: 12 small clusters

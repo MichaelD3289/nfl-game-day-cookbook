@@ -2,6 +2,8 @@
 id: chipped-ham-barbecue-sandwiches
 title: Chipped ham barbecue sandwiches
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Pittsburgh, PA
 yield: 4 servings

@@ -2,6 +2,8 @@
 id: jucy-lucy-cheese-stuffed-burgers
 title: Jucy Lucy cheese-stuffed burgers
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Minneapolis, MN
 yield: 6 burgers

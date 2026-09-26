@@ -2,6 +2,8 @@
 id: chicken-booyah
 title: Chicken booyah
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Green Bay, WI
 yield: 10–12 servings

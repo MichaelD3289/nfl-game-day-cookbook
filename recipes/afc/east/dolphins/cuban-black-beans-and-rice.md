@@ -2,6 +2,8 @@
 id: cuban-black-beans-and-rice
 title: Cuban black beans and rice
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Miami, FL
 yield: 6 to 8 servings

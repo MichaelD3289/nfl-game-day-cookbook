@@ -2,6 +2,8 @@
 id: half-smoke-chili-dogs
 title: Half-smoke chili dogs
 status: published
+last_reviewed_at: null
+last_reviewed_notes: null
 course: meals
 location: Washington, DC
 yield: 6 chili half-smokes

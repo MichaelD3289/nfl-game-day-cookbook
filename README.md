@@ -113,3 +113,16 @@ a published recipe whose URL is missing from it fails validation. QR codes are g
 deterministically from the full source URL; the printed link text uses the short URL.
 
 See `AGENTS.md` for the rules contributors (human or AI) follow.
+
+## Recipe quality reviews
+
+Recipes support optional, non-printing metadata:
+
+```yaml
+last_reviewed_at: null  # or YYYY-MM-DD after a completed review
+last_reviewed_notes: null  # outcome, outstanding findings and report path
+```
+
+A review date does not mean a recipe passed. Incomplete reviews do not replace
+prior completed-review metadata. Existing recipes begin with empty fields; no
+historical review dates are inferred. These fields do not affect booklet content.
