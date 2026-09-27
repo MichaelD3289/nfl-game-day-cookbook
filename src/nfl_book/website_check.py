@@ -22,6 +22,8 @@ class _Links(HTMLParser):
         for attribute in ("href", "src"):
             if data.get(attribute):
                 self.links.append(str(data[attribute]))
+        # Pages print.js fetches to print after a recipe are links too.
+        self.links.extend((data.get("data-print-pages") or "").split())
 
 
 def check_site(root: Path, diags: Diagnostics) -> None:

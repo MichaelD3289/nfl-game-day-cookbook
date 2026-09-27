@@ -96,10 +96,10 @@ Photo: {{ credit }}
 {% endif %}
 :::
 {% endmacro %}
-{% macro print_button(scaled=false) %}
+{% macro print_button(scaled=false, pages=()) %}
 
 ```{=html}
-<div class="print-bar" hidden><button type="button" class="print-button">Print</button></div>
+<div class="print-bar" hidden{% if pages %} data-print-pages="{{ pages|join(" ")|e }}"{% endif %}><button type="button" class="print-button">Print</button>{% if pages %}<label class="print-with" hidden><input type="checkbox" name="print-with"> Include homemade components</label>{% endif %}</div>
 {% if scaled %}
 <p class="print-scale" hidden></p>
 {% endif %}

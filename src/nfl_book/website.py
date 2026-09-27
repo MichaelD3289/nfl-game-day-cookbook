@@ -24,9 +24,10 @@ from nfl_book.pipeline import load
 from nfl_book.project import Project
 from nfl_book.publishing import EPUB_FILENAME, RELEASES, REPOSITORY
 from nfl_book.quantities import Amount, find_yield_amounts
-from nfl_book.references import html_id
+from nfl_book.references import component_label, html_id
 from nfl_book.render.pages import ItemView, PageSpec
 from nfl_book.resolve import BookModel
+from nfl_book.validation import component_graph
 
 # Quick issue form per suggestion kind: (template, title prefix, field used in the title).
 SUGGESTION_FORMS = {
@@ -125,6 +126,25 @@ def _add_scaling(model: BookModel, pages: list[PageSpec]) -> None:
         context["scaler"] = scaler
 
 
+def _add_print_pages(model: BookModel, pages: list[PageSpec]) -> None:
+    """Component pages a recipe can print after itself: every component it uses,
+    nested ones included, once each in order of first appearance."""
+    graph = component_graph(model.components)
+    published = {c.id for c in model.components}
+    component_pages = {
+        p.context["label"]: f"{p.slug}.html" for p in pages if p.template == "component.qmd.j2"
+    }
+    for page in pages:
+        if page.template != "recipe.qmd.j2":
+            continue
+        recipe = model.recipes_by_id[page.context["label"].removeprefix("recipe:")]
+        page.context["print_pages"] = [
+            component_pages[label]
+            for cid in graph.ordered_closure(recipe.component_refs)
+            if cid in published and (label := component_label(cid)) in component_pages
+        ]
+
+
 def _suggestion(kind: str, lead: str, **fields: str) -> dict[str, str]:
     """A prefilled GitHub issue link plus the same fields for the anonymous form."""
     template, prefix, title_field = SUGGESTION_FORMS[kind]
@@ -213,6 +233,7 @@ def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnos
     pages, diags, photos, model = prepare_pages(project, build_dir, web=True)
     _add_suggestions(project, model, pages)
     _add_scaling(model, pages)
+    _add_print_pages(model, pages)
     return pages, diags, photos
 
 
