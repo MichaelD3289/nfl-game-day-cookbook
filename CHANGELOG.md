@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-09-27
+
 ### Added
 
 - Every released website version stays online at `/vX.Y.Z/`, while the site root keeps serving the latest release. Older versions show a banner linking to the latest version, and a new **All versions** page lists each version with its date and PDF.
@@ -199,7 +201,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit and integration tests against a synthetic sample book.
 
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.5.0...v0.6.0
