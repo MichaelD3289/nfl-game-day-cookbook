@@ -1,5 +1,5 @@
 # Thin wrappers around the nfl-book CLI and dev tools. Everything runs via uv.
-.PHONY: book check links preview pdf website test lint clean
+.PHONY: book check links preview pdf website test lint format hooks clean
 
 UV ?= uv
 BOOK = $(UV) run nfl-book
@@ -32,10 +32,19 @@ website:
 test:
 	$(UV) run pytest
 
+# Formatting hooks from .pre-commit-config.yaml (Ruff for Python, Prettier for Markdown,
+# YAML, JSON, JS and CSS) on every file. They fix files in place and fail when they had
+# to, so rerun after reviewing the diff.
 lint:
-	$(UV) run ruff format --check src tests
-	$(UV) run ruff check src tests
+	$(UV) run pre-commit run --all-files --show-diff-on-failure
 	$(UV) run mypy src tests
+
+format:
+	$(UV) run pre-commit run --all-files
+
+# Run the formatting hooks on staged files at every commit.
+hooks:
+	$(UV) run pre-commit install
 
 clean:
 	$(BOOK) clean

@@ -1,0 +1,5 @@
+# Prettier's defaults apply. The only addition: Google Apps Script files are JavaScript.
+overrides:
+  - files: "*.gs"
+    options:
+      parser: babel
