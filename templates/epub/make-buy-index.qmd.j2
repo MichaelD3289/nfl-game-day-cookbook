@@ -1,0 +1,15 @@
+{% import '_macros.qmd.j2' as m with context %}
+
+[SCRATCH FAVORITES · QUICK ALTERNATIVES]{.eyebrow}
+
+# Make It or Buy It {#{{ label|anchor }}}
+
+A [Q]{.q-mark} beside an ingredient links to its homemade version.
+Quick-option cards on recipe pages include the ready-to-buy suggestion.
+
+{% for kind in kinds %}
+## {{ kind.title|md }}
+{% for component in kind.components %}
+- {{ m.link(component.ref) }}
+{% endfor %}
+{% endfor %}

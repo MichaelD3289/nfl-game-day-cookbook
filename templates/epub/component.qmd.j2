@@ -1,0 +1,33 @@
+{% import '_macros.qmd.j2' as m with context %}
+
+[MAKE IT OR BUY IT · {{ kind|md }}]{.eyebrow}
+
+## {{ title|md }} {#{{ label|anchor }}}
+{{ meta_line }}
+
+:::: {.recipe-columns}
+::: {.ingredients}
+### Ingredients {.unlisted}
+{{ m.ingredients(groups) }}
+:::
+::: {.instructions}
+### Method {.unlisted}
+{{ method }}
+:::
+::::
+
+::: {.quick-card}
+### [Q]{.q-mark} Buy it {.unlisted}
+{{ quick_buy }}
+:::
+{% if note %}
+::: {.kitchen-notes}
+### Kitchen notes {.unlisted}
+{{ note }}
+:::
+{% endif %}
+{% if used_in %}
+### Used in {.unlisted}
+{{ m.refs(used_in) }}
+{% endif %}
+{{ m.source(source) }}

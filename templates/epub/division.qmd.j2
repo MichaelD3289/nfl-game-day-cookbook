@@ -1,0 +1,16 @@
+{% import '_macros.qmd.j2' as m with context %}
+# {{ name|md }} {#{{ label|anchor }}}
+
+*{{ conference|md }}*
+
+{% for team in teams %}
+{% if team.recipes %}
+**[{{ team.name|md }}]({{ route(team.label) }})** — {{ team.location }}
+{{ m.refs(team.recipes) }}
+{% endif %}
+{% endfor %}
+{% if dishoffs %}
+{% for item in dishoffs %}
+{{ m.menu(item) }}
+{% endfor %}
+{% endif %}

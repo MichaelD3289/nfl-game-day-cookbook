@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `make epub` with the full reflowable cookbook, linked indexes and homemade components, embedded optimized photos, and package checks. Releases and download links include EPUB ([#19](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/19)).
+
 ## [0.9.1] - 2026-09-27
 
 ### Fixed

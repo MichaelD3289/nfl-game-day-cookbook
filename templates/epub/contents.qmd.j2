@@ -1,0 +1,13 @@
+{% import '_macros.qmd.j2' as m with context %}
+
+[CHOOSE YOUR TEAM]{.eyebrow}
+
+# All recipes {#{{ label|anchor }}}
+
+{% for division in divisions %}
+## {{ m.link(division.ref) }} {.unlisted}
+{% for team in division.teams %}
+### {{ team.name|md }} {.unlisted}
+{{ m.refs(team.recipes) }}
+{% endfor %}
+{% endfor %}

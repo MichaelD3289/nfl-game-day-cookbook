@@ -69,3 +69,11 @@ Run `make website` and inspect home, a dense recipe, a component, and an index a
 desktop and phone widths. The build checks local links, images and fragments.
 Keep published-only and private-metadata tests green with `make check`. Do not
 edit the PDF templates or styles when making a website-only layout change.
+
+## EPUB layout
+
+EPUB uses `templates/epub/` and `styles/epub.css`. It reflows to the reader’s screen
+and font settings; the PDF one-page, two-column, and printed-page-number rules above
+apply only to print. Preserve linked anchors and source/photo credits. Run `make epub`
+and inspect a recipe, component, division menu, and index in a reader at multiple text
+sizes. Run EPUBCheck separately for standards validation when changing packaging.

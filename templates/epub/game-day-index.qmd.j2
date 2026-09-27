@@ -1,0 +1,9 @@
+{% import '_macros.qmd.j2' as m with context %}
+# Game Day Menus {#{{ label|anchor }}}
+
+{% for group in groups %}
+**{{ group.title|md }}**
+
+{{ group.description }}
+{{ m.refs(group.menus) }}
+{% endfor %}
