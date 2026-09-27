@@ -23,6 +23,9 @@ description: Change how the cookbook looks - fonts, colours, margins, recipe pag
    - two columns for ingredients and instructions
    - compact Kitchen Notes
    - source text and QR code at the bottom
+   Photo pixel size, format and quality for each output live under `photos:` in
+   `data/book.yml` (the book and site crop every photo to a centred square). The
+   printed size of the photo box is set in `theme.tex`.
 3. Never compute or print page numbers from Python. Use `\BookAnchor` together with
    `\BookPageRef` / `\ComponentRef`.
 4. Keep every `\BookAnchor{<label>}` and `\BookEnd{<end_label>}` in place. The

@@ -13,7 +13,7 @@ yield: 30 cookies
 prep: 20 minutes
 cook: 25 minutes
 image: berger-cookies.jpg
-photo_credit: sugarspunrun.com
+photo_credit: Sugar Spun Run
 index:
   main_ingredient: meatless
   practical_time: 31-to-60-minutes

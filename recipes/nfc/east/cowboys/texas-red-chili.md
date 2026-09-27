@@ -13,7 +13,7 @@ yield: 6 servings
 prep: 30 minutes
 cook: 3 hours
 image: texas-red-chili.jpg
-photo_credit: inspiredtaste.net
+photo_credit: Inspired Taste
 index:
   main_ingredient: beef
   practical_time: over-60-minutes

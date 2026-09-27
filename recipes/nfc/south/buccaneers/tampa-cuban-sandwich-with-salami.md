@@ -13,7 +13,7 @@ yield: 1 serving
 prep: 5–10 min (estimated)
 cook: Press until crisp, duration unstated
 image: tampa-cuban-sandwich-with-salami.jpg
-photo_credit: columbiarestaurant.com
+photo_credit: Columbia Restaurant
 index:
   main_ingredient: pork-and-sausage
   practical_time: up-to-30-minutes

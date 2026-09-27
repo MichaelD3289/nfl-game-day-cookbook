@@ -10,7 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Kansas City, MO
 image: kansas-city-style-barbecue-chicken.jpg
-photo_credit: kcmasterpiece.com
+photo_credit: KC Masterpiece
 yield: 6–8 servings
 prep: 20 minutes active (estimated)
 cook: About 4 hours smoking, plus 5–10 minutes resting

@@ -13,7 +13,7 @@ yield: 10 servings (10 brats)
 prep: 5–10 min (estimated)
 cook: 10–12 min simmer + about 5 min grill
 image: beer-brats.jpg
-photo_credit: culinaryhill.com
+photo_credit: Culinary Hill
 index:
   main_ingredient: pork-and-sausage
   practical_time: 31-to-60-minutes
