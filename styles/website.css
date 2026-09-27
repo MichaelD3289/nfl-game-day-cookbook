@@ -872,6 +872,172 @@ main.content {
   }
 }
 
+/* Build your own menu: filters, dishes by course, and a summary that stays in view
+   (website-menu.js). Without JavaScript only the dish list shows. */
+.menu-builder {
+  display: grid;
+  grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr) minmax(
+      15rem,
+      19rem
+    );
+  gap: 1.5rem;
+  align-items: start;
+  margin: 1.5rem 0;
+}
+.menu-builder .finder-filters[hidden],
+.menu-summary[hidden],
+.menu-course[hidden],
+.menu-dish[hidden],
+.menu-add[hidden],
+.menu-actions[hidden],
+.menu-summary-scale[hidden],
+.menu-empty-note[hidden] {
+  display: none;
+}
+.menu-course-title {
+  margin: 1.2rem 0 0.4rem;
+  font-size: 1.15rem;
+}
+.menu-dish-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.menu-dish {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--book-rule);
+}
+.menu-dish.is-picked {
+  background: var(--book-pale);
+}
+.menu-dish-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.menu-dish-name {
+  font-weight: 700;
+}
+.menu-dish-team {
+  color: var(--book-muted);
+  font-size: 0.82rem;
+}
+.menu-dish-description {
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+.menu-add,
+.menu-clear,
+.menu-remove {
+  flex: none;
+  border: 1px solid var(--book-navy);
+  border-radius: 4px;
+  background: var(--book-paper);
+  color: var(--book-navy);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.2rem 0.8rem;
+  cursor: pointer;
+}
+.menu-add[aria-pressed="true"] {
+  background: var(--book-navy);
+  color: var(--book-paper);
+}
+.menu-clear:disabled,
+.menu-actions button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.menu-summary {
+  position: sticky;
+  top: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--book-rule);
+  border-top: 5px solid var(--book-navy);
+  border-radius: 4px;
+  background: var(--book-card);
+}
+.menu-summary-title {
+  margin: 0 0 0.3rem;
+  font-size: 1.2rem;
+}
+.menu-count,
+.menu-summary-scale,
+.menu-empty-note {
+  margin: 0 0 0.6rem;
+  color: var(--book-muted);
+  font-size: 0.88rem;
+}
+.menu-picked {
+  margin: 0 0 0.8rem;
+  padding: 0;
+  list-style: none;
+}
+.menu-picked-label {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--book-navy);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.menu-picked ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.menu-picked ul li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  align-items: baseline;
+  padding: 0.2rem 0;
+}
+.menu-picked-team {
+  color: var(--book-muted);
+  font-size: 0.82rem;
+}
+.menu-remove {
+  margin-left: auto;
+  font-size: 0.75rem;
+  padding: 0.05rem 0.5rem;
+}
+.menu-scale {
+  margin: 0 0 0.8rem;
+}
+.menu-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0 0 0.8rem;
+}
+.menu-actions .print-with,
+.menu-actions .shop-actions {
+  margin-left: 0;
+}
+@media (max-width: 1100px) {
+  .menu-builder {
+    grid-template-columns: minmax(12rem, 15rem) minmax(0, 1fr);
+  }
+  .menu-summary {
+    position: static;
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+}
+@media (max-width: 768px) {
+  .menu-builder {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Paper: one recipe per Letter or A4 page, like the booklet, without the site chrome.
    The page prints as shown, so scaled amounts print scaled. */
 @media print {
@@ -892,6 +1058,11 @@ main.content {
   .print-with,
   .shop-actions,
   .scaler,
+  .menu-scale,
+  .menu-actions,
+  .menu-clear,
+  .menu-remove,
+  .menu-add,
   .suggest,
   .quick-card a[data-carry-scale] {
     display: none !important;
@@ -1065,5 +1236,11 @@ main.content {
   }
   .print-target {
     margin-top: 0;
+  }
+  /* Build your own menu prints its summary as a cover list before the recipes. */
+  .menu-summary {
+    position: static;
+    border: 0;
+    background: none;
   }
 }

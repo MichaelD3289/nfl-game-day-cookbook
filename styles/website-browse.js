@@ -126,9 +126,9 @@
     return Array.prototype.slice.call(list || []);
   }
 
-  // [{id, facets, el}] from the rendered cards.
-  function readCards(container) {
-    return toArray(container.querySelectorAll(".finder-card")).map(
+  // [{id, facets, el}] from the rendered cards (".finder-card" unless told otherwise).
+  function readCards(container, selector) {
+    return toArray(container.querySelectorAll(selector || ".finder-card")).map(
       function (card) {
         var facets = {};
         try {
@@ -157,6 +157,48 @@
     );
   }
 
+  // {facet: [option, ...]} from the ticked boxes of readFacets' facets.
+  function formState(facets) {
+    var state = {};
+    facets.forEach(function (facet) {
+      var picked = facet.inputs
+        .filter(function (input) {
+          return input.checked;
+        })
+        .map(function (input) {
+          return input.value;
+        });
+      if (picked.length) state[facet.id] = picked;
+    });
+    return state;
+  }
+
+  // Ticks exactly the boxes chosen in state.
+  function setForm(facets, state) {
+    facets.forEach(function (facet) {
+      var chosen = state[facet.id] || [];
+      facet.inputs.forEach(function (input) {
+        input.checked = chosen.indexOf(input.value) >= 0;
+      });
+    });
+  }
+
+  // Writes each option's count from countOptions into its label's .finder-count badge
+  // and dims the options that would give nothing and are not ticked.
+  function showCounts(facets, counts) {
+    facets.forEach(function (facet) {
+      facet.inputs.forEach(function (input) {
+        var n = (counts[facet.id] && counts[facet.id][input.value]) || 0;
+        var label = input.parentNode;
+        var badge =
+          label && label.querySelector && label.querySelector(".finder-count");
+        if (badge) badge.textContent = "(" + n + ")";
+        if (label && label.classList)
+          label.classList.toggle("is-empty", n === 0 && !input.checked);
+      });
+    });
+  }
+
   function plural(n) {
     return n === 1 ? "recipe" : "recipes";
   }
@@ -173,30 +215,6 @@
     var empty = container.querySelector(".finder-empty");
     var clear = container.querySelector(".finder-clear");
 
-    function fromForm() {
-      var state = {};
-      facets.forEach(function (facet) {
-        var picked = facet.inputs
-          .filter(function (input) {
-            return input.checked;
-          })
-          .map(function (input) {
-            return input.value;
-          });
-        if (picked.length) state[facet.id] = picked;
-      });
-      return state;
-    }
-
-    function toForm(state) {
-      facets.forEach(function (facet) {
-        var chosen = state[facet.id] || [];
-        facet.inputs.forEach(function (input) {
-          input.checked = chosen.indexOf(input.value) >= 0;
-        });
-      });
-    }
-
     function render(state) {
       var shown = 0;
       cards.forEach(function (card) {
@@ -204,20 +222,7 @@
         card.el.hidden = !on;
         if (on) shown += 1;
       });
-      var counts = countOptions(cards, facets, state);
-      facets.forEach(function (facet) {
-        facet.inputs.forEach(function (input) {
-          var n = counts[facet.id][input.value] || 0;
-          var label = input.parentNode;
-          var badge =
-            label &&
-            label.querySelector &&
-            label.querySelector(".finder-count");
-          if (badge) badge.textContent = "(" + n + ")";
-          if (label && label.classList)
-            label.classList.toggle("is-empty", n === 0 && !input.checked);
-        });
-      });
+      showCounts(facets, countOptions(cards, facets, state));
       var active = Object.keys(state).length > 0;
       if (status) {
         status.textContent =
@@ -249,14 +254,14 @@
     }
 
     function update() {
-      var state = fromForm();
+      var state = formState(facets);
       render(state);
       remember(state);
     }
 
     function restore() {
       var state = parseState(win.location ? win.location.search : "", facets);
-      toForm(state);
+      setForm(facets, state);
       render(state);
     }
 
@@ -266,7 +271,7 @@
     });
     if (clear) {
       clear.addEventListener("click", function () {
-        toForm({});
+        setForm(facets, {});
         update();
       });
     }
@@ -284,6 +289,9 @@
     countOptions: countOptions,
     readCards: readCards,
     readFacets: readFacets,
+    formState: formState,
+    setForm: setForm,
+    showCounts: showCounts,
     init: init,
   };
 });
