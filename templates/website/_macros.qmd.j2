@@ -75,6 +75,15 @@ Photo: {{ credit }}
 :::
 {% endif %}
 {% endmacro %}
+{% macro print_menu(item) %}
+{% if item.get("print_pages") %}
+
+```{=html}
+<div class="print-bar print-menu" hidden data-print-pages="{{ item.print_pages|join(" ")|e }}"{% if item.get("print_components") %} data-print-components="{{ item.print_components|join(" ")|e }}"{% endif %}><button type="button" class="print-button">Print menu + recipes</button>{% if item.get("print_components") %}<label class="print-with" hidden><input type="checkbox" name="print-with"> Include homemade components</label>{% endif %}</div>
+```
+
+{% endif %}
+{% endmacro %}
 {% macro menu(item) %}
 ::: {.menu-card}
 {{ anchor(item.label) }}
@@ -83,6 +92,7 @@ Photo: {{ credit }}
 [{{ item.subtitle|md }}]{.menu-matchup}
 {% endif %}
 {{ refs(item.recipes) }}
+{{ print_menu(item) }}
 {% if item.why_it_works %}
 ### Why it works
 {{ item.why_it_works }}

@@ -32,8 +32,20 @@ function el(attrs, text) {
     hasAttribute: (k) => k in a,
     setAttribute: (k, v) => { a[k] = String(v); },
     classList: { toggle: (c, on) => (on ? classes.add(c) : classes.delete(c)),
+                 add: (c) => classes.add(c),
+                 remove: (c) => classes.delete(c),
                  contains: (c) => classes.has(c) },
+    children: [],
+    parentNode: null,
   };
+}
+// An element with `kids` as its children, each pointing back at it.
+function tree(kids, className) {
+  const node = el({});
+  if (className) node.classList.add(className);
+  node.children = kids;
+  kids.forEach((kid) => { kid.parentNode = node; });
+  return node;
 }
 function fakeRoot(parts, attrs) {
   const r = el(attrs || {});
@@ -63,7 +75,18 @@ def node(body: str) -> Any:
 
 def test_requiring_the_script_does_not_touch_the_dom() -> None:
     assert node("return Object.keys(p).sort();") == sorted(
-        ["assemble", "extract", "footerUrl", "init", "pageList", "prefetch", "printBundle"]
+        [
+            "assemble",
+            "extract",
+            "footerUrl",
+            "init",
+            "isolate",
+            "menuPages",
+            "pageList",
+            "prefetch",
+            "printBundle",
+            "release",
+        ]
     )
 
 
@@ -167,4 +190,53 @@ def test_apply_scale_rewrites_amounts_under_a_root() -> None:
     assert result == [
         ["3/2", "1½ cups", "3–5", " (1½×)", "Scaled 1½× · serves 6–9", False, True],
         ["1 cup", "2–3", "", True, False],
+    ]
+
+
+def test_menu_pages_list_recipes_then_components_once() -> None:
+    result = node(
+        """
+        const bar = el({
+          "data-print-pages": "recipe-a.html recipe-b.html",
+          "data-print-components": "component-x.html component-y.html component-x.html",
+        });
+        const bare = el({"data-print-pages": "recipe-a.html"});
+        return [p.menuPages(bar, true), p.menuPages(bar, false), p.menuPages(bare, true)];
+        """
+    )
+    assert result == [
+        ["recipe-a.html", "recipe-b.html", "component-x.html", "component-y.html"],
+        ["recipe-a.html", "recipe-b.html"],
+        ["recipe-a.html"],
+    ]
+
+
+def test_isolate_hides_everything_but_the_card_and_release_undoes_it() -> None:
+    result = node(
+        """
+        const header = tree([]), h1 = tree([]), cardA = tree([]), cardB = tree([]);
+        const url = tree([], "print-url"), bundle = tree([], "print-bundle");
+        const section = tree([h1, cardA, cardB]);
+        const main = tree([header, section, url, bundle]);
+        const all = {header, h1, cardA, cardB, url, bundle, section, main};
+        const has = (k, c) => all[k].classList.contains(c);
+        const marks = () => Object.keys(all)
+          .filter((k) => has(k, "print-hide") || has(k, "print-target"))
+          .map((k) => k + (has(k, "print-target") ? ":target" : ""));
+        p.isolate(cardA, main);
+        const isolated = marks();
+        p.release();
+        const released = marks();
+        p.isolate(cardB, main);
+        p.isolate(cardA, main);
+        const again = marks();
+        p.release();
+        return [isolated, released, again, marks()];
+        """
+    )
+    assert result == [
+        ["header", "h1", "cardA:target", "cardB"],
+        [],
+        ["header", "h1", "cardA:target", "cardB"],
+        [],
     ]

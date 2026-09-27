@@ -127,8 +127,11 @@ def _add_scaling(model: BookModel, pages: list[PageSpec]) -> None:
 
 
 def _add_print_pages(model: BookModel, pages: list[PageSpec]) -> None:
-    """Component pages a recipe can print after itself: every component it uses,
-    nested ones included, once each in order of first appearance."""
+    """Pages print.js can print after a recipe or a menu card.
+
+    A recipe prints every component it uses, nested ones included, once each in order of
+    first appearance. A game-day menu or dish-off card prints its recipes in menu order,
+    then optionally every component those recipes print, once each."""
     graph = component_graph(model.components)
     published = {c.id for c in model.components}
     component_pages = {
@@ -143,6 +146,21 @@ def _add_print_pages(model: BookModel, pages: list[PageSpec]) -> None:
             for cid in graph.ordered_closure(recipe.component_refs)
             if cid in published and (label := component_label(cid)) in component_pages
         ]
+    recipe_pages = {
+        p.context["label"]: f"{p.slug}.html" for p in pages if p.template == "recipe.qmd.j2"
+    }
+    recipe_prints: dict[str, list[str]] = {
+        p.context["label"]: p.context["print_pages"] for p in pages if p.template == "recipe.qmd.j2"
+    }
+    for page in pages:
+        if page.template not in ("game-day-menu.qmd.j2", "division.qmd.j2"):
+            continue
+        for item in page.context.get("menus", []) + page.context.get("dishoffs", []):
+            labels = [ref.label for ref in item["recipes"] if ref.label in recipe_pages]
+            item["print_pages"] = [recipe_pages[label] for label in labels]
+            item["print_components"] = list(
+                dict.fromkeys(url for label in labels for url in recipe_prints[label])
+            )
 
 
 def _suggestion(kind: str, lead: str, **fields: str) -> dict[str, str]:
