@@ -1,5 +1,6 @@
 """Assemble the Pages site from a fresh build plus synthetic release ZIPs."""
 
+import hashlib
 import json
 import zipfile
 from pathlib import Path
@@ -7,7 +8,7 @@ from pathlib import Path
 import pytest
 
 from nfl_book.errors import Diagnostics
-from nfl_book.site_archive import VERSIONS_MARKER, WEBSITE_ZIP, assemble, main
+from nfl_book.site_archive import MEDIA, VERSIONS_MARKER, WEBSITE_ZIP, assemble, main
 from nfl_book.website import RELEASES
 from nfl_book.website_check import check_site
 
@@ -185,3 +186,98 @@ def test_command_prints_root_tag(
     code = main([*args, "--out", str(tmp_path / "pages"), "--pdf", PDF])
     assert code == 0
     assert capsys.readouterr().out == "v0.6.0\n"
+
+
+def _with_photo(site: Path, photo: bytes, *, page: str = "recipe-test-citrus-wings.html") -> Path:
+    (site / "assets").mkdir(exist_ok=True)
+    (site / "assets/recipe-test-citrus-wings.jpg").write_bytes(photo)
+    (site / "assets/qr-recipe-test-citrus-wings.png").write_bytes(b"same QR")
+    (site / "assets/unused.png").write_bytes(b"never linked " + photo)
+    depth = "../" * page.count("/")
+    body = (
+        f'<img src="{depth}assets/recipe-test-citrus-wings.jpg" '
+        f'srcset="{depth}assets/recipe-test-citrus-wings.jpg 2x">'
+        f'<img src="{depth}assets/qr-recipe-test-citrus-wings.png">'
+        f"<div style=\"background: url('{depth}assets/recipe-test-citrus-wings.jpg')\"></div>"
+    )
+    (site / page).parent.mkdir(parents=True, exist_ok=True)
+    (site / page).write_text(_page("x", body))
+    return site
+
+
+def _media(data: bytes, suffix: str) -> str:
+    return f"{MEDIA}/{hashlib.sha256(data).hexdigest()}{suffix}"
+
+
+def test_identical_images_are_stored_once_across_versions(tmp_path: Path, releases: Path) -> None:
+    _zip(releases, "v0.6.0", _with_photo(_site(tmp_path / "newest", "0.6.0"), b"photo"))
+    old = _with_photo(_site(tmp_path / "older", "0.5.0"), b"photo", page="teams/wings.html")
+    (releases / "v0.5.0" / WEBSITE_ZIP).unlink()
+    (releases / "v0.5.0").rmdir()
+    _zip(releases, "v0.5.0", old)
+    out = tmp_path / "pages"
+    fresh = _with_photo(_site(tmp_path / "fresh", "0.6.1"), b"photo")
+    _release(releases, "v0.6.1", date="2026-04-01", assets=(WEBSITE_ZIP,))
+    diags = Diagnostics()
+    assert assemble("v0.6.1", fresh, releases, out, PDF, diags) == "v0.6.1"
+    assert diags.ok, [d.format() for d in diags]
+
+    photo, qr = _media(b"photo", ".jpg"), _media(b"same QR", ".png")
+    assert sorted(p.name for p in (out / MEDIA).iterdir()) == sorted(
+        Path(p).name for p in (photo, qr)
+    )
+    assert not list(out.rglob("assets"))
+    root = (out / "recipe-test-citrus-wings.html").read_text()
+    assert f'src="{photo}" srcset="{photo} 2x"' in root
+    assert f"url('{photo}')" in root
+    assert f'src="../{photo}"' in (out / "v0.6.0/recipe-test-citrus-wings.html").read_text()
+    # Pages in subfolders link up one extra level.
+    assert f'src="../../{qr}"' in (out / "v0.5.0/teams/wings.html").read_text()
+
+
+def test_changed_photo_keeps_old_contents_on_old_version(tmp_path: Path, releases: Path) -> None:
+    _zip(releases, "v0.6.0", _with_photo(_site(tmp_path / "newest", "0.6.0"), b"old photo"))
+    fresh = _with_photo(_site(tmp_path / "fresh", "0.6.1"), b"new photo")
+    _release(releases, "v0.6.1", date="2026-04-01", assets=(WEBSITE_ZIP,))
+    out = tmp_path / "pages"
+    assemble("v0.6.1", fresh, releases, out, PDF, Diagnostics())
+    old, new = _media(b"old photo", ".jpg"), _media(b"new photo", ".jpg")
+    assert (out / old).read_bytes() == b"old photo"
+    assert f'src="../{old}"' in (out / "v0.6.0/recipe-test-citrus-wings.html").read_text()
+    assert f'src="{new}"' in (out / "recipe-test-citrus-wings.html").read_text()
+    assert f'src="../{new}"' in (out / "v0.6.1/recipe-test-citrus-wings.html").read_text()
+
+
+def test_search_index_asset_paths_are_relinked(tmp_path: Path, releases: Path) -> None:
+    site = _with_photo(_site(tmp_path / "fresh", "0.6.0"), b"photo")
+    entries = [{"href": "recipe-test-citrus-wings.html", "img": "assets/unused.png"}]
+    (site / "search.json").write_text(json.dumps(entries))
+    out = tmp_path / "pages"
+    assemble("v0.6.0", site, releases, out, PDF, Diagnostics())
+    unused = _media(b"never linked photo", ".png")
+    assert json.loads((out / "search.json").read_text())[0]["img"] == unused
+    assert json.loads((out / "v0.6.0/search.json").read_text())[0]["img"] == f"../{unused}"
+    assert (out / unused).is_file()
+
+
+def test_release_zips_are_left_unchanged(tmp_path: Path, releases: Path) -> None:
+    _zip(releases, "v0.6.0", _with_photo(_site(tmp_path / "newest", "0.6.0"), b"photo"))
+    before = (releases / "v0.6.0" / WEBSITE_ZIP).read_bytes()
+    assemble(
+        "v0.5.0",
+        _site(tmp_path / "fresh", "0.5.0"),
+        releases,
+        tmp_path / "pages",
+        PDF,
+        Diagnostics(),
+    )
+    assert (releases / "v0.6.0" / WEBSITE_ZIP).read_bytes() == before
+
+
+def test_missed_reference_fails_the_assembly(tmp_path: Path, releases: Path) -> None:
+    site = _site(tmp_path / "fresh", "0.6.0")
+    (site / "index.html").write_text(_page("0.6.0", '<img src="assets/missing.png">'))
+    diags = Diagnostics()
+    assemble("v0.6.0", site, releases, tmp_path / "pages", PDF, diags)
+    assert not diags.ok
+    assert {d.code for d in diags.errors} == {"website-link"}

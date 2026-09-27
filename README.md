@@ -233,7 +233,13 @@ and `python -m nfl_book.site_archive` assembles them offline into `_pages/`:
 - older versions get a banner linking to the same page in the latest version (or its
   home page if the page is gone), link to their own PDF, and carry `noindex`; the
   `/vX.Y.Z/` copy of the latest release carries `noindex` too;
-- `versions.html` lists every kept version with its date and PDF.
+- `versions.html` lists every kept version with its date and PDF;
+- images (photos and QR codes under each build's `assets/`) are stored once in
+  `media/`, named by a SHA-256 hash of their contents, and every version's pages
+  link there with relative paths. A photo replaced in a later release gets a new
+  hash, so older versions keep showing the old one. Images no version links to are
+  removed, and the assembled site must pass the same offline link check as a build,
+  so a missed reference fails the deploy. Release ZIPs stay self-contained.
 
 There is no `/latest/` folder; the root is the latest version. Prereleases and tags
 created before HTML support have no website ZIP and are not included. A missing or
