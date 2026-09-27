@@ -172,6 +172,27 @@ def website(
 
 
 @app.command()
+def epub(
+    no_render: Annotated[
+        bool, typer.Option("--no-render", help="Generate EPUB sources only.")
+    ] = False,
+) -> None:
+    """Build the reflowable EPUB (offline, published content only)."""
+    from nfl_book.epub import build_epub
+
+    project = None
+    try:
+        project = state.project()
+        result = build_epub(project, render=not no_render)
+    except BookError as exc:
+        fail(exc, project.root if project else None)
+    report(result.diagnostics, project.root)
+    out.print(f"EPUB sources: {result.document}")
+    if result.epub:
+        out.print(f"EPUB: {result.epub}")
+
+
+@app.command()
 def clean() -> None:
     """Remove generated/ and dist/."""
     try:

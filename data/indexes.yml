@@ -22,10 +22,10 @@ indexes:
     field: course
     required: true
     buckets:
-      - {id: appetizers, label: Appetizers, short_label: Appetizer}
-      - {id: sides, label: Sides, short_label: Side}
-      - {id: meals, label: Meals, short_label: Meal}
-      - {id: desserts, label: Desserts, short_label: Dessert}
+      - { id: appetizers, label: Appetizers, short_label: Appetizer }
+      - { id: sides, label: Sides, short_label: Side }
+      - { id: meals, label: Meals, short_label: Meal }
+      - { id: desserts, label: Desserts, short_label: Dessert }
 
   - id: main-ingredient
     title: Index by Main Ingredient
@@ -33,12 +33,12 @@ indexes:
     field: index.main_ingredient
     required: true
     buckets:
-      - {id: beef, label: Beef}
-      - {id: pork-and-sausage, label: Pork and Sausage}
-      - {id: poultry, label: Poultry}
-      - {id: seafood, label: Seafood}
-      - {id: mixed-meat, label: Mixed Meat}
-      - {id: meatless, label: Meatless}
+      - { id: beef, label: Beef }
+      - { id: pork-and-sausage, label: Pork and Sausage }
+      - { id: poultry, label: Poultry }
+      - { id: seafood, label: Seafood }
+      - { id: mixed-meat, label: Mixed Meat }
+      - { id: meatless, label: Meatless }
 
   - id: practical-time
     title: Index by Practical Time
@@ -46,10 +46,10 @@ indexes:
     field: index.practical_time
     required: true
     buckets:
-      - {id: up-to-30-minutes, label: Up to 30 Minutes}
-      - {id: 31-to-60-minutes, label: 31 to 60 Minutes}
-      - {id: over-60-minutes, label: Over 60 Minutes}
-      - {id: variable-or-make-ahead, label: Variable or Make Ahead}
+      - { id: up-to-30-minutes, label: Up to 30 Minutes }
+      - { id: 31-to-60-minutes, label: 31 to 60 Minutes }
+      - { id: over-60-minutes, label: Over 60 Minutes }
+      - { id: variable-or-make-ahead, label: Variable or Make Ahead }
 
   - id: ingredient-cost
     title: Index by Ingredient Cost
@@ -57,6 +57,6 @@ indexes:
     field: index.cost
     required: true
     buckets:
-      - {id: pantry-friendly, label: Pantry Friendly}
-      - {id: moderate, label: Moderate}
-      - {id: premium, label: Premium}
+      - { id: pantry-friendly, label: Pantry Friendly }
+      - { id: moderate, label: Moderate }
+      - { id: premium, label: Premium }

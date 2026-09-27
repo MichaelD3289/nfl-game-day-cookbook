@@ -1,0 +1,12 @@
+# Build output (never source of truth).
+generated/
+dist/
+.quarto/
+
+# Recipe audit reports: wide tables that padding would make unreadable in diffs.
+docs/reviews/
+
+uv.lock
+
+# Test inputs: some deliberately contain raw characters Prettier would escape.
+tests/fixtures/

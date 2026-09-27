@@ -7,12 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.11.1] - 2026-09-26
-
 ### Changed
 
 - Every recipe with a quick component now lists the homemade choice followed by an explicit store-bought substitution, with the component link kept at the end of the ingredient line. Batch quantities, measured portions and special substitution amounts are retained, and preparation instructions accommodate either choice.
 - Recipe and component skills now document the shared homemade-or-store-bought wording, quantity and scaling conventions for future edits.
+
+## [0.12.0] - 2026-09-26
+
+### Added
+
+- Add `make epub` with the full reflowable cookbook, linked indexes and homemade components, embedded optimized photos, and package checks. Releases and download links include EPUB ([#19](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/19)).
+- The EPUB opens each recipe, component, menu and section on its own page, with the indexes at the back. Each recipe shows its short description, lists yield and times on separate lines, and links to its page in this edition of the website. A **Q** beside an ingredient opens the recipe's Quick options card, and sources link to their full address.
+- The EPUB has a cover, a description and rights details, and keeps the same identifier across editions, so reading apps treat a new edition as an update of the same book.
+- The website's **All versions** page links each edition's EPUB next to its PDF.
+- PR checks now render the website and EPUB with Quarto, so a rendering problem fails the pull request instead of the release.
+- Formatting rules and pre-commit hooks: Ruff formats and lints Python, and Prettier formats Markdown, YAML, JSON, JavaScript and CSS with its default style. Run `make hooks` once so staged files are fixed at every commit, and `make format` to fix every file.
+
+### Changed
+
+- The `creating-release` skill now builds the website and EPUB before a release, and the `layout-changes` skill explains how headings decide EPUB pages.
+- `make check`, and so the PR checks, now fail when any file is not formatted, not just Python in `src/` and `tests/`. The existing Markdown, YAML, JavaScript and CSS files were reformatted once to match; recipe content is unchanged.
+- The `creating-release` skill now dates a release by the maintainer's local day instead of UTC, so evening releases are no longer dated the following day.
 
 ## [0.11.0] - 2026-09-26
 
@@ -241,9 +256,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.1...HEAD
-[0.11.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.0...v0.11.1
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.12.0...HEAD
+[0.12.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.0...v0.9.1

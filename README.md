@@ -4,11 +4,12 @@
 
 Explore recipes online, print the cookbook, or download the website to serve locally.
 
-| Format | Open or download |
-| --- | --- |
-| **Website** | [Browse the cookbook](https://michaeld3289.github.io/nfl-game-day-cookbook/) |
+| Format                 | Open or download                                                                                                               |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Website**            | [Browse the cookbook](https://michaeld3289.github.io/nfl-game-day-cookbook/)                                                   |
 | **Printable cookbook** | [Download PDF](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-recipe-booklet.pdf) |
-| **Website archive** | [Download HTML ZIP](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-website.zip) |
+| **Ebook**              | [Download EPUB](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-cookbook.epub)     |
+| **Website archive**    | [Download HTML ZIP](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-website.zip)   |
 
 These links follow the latest published stable release.
 
@@ -53,37 +54,37 @@ material retain their own rights; see [third-party notices](THIRD_PARTY.md).
 
 ## Layout
 
-| Path | What |
-| --- | --- |
-| `data/book.yml` | Book title, paper and output settings |
-| `data/nfl.yml` | Conferences, divisions and 32 teams (drives the directory layout) |
-| `data/indexes.yml` | Search-index definitions (course, main ingredient, ...) |
-| `data/menu-types.yml`, `data/component-kinds.yml` | Menu groups and "Make It or Buy It" kinds |
-| `data/shortlinks.yml` | Cached source URL → short URL (written only by `prepare-links`) |
-| `recipes/<conf>/<div>/<team>/<id>.md` | One recipe. Its team comes from the path |
-| `components/<kind>/<id>.md` | Shared sauces, dips, seasonings, ... |
-| `menus/game-day/<type>/<id>.yml` | Game-day menus |
-| `menus/divisions/<conf>/<div>/<id>.yml` | Division dish-offs |
-| `book/frontmatter/cover.md` | Cover copy |
-| `templates/`, `styles/` | Jinja2 QMD templates and LaTeX styles |
-| `generated/`, `dist/` | Build output (git-ignored, never edited) |
-| `tests/fixtures/sample-book/` | Synthetic content used by the tests |
+| Path                                              | What                                                              |
+| ------------------------------------------------- | ----------------------------------------------------------------- |
+| `data/book.yml`                                   | Book title, paper and output settings                             |
+| `data/nfl.yml`                                    | Conferences, divisions and 32 teams (drives the directory layout) |
+| `data/indexes.yml`                                | Search-index definitions (course, main ingredient, ...)           |
+| `data/menu-types.yml`, `data/component-kinds.yml` | Menu groups and "Make It or Buy It" kinds                         |
+| `data/shortlinks.yml`                             | Cached source URL → short URL (written only by `prepare-links`)   |
+| `recipes/<conf>/<div>/<team>/<id>.md`             | One recipe. Its team comes from the path                          |
+| `components/<kind>/<id>.md`                       | Shared sauces, dips, seasonings, ...                              |
+| `menus/game-day/<type>/<id>.yml`                  | Game-day menus                                                    |
+| `menus/divisions/<conf>/<div>/<id>.yml`           | Division dish-offs                                                |
+| `book/frontmatter/cover.md`                       | Cover copy                                                        |
+| `templates/`, `styles/`                           | Jinja2 QMD templates and LaTeX styles                             |
+| `generated/`, `dist/`                             | Build output (git-ignored, never edited)                          |
+| `tests/fixtures/sample-book/`                     | Synthetic content used by the tests                               |
 
 ## Content format
 
 ```markdown
 ---
-id: buffalo-sliders            # must match the file name
+id: buffalo-sliders # must match the file name
 title: Buffalo Chicken Sliders
-status: draft                  # draft | testing | published | retired
-course: appetizers             # a bucket of the `course` index
+status: draft # draft | testing | published | retired
+course: appetizers # a bucket of the `course` index
 yield: 12 sliders
-servings: 4-6                  # optional; people fed, when yield isn't "N servings"
-index:                         # one value per index in data/indexes.yml
+servings: 4-6 # optional; people fed, when yield isn't "N servings"
+index: # one value per index in data/indexes.yml
   main_ingredient: poultry
   practical_time: under-30-minutes
   cost: pantry-friendly
-quick_options:                 # optional per-recipe override of a component's quick_buy
+quick_options: # optional per-recipe override of a component's quick_buy
   wing-sauce: Frank's RedHot Wings Sauce
 source:
   url: https://example.com/full/original/url
@@ -168,8 +169,8 @@ Reports go under `docs/reviews/`. See `.claude/skills/review-recipes/SKILL.md`.
 Recipes support optional, non-printing metadata:
 
 ```yaml
-last_reviewed_at: null  # or YYYY-MM-DD after a completed review
-last_reviewed_notes: null  # outcome, outstanding findings and report path
+last_reviewed_at: null # or YYYY-MM-DD after a completed review
+last_reviewed_notes: null # outcome, outstanding findings and report path
 ```
 
 A review date does not mean a recipe passed. Incomplete reviews do not replace
@@ -233,7 +234,7 @@ Two workflows handle publication:
    pushed commit. Equal or lower versions create no tag; prerelease/development
    versions are rejected. Other tag names are ignored.
 2. **Release** is called directly after tagging. It checks main ancestry, validates,
-   builds the PDF and website ZIP, publishes both assets, and deploys every website
+   builds the PDF, website ZIP and EPUB, publishes all three assets, and deploys every website
    version to `https://MichaelD3289.github.io/nfl-game-day-cookbook/`.
 
 The direct call is necessary because tags pushed with GitHub's built-in token do not
@@ -288,3 +289,24 @@ The website displays this as small subtext in team cards, recipe lists and index
 it is not printed in the PDF. New recipe scaffolds include an empty field.
 Game-day menu preview cards list their linked dishes, team/course labels and a
 link to the full prep plan; they omit the longer summaries to stay compact.
+
+## EPUB output
+
+Run `make epub` (or `uv run nfl-book epub`) to create
+`dist/nfl-game-day-cookbook.epub`. Quarto is required; TinyTeX is not.
+Use `uv run nfl-book epub --no-render` to generate sources under `generated/epub`.
+
+EPUB is reflowable: readers control font size and pagination. Recipes are grouped
+by division and team, followed by game-day menus and Make It or Buy It components,
+with the linked indexes at the back. Each recipe, component and menu opens on its own
+page. Photos are embedded; source links and each page's "View this page online" link
+(to the same edition of the website, from `website_url`) need internet. The book keeps
+one identifier across editions, so reading apps update it in place.
+The templates and reader-friendly single-column styles live in `templates/epub/` and
+`styles/epub.css`. PDF one-page rules do not apply to EPUB.
+
+The build checks EPUB packaging, navigation, content anchors, and embedded resources
+before replacing an existing output. The release workflow publishes it alongside PDF
+and HTML. For independent standards validation, install EPUBCheck separately and run
+`epubcheck dist/nfl-game-day-cookbook.epub`. Always preview layout in an EPUB reader
+after styling changes; package checks cannot certify visual appearance.

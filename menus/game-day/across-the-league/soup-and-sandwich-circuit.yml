@@ -4,8 +4,8 @@ subtitle: Patriots + Buccaneers + Eagles
 status: published
 order: 3
 recipes:
-- new-england-clam-chowder
-- tampa-cuban-sandwich-with-salami
-- water-ice
+  - new-england-clam-chowder
+  - tampa-cuban-sandwich-with-salami
+  - water-ice
 why_it_works: A soup-and-sandwich lunch finishes with a cool dessert.
 prep_plan: Make water ice ahead; hold chowder warm while pressing sandwiches.

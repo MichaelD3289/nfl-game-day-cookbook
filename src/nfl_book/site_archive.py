@@ -28,8 +28,8 @@ from typing import Any
 from urllib.parse import unquote, urlsplit
 
 from nfl_book.errors import Diagnostics
+from nfl_book.publishing import RELEASES
 from nfl_book.release_policy import STABLE
-from nfl_book.website import RELEASES
 from nfl_book.website_check import check_site
 
 WEBSITE_ZIP = "nfl-game-day-website.zip"
@@ -55,6 +55,7 @@ class Edition:
     tag: str
     date: str
     pdf: str | None
+    epub: str | None = None
 
 
 def _version(tag: str) -> tuple[int, int, int] | None:
@@ -62,7 +63,9 @@ def _version(tag: str) -> tuple[int, int, int] | None:
     return (int(match[1]), int(match[2]), int(match[3])) if match else None
 
 
-def _editions(archive: Path, pdf: str, diags: Diagnostics) -> dict[str, tuple[Edition, bool]]:
+def _editions(
+    archive: Path, pdf: str, diags: Diagnostics, epub: str | None = None
+) -> dict[str, tuple[Edition, bool]]:
     """Stable releases by tag, with whether each one published a website ZIP."""
     found = {}
     for path in sorted(archive.glob("*.json")):
@@ -77,7 +80,8 @@ def _editions(archive: Path, pdf: str, diags: Diagnostics) -> dict[str, tuple[Ed
             continue
         date = str(data.get("publishedAt") or "")[:10]
         link = f"{RELEASES}/download/{tag}/{pdf}" if pdf in names else None
-        found[tag] = (Edition(tag, date, link), WEBSITE_ZIP in names)
+        book = f"{RELEASES}/download/{tag}/{epub}" if epub and epub in names else None
+        found[tag] = (Edition(tag, date, link, book), WEBSITE_ZIP in names)
     return found
 
 
@@ -217,12 +221,20 @@ def _version_list(editions: list[Edition], root: str, prefix: str) -> str:
             label += f" · {edition.date}"
         if edition.pdf:
             label += f' · <a href="{edition.pdf}">PDF</a>'
+        if edition.epub:
+            label += f' · <a href="{edition.epub}">EPUB</a>'
         items.append(f"<li>{label}</li>")
     return '<ul class="site-versions">\n' + "\n".join(items) + "\n</ul>"
 
 
 def assemble(
-    tag: str, site: Path, archive: Path, out: Path, pdf: str, diags: Diagnostics
+    tag: str,
+    site: Path,
+    archive: Path,
+    out: Path,
+    pdf: str,
+    diags: Diagnostics,
+    epub: str | None = None,
 ) -> str | None:
     """Build ``out`` and return the tag served at its root (None when nothing is kept).
 
@@ -234,7 +246,7 @@ def assemble(
     if out.exists():
         diags.error("site-archive", "Output folder already exists; remove it first.", out)
         return None
-    editions = _editions(archive, pdf, diags)
+    editions = _editions(archive, pdf, diags, epub)
     out.mkdir(parents=True)
     kept: list[Edition] = []
     if _version(tag) is not None:
@@ -296,9 +308,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     parser.add_argument("--archive", type=Path, required=True, help="downloaded releases")
     parser.add_argument("--out", type=Path, required=True, help="Pages folder to create")
     parser.add_argument("--pdf", required=True, help="PDF asset name")
+    parser.add_argument("--epub", help="EPUB asset name (editions before the EPUB have none)")
     args = parser.parse_args(argv)
     diags = Diagnostics()
-    root = assemble(args.tag, args.site, args.archive, args.out, args.pdf, diags)
+    root = assemble(args.tag, args.site, args.archive, args.out, args.pdf, diags, args.epub)
     annotate = os.environ.get("GITHUB_ACTIONS") == "true"
     for item in diags:
         prefix = f"::{item.severity.value}::" if annotate else ""

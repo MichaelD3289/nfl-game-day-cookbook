@@ -1,10 +1,10 @@
 # "Make It or Buy It" component categories, in publication order.
 # Component files live at components/<kind id>/<component id>.md.
 component_kinds:
-  - {id: sauces, label: Sauces, short_label: Sauce}
-  - {id: dips, label: Dips, short_label: Dip}
-  - {id: toppings, label: Toppings, short_label: Topping}
-  - {id: seasonings, label: Seasonings, short_label: Seasoning}
-  - {id: sides, label: Sides, short_label: Side}
-  - {id: staples, label: Staples, short_label: Staple}
-  - {id: proteins, label: Proteins, short_label: Protein}
+  - { id: sauces, label: Sauces, short_label: Sauce }
+  - { id: dips, label: Dips, short_label: Dip }
+  - { id: toppings, label: Toppings, short_label: Topping }
+  - { id: seasonings, label: Seasonings, short_label: Seasoning }
+  - { id: sides, label: Sides, short_label: Side }
+  - { id: staples, label: Staples, short_label: Staple }
+  - { id: proteins, label: Proteins, short_label: Protein }

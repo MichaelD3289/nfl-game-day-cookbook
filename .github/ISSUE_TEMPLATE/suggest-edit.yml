@@ -1,31 +1,31 @@
 name: Suggest an edit (quick)
 description: Fix or improve an existing recipe or component. One sentence is enough.
-title: 'Edit suggestion: '
+title: "Edit suggestion: "
 labels:
-- needs-research
-- 'suggestion: edit'
+  - needs-research
+  - "suggestion: edit"
 body:
-- type: input
-  id: item
-  attributes:
-    label: Recipe or component
-    description: Filled in automatically when you start from the website.
-  validations:
-    required: true
-- type: textarea
-  id: change
-  attributes:
-    label: What should change?
-    description: Even a single ingredient, amount, or step is helpful.
-  validations:
-    required: true
-- type: textarea
-  id: why
-  attributes:
-    label: Why? (optional)
-    description: A source, your cooking experience, or local knowledge helps us check it.
-- type: input
-  id: page
-  attributes:
-    label: Source file (optional)
-    description: Filled in automatically when you start from the website.
+  - type: input
+    id: item
+    attributes:
+      label: Recipe or component
+      description: Filled in automatically when you start from the website.
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: What should change?
+      description: Even a single ingredient, amount, or step is helpful.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why? (optional)
+      description: A source, your cooking experience, or local knowledge helps us check it.
+  - type: input
+    id: page
+    attributes:
+      label: Source file (optional)
+      description: Filled in automatically when you start from the website.

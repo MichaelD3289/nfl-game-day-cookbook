@@ -1,0 +1,91 @@
+{% macro link(ref, description=true) %}[{{ ref.title|md }}]({{ route(ref.label) }}){% if ref.note %} — {{ ref.note|md }}{% endif %}{% if description and recipe_descriptions.get(ref.label) %} · {{ recipe_descriptions[ref.label]|md }}{% endif %}{% endmacro %}
+<# On a recipe, a Q goes to the Quick options card, as the cover explains; elsewhere
+   (components that use other components) it opens the from-scratch version. #>
+{% macro ingredients(groups, quick_labels=[], quick_target='') %}
+{% for group in groups %}
+{% if group.heading %}
+
+**{{ group.heading|md }}**
+
+{% endif %}
+{% for item in group.items %}
+{% if item.ref and quick_target and item.ref in quick_labels %}
+- {{ item.text }} [Q](#{{ quick_target }}){.q-mark aria-label="Quick option: see the store-bought suggestion"}
+{% elif item.ref %}
+- {{ item.text }} [Q]({{ route(item.ref) }}){.q-mark aria-label="Make it from scratch"}
+{% else %}
+- {{ item.text }}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endmacro %}
+{% macro refs(entries) %}
+{% for ref in entries %}
+- {{ link(ref) }}
+{% endfor %}
+{% endmacro %}
+{% macro meta(items, lead='') %}
+{% if lead or items %}
+
+::: {.recipe-meta}
+{% if lead %}
+{{ lead }}
+
+{% endif %}
+{% for name, value in items %}
+**{{ name }}:** {{ value|md }}
+
+{% endfor %}
+:::
+
+{% endif %}
+{% endmacro %}
+<# Print pages show short links for typing; an e-reader follows links, so it names the
+   publication and opens the full address. #>
+{% macro source(src, credit='', web=none) %}
+{% if src or credit or web %}
+
+::: {.recipe-source}
+{% if src %}
+**Source:** [{{ (src.title or src.url|site_name)|md }}]({{ src.url }})
+
+{% endif %}
+{% if credit %}
+**Photo:** {{ credit }}
+
+{% endif %}
+{% if web %}
+[View this page online]({{ web.href }}) to scale the recipe or print it. It opens edition {{ web.edition }}, which links to any newer edition.
+
+{% endif %}
+:::
+
+{% endif %}
+{% endmacro %}
+<# Dish-offs sit beside the teams in a division (level 2); game-day menus sit under
+   their menu type (level 3). #>
+{% macro menu(item, level=2) %}
+
+::: {.menu-card}
+{{ '#' * level }} {{ item.title|md }} {#{{ item.label|anchor }}}
+
+{% if item.subtitle %}
+*{{ item.subtitle }}*
+
+{% endif %}
+{{ refs(item.recipes) }}
+{% if item.why_it_works %}
+
+**Why it works:** {{ item.why_it_works }}
+{% endif %}
+{% if item.description %}
+
+{{ item.description }}
+{% endif %}
+{% if item.prep_plan or item.prep_note %}
+
+**Prep plan:** {{ item.prep_plan or item.prep_note }}
+{% endif %}
+:::
+
+{% endmacro %}

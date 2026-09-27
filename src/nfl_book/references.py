@@ -23,6 +23,11 @@ GROUP_RE = re.compile(r"^###\s+(?P<title>.+?)\s*#*\s*$")
 SLUG_RE = re.compile(SLUG_PATTERN)
 
 
+def html_id(label: str) -> str:
+    """The HTML id for a label in digital outputs (website, EPUB): ``recipe:x`` -> ``recipe-x``."""
+    return label.replace(":", "-")
+
+
 def recipe_label(recipe_id: str) -> str:
     return f"recipe:{recipe_id}"
 

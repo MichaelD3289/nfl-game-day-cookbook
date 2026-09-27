@@ -4,7 +4,7 @@ subtitle: Cowboys vs 49ers
 status: published
 order: 12
 recipes:
-- tex-mex-cheese-enchiladas
-- mission-style-burritos
+  - tex-mex-cheese-enchiladas
+  - mission-style-burritos
 why_it_works: Two tortilla-based regional favorites share a produce and cheese shopping list.
 prep_plan: Chop onions and toppings once; make burrito beans while enchiladas bake.

@@ -1,0 +1,46 @@
+# Formatting and lint hooks. Install once with `uv run pre-commit install`; after that
+# they run on the staged files of every commit. `make format` runs them on every file,
+# and CI runs them through `make check`.
+#
+# Python uses the Ruff version pinned in uv.lock. Everything else uses Prettier's
+# default style; see .prettierrc.yaml and .prettierignore.
+exclude: ^(generated|dist)/
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      # Jinja templates render Markdown: trailing "  " is a line break, and the final
+      # newlines shape the output, so leave their whitespace alone.
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+        exclude: ^templates/
+      - id: end-of-file-fixer
+        exclude: ^templates/
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: check-yaml
+      - id: check-toml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: uv run ruff check --fix --force-exclude
+        language: system
+        types_or: [python, pyi]
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format --force-exclude
+        language: system
+        types_or: [python, pyi]
+      - id: prettier
+        name: prettier
+        entry: prettier --write --ignore-unknown --log-level warn
+        language: node
+        additional_dependencies: [prettier@3.8.1]
+        files: \.(md|ya?ml|json|js|css|gs)$

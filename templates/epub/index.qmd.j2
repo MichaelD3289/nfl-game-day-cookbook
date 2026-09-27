@@ -1,0 +1,15 @@
+{% import '_macros.qmd.j2' as m with context %}
+<# Index sections are bold labels so each index reads as one page. #>
+
+# {{ title|md }} {#{{ label|anchor }}}
+
+[Find your next dish]{.eyebrow}
+
+{{ intro }}
+
+{% for section in sections %}
+
+**{{ section.title|md }}**
+
+{{ m.refs(section.entries) }}
+{% endfor %}

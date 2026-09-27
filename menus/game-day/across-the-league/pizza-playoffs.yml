@@ -4,8 +4,8 @@ subtitle: Bears + Lions + Jets
 status: published
 order: 2
 recipes:
-- tavern-style-thin-crust-pizza
-- detroit-style-pizza
-- new-york-style-cheese-pizza
+  - tavern-style-thin-crust-pizza
+  - detroit-style-pizza
+  - new-york-style-cheese-pizza
 why_it_works: Three crust styles make a slice-by-slice comparison for a crowd.
 prep_plan: Make each dough by its own schedule; shop once for flour, cheese, and sauce ingredients.

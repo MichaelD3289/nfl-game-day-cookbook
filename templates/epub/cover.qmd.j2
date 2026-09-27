@@ -1,0 +1,25 @@
+# Welcome
+
+*{{ subtitle|md }}*
+
+**{{ stats.recipes }} recipes · {{ stats.teams }} teams · {{ stats.menus }} menus · {{ stats.components }} scratch components**
+
+{{ body|web_body }}
+
+::: {.cover-notes}
+**Reading this e-book.** Browse the contents by division and team, or use the indexes
+at the back to choose by course, time, cost or main ingredient. Adjust your reader's
+font size for comfortable cooking. Recipes and photos work offline; source links and
+the website need an internet connection.
+
+{% if website %}
+Each recipe and Make It or Buy It page links to its page in this edition
+({{ website.edition }}) of the website at [{{ website.display|md }}]({{ website.href }}),
+where you can scale a recipe or print it. Once a newer edition is out, those pages link
+to it.
+{% endif %}
+
+Edition {{ version }}. Software is MIT-licensed; original cookbook content is CC BY 4.0.
+Third-party text and images keep their own rights and credits. These licenses do not
+automatically grant permission to redistribute third-party material.
+:::
