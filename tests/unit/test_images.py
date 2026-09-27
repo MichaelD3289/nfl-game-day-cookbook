@@ -164,7 +164,8 @@ def test_website_uses_webp_with_dimensions(fixture_book: Project) -> None:
     assert not [p for p in assets.iterdir() if p.suffix.lower() in (".jpg", ".jpeg")]
     wings = (fixture_book.generated_dir / "site" / "recipe-test-citrus-wings.qmd").read_text()
     assert (
-        f'(assets/recipe-test-citrus-wings.webp){{.dish-photo width="{size}" '
+        '(assets/recipe-test-citrus-wings.webp){fig-alt="Test Citrus Wings" '
+        f'.dish-photo width="{size}" '
         f'height="{size}" loading="lazy" decoding="async"}}'
     ) in wings
     assert result.photos.count == 1

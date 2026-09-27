@@ -43,4 +43,4 @@ repos:
         entry: prettier --write --ignore-unknown --log-level warn
         language: node
         additional_dependencies: [prettier@3.8.1]
-        files: \.(md|ya?ml|json|js|css|gs)$
+        files: \.(md|ya?ml|json|js|css|scss|gs)$

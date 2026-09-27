@@ -20,3 +20,8 @@ generated/
 .env.*
 .claude/settings.local.json
 .worktrees/
+
+# Local browser audit tooling and reports
+node_modules/
+website-reports/
+.lighthouseci/
