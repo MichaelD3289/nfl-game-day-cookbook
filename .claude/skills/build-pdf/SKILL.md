@@ -11,7 +11,7 @@ description: Build, preview or troubleshoot the cookbook PDF (make pdf, nfl-book
 | ----------------------------------------------------- | ---------------------------------------------------- |
 | Everything: short links (network), then the full book | `make book`, which runs `make links` then `make pdf` |
 | Full book (published content only), offline           | `make pdf`, which runs `uv run nfl-book build`       |
-| Treat warnings as errors                              | `uv run nfl-book build --strict`                     |
+| Fail on page overflows (the PR check runs this)       | `uv run nfl-book build --strict`                     |
 | Generate QMD only (no Quarto needed)                  | `uv run nfl-book build --no-pdf`                     |
 | One recipe or component, drafts allowed               | `make preview FILE=<path>`                           |
 | Clean output                                          | `make clean`                                         |
@@ -28,6 +28,8 @@ git-ignored build output. Read it for debugging, but never edit or commit it.
 - Quarto and TinyTeX (`quarto install tinytex`). **The user installs these.** Never
   install system software yourself; ask the user to.
 - Everything except the final PDF works without them.
+- Without them, open the PR: the **Build PDF** check runs `nfl-book build --strict` once
+  the PR is ready for review (not while it is a draft).
 
 ## Pipeline
 

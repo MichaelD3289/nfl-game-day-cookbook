@@ -45,6 +45,9 @@ and can also send a suggestion without a GitHub account
    for published content/layout changes. Otherwise ask for maintainer build help.
 7. Add visible changes to `CHANGELOG.md` under Unreleased. Open a PR using a descriptive
    Conventional Commit title, for example `feat(bills): add a regional appetizer`.
+8. Open the PR as a draft while you are still pushing changes, and mark it ready for
+   review when it is done. The full PDF build is the slowest check, so it runs only on
+   ready PRs: once when marked ready, then on every later push.
 
 Do not edit `generated/` or `dist/`. Do not bump versions or create tags; maintainers
 prepare releases and automation tags them after merging. Documentation-only changes
