@@ -29,14 +29,14 @@ quick_options:
 
 ## Ingredients
 
-- 1/4 cup finished homemade Buffalo wing sauce, or prepared Buffalo Wings Sauce {{component:buffalo-wing-sauce}}
-- 2 fully cooked, crisp fried chicken tenders {{component:crisp-chicken-fingers}}
+- 1/4 cup homemade Buffalo wing sauce; or substitute the same amount of store-bought Buffalo wing sauce {{component:buffalo-wing-sauce}}
+- 2 homemade fully cooked, crisp chicken tenders; or substitute the same number of store-bought fully cooked tenders, reheated until crisp {{component:crisp-chicken-fingers}}
 - 1 soft sub roll
 - 2 slices provolone
 - 2 iceberg lettuce leaves, thinly shredded
 - 3 thin white-onion slices
 - 3 thin tomato slices
-- 3 tablespoons thick blue-cheese dressing (e.g., Marie’s; or homemade) {{component:blue-cheese-dip}}
+- 3 tablespoons homemade blue-cheese dip; or substitute the same amount of store-bought refrigerated blue-cheese dressing {{component:blue-cheese-dip}}
 
 ## Instructions
 

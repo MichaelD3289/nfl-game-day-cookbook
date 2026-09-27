@@ -31,7 +31,7 @@ quick_options:
 - 1 teaspoon each dried oregano, garlic powder, onion powder, paprika and chili powder
 - 1 (4-pound) bottom round roast (top round also works)
 - 10 kaiser rolls
-- 1 cup tiger sauce (creamy horseradish sauce) {{component:baltimore-horseradish-sauce}}
+- 1 cup homemade tiger sauce (creamy horseradish sauce); or substitute the same amount of store-bought creamy horseradish sauce {{component:baltimore-horseradish-sauce}}
 - 1 sweet white onion, thinly sliced
 
 ## Instructions

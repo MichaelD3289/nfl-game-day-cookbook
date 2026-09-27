@@ -67,7 +67,7 @@ quick_options:
 - 3–4 very large flour tortillas (about 12–13 inches)
 - Shredded Monterey Jack and cheddar, to taste
 - 1 avocado, sliced
-- Roasted salsa verde, homemade or prepared, to taste {{component:roasted-salsa-verde}}
+- Homemade roasted salsa verde, to taste; or substitute store-bought salsa verde {{component:roasted-salsa-verde}}
 - Aluminum foil for the classic wrap
 
 ## Instructions

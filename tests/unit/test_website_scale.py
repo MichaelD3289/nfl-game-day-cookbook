@@ -7,14 +7,18 @@ These tests need Node.js and are skipped when it is not installed.
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import subprocess
+from fractions import Fraction
 from pathlib import Path
 from typing import Any
 
 import pytest
 
+from nfl_book.project import Project
 from nfl_book.quantities import UNITS
+from nfl_book.website import build_website
 
 SCRIPT = Path(__file__).resolve().parents[2] / "styles" / "website-scale.js"
 NODE = shutil.which("node")
@@ -109,3 +113,53 @@ def test_print_label_names_scale_and_servings() -> None:
         "Scaled 1½×",
         "Scaled 2½× · serves 10",
     ]
+
+
+@pytest.mark.parametrize(
+    ("factor", "expected"),
+    [
+        (0.5, [["½", "10 tablespoons"], ["2 tablespoons"], ["½", "1¾ cups"], []]),
+        (2, [["2", "2½ cups"], ["½ cup"], ["2", "7 cups"], []]),
+    ],
+)
+def test_quick_component_choices_scale_from_generated_markup(
+    fixture_book: Project, factor: float, expected: list[list[str]]
+) -> None:
+    recipe = next(fixture_book.recipes_dir.rglob("test-citrus-wings.md"))
+    ref = "{{component:test-wing-sauce}}"
+    choices = [
+        "1 batch homemade test sauce (about 1 1/4 cups); "
+        f"or substitute the same amount of store-bought sauce {ref}",
+        f"1/4 cup homemade test sauce; or substitute the same amount of store-bought sauce {ref}",
+        "1 batch homemade test sauce (about 3 1/2 cups); "
+        f"or substitute store-bought soup (two 10–10.5-ounce cans per homemade batch) {ref}",
+        f"Homemade test sauce, 2–3 tablespoons per roll; or substitute store-bought sauce {ref}",
+    ]
+    recipe.write_text(
+        recipe.read_text().replace(
+            f"- 1 cup wing sauce {ref}", "\n".join("- " + line for line in choices)
+        )
+    )
+    site = build_website(fixture_book, render=False).document.parent
+    page = (site / "recipe-test-citrus-wings.qmd").read_text()
+    lines = [line for line in page.splitlines() if "; or substitute" in line]
+    assert len(lines) == len(choices)
+    amounts = []
+    for line in lines:
+        assert line.index('class="q-mark"') > line.index("; or substitute")
+        assert "data-carry-scale" in line
+        row = []
+        for attributes in re.findall(r'<span class="qty" ([^>]+)>', line):
+            attrs = dict(re.findall(r'([\w-]+)="([^"]*)"', attributes))
+            row.append(
+                {
+                    "low": float(Fraction(attrs["data-q"])),
+                    "high": None,
+                    "unit": attrs.get("data-unit"),
+                }
+            )
+        amounts.append(row)
+    assert "two 10–10.5-ounce cans per homemade batch" in lines[2]
+    assert "2–3 tablespoons per roll" in lines[3]
+    result = node(f"{json.dumps(amounts)}.map(row => row.map(amount => s.scale(amount, {factor})))")
+    assert result == expected

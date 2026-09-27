@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Every recipe with a quick component now lists the homemade choice followed by an explicit store-bought substitution, with the component link kept at the end of the ingredient line. Batch quantities, measured portions and special substitution amounts are retained, and preparation instructions accommodate either choice.
+
 ## [0.11.0] - 2026-09-26
 
 ### Added

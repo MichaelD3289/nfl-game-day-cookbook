@@ -29,8 +29,8 @@ quick_options:
 
 - 4 Vienna Beef natural-casing all-beef hot dogs (or another natural-casing all-beef frank)
 - 4 poppy-seed hot dog buns
-- Yellow mustard, for a line on each dog {{component:american-yellow-mustard}}
-- Chicago-style sweet green relish, homemade or Vienna Beef prepared, about 1 tablespoon per dog (estimated; the source does not specify) {{component:chicago-sweet-green-relish}}
+- Homemade yellow mustard, for a line on each dog; or substitute store-bought yellow mustard {{component:american-yellow-mustard}}
+- Homemade Chicago-style sweet green relish, about 1 tablespoon per dog (estimated); or substitute store-bought Chicago-style relish {{component:chicago-sweet-green-relish}}
 - 1 small white onion, finely diced
 - 1 small tomato, cut into wedges or strips
 - 1 cold-pack kosher dill pickle, cut lengthwise into 4 spears
