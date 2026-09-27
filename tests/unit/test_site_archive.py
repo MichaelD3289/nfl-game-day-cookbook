@@ -296,3 +296,73 @@ def test_versions_page_links_each_edition_epub_when_it_has_one(
     # v0.5.0 predates the EPUB, so it lists only its PDF.
     v050 = next(line for line in root.splitlines() if "v0.5.0/index.html" in line)
     assert "PDF" in v050 and "EPUB" not in v050
+
+
+@pytest.mark.parametrize("count", [0, 2, 8])
+def test_division_downloads_only_list_published_assets(
+    tmp_path: Path, releases: Path, count: int
+) -> None:
+    from nfl_book.publishing import booklet_filename
+
+    keys = [
+        f"{conf}-{division}"
+        for conf in ("afc", "nfc")
+        for division in ("east", "north", "south", "west")
+    ]
+    assets = tuple(booklet_filename(key) for key in keys[:count])
+    _release(
+        releases,
+        "v0.6.0",
+        date="2026-03-30",
+        assets=(PDF, WEBSITE_ZIP, *assets, "nfl-game-day-recipe-booklet-unknown.pdf"),
+    )
+    out = tmp_path / "pages"
+    diags = Diagnostics()
+    assemble("v0.6.0", _site(tmp_path / "fresh", "0.6.0"), releases, out, PDF, diags)
+    assert diags.ok
+    for page in (out / "versions.html", out / "v0.5.0/versions.html"):
+        rendered = page.read_text()
+        assert rendered.count('<table class="table table-sm division-downloads">') == bool(count)
+        if count:
+            assert "<caption>v0.6.0 division booklets</caption>" in rendered
+            assert '<th scope="col">Division</th>' in rendered
+            assert '<th scope="col">Download</th>' in rendered
+        for key in keys:
+            link = f"{RELEASES}/download/v0.6.0/{booklet_filename(key)}"
+            assert (link in rendered) == (key in keys[:count])
+            assert f"{RELEASES}/download/v0.5.0/{booklet_filename(key)}" not in rendered
+        assert "booklet-unknown.pdf" not in rendered
+
+
+def test_version_download_text_and_urls_are_html_escaped() -> None:
+    from nfl_book.site_archive import Edition, _version_list
+
+    rendered = _version_list(
+        [
+            Edition(
+                "v0.6.0",
+                "<test>",
+                'https://example.test/pdf?a=1&b="2"',
+                booklets=(("AFC <East>", 'https://example.test/booklet?a=1&b="2"'),),
+            )
+        ],
+        "v0.6.0",
+        "",
+    )
+    assert "&lt;test&gt;" in rendered
+    assert "AFC &lt;East&gt;" in rendered
+    assert "?a=1&amp;b=&quot;2&quot;" in rendered
+    assert "<test>" not in rendered
+
+
+def test_release_builds_and_attaches_division_booklets() -> None:
+    from nfl_book.publishing import BOOKLET_FILENAME_PREFIX
+
+    repo = Path(__file__).resolve().parents[2]
+    workflow = (repo / ".github/workflows/release.yml").read_text()
+    assert "run: make booklets" in workflow
+    for command in ("gh release upload", "gh release create"):
+        line = next(line for line in workflow.splitlines() if command in line)
+        assert f"dist/{BOOKLET_FILENAME_PREFIX}-*.pdf" in line
+    ci = (repo / ".github/workflows/check.yml").read_text()
+    assert "make booklets" not in ci

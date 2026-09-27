@@ -125,3 +125,17 @@ def test_shortcuts_follow_cooking_instructions(built: Project) -> None:
     assert wings.index(r"\end{RecipeInstructions}") < wings.index(r"\begin{QuickOptionsCard}")
     component = page(built, "component-test-wing-sauce")
     assert component.index(r"\end{RecipeInstructions}") < component.index(r"\begin{BuyItCard}")
+
+
+@pytest.mark.pdf
+@pytest.mark.skipif(shutil.which("quarto") is None, reason="Quarto is not installed")
+def test_division_fixture_pdf(fixture_book: Project) -> None:
+    result = pipeline.build(fixture_book, pdf=True, strict=True, division="afc/east")
+    assert result.pdf is not None and result.pdf.is_file()
+    assert result.pdf.name == "nfl-game-day-recipe-booklet-afc-east.pdf"
+    assert result.diagnostics.ok
+    pagemap_path = fixture_book.generated_dir / "booklets/afc-east/pagemap.json"
+    pagemap = json.loads(pagemap_path.read_text())
+    assert "recipe:test-citrus-wings" in pagemap
+    assert "component:test-cajun-seasoning" in pagemap
+    assert not fixture_book.pagemap_file.exists()

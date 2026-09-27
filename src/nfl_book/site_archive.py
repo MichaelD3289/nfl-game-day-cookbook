@@ -28,7 +28,7 @@ from typing import Any
 from urllib.parse import unquote, urlsplit
 
 from nfl_book.errors import Diagnostics
-from nfl_book.publishing import RELEASES
+from nfl_book.publishing import RELEASES, booklet_filename
 from nfl_book.release_policy import STABLE
 from nfl_book.website_check import check_site
 
@@ -56,6 +56,7 @@ class Edition:
     date: str
     pdf: str | None
     epub: str | None = None
+    booklets: tuple[tuple[str, str], ...] = ()
 
 
 def _version(tag: str) -> tuple[int, int, int] | None:
@@ -81,7 +82,13 @@ def _editions(
         date = str(data.get("publishedAt") or "")[:10]
         link = f"{RELEASES}/download/{tag}/{pdf}" if pdf in names else None
         book = f"{RELEASES}/download/{tag}/{epub}" if epub and epub in names else None
-        found[tag] = (Edition(tag, date, link, book), WEBSITE_ZIP in names)
+        booklets = tuple(
+            (f"{conf.upper()} {division.title()}", f"{RELEASES}/download/{tag}/{name}")
+            for conf in ("afc", "nfc")
+            for division in ("east", "north", "south", "west")
+            if (name := booklet_filename(f"{conf}-{division}")) in names
+        )
+        found[tag] = (Edition(tag, date, link, book, booklets), WEBSITE_ZIP in names)
     return found
 
 
@@ -214,15 +221,28 @@ def _version_list(editions: list[Edition], root: str, prefix: str) -> str:
     items = []
     for edition in editions:
         href = "index.html" if edition.tag == root else f"{edition.tag}/index.html"
-        label = f'<a href="{prefix}{href}">{edition.tag}</a>'
+        label = f'<a href="{html.escape(prefix + href)}">{html.escape(edition.tag)}</a>'
         if edition.tag == root:
             label += " (latest)"
         if edition.date:
-            label += f" · {edition.date}"
+            label += f" · {html.escape(edition.date)}"
         if edition.pdf:
-            label += f' · <a href="{edition.pdf}">PDF</a>'
+            label += f' · <a href="{html.escape(edition.pdf)}">PDF</a>'
         if edition.epub:
-            label += f' · <a href="{edition.epub}">EPUB</a>'
+            label += f' · <a href="{html.escape(edition.epub)}">EPUB</a>'
+        if edition.booklets:
+            rows = "".join(
+                f'<tr><th scope="row">{html.escape(division)}</th>'
+                f'<td><a href="{html.escape(url)}">{html.escape(division)} PDF</a></td></tr>'
+                for division, url in edition.booklets
+            )
+            label += (
+                '<table class="table table-sm division-downloads">'
+                f"<caption>{html.escape(edition.tag)} division booklets</caption>"
+                '<thead><tr><th scope="col">Division</th>'
+                '<th scope="col">Download</th></tr></thead>'
+                f"<tbody>{rows}</tbody></table>"
+            )
         items.append(f"<li>{label}</li>")
     return '<ul class="site-versions">\n' + "\n".join(items) + "\n</ul>"
 

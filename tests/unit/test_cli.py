@@ -96,3 +96,36 @@ def test_production_skeleton_validates() -> None:
     root = Path(__file__).resolve().parents[2]
     diags = load(Project.create(root)).diagnostics
     assert diags.ok, [d.message for d in diags.errors]
+
+
+@pytest.mark.parametrize(
+    "selector", ["east", "afc-east", "AFC/east", "afc/nope", "afc/east/extra", "../east"]
+)
+def test_build_invalid_division_names_config(fixture_book: Project, selector: str) -> None:
+    code, output = invoke(fixture_book, "build", "--division", selector, "--no-pdf")
+    assert code == 1, output
+    assert "nfl.yml" in output
+    assert "division" in output
+    assert not fixture_book.generated_dir.exists()
+
+
+def test_division_build_isolated_and_validates_all_content(fixture_book: Project) -> None:
+    assert invoke(fixture_book, "build", "--no-pdf")[0] == 0
+    full = fixture_book.generated_dir / "book/book.qmd"
+    original = full.read_bytes()
+    code, output = invoke(fixture_book, "build", "--division", "afc/east", "--no-pdf")
+    assert code == 0, output
+    assert "afc-east" in output
+    assert full.read_bytes() == original
+    draft = fixture_book.content_root / "recipes/afc/east/jets/test-draft-nachos.md"
+    draft.write_text(draft.read_text().replace("status: draft", "status: invalid"))
+    code, output = invoke(fixture_book, "build", "--division", "nfc/north", "--no-pdf")
+    assert code == 1, output
+    assert "test-draft-nachos.md" in output
+
+
+def test_booklets_without_pdf(fixture_book: Project) -> None:
+    code, output = invoke(fixture_book, "booklets", "--no-pdf", "--strict")
+    assert code == 0, output
+    assert output.count("QMD:") == 8
+    assert len(list((fixture_book.generated_dir / "booklets").glob("*/book/book.qmd"))) == 8
