@@ -350,3 +350,19 @@ def test_preview_builds_are_labelled_on_every_page(fixture_book: Project) -> Non
     assert 'class="preview-banner"' in banner
     assert "ui&lt;polish&gt; @ 1a2b3c4" in banner
     assert config["website"]["page-footer"]["right"] == "Preview ui&lt;polish&gt; @ 1a2b3c4"
+
+
+def test_source_is_one_named_link_with_the_short_address_for_paper(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
+    source = wings[wings.index("**Recipe source:**") :]
+    source = source[: source.index("\n:::")]
+    assert (
+        '**Recipe source:** <a href="https://example.com/recipes/test-citrus-wings">example.com</a>'
+        in source
+    )
+    # The address shows once, in the print view only (styled by .source-url).
+    assert source.count('<span class="source-url">') == 1
+    assert "<small>" not in source

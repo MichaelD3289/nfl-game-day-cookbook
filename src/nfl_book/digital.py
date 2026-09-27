@@ -2,6 +2,7 @@
 
 import shutil
 from pathlib import Path
+from urllib.parse import urlsplit
 
 from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.images import PhotoStats
@@ -10,6 +11,12 @@ from nfl_book.project import Project
 from nfl_book.references import html_id
 from nfl_book.render.pages import Media, PageSpec, build_pages
 from nfl_book.resolve import BookModel, resolve
+
+
+def site_name(url: str) -> str:
+    """``https://www.example.com/a/b`` -> ``example.com``: link text for an untitled source."""
+    host = urlsplit(url).hostname or url
+    return host.removeprefix("www.")
 
 
 def prepare_pages(

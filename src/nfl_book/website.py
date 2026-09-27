@@ -16,7 +16,7 @@ from urllib.parse import urlencode
 import yaml
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
-from nfl_book.digital import prepare_pages
+from nfl_book.digital import prepare_pages, site_name
 from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.images import PhotoStats
 from nfl_book.pipeline import load
@@ -213,7 +213,9 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
         autoescape=False,
         keep_trailing_newline=True,
     )
-    env.filters.update(md=_markdown, web_body=_web_body, anchor=html_id, scalable=_scalable)
+    env.filters.update(
+        md=_markdown, web_body=_web_body, anchor=html_id, scalable=_scalable, site_name=site_name
+    )
     book = load(project).settings.book
     env.globals.update(
         route=lambda label: routes[label], suggestion_form_url=book.suggestion_form_url

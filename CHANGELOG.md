@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Game-day menu preview cards now show each menu's "why it works" line.
 - The website's Make It or Buy It page shows each component as a card with its description and a **Used in** row linking the recipes that call for it.
 
+### Fixed
+
+- Website recipe and component pages showed the recipe source's short address twice. They now link the source once by its title or site name, and a printed page shows the short address under it.
+
 ## [0.12.1] - 2026-09-26
 
 ### Changed

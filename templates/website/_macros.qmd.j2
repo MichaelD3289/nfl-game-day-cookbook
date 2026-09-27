@@ -66,8 +66,8 @@
 :::
 {% endif %}
 {% if src %}
-**Recipe source:** <a href="{{ src.href|e }}">{{ (src.title or src.display)|e }}</a>  
-<small>{{ src.display|e }}</small>
+**Recipe source:** <a href="{{ src.url|e }}">{{ (src.title or src.url|site_name)|e }}</a>
+<span class="source-url">{{ src.display|e }}</span>
 {% endif %}
 {% if credit %}
 Photo: {{ credit }}

@@ -233,6 +233,9 @@ main.content {
   overflow-wrap: anywhere;
   display: flow-root;
 }
+.source-url {
+  display: none;
+}
 .page-qr {
   float: right;
   width: 78px;
@@ -858,6 +861,9 @@ main.content {
   }
   .source-qr {
     height: 0.75in;
+  }
+  .source-url {
+    display: block;
   }
   .print-url {
     display: block;
