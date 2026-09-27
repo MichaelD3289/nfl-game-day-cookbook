@@ -12,7 +12,6 @@
 \usepackage{eso-pic}
 \usepackage{multicol}
 \usepackage{enumitem}
-\usepackage{newunicodechar}
 \usepackage{tcolorbox}
 \tcbuselibrary{skins,raster}
 
@@ -77,17 +76,6 @@
 \newcommand{\BookPageTitle}[1]{{\BookDisplayFont\BookSectionSize\color{BookInk}#1\par}}
 \newcommand{\RecipeMetaSep}{\quad\textbar\quad}
 
-\newcommand{\BookFrac}[2]{\raisebox{0.45ex}{\scriptsize#1}\kern-0.08em/\kern-0.08em\raisebox{-0.1ex}{\scriptsize#2}}
-\newunicodechar{⅓}{\BookFrac{1}{3}}
-\newunicodechar{⅔}{\BookFrac{2}{3}}
-\newunicodechar{⅛}{\BookFrac{1}{8}}
-\newunicodechar{⅜}{\BookFrac{3}{8}}
-\newunicodechar{⅝}{\BookFrac{5}{8}}
-\newunicodechar{⅞}{\BookFrac{7}{8}}
-\newunicodechar{½}{\BookFrac{1}{2}}
-\newunicodechar{¼}{\BookFrac{1}{4}}
-\newunicodechar{¾}{\BookFrac{3}{4}}
-\newunicodechar{°}{\textdegree}
 
 % ============================================================ cover / contents
 \newcommand{\CoverPage}[3]{% title, subtitle, tagline

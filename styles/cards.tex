@@ -1,0 +1,42 @@
+%% Flowing card semantics; visual values belong to theme.tex.
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\AtBeginDocument{\hypersetup{colorlinks=true,linkcolor=BookNavy,urlcolor=BookNavy}}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{\BookZero}
+\newcommand{\CardRunningTitle}{}
+\fancyhead[L]{\CardRunningFont\CardRunningTitle}
+\setlength{\parindent}{\BookZero}
+\setlength{\parskip}{\BookCardRowGap}
+\setlist{nosep,leftmargin=*}
+\AtBeginDocument{\CardBodyFont\color{BookInk}}
+\newcommand{\BookAnchor}[1]{\phantomsection\label{#1}\hypertarget{#1}{}}
+\newcommand{\BookEnd}[1]{\BookAnchor{#1}}
+\newcommand{\CardStart}[5]{%
+  \clearpage\renewcommand{\CardRunningTitle}{#2}\thispagestyle{empty}%
+  \BookAnchor{#1}%
+  {\CardTitleFont #2\par}%
+  {\BookHeadingFont #3\par}%
+  {\BookMetaFont #4\par #5\par}}
+\newcommand{\CardInstructions}{\clearpage}
+\newcommand{\CardSource}[5]{%
+  \par\medskip\noindent
+  \begin{minipage}{\linewidth}
+    \if\relax\detokenize{#4}\relax
+      \BookSourceFont
+      \if\relax\detokenize{#2}\relax\else Source: #1\par\url{#2}\par\fi
+      \if\relax\detokenize{#5}\relax\else Recipe in this edition: \href{#5}{website}\par\fi
+    \else
+      \begin{minipage}[c]{\dimexpr\linewidth-\BookQRSize-\BookCardPad\relax}
+        \BookSourceFont
+        \if\relax\detokenize{#2}\relax\else Source: #1\par\url{#2}\par\fi
+        \if\relax\detokenize{#5}\relax\else Recipe in this edition: \href{#5}{website}\par\fi
+      \end{minipage}\hfill
+      \begin{minipage}[c]{\BookQRSize}
+        \includegraphics[width=\BookQRSize]{#4}
+      \end{minipage}%
+    \fi
+  \end{minipage}\par}

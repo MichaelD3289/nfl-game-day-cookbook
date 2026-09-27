@@ -4,12 +4,13 @@
 
 Explore recipes online, print the cookbook, or download the website to serve locally.
 
-| Format                 | Open or download                                                                                                               |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| **Website**            | [Browse the cookbook](https://michaeld3289.github.io/nfl-game-day-cookbook/)                                                   |
-| **Printable cookbook** | [Download PDF](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-recipe-booklet.pdf) |
-| **Ebook**              | [Download EPUB](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-cookbook.epub)     |
-| **Website archive**    | [Download HTML ZIP](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-website.zip)   |
+| Format                 | Open or download                                                                                                                            |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Website**            | [Browse the cookbook](https://michaeld3289.github.io/nfl-game-day-cookbook/)                                                                |
+| **Printable cookbook** | [Download PDF](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-recipe-booklet.pdf)              |
+| **Recipe cards**       | [Download 4×6-inch cards PDF](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-recipe-cards.pdf) |
+| **Ebook**              | [Download EPUB](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-cookbook.epub)                  |
+| **Website archive**    | [Download HTML ZIP](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-website.zip)                |
 
 These links follow the latest published stable release.
 
@@ -118,6 +119,7 @@ uv run nfl-book validate [PATHS...]       # validate everything (optionally repo
 uv run nfl-book prepare-links             # the ONLY network step (or `make links`): fill data/shortlinks.yml
 uv run nfl-book preview PATH [--no-pdf]   # render one recipe/component (drafts allowed)
 uv run nfl-book build [--no-pdf] [--strict]   # published-only book -> dist/
+uv run nfl-book cards [--no-pdf] [--strict]   # published-only recipe cards -> dist/
 uv run nfl-book clean                     # remove generated/ and dist/
 uv run nfl-book new recipe --team bills --slug buffalo-sliders
 uv run nfl-book new component --kind sauces --slug wing-sauce
@@ -132,7 +134,7 @@ uv run nfl-book --content "$D" --generated "$D/generated" --dist "$D/dist" build
 ```
 
 Make targets: `make check` (lint, tests, validate), `make test`, `make lint`,
-`make preview FILE=...`, `make pdf` and `make clean`.
+`make preview FILE=...`, `make pdf`, `make cards` and `make clean`.
 
 ## How page numbers work
 
@@ -238,7 +240,7 @@ Two workflows handle publication:
    pushed commit. Equal or lower versions create no tag; prerelease/development
    versions are rejected. Other tag names are ignored.
 2. **Release** is called directly after tagging. It checks main ancestry, validates,
-   builds the PDF, website ZIP and EPUB, publishes all three assets, and deploys every website
+   builds the booklet and recipe-card PDFs, website ZIP and EPUB, publishes all four assets, and deploys every website
    version to `https://MichaelD3289.github.io/nfl-game-day-cookbook/`.
 
 The direct call is necessary because tags pushed with GitHub's built-in token do not
@@ -332,3 +334,39 @@ before replacing an existing output. The release workflow publishes it alongside
 and HTML. For independent standards validation, install EPUBCheck separately and run
 `epubcheck dist/nfl-game-day-cookbook.epub`. Always preview layout in an EPUB reader
 after styling changes; package checks cannot certify visual appearance.
+
+## Recipe cards
+
+Run `make cards` (or `uv run nfl-book cards`) to create
+`dist/nfl-game-day-recipe-cards.pdf` offline with Quarto and TinyTeX. Use
+`uv run nfl-book cards --no-pdf` to generate sources under `generated/cards/`.
+Cards use published recipes in book order and the shared print palette, type,
+source links and QR codes.
+
+The default card is portrait 4×6 inches. Each recipe starts on a new card side,
+with title, team, yield, times and ingredients. Instructions start on the next side;
+long ingredients or instructions flow onto additional sides with the recipe title
+repeated at the top. Print at actual size on matching stock. The PDF is a sequence
+of card sides, without duplex alignment, blank-side padding or a multi-up letter/A4
+cutting layout; choose sides and printer settings to suit your stock.
+
+Configure dimensions, output filename and the per-recipe side limit in
+`data/book.yml`:
+
+```yaml
+cards:
+  width_inches: 4
+  height_inches: 6
+  output_filename: nfl-game-day-recipe-cards.pdf
+  max_pages: 4
+```
+
+Builds warn when a recipe exceeds `max_pages`, naming its source file; use
+`uv run nfl-book cards --strict` to fail instead. PR PDF checks use strict mode.
+Changing the filename also requires updating the release workflow's `CARDS` asset
+path and download link. The post-build card `pagemap.json` is only for checks;
+card content does not include booklet page references.
+
+Component references show their titles and link to this edition's website when
+`website_url` is configured. Separate component cards and multi-up sheet layouts
+are deferred; use the cookbook or website for homemade component instructions.
