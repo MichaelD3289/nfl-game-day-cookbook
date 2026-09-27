@@ -9,3 +9,13 @@ recipes:
   - kansas-city-cheesy-corn
 why_it_works: Chilled shrimp gives way to smoky chicken and a creamy barbecue side.
 prep_plan: Start smoked chicken about four hours ahead. Chill shrimp; heat corn near serving.
+timeline:
+  - at: -4h
+    recipe: kansas-city-style-barbecue-chicken
+    task: Light the smoker and start the chicken.
+  - at: -20m
+    recipe: old-vegas-shrimp-cocktail
+    task: Chill the glasses; keep the shrimp cold.
+  - at: -15m
+    recipe: kansas-city-cheesy-corn
+    task: Cook the cheesy corn.
