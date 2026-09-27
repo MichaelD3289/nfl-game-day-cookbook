@@ -28,8 +28,8 @@ from typing import Any
 from urllib.parse import unquote, urlsplit
 
 from nfl_book.errors import Diagnostics
+from nfl_book.publishing import RELEASES
 from nfl_book.release_policy import STABLE
-from nfl_book.website import RELEASES
 from nfl_book.website_check import check_site
 
 WEBSITE_ZIP = "nfl-game-day-website.zip"

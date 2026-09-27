@@ -8,8 +8,8 @@ from pathlib import Path
 import pytest
 
 from nfl_book.errors import Diagnostics
+from nfl_book.publishing import RELEASES
 from nfl_book.site_archive import MEDIA, VERSIONS_MARKER, WEBSITE_ZIP, assemble, main
-from nfl_book.website import RELEASES
 from nfl_book.website_check import check_site
 
 PDF = "test-booklet.pdf"

@@ -7,17 +7,19 @@ from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.images import PhotoStats
 from nfl_book.pipeline import build_media, load
 from nfl_book.project import Project
+from nfl_book.references import html_id
 from nfl_book.render.pages import Media, PageSpec, build_pages
 from nfl_book.resolve import BookModel, resolve
 
 
-def _anchor(label: str) -> str:
-    return label.replace(":", "-")
-
-
 def prepare_pages(
-    project: Project, build_dir: Path, *, web: bool = False
+    project: Project, build_dir: Path, *, web: bool = False, qr: bool = True
 ) -> tuple[list[PageSpec], Diagnostics, PhotoStats, BookModel]:
+    """Resolve the published book into page specs with portable ``assets/`` media.
+
+    ``web`` picks the website photo variant instead of the print one. ``qr=False``
+    leaves QR codes out, for formats read on the device that would scan them.
+    """
     loaded = load(project)
     if not loaded.diagnostics.ok:
         raise ValidationFailed(loaded.diagnostics)
@@ -37,11 +39,11 @@ def prepare_pages(
     assets = build_dir / "assets"
     assets.mkdir()
     maps = []
-    for mapping in (media.qr, media.images):
+    for mapping in (media.qr if qr else {}, media.images):
         copied = {}
         for label, relative in mapping.items():
             source = (build_dir / relative).resolve()
-            name = f"{_anchor(label)}{source.suffix}"
+            name = f"{html_id(label)}{source.suffix}"
             if mapping is media.qr:
                 name = f"qr-{name}"
             shutil.copyfile(source, assets / name)

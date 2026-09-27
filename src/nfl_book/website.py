@@ -21,11 +21,11 @@ from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.images import PhotoStats
 from nfl_book.pipeline import load
 from nfl_book.project import Project
+from nfl_book.publishing import EPUB_FILENAME, RELEASES, REPOSITORY
+from nfl_book.references import html_id
 from nfl_book.render.pages import ItemView, PageSpec
 from nfl_book.resolve import BookModel
 
-REPOSITORY = "https://github.com/MichaelD3289/nfl-game-day-cookbook"
-RELEASES = f"{REPOSITORY}/releases"
 # Quick issue form per suggestion kind: (template, title prefix, field used in the title).
 SUGGESTION_FORMS = {
     "edit": ("suggest-edit.yml", "Edit suggestion: ", "item"),
@@ -49,10 +49,6 @@ class WebsiteResult:
 
 def _filename(page: PageSpec) -> str:
     return "index.qmd" if page.slug == "cover" else f"{page.slug}.qmd"
-
-
-def _anchor(label: str) -> str:
-    return label.replace(":", "-")
 
 
 def _markdown(text: str) -> str:
@@ -178,7 +174,7 @@ def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
     for p in pages:
         if p.template == "division.qmd.j2":
             teams = [
-                {"text": t["name"], "href": f"{_filename(p)}#{_anchor(t['label'])}"}
+                {"text": t["name"], "href": f"{_filename(p)}#{html_id(t['label'])}"}
                 for t in p.context["teams"]
                 if t["recipes"]
             ]
@@ -205,17 +201,17 @@ def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnos
 def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
     build_dir = project.generated_dir / "site"
     pages, diags, photos = _prepare(project, build_dir)
-    routes = {label: f"{_filename(p)}#{_anchor(label)}" for p in pages for label in p.anchors}
+    routes = {label: f"{_filename(p)}#{html_id(label)}" for p in pages for label in p.anchors}
     for p in pages:
         for menu in p.context.get("dishoffs", []):
-            routes[menu["label"]] = f"{_filename(p)}#{_anchor(menu['label'])}"
+            routes[menu["label"]] = f"{_filename(p)}#{html_id(menu['label'])}"
     env = Environment(
         loader=FileSystemLoader(project.templates_dir / "website"),
         undefined=StrictUndefined,
         autoescape=False,
         keep_trailing_newline=True,
     )
-    env.filters.update(md=_markdown, web_body=_web_body, anchor=_anchor, scalable=_scalable)
+    env.filters.update(md=_markdown, web_body=_web_body, anchor=html_id, scalable=_scalable)
     book = load(project).settings.book
     env.globals.update(
         route=lambda label: routes[label], suggestion_form_url=book.suggestion_form_url
@@ -274,7 +270,7 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
                     {"text": "Download PDF", "href": download},
                     {
                         "text": "Download EPUB",
-                        "href": f"{RELEASES}/download/v{version}/nfl-game-day-cookbook.epub",
+                        "href": f"{RELEASES}/download/v{version}/{EPUB_FILENAME}",
                     },
                     {"text": "All versions", "href": "versions.qmd"},
                     {"text": "Earlier releases", "href": RELEASES},
