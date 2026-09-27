@@ -11,6 +11,10 @@ Edit only the source `.md` file under `recipes/`. Never edit `generated/` or `di
 
 - **Wording, quantities or steps:** edit the body. Keep the page budget; see
   "Fixing an overflow" below.
+- **Quick components:** follow the [shared ingredient wording convention](../add-component/SKILL.md#ingredient-wording-homemade-or-store-bought):
+  homemade choice, then `; or substitute` with an explicit
+  store-bought choice, and the component marker at the end of the ingredient line. Preserve batch quantities, approximate yields and measured
+  portions; check preparation instructions and verify scaling with synthetic examples.
 - **Scaling on the website:** keep each ingredient's amount at the start of the line.
   Mark a line `{{no-scale}}` only when its amount must stay fixed (frying oil by pot
   depth). Set `servings:` (a number or range such as `6-8`) when `yield` is not a

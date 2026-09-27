@@ -63,7 +63,7 @@ Only these sections are allowed, in this order:
 ## Ingredients
 
 - ungrouped items only before the first group
-- 1 cup sauce {{component:<component-id>}}
+- 1 cup homemade sauce; or substitute the same amount of store-bought sauce {{component:<component-id>}}
 
 ### Group name
 
@@ -81,7 +81,9 @@ Optional short paragraph.
 - Put at most one `{{component:<id>}}` on an ingredient line, and use it only in
   `## Ingredients`. The component must exist under `components/`, and a published
   recipe may only reference published components. To create one, see the
-  `add-component` skill.
+  `add-component` skill. Follow its [ingredient wording and scaling convention](../add-component/SKILL.md#ingredient-wording-homemade-or-store-bought):
+  homemade choice, then `; or substitute` with an explicit
+  store-bought choice, and the component marker at the end of the ingredient line. Preserve batch quantities and measured portions.
 - Start each ingredient line with its amount (`1 1/2 cups beef broth`, `3 garlic
   cloves`, `About ½ teaspoon salt`) and put a space before the unit (`500 g`, not
   `500g`), so the website can scale it. Lines without amounts (`Salt, to taste`) are
