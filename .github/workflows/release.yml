@@ -1,4 +1,4 @@
-# Build PDF and HTML after automated tagging; deploy every website version to Pages,
+# Build PDF, HTML and EPUB after automated tagging; deploy every website version to Pages,
 # with the newest stable release at the root and each release under /vX.Y.Z/.
 # Run it manually from the Actions tab with an existing tag to (re)build that version,
 # including tags created before this workflow existed.
@@ -37,6 +37,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     env:
       TAG: ${{ inputs.tag }}
+      # Must match nfl_book.publishing.EPUB_FILENAME (tests/unit/test_epub.py checks it).
+      EPUB: dist/nfl-game-day-cookbook.epub
       PDF: dist/nfl-game-day-recipe-booklet.pdf
       WEBSITE: dist/nfl-game-day-website.zip
     steps:
@@ -89,6 +91,9 @@ jobs:
       - name: Build website
         run: make website
 
+      - name: Build EPUB
+        run: make epub
+
       - name: Package downloadable website
         run: |
           rm -f "$WEBSITE"
@@ -114,10 +119,10 @@ jobs:
           prerelease=true
           if [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then prerelease=false; fi
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" "$PDF" "$WEBSITE" --clobber
+            gh release upload "$TAG" "$PDF" "$WEBSITE" "$EPUB" --clobber
             if [ "$latest" = true ]; then gh release edit "$TAG" --latest; fi
           else
-            gh release create "$TAG" "$PDF" "$WEBSITE" --title "$TAG" --notes-file release-notes.md \
+            gh release create "$TAG" "$PDF" "$WEBSITE" "$EPUB" --title "$TAG" --notes-file release-notes.md \
               --latest="$latest" --prerelease="$prerelease"
           fi
 
@@ -149,7 +154,7 @@ jobs:
         run: |
           newest="$(git ls-remote --tags --refs origin 'v*' | sed 's#.*refs/tags/##' | uv run python -m nfl_book.release_policy --newest)"
           root="$(uv run python -m nfl_book.site_archive --tag "$TAG" --site dist/site \
-            --archive _archive --out _pages --pdf "$(basename "$PDF")")"
+            --archive _archive --out _pages --pdf "$(basename "$PDF")" --epub "$(basename "$EPUB")")"
           deploy=false
           if [ -n "$root" ] && [ "$root" = "$newest" ]; then
             deploy=true

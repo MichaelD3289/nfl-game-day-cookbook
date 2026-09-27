@@ -16,15 +16,16 @@ from urllib.parse import urlencode
 import yaml
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
+from nfl_book.digital import prepare_pages
 from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.images import PhotoStats
-from nfl_book.pipeline import build_media, load
+from nfl_book.pipeline import load
 from nfl_book.project import Project
-from nfl_book.render.pages import ItemView, Media, PageSpec, build_pages
-from nfl_book.resolve import BookModel, resolve
+from nfl_book.publishing import EPUB_FILENAME, RELEASES, REPOSITORY
+from nfl_book.references import html_id
+from nfl_book.render.pages import ItemView, PageSpec
+from nfl_book.resolve import BookModel
 
-REPOSITORY = "https://github.com/MichaelD3289/nfl-game-day-cookbook"
-RELEASES = f"{REPOSITORY}/releases"
 # Quick issue form per suggestion kind: (template, title prefix, field used in the title).
 SUGGESTION_FORMS = {
     "edit": ("suggest-edit.yml", "Edit suggestion: ", "item"),
@@ -48,10 +49,6 @@ class WebsiteResult:
 
 def _filename(page: PageSpec) -> str:
     return "index.qmd" if page.slug == "cover" else f"{page.slug}.qmd"
-
-
-def _anchor(label: str) -> str:
-    return label.replace(":", "-")
 
 
 def _markdown(text: str) -> str:
@@ -177,7 +174,7 @@ def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
     for p in pages:
         if p.template == "division.qmd.j2":
             teams = [
-                {"text": t["name"], "href": f"{_filename(p)}#{_anchor(t['label'])}"}
+                {"text": t["name"], "href": f"{_filename(p)}#{html_id(t['label'])}"}
                 for t in p.context["teams"]
                 if t["recipes"]
             ]
@@ -195,56 +192,26 @@ def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
 
 
 def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnostics, PhotoStats]:
-    loaded = load(project)
-    if not loaded.diagnostics.ok:
-        raise ValidationFailed(loaded.diagnostics)
-    model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
-    if build_dir.exists():
-        shutil.rmtree(build_dir)
-    build_dir.mkdir(parents=True)
-    media, photos = build_media(
-        project, model, build_dir, loaded.diagnostics, loaded.settings.book.photos.web
-    )
-    if not loaded.diagnostics.ok:
-        raise ValidationFailed(loaded.diagnostics)
-    assets = build_dir / "assets"
-    assets.mkdir()
-    maps = []
-    for mapping in (media.qr, media.images):
-        copied = {}
-        for label, relative in mapping.items():
-            source = (build_dir / relative).resolve()
-            name = f"{_anchor(label)}{source.suffix}"
-            if mapping is media.qr:
-                name = f"qr-{name}"
-            shutil.copyfile(source, assets / name)
-            copied[label] = f"assets/{name}"
-        maps.append(copied)
-    pages = build_pages(model, Media(qr=maps[0], images=maps[1], image_sizes=media.image_sizes))
-    descriptions = {f"recipe:{r.id}": r.meta.description for r in model.recipes}
-    menu_previews = {m["label"]: m for page in pages for m in page.context.get("menus", [])}
-    for page in pages:
-        page.context["recipe_descriptions"] = descriptions
-        page.context["menu_previews"] = menu_previews
+    pages, diags, photos, model = prepare_pages(project, build_dir, web=True)
     _add_suggestions(project, model, pages)
     _add_scaling(model, pages)
-    return pages, loaded.diagnostics, photos
+    return pages, diags, photos
 
 
 def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
     build_dir = project.generated_dir / "site"
     pages, diags, photos = _prepare(project, build_dir)
-    routes = {label: f"{_filename(p)}#{_anchor(label)}" for p in pages for label in p.anchors}
+    routes = {label: f"{_filename(p)}#{html_id(label)}" for p in pages for label in p.anchors}
     for p in pages:
         for menu in p.context.get("dishoffs", []):
-            routes[menu["label"]] = f"{_filename(p)}#{_anchor(menu['label'])}"
+            routes[menu["label"]] = f"{_filename(p)}#{html_id(menu['label'])}"
     env = Environment(
         loader=FileSystemLoader(project.templates_dir / "website"),
         undefined=StrictUndefined,
         autoescape=False,
         keep_trailing_newline=True,
     )
-    env.filters.update(md=_markdown, web_body=_web_body, anchor=_anchor, scalable=_scalable)
+    env.filters.update(md=_markdown, web_body=_web_body, anchor=html_id, scalable=_scalable)
     book = load(project).settings.book
     env.globals.update(
         route=lambda label: routes[label], suggestion_form_url=book.suggestion_form_url
@@ -301,6 +268,10 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
                 "right": [
                     {"text": f"v{version}", "href": f"{RELEASES}/tag/v{version}"},
                     {"text": "Download PDF", "href": download},
+                    {
+                        "text": "Download EPUB",
+                        "href": f"{RELEASES}/download/v{version}/{EPUB_FILENAME}",
+                    },
                     {"text": "All versions", "href": "versions.qmd"},
                     {"text": "Earlier releases", "href": RELEASES},
                 ]

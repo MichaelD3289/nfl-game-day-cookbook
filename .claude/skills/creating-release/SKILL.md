@@ -63,7 +63,8 @@ goes to `0.3.0`. Go to `1.0.0` only when the user asks for it.
    UTC, which is already the next day in the maintainer's evening; if you cannot tell the
    local date, ask. Add a fresh, empty `## [Unreleased]` above it. If a remote exists, add
    or refresh the compare links at the bottom.
-5. **Verify.** Run `make check` and `make pdf`. Both must pass with no overflow warnings.
+5. **Verify.** Run `make check`, `make pdf`, `make website` and `make epub`. All must pass,
+   and `make pdf` must show no overflow warnings.
 6. **Commit:**
    `git add pyproject.toml uv.lock CHANGELOG.md`
    `git commit -m "chore(release): X.Y.Z"`
@@ -75,7 +76,7 @@ goes to `0.3.0`. Go to `1.0.0` only when the user asks for it.
    `.github/workflows/release.yml`. Equal or lower versions do not create tags.
    Unsupported prerelease/development versions fail with a clear error.
 8. **Verify publication.** The release workflow checks main ancestry and the package
-   version, validates and builds PDF/HTML, publishes both assets, and deploys the newest
+   version, validates and builds PDF/HTML/EPUB, publishes all three, and deploys the newest
    stable release to Pages. Report the workflow result and release URL.
    Rerun a failed automatic workflow to reuse its tag at the same commit. For existing
    assets, the Release workflow also supports manual rebuilding with an existing tag

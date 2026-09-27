@@ -8,6 +8,7 @@ Explore recipes online, print the cookbook, or download the website to serve loc
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | **Website**            | [Browse the cookbook](https://michaeld3289.github.io/nfl-game-day-cookbook/)                                                   |
 | **Printable cookbook** | [Download PDF](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-recipe-booklet.pdf) |
+| **Ebook**              | [Download EPUB](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-cookbook.epub)     |
 | **Website archive**    | [Download HTML ZIP](https://github.com/MichaelD3289/nfl-game-day-cookbook/releases/latest/download/nfl-game-day-website.zip)   |
 
 These links follow the latest published stable release.
@@ -233,7 +234,7 @@ Two workflows handle publication:
    pushed commit. Equal or lower versions create no tag; prerelease/development
    versions are rejected. Other tag names are ignored.
 2. **Release** is called directly after tagging. It checks main ancestry, validates,
-   builds the PDF and website ZIP, publishes both assets, and deploys every website
+   builds the PDF, website ZIP and EPUB, publishes all three assets, and deploys every website
    version to `https://MichaelD3289.github.io/nfl-game-day-cookbook/`.
 
 The direct call is necessary because tags pushed with GitHub's built-in token do not
@@ -288,3 +289,24 @@ The website displays this as small subtext in team cards, recipe lists and index
 it is not printed in the PDF. New recipe scaffolds include an empty field.
 Game-day menu preview cards list their linked dishes, team/course labels and a
 link to the full prep plan; they omit the longer summaries to stay compact.
+
+## EPUB output
+
+Run `make epub` (or `uv run nfl-book epub`) to create
+`dist/nfl-game-day-cookbook.epub`. Quarto is required; TinyTeX is not.
+Use `uv run nfl-book epub --no-render` to generate sources under `generated/epub`.
+
+EPUB is reflowable: readers control font size and pagination. Recipes are grouped
+by division and team, followed by game-day menus and Make It or Buy It components,
+with the linked indexes at the back. Each recipe, component and menu opens on its own
+page. Photos are embedded; source links and each page's "View this page online" link
+(to the same edition of the website, from `website_url`) need internet. The book keeps
+one identifier across editions, so reading apps update it in place.
+The templates and reader-friendly single-column styles live in `templates/epub/` and
+`styles/epub.css`. PDF one-page rules do not apply to EPUB.
+
+The build checks EPUB packaging, navigation, content anchors, and embedded resources
+before replacing an existing output. The release workflow publishes it alongside PDF
+and HTML. For independent standards validation, install EPUBCheck separately and run
+`epubcheck dist/nfl-game-day-cookbook.epub`. Always preview layout in an EPUB reader
+after styling changes; package checks cannot certify visual appearance.

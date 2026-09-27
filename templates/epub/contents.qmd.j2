@@ -1,0 +1,20 @@
+{% import '_macros.qmd.j2' as m with context %}
+<# One page: divisions and teams are bold labels, not headings, so the EPUB does not
+   split them into pages of their own. The reader's own contents list has the same
+   structure with section headings. #>
+
+# All recipes {#{{ label|anchor }}}
+
+[Choose your team]{.eyebrow}
+
+{% for division in divisions %}
+
+**{{ m.link(division.ref) }}**
+
+{% for team in division.teams %}
+*{{ team.name|md }}*
+
+{{ m.refs(team.recipes) }}
+
+{% endfor %}
+{% endfor %}
