@@ -2,7 +2,7 @@
 {{ m.anchor(label) }}
 ::: {.recipe-header}
 {% if image %}
-![{{ title|md }}]({{ image }}){.dish-photo}
+![{{ title|md }}]({{ image }}){.dish-photo width="{{ image_size }}" height="{{ image_size }}" loading="lazy" decoding="async"}
 {% endif %}
 [{{ division|md }} · {{ team|md }}]{.eyebrow}
 
@@ -11,11 +11,13 @@
 [{{ location|md }} · {{ course|md }}]{.recipe-location}
 
 {{ meta_line }}
+{{ m.print_button(scaler) }}
 :::
 
 :::: {.recipe-columns}
 ::: {.ingredients}
 ## Ingredients
+{{ m.scaler(scaler) }}
 {{ m.ingredients(groups) }}
 :::
 ::: {.instructions}
@@ -29,7 +31,7 @@
 ## [Q]{.q-mark} Quick options
 {% for option in quick_options %}
 **{{ option.title|md }}** — {{ option.text }}  
-<a href="{{ route(option.label)|e }}">Make {{ option.title|e }} from scratch →</a>
+<a href="{{ route(option.label)|e }}" data-carry-scale>Make {{ option.title|e }} from scratch →</a>
 
 {% endfor %}
 :::

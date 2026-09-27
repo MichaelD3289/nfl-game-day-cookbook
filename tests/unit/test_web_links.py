@@ -26,7 +26,10 @@ def _unset_website_url(project: Project) -> None:
 def _pages(project: Project) -> tuple[BookModel, list[PageSpec]]:
     loaded = load(project)
     model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
-    return model, build_pages(model, build_media(project, model, project.book_build_dir))
+    media, _ = build_media(
+        project, model, project.book_build_dir, Diagnostics(), loaded.settings.book.photos.print
+    )
+    return model, build_pages(model, media)
 
 
 def _web(pages: list[PageSpec]) -> dict[str, WebView]:

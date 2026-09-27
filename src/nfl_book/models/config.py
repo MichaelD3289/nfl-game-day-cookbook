@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import Field, model_validator
 
@@ -77,6 +77,26 @@ class ComponentKindsFile(StrictModel):
     component_kinds: list[ComponentKind] = Field(min_length=1)
 
 
+class PhotoVariant(StrictModel):
+    """One output's recipe photo: a centred square crop, never enlarged."""
+
+    format: Literal["jpeg", "webp"]
+    size: int = Field(ge=64, le=4000, description="Square side in pixels.")
+    quality: int = Field(ge=1, le=100)
+
+
+class PhotoSettings(StrictModel):
+    # Defaults mirror data/book.yml, which explains the sizes.
+    web: PhotoVariant = PhotoVariant(format="webp", size=400, quality=80)
+    print: PhotoVariant = PhotoVariant(format="jpeg", size=500, quality=82)
+
+    @model_validator(mode="after")
+    def _print_is_jpeg(self) -> PhotoSettings:
+        if self.print.format != "jpeg":
+            raise ValueError("print photos must be jpeg (pdflatex cannot embed webp)")
+        return self
+
+
 class BookConfig(StrictModel):
     title: NonEmpty
     subtitle: str | None = None
@@ -87,6 +107,7 @@ class BookConfig(StrictModel):
         pattern=r"^https://",
         description="Web app that files anonymous website suggestions as issues.",
     )
+    photos: PhotoSettings = PhotoSettings()
     website_url: str | None = Field(
         None,
         pattern=r"^https://",

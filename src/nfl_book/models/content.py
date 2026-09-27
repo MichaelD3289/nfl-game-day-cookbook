@@ -17,6 +17,7 @@ from pydantic import Field, model_validator
 from nfl_book.models.common import HttpUrlStr, NonEmpty, Slug, SourceLink, Status, StrictModel
 from nfl_book.models.config import ComponentKind, MenuType
 from nfl_book.models.nfl import Division, Team
+from nfl_book.quantities import Amount, parse_servings, servings_from_yield
 
 
 class RecipeMeta(StrictModel):
@@ -29,6 +30,11 @@ class RecipeMeta(StrictModel):
     course: Slug
     location: str | None = Field(None, description="Overrides the team's location text.")
     yield_: NonEmpty = Field(alias="yield")
+    servings: int | str | None = Field(
+        None,
+        description="People fed, as a number or range such as 6-8; lets the website scale "
+        "by servings. Defaults to a plain 'N servings' yield.",
+    )
     prep: str | None = None
     cook: str | None = None
     last_reviewed_at: date | None = Field(
@@ -53,6 +59,12 @@ class RecipeMeta(StrictModel):
     def _credit_required(self) -> RecipeMeta:
         if self.image and not self.photo_credit:
             raise ValueError("`image` requires `photo_credit`")
+        return self
+
+    @model_validator(mode="after")
+    def _servings_count(self) -> RecipeMeta:
+        if self.servings is not None and parse_servings(self.servings) is None:
+            raise ValueError("`servings` must be a whole number or a range such as 6-8")
         return self
 
 
@@ -93,10 +105,15 @@ class DishOffMeta(StrictModel):
 
 @dataclass(frozen=True)
 class Ingredient:
-    """One ingredient line. ``text`` is Markdown with any component marker removed."""
+    """One ingredient line. ``text`` is Markdown with any marker removed.
+
+    ``amounts`` locate the quantities in ``text`` that the website may rescale; it is
+    empty for lines with nothing to scale or marked ``{{no-scale}}``.
+    """
 
     text: str
     component: str | None = None
+    amounts: tuple[Amount, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -140,6 +157,13 @@ class Recipe:
     def component_refs(self) -> tuple[str, ...]:
         """Referenced component ids in first-use order (drives the Quick Options card)."""
         return _component_refs(self.ingredients)
+
+    @property
+    def servings(self) -> tuple[int, int] | None:
+        """People fed as ``(low, high)``: the ``servings`` field, else a plain yield."""
+        if self.meta.servings is not None:
+            return parse_servings(self.meta.servings)
+        return servings_from_yield(self.meta.yield_)
 
 
 @dataclass(frozen=True)

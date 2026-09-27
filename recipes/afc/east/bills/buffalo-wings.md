@@ -28,7 +28,7 @@ quick_options:
 ## Ingredients
 
 - 5 pounds chicken wings (about 30 whole wings), split at the joints with tips removed
-- Peanut or canola oil, 2 inches deep in a heavy pot (about 2–3 quarts; pot size varies)
+- Peanut or canola oil, 2 inches deep in a heavy pot (about 2–3 quarts; pot size varies) {{no-scale}}
 - Kosher salt and freshly ground black pepper, to taste
 
 ### Buffalo wing sauce

@@ -10,10 +10,11 @@ last_reviewed_notes: >-
 course: meals
 location: Miami, FL
 yield: 4 sandwiches
+servings: 4
 prep: 35 minutes active
 cook: about 20 minutes pressing
 image: cuban-sandwich.jpg
-photo_credit: Todd Van Hoosear, CC BY-SA 2.0, via Wikimedia Commons (resized)
+photo_credit: Todd Van Hoosear, CC BY-SA 2.0, via Wikimedia Commons (cropped and resized)
 index:
   main_ingredient: pork-and-sausage
   practical_time: 31-to-60-minutes

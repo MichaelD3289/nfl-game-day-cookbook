@@ -4,6 +4,7 @@ title: Test Buffalo Sliders
 status: published
 course: appetizers
 yield: 12 sliders
+servings: 4-6
 prep: 15 min
 cook: 20 min
 index:
@@ -23,6 +24,7 @@ quick_options:
 
 - 1 lb ground chicken
 - 12 slider buns
+- 2 cups oil for the griddle {{no-scale}}
 - 1/2 cup blue cheese dip {{component:test-blue-cheese-dip}}
 
 ### To serve

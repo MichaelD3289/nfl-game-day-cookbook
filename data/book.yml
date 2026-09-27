@@ -6,6 +6,13 @@ paper: letter
 # Apps Script web app that files anonymous website suggestions as GitHub issues
 # (docs/website-suggestions.md). Leave empty to show only the GitHub links.
 suggestion_form_url: https://script.google.com/macros/s/AKfycbzqOSEWVBAJrP1iYV0d3pNJzgIdWUlgKUjvZVBBMMNXdGWsLGHKXIsGW223rdguKo9aTA/exec
+# Recipe photos per output: a centred square crop, resized (never enlarged),
+# recompressed and stripped of metadata. Source photos in recipes/ stay untouched.
+# web: 190 px photo box at 2x density. print: 1.67 in box at 300 dpi (pdflatex
+# cannot embed WebP, so print stays JPEG).
+photos:
+  web: {format: webp, size: 400, quality: 80}
+  print: {format: jpeg, size: 500, quality: 82}
 # Published website root. Each PDF recipe and component page links to its page
 # here (recipe-<id>.html / component-<id>.html). Leave empty to omit the links.
 website_url: https://michaeld3289.github.io/nfl-game-day-cookbook/

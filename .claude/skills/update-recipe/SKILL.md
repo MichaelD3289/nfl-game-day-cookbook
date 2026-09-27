@@ -11,6 +11,10 @@ Edit only the source `.md` file under `recipes/`. Never edit `generated/` or `di
 
 - **Wording, quantities or steps:** edit the body. Keep the page budget; see
   "Fixing an overflow" below.
+- **Scaling on the website:** keep each ingredient's amount at the start of the line.
+  Mark a line `{{no-scale}}` only when its amount must stay fixed (frying oil by pot
+  depth). Set `servings:` (a number or range such as `6-8`) when `yield` is not a
+  plain "N servings".
 - **Index values:** change `course` or the `index.*` fields. Allowed values are the
   bucket ids in `data/indexes.yml`.
 - **Retiring or unpublishing:** set `status: retired` or `draft`. Then run

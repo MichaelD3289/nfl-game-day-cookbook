@@ -14,6 +14,8 @@ from pathlib import Path
 from nfl_book.config import Settings, load_settings
 from nfl_book.discovery import discover
 from nfl_book.errors import Diagnostics, ValidationFailed
+from nfl_book.images import PhotoStats, build_photos
+from nfl_book.models.config import PhotoVariant
 from nfl_book.models.content import Component, Content, Recipe
 from nfl_book.postbuild import Overflow, check_manifest, read_pagemap, write_pagemap
 from nfl_book.project import Project
@@ -42,6 +44,7 @@ class BuildResult:
     pdf: Path | None = None
     diagnostics: Diagnostics = field(default_factory=Diagnostics)
     overflows: list[Overflow] = field(default_factory=list)
+    photos: PhotoStats = field(default_factory=PhotoStats)
 
 
 def load(project: Project, *, require_shortlinks: bool = True) -> Loaded:
@@ -92,7 +95,10 @@ def prepare_links(project: Project, shortener: Shortener | None = None) -> Prepa
         loaded.content, loaded.shortlinks, shortener or get_shortener("tinyurl")
     )
     model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
-    build_media(project, model, project.book_build_dir)
+    diags = Diagnostics()
+    build_media(project, model, project.book_build_dir, diags, loaded.settings.book.photos.print)
+    if not diags.ok:
+        raise ValidationFailed(diags)
     return result
 
 
@@ -100,8 +106,17 @@ def _relative(target: Path, start: Path) -> str:
     return Path(os.path.relpath(target, start)).as_posix()
 
 
-def build_media(project: Project, model: BookModel, build_dir: Path) -> Media:
-    """QR codes (from full source URLs) and recipe images, relative to ``build_dir``."""
+def build_media(
+    project: Project,
+    model: BookModel,
+    build_dir: Path,
+    diagnostics: Diagnostics,
+    variant: PhotoVariant,
+) -> tuple[Media, PhotoStats]:
+    """QR codes (from full source URLs) and recipe photo variants, relative to ``build_dir``.
+
+    Unreadable photos are reported to ``diagnostics``; source photos are never written.
+    """
     sourced: list[tuple[str, Recipe | Component]] = [
         *(("recipe", r) for r in model.recipes_by_id.values()),
         *(("component", c) for c in model.components_by_id.values()),
@@ -109,18 +124,19 @@ def build_media(project: Project, model: BookModel, build_dir: Path) -> Media:
     items = [(kind, item.id, item.meta.source.url) for kind, item in sourced if item.meta.source]
     qr = generate_qr_codes(items, project.qr_dir, _relative(project.qr_dir, build_dir))
 
-    images = {}
-    assets = project.generated_dir / "assets"
-    for recipe in model.recipes_by_id.values():
-        if recipe.meta.image:
-            source_image = recipe.path.parent / recipe.meta.image
-            if source_image.is_file():
-                target = assets / f"recipe-{recipe.id}{source_image.suffix.lower()}"
-                target.parent.mkdir(parents=True, exist_ok=True)
-                if not target.is_file() or target.read_bytes() != source_image.read_bytes():
-                    shutil.copyfile(source_image, target)
-                images[f"recipe:{recipe.id}"] = _relative(target, build_dir)
-    return Media(qr=qr, images=images)
+    sources = {
+        f"recipe:{recipe.id}": recipe.path.parent / recipe.meta.image
+        for recipe in model.recipes_by_id.values()
+        if recipe.meta.image and (recipe.path.parent / recipe.meta.image).is_file()
+    }
+    stats = PhotoStats()
+    photos = build_photos(sources, variant, project.photo_cache_dir, diagnostics, stats)
+    media = Media(
+        qr=qr,
+        images={key: _relative(p.path, build_dir) for key, p in photos.items()},
+        image_sizes={key: p.size for key, p in photos.items()},
+    )
+    return media, stats
 
 
 def build(project: Project, *, pdf: bool = True, strict: bool = False) -> BuildResult:
@@ -130,7 +146,7 @@ def build(project: Project, *, pdf: bool = True, strict: bool = False) -> BuildR
         raise ValidationFailed(diags)
     model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
     build_dir = project.book_build_dir
-    media = build_media(project, model, build_dir)
+    media, photos = build_media(project, model, build_dir, diags, loaded.settings.book.photos.print)
     pages = build_pages(model, media)
     check_web_links(model, pages, diags)
     if not diags.ok:
@@ -143,7 +159,7 @@ def build(project: Project, *, pdf: bool = True, strict: bool = False) -> BuildR
         paper=loaded.settings.book.paper,
         styles_dir=project.styles_dir,
     )
-    result = BuildResult(assembled.document, diagnostics=diags)
+    result = BuildResult(assembled.document, diagnostics=diags, photos=photos)
     if not pdf:
         return result
 

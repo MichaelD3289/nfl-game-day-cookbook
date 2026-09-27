@@ -10,10 +10,11 @@ last_reviewed_notes: >-
 course: meals
 location: New York City metro
 yield: 4 sandwiches
+servings: 4
 prep: About 5 minutes assembly
 cook: About 5 minutes warming chilled pastrami; none if already hot
 image: pastrami-on-rye-giants.jpg
-photo_credit: www.labreabakery.com
+photo_credit: La Brea Bakery
 index:
   main_ingredient: beef
   practical_time: variable-or-make-ahead

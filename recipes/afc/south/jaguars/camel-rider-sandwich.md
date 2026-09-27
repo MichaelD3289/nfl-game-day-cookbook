@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Jacksonville, FL
 yield: 4 sandwiches
+servings: 4
 prep: About 10 minutes (estimated)
 cook: 0 minutes
 image: camel-rider-sandwich.jpg

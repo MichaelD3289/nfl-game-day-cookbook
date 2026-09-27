@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Denver, CO
 yield: 4 omelets
+servings: 4
 prep: 15 minutes (source listed)
 cook: 15 minutes
 image: denver-omelet.jpg

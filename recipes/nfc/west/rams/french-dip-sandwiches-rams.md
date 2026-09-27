@@ -10,10 +10,11 @@ last_reviewed_notes: >-
 course: meals
 location: Los Angeles, CA
 yield: 4 sandwiches
+servings: 4
 prep: 20 minutes active; 1 hour seasoned rest (estimated)
 cook: 30 minutes roasting and jus; 15 minutes roast rest
 image: french-dip-sandwiches-rams.jpg
-photo_credit: discovercaliforniawines.com
+photo_credit: Discover California Wines
 index:
   main_ingredient: beef
   practical_time: over-60-minutes

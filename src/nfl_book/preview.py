@@ -51,7 +51,13 @@ def preview(project: Project, path: Path, *, pdf: bool = True) -> PreviewResult:
         raise BookError(f"{path}: not a recipe or component (only those can be previewed)")
 
     build_dir = project.preview_build_dir / item.id
-    media = build_media(project, model, build_dir)
+    media_diags = Diagnostics()
+    media, _ = build_media(
+        project, model, build_dir, media_diags, loaded.settings.book.photos.print
+    )
+    own.extend(media_diags.for_paths([target]))
+    if not own.ok:
+        raise ValidationFailed(own)
     spec: PageSpec = (
         recipe_page(model, recipe, media)
         if recipe is not None

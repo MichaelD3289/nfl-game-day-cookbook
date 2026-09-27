@@ -13,7 +13,7 @@ yield: 8 servings
 prep: 35–45 minutes estimated hands-on
 cook: About 2 hours 30 minutes
 image: cioppino.jpg
-photo_credit: www.saveur.com
+photo_credit: Saveur
 index:
   main_ingredient: seafood
   practical_time: over-60-minutes

@@ -266,28 +266,6 @@ main.content {
     max-width:none;
   }
 }
-@media print {
-  #quarto-header,#quarto-sidebar,#quarto-margin-sidebar,.nav-footer {
-    display:none!important;
-  }
-  #quarto-content {
-    display:block;
-  }
-  main.content {
-    margin:0;
-    width:100%;
-  }
-  .quick-card,.recipe-source {
-    break-inside:avoid;
-  }
-  a {
-    color:inherit;
-  }
-  .dish-photo {
-    width:150px;
-    height:150px;
-  }
-}
 
 /* Compact browsing summaries and menu previews. */
 .dish-description {
@@ -449,6 +427,226 @@ main.content {
 .suggest-status {
   font-size: .85rem;
 }
+/* Recipe scaling controls (website-scale.js); hidden until the script runs. */
+.scaler[hidden], .scale-note[hidden] {
+  display:none;
+}
+.scaler {
+  margin:.4rem 0 1rem;
+  padding:.6rem .8rem;
+  border:1px solid var(--book-rule);
+  border-radius:6px;
+  background:var(--book-pale);
+  font-size:.92rem;
+}
+.scaler-row {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.4rem .8rem;
+}
+.scaler-label {
+  font-weight:700;
+  color:var(--book-navy);
+}
+.scaler-buttons {
+  display:inline-flex;
+  flex-wrap:wrap;
+  gap:.25rem;
+}
+.scaler-buttons button {
+  min-width:2.6rem;
+  padding:.15rem .5rem;
+  border:1px solid var(--book-navy);
+  border-radius:4px;
+  background:var(--book-paper);
+  color:var(--book-navy);
+  font:inherit;
+  cursor:pointer;
+}
+.scaler-buttons button[aria-pressed="true"] {
+  background:var(--book-navy);
+  color:var(--book-paper);
+}
+.scaler-servings input {
+  width:4.2rem;
+  padding:.1rem .3rem;
+  border:1px solid var(--book-rule);
+  border-radius:4px;
+  font:inherit;
+}
+.scaler-servings small, .scale-status {
+  color:var(--book-muted);
+}
+.scale-note {
+  margin:.5rem 0 0;
+  color:var(--book-muted);
+  font-size:.85rem;
+}
+.qty-scaled {
+  font-weight:700;
+}
+/* Print button (website-print.js) and the print-only scale and address lines. */
+.print-bar[hidden], .print-scale, .print-url {
+  display:none;
+}
+.print-bar {
+  margin:.6rem 0 0;
+}
+.print-button {
+  border:1px solid var(--book-navy);
+  border-radius:4px;
+  background:var(--book-paper);
+  color:var(--book-navy);
+  font:inherit;
+  font-size:.85rem;
+  font-weight:700;
+  padding:.2rem .8rem;
+  cursor:pointer;
+}
+.print-button:hover {
+  background:var(--book-pale);
+}
+
+/* Paper: one recipe per Letter or A4 page, like the booklet, without the site chrome.
+   The page prints as shown, so scaled amounts print scaled. */
 @media print {
-  .suggest { display: none; }
+  @page {
+    margin:.5in;
+  }
+  #quarto-header,#quarto-sidebar,#quarto-margin-sidebar,.nav-footer,.page-navigation,
+  #quarto-back-to-top,.quarto-secondary-nav,#quarto-search-results,.quarto-search,
+  .print-bar,.scaler,.suggest,.quick-card a[data-carry-scale] {
+    display:none!important;
+  }
+  html,body {
+    font-size:9.5pt;
+    line-height:1.35;
+    background:#fff;
+  }
+  #quarto-content {
+    display:block!important;
+    padding:0!important;
+    margin:0!important;
+  }
+  main.content {
+    max-width:none!important;
+    width:100%!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  a,a:visited {
+    color:inherit;
+    text-decoration:none;
+  }
+  h1 {
+    font-size:20pt;
+    margin:.15rem 0 .25rem;
+  }
+  h2 {
+    font-size:11.5pt;
+    margin:.8rem 0 .3rem;
+    break-after:avoid;
+  }
+  h3 {
+    font-size:10pt;
+    margin:.5rem 0 .2rem;
+    break-after:avoid;
+  }
+  p {
+    margin-bottom:.45rem;
+  }
+  ul,ol {
+    padding-left:1.2rem;
+    margin-bottom:.4rem;
+  }
+  .eyebrow {
+    font-size:7.5pt;
+  }
+  .recipe-header {
+    min-height:0;
+    border-top-width:3pt;
+    padding:.5rem 0 .6rem;
+    margin-bottom:.8rem;
+  }
+  .recipe-header h1 {
+    font-size:20pt;
+  }
+  .dish-photo {
+    width:1.1in;
+    height:1.1in;
+    margin:0 0 .4rem .8rem;
+  }
+  .print-scale:not([hidden]) {
+    display:inline-block;
+    margin:.3rem 0 0;
+    padding:.1rem .5rem;
+    border:1pt solid var(--book-navy);
+    border-radius:3px;
+    color:var(--book-navy);
+    font-weight:700;
+    font-size:9pt;
+  }
+  .qty-scaled {
+    font-weight:700;
+  }
+  .recipe-columns {
+    grid-template-columns:minmax(0, .85fr) minmax(0, 1.25fr);
+    gap:1.2rem;
+  }
+  .ingredients {
+    border-right:1px solid var(--book-rule);
+    border-bottom:0;
+    padding:0 1rem 0 0;
+  }
+  .recipe-columns li {
+    margin-bottom:.15rem;
+  }
+  li > p {
+    margin:0;
+  }
+  .q-mark {
+    width:1.3em;
+    height:1.3em;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .quick-card,.menu-card,.team-card,.menu-preview-card {
+    padding:.5rem .8rem;
+    margin:.7rem 0;
+    break-inside:avoid;
+  }
+  .quick-card {
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .team-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:.6rem;
+    margin:.6rem 0;
+  }
+  .kitchen-notes {
+    font-size:9pt;
+    padding-top:.4rem;
+    break-inside:avoid;
+  }
+  .recipe-source {
+    margin-top:.7rem;
+    padding-top:.5rem;
+    font-size:7.5pt;
+    break-inside:avoid;
+  }
+  .source-qr {
+    width:.75in;
+    height:.75in;
+  }
+  .print-url {
+    display:block;
+    margin-top:.6rem;
+    padding-top:.3rem;
+    border-top:1px solid var(--book-rule);
+    color:var(--book-muted);
+    font-size:7.5pt;
+    overflow-wrap:anywhere;
+  }
 }

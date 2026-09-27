@@ -9,11 +9,52 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Project Claude Code settings (`.claude/settings.json`), shared by local and cloud sessions: no AI attribution in commits or pull requests, pre-approved routine checks (`make check`, tests, lint, read-only git), and blocks on reading `.env` files, editing `generated/` or `dist/`, and creating or pushing tags.
 - Each recipe and component page in the PDF now links to its page on the website, with a note that the online version may differ from the printed edition; the cover explains this once. Set the site root with `website_url` in `data/book.yml`.
+
+## [0.10.0] - 2026-09-27
+
+### Added
+
+- Recipe, component, game-day menu and division (dish-off) pages on the website have a **Print** button that prints just the page, without the site navigation, search or suggestion prompts. Most recipes fit on one Letter or A4 page; a scaled recipe prints its scaled amounts with a "Scaled 2× · serves 12" note, and every printout ends with the page's web address. The PDF is unchanged.
 
 ### Changed
 
+- The `layout-changes` skill now explains that Quarto rewrites raw HTML in website pages (a bare `hidden` becomes `hidden=""`), so tests of the rendered site must compare attributes rather than exact markup.
+
+## [0.9.1] - 2026-09-27
+
+### Fixed
+
+- The release build's rendered-website check no longer fails on the recipe scaling controls, which Quarto writes with `hidden=""` instead of a bare `hidden`. This unblocks publishing the 0.9 recipe scaling to the website.
+
+## [0.9.0] - 2026-09-27
+
+### Added
+
+- Recipe and component pages on the website can be scaled from ½× to 4×, or by the number of people when the recipe has servings. Amounts switch to the most readable unit (tripling 4 teaspoons reads ¼ cup), counts stay whole, and the scale is kept in the page link and carried to linked components. The PDF is unchanged.
+- Recipes accept an optional `servings` field (a number or a range such as `6-8`), and yields such as "6–8 servings" or "serves 6–10" are read automatically. Ingredient lines can be marked `{{no-scale}}` to keep their amount fixed, and validation reports amounts it cannot read, such as `500g`.
+- Sandwich, burger, burrito, omelet and roll recipes list their servings, and deep-frying oil measured by pot depth is marked so it does not scale.
+
+## [0.8.0] - 2026-09-27
+
+### Added
+
+- Every released website version stays online at `/vX.Y.Z/`, while the site root keeps serving the latest release. Older versions show a banner linking to the latest version, and a new **All versions** page lists each version with its date and PDF.
+
+- The published website stores each image once across all versions, so a new release adds only its new or changed photos. Older versions keep the photos they were released with.
+
+## [0.7.0] - 2026-09-26
+
+### Added
+
+- Project Claude Code settings (`.claude/settings.json`), shared by local and cloud sessions: no AI attribution in commits or pull requests, pre-approved routine checks (`make check`, tests, lint, read-only git), and blocks on reading `.env` files, editing `generated/` or `dist/`, and creating or pushing tags.
+
+### Changed
+
+- Creative Commons photo credits now say the photo was cropped and resized, and photo credits that were bare web addresses now name the publication or brand.
+- Recipe photos are now cropped to a centred square and resized for each output: the website serves lazy-loaded WebP images of about 400px, and the PDF embeds small progressive JPEGs of about 500px with location and other metadata removed. Original photos in `recipes/` are never modified, and `nfl-book build` and `nfl-book website` report total photo size before and after.
+- Photo size, format and quality for the website and PDF are set under `photos:` in `data/book.yml`. An unreadable photo now fails the build with an error that names the file.
+- The Chicago tavern-style pizza recipe is shorter so it stays on one page with its full-size square photo.
 - Agent rules now also forbid AI attribution in pull request titles and descriptions.
 
 ## [0.6.1] - 2026-09-26
@@ -188,7 +229,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit and integration tests against a synthetic sample book.
 
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.1...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.10.0...HEAD
+[0.10.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.1...v0.10.0
+[0.9.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.0...v0.9.1
+[0.9.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.8.0...v0.9.0
+[0.8.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.7.0...v0.8.0
+[0.7.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.4.0...v0.5.0

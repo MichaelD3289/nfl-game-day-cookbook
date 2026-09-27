@@ -13,7 +13,7 @@ yield: 1 casserole; serves 6–10
 prep: 15–20 minutes; add about 10 minutes for homemade sauce (estimated)
 cook: 45–60 minutes
 image: tater-tot-hotdish.jpg
-photo_credit: billstjohn.com
+photo_credit: Bill St. John
 index:
   main_ingredient: beef
   practical_time: over-60-minutes

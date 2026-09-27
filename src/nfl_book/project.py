@@ -101,5 +101,9 @@ class Project:
         return self.generated_dir / "qr"
 
     @property
+    def photo_cache_dir(self) -> Path:
+        return self.generated_dir / "photos"
+
+    @property
     def pagemap_file(self) -> Path:
         return self.generated_dir / "pagemap.json"

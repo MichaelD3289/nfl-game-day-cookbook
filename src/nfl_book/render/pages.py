@@ -14,6 +14,7 @@ from typing import Any
 from nfl_book import __version__
 from nfl_book.errors import Diagnostics
 from nfl_book.models.content import Component, IngredientGroup, Recipe
+from nfl_book.quantities import Amount
 from nfl_book.references import (
     component_label,
     division_label,
@@ -39,6 +40,7 @@ class Media:
 
     qr: Mapping[str, str] = field(default_factory=dict)  # "<kind>:<id>" -> path
     images: Mapping[str, str] = field(default_factory=dict)  # "<kind>:<id>" -> path
+    image_sizes: Mapping[str, int] = field(default_factory=dict)  # square side in px
 
 
 @dataclass(frozen=True)
@@ -62,6 +64,7 @@ class Ref:
 class ItemView:
     text: str  # Markdown
     ref: str | None  # component label when the line references a component
+    amounts: tuple[Amount, ...] = ()  # scalable amounts in ``text`` (website only)
 
 
 @dataclass(frozen=True)
@@ -107,7 +110,7 @@ def _groups(groups: Iterable[IngredientGroup]) -> list[GroupView]:
         GroupView(
             g.heading,
             tuple(
-                ItemView(i.text, component_label(i.component) if i.component else None)
+                ItemView(i.text, component_label(i.component) if i.component else None, i.amounts)
                 for i in g.items
             ),
         )
@@ -180,6 +183,7 @@ def recipe_context(model: BookModel, recipe: Recipe, media: Media) -> dict[str, 
             ("Yield", recipe.meta.yield_), ("Prep", recipe.meta.prep), ("Cook", recipe.meta.cook)
         ),
         "image": media.images.get(f"recipe:{recipe.id}", ""),
+        "image_size": media.image_sizes.get(f"recipe:{recipe.id}", 0),
         "photo_credit": recipe.meta.photo_credit or "",
         "quick_options": _options(options),
         "groups": _groups(recipe.ingredients),

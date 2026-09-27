@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Boston, MA
 yield: 4 rolls
+servings: 4
 prep: 15 minutes with pre-cooked lobster
 cook: About 6 minutes to toast buns
 image: lobster-rolls.jpg

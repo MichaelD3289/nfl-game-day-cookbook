@@ -8,7 +8,7 @@ import re
 import shutil
 import subprocess
 import tomllib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlencode
@@ -17,9 +17,10 @@ import yaml
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 from nfl_book.errors import Diagnostics, ValidationFailed
+from nfl_book.images import PhotoStats
 from nfl_book.pipeline import build_media, load
 from nfl_book.project import Project
-from nfl_book.render.pages import Media, PageSpec, build_pages
+from nfl_book.render.pages import ItemView, Media, PageSpec, build_pages
 from nfl_book.resolve import BookModel, resolve
 
 REPOSITORY = "https://github.com/MichaelD3289/nfl-game-day-cookbook"
@@ -33,12 +34,16 @@ SUGGESTION_FORMS = {
     "dish-off": ("quick-dish-off.yml", "Dish-off idea: ", ""),
 }
 
+# Recipe multipliers offered on scalable pages: (label, factor as "n" or "n/d").
+MULTIPLIERS = (("½×", "1/2"), ("1×", "1"), ("1½×", "3/2"), ("2×", "2"), ("3×", "3"), ("4×", "4"))
+
 
 @dataclass(frozen=True)
 class WebsiteResult:
     document: Path
     site: Path | None
     diagnostics: Diagnostics
+    photos: PhotoStats = field(default_factory=PhotoStats)
 
 
 def _filename(page: PageSpec) -> str:
@@ -58,6 +63,51 @@ def _web_body(text: str) -> str:
     # Print cover annotations: preserve prose and provide the equivalent visible Q.
     text = text.replace(r"`\QMark{}\ `{=latex}", "[Q]{.q-mark}")
     return re.sub(r"```\{=latex\}\n.*?\n```", "", text, flags=re.DOTALL)
+
+
+def _scalable(item: ItemView) -> str:
+    """Ingredient Markdown with each scalable amount wrapped for website-scale.js."""
+    parts = []
+    position = 0
+    for amount in item.amounts:
+        attrs = {"data-q": str(amount.low)}
+        if amount.high is not None:
+            attrs["data-q2"] = str(amount.high)
+        if amount.unit:
+            attrs["data-unit"] = amount.unit
+        if amount.adjective:
+            attrs["data-adj"] = amount.adjective
+        shown = " ".join(f'{k}="{html.escape(v)}"' for k, v in attrs.items())
+        parts.append(item.text[position : amount.start])
+        parts.append(f'<span class="qty" {shown}>{item.text[amount.start : amount.end]}</span>')
+        position = amount.end
+    parts.append(item.text[position:])
+    return "".join(parts)
+
+
+def _add_scaling(model: BookModel, pages: list[PageSpec]) -> None:
+    """Scaling controls for recipe and component pages that have amounts to scale."""
+    servings = {f"recipe:{r.id}": r.servings for r in model.recipes}
+    for page in pages:
+        context = page.context
+        if page.template not in ("recipe.qmd.j2", "component.qmd.j2"):
+            continue
+        context["scaler"] = None
+        if not any(item.amounts for group in context["groups"] for item in group.items):
+            continue
+        scaler: dict[str, Any] = {
+            "multipliers": MULTIPLIERS,
+            "servings": None,
+            "servings_max": None,
+            "serves": "",
+        }
+        people = servings.get(context["label"])
+        if people:
+            low, high = people
+            scaler["servings"] = low
+            scaler["servings_max"] = high
+            scaler["serves"] = str(low) if low == high else f"{low}–{high}"
+        context["scaler"] = scaler
 
 
 def _suggestion(kind: str, lead: str, **fields: str) -> dict[str, str]:
@@ -144,7 +194,7 @@ def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
     return result
 
 
-def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnostics]:
+def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnostics, PhotoStats]:
     loaded = load(project)
     if not loaded.diagnostics.ok:
         raise ValidationFailed(loaded.diagnostics)
@@ -152,7 +202,11 @@ def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnos
     if build_dir.exists():
         shutil.rmtree(build_dir)
     build_dir.mkdir(parents=True)
-    media = build_media(project, model, build_dir)
+    media, photos = build_media(
+        project, model, build_dir, loaded.diagnostics, loaded.settings.book.photos.web
+    )
+    if not loaded.diagnostics.ok:
+        raise ValidationFailed(loaded.diagnostics)
     assets = build_dir / "assets"
     assets.mkdir()
     maps = []
@@ -166,19 +220,20 @@ def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnos
             shutil.copyfile(source, assets / name)
             copied[label] = f"assets/{name}"
         maps.append(copied)
-    pages = build_pages(model, Media(qr=maps[0], images=maps[1]))
+    pages = build_pages(model, Media(qr=maps[0], images=maps[1], image_sizes=media.image_sizes))
     descriptions = {f"recipe:{r.id}": r.meta.description for r in model.recipes}
     menu_previews = {m["label"]: m for page in pages for m in page.context.get("menus", [])}
     for page in pages:
         page.context["recipe_descriptions"] = descriptions
         page.context["menu_previews"] = menu_previews
     _add_suggestions(project, model, pages)
-    return pages, loaded.diagnostics
+    _add_scaling(model, pages)
+    return pages, loaded.diagnostics, photos
 
 
 def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
     build_dir = project.generated_dir / "site"
-    pages, diags = _prepare(project, build_dir)
+    pages, diags, photos = _prepare(project, build_dir)
     routes = {label: f"{_filename(p)}#{_anchor(label)}" for p in pages for label in p.anchors}
     for p in pages:
         for menu in p.context.get("dishoffs", []):
@@ -189,7 +244,7 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
         autoescape=False,
         keep_trailing_newline=True,
     )
-    env.filters.update(md=_markdown, web_body=_web_body, anchor=_anchor)
+    env.filters.update(md=_markdown, web_body=_web_body, anchor=_anchor, scalable=_scalable)
     book = load(project).settings.book
     env.globals.update(
         route=lambda label: routes[label], suggestion_form_url=book.suggestion_form_url
@@ -210,7 +265,17 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
         body = env.get_template(page.template).render(**context, version=version, download=download)
         body = re.sub(r"(?m)^(:{3,}[^\n]*)$", r"\n\1\n", body)
         (build_dir / _filename(page)).write_text(f"---\n{front}---\n\n{body}")
-    resources = ["assets/**"]
+    # The release workflow lists every published website version at the marker.
+    (build_dir / "versions.qmd").write_text(
+        '---\ntitle: ""\npagetitle: All versions\n---\n\n# All versions\n\n'
+        "Each release of this cookbook stays online at its own address. Every edition's "
+        f"PDF and downloadable website are also on [GitHub releases]({RELEASES}).\n\n"
+        "```{=html}\n<!-- site-versions -->\n```\n"
+    )
+    resources = ["assets/**", "scale.js", "print.js"]
+    shutil.copyfile(project.styles_dir / "website-scale.js", build_dir / "scale.js")
+    shutil.copyfile(project.styles_dir / "website-print.js", build_dir / "print.js")
+    scripts = ["print.js"]
     html_format: dict[str, Any] = {
         "theme": "cosmo",
         "css": "website.css",
@@ -221,8 +286,11 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
     }
     if book.suggestion_form_url:
         resources.append("suggest.js")
-        html_format["include-after-body"] = {"text": '<script src="suggest.js"></script>'}
+        scripts.append("suggest.js")
         shutil.copyfile(project.styles_dir / "website-suggest.js", build_dir / "suggest.js")
+    html_format["include-after-body"] = {
+        "text": "\n".join(f'<script src="{name}"></script>' for name in scripts)
+    }
     config = {
         "project": {"type": "website", "output-dir": "_site", "resources": resources},
         "website": {
@@ -233,6 +301,7 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
                 "right": [
                     {"text": f"v{version}", "href": f"{RELEASES}/tag/v{version}"},
                     {"text": "Download PDF", "href": download},
+                    {"text": "All versions", "href": "versions.qmd"},
                     {"text": "Earlier releases", "href": RELEASES},
                 ]
             },
@@ -246,7 +315,7 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
     (build_dir / "_quarto.yml").write_text(yaml.safe_dump(config, sort_keys=False))
     shutil.copyfile(project.styles_dir / "website.css", build_dir / "website.css")
     if not render:
-        return WebsiteResult(build_dir / "index.qmd", None, diags)
+        return WebsiteResult(build_dir / "index.qmd", None, diags, photos)
     quarto = shutil.which("quarto")
     if quarto is None:
         diags.error(
@@ -276,4 +345,4 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
     if target.exists():
         shutil.rmtree(target)
     shutil.copytree(staged, target)
-    return WebsiteResult(build_dir / "index.qmd", target, diags)
+    return WebsiteResult(build_dir / "index.qmd", target, diags, photos)

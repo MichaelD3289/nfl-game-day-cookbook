@@ -10,10 +10,11 @@ last_reviewed_notes: >-
 course: meals
 location: Philadelphia, PA
 yield: 6 sandwiches
+servings: 6
 prep: 15 minutes (source listed)
 cook: 3 hours 5 minutes, plus 13 hours chilling/cooling
 image: roast-pork-sandwich.jpg
-photo_credit: Krista (scaredykat) on Flickr, CC BY 2.0
+photo_credit: Krista (scaredykat) on Flickr, CC BY 2.0 (cropped and resized)
 index:
   main_ingredient: pork-and-sausage
   practical_time: over-60-minutes

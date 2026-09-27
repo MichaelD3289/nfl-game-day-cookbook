@@ -14,6 +14,7 @@ import re
 
 from nfl_book.models.common import SLUG_PATTERN
 from nfl_book.models.content import Ingredient, IngredientGroup
+from nfl_book.quantities import NO_SCALE_RE, find_amounts
 
 MARKER_RE = re.compile(r"\{\{\s*component\s*:\s*(?P<id>[^{}\s]*)\s*\}\}")
 BRACES_RE = re.compile(r"\{\{.*?\}\}")
@@ -94,12 +95,17 @@ def parse_ingredients(text: str) -> tuple[tuple[IngredientGroup, ...], list[str]
 
 
 def parse_ingredient(text: str) -> tuple[Ingredient | None, list[str]]:
+    fixed = len(NO_SCALE_RE.findall(text))
     braces = BRACES_RE.findall(text)
     markers = list(MARKER_RE.finditer(text))
     problems = []
-    if len(braces) != len(markers):
-        bad = [b for b in braces if not MARKER_RE.fullmatch(b)]
-        problems.append(f"malformed reference {bad[0]!r}; use {{{{component:<component-id>}}}}")
+    if fixed > 1:
+        problems.append("only one {{no-scale}} marker is allowed per ingredient line")
+    if len(braces) != len(markers) + fixed:
+        bad = [b for b in braces if not (MARKER_RE.fullmatch(b) or NO_SCALE_RE.fullmatch(b))]
+        problems.append(
+            f"malformed marker {bad[0]!r}; use {{{{component:<component-id>}}}} or {{{{no-scale}}}}"
+        )
     if len(markers) > 1:
         problems.append("only one component reference is allowed per ingredient line")
     component = None
@@ -107,9 +113,14 @@ def parse_ingredient(text: str) -> tuple[Ingredient | None, list[str]]:
         component = markers[0]["id"]
         if not SLUG_RE.match(component):
             problems.append(f"invalid component id {component!r} in reference")
-    display = " ".join(MARKER_RE.sub(" ", text).split())
+    display = " ".join(NO_SCALE_RE.sub(" ", MARKER_RE.sub(" ", text)).split())
     if not display:
         problems.append("ingredient needs text besides the component reference")
+    amounts, amount_problems = find_amounts(display)
+    if fixed and not amounts and not amount_problems:
+        problems.append("{{no-scale}} is only needed on a line with an amount; remove it")
+    if not fixed:
+        problems.extend(f"{p} (or mark the line {{{{no-scale}}}})" for p in amount_problems)
     if problems:
         return None, problems
-    return Ingredient(display, component), []
+    return Ingredient(display, component, () if fixed else amounts), []
