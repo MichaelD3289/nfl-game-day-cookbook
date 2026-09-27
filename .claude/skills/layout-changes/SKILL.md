@@ -93,8 +93,9 @@ This happened in 0.9.0 and needed the 0.9.1 fix.
 - Those integration tests are skipped when Quarto is not installed, and `make check`
   still passes. If you cannot run them, say so in the PR. Do not treat a skip as a pass.
 - Controls that need JavaScript (the scaler, the Print button, the no-account suggest
-  button) ship with `hidden` and are revealed by their script. Keep that pattern so
-  readers without JavaScript never see a button that does nothing.
+  button, the kickoff-time picker from `styles/website-timeline.js`) ship with `hidden`
+  and are revealed by their script. Keep that pattern so readers without JavaScript
+  never see a button that does nothing.
 
 ## EPUB layout
 

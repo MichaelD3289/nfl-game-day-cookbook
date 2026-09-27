@@ -709,6 +709,64 @@ main.content {
 .print-button:hover {
   background: var(--book-pale);
 }
+/* Kickoff timeline (website-timeline.js): relative times by default; the kickoff
+   picker is hidden until the script runs and fills in each step's clock time. */
+.timeline-kickoff[hidden],
+.timeline-clock[hidden],
+.print-kickoff {
+  display: none;
+}
+.timeline-kickoff {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.8rem;
+  margin: 0.2rem 0 0.6rem;
+  font-size: 0.92rem;
+}
+.timeline-kickoff label {
+  font-weight: 700;
+  color: var(--book-navy);
+}
+.timeline-kickoff input {
+  margin-left: 0.3rem;
+  padding: 0.1rem 0.3rem;
+  border: 1px solid var(--book-rule);
+  border-radius: 4px;
+  background: var(--book-paper);
+  font: inherit;
+  font-weight: 400;
+}
+.timeline-hint {
+  color: var(--book-muted);
+  font-size: 0.85rem;
+}
+.timeline-steps {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, max-content) 1fr;
+  gap: 0.35rem 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.4rem;
+}
+.timeline-step {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+}
+.timeline-when {
+  font-weight: 700;
+  color: var(--book-navy);
+}
+.timeline-clock,
+.timeline-offset {
+  display: block;
+}
+.timeline-clock:not([hidden]) + .timeline-offset {
+  color: var(--book-muted);
+  font-size: 0.8rem;
+  font-weight: 400;
+}
 
 /* Paper: one recipe per Letter or A4 page, like the booklet, without the site chrome.
    The page prints as shown, so scaled amounts print scaled. */
@@ -804,6 +862,21 @@ main.content {
     padding: 0;
     background: none;
     font-size: 8.5pt;
+  }
+  .timeline-kickoff {
+    display: none !important;
+  }
+  .print-kickoff:not([hidden]) {
+    display: block;
+    margin: 0 0 0.3rem;
+    color: var(--book-navy);
+    font-weight: 700;
+  }
+  .menu-timeline {
+    break-inside: avoid;
+  }
+  .timeline-steps {
+    row-gap: 0.1rem;
   }
   .print-scale:not([hidden]) {
     display: inline-block;

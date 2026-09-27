@@ -77,3 +77,10 @@ def test_rendered_website_has_cards_search_and_no_print_markup(fixture_book: Pro
 
     for page in result.site.glob("*.html"):
         assert "</span> ##" not in page.read_text(), page.name
+    menu = (result.site / "menus-fast-day-1.html").read_text()
+    pickers = _elements(menu, "div", "timeline-kickoff")
+    assert len(pickers) == 1
+    assert "hidden" in pickers[0]  # revealed by timeline.js
+    steps = _elements(menu, "li", "timeline-step")
+    assert [step.get("data-offset-minutes") for step in steps] == [None, "-90", "-30", "0", None]
+    assert (result.site / "timeline.js").is_file()
