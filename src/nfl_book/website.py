@@ -330,12 +330,13 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
         f"PDF and downloadable website are also on [GitHub releases]({RELEASES}).\n\n"
         "```{=html}\n<!-- site-versions -->\n```\n"
     )
-    resources = ["assets/**", "scale.js", "print.js", CATALOG_FILE, "browse.js"]
+    resources = ["assets/**", "scale.js", "print.js", "shop.js", CATALOG_FILE, "browse.js"]
     write_catalog(catalog, build_dir / CATALOG_FILE)
     shutil.copyfile(project.styles_dir / "website-browse.js", build_dir / "browse.js")
     shutil.copyfile(project.styles_dir / "website-scale.js", build_dir / "scale.js")
     shutil.copyfile(project.styles_dir / "website-print.js", build_dir / "print.js")
-    scripts = ["print.js"]
+    shutil.copyfile(project.styles_dir / "website-shop.js", build_dir / "shop.js")
+    scripts = ["print.js", "shop.js"]
     html_format: dict[str, Any] = {
         "theme": "cosmo",
         "css": "website.css",

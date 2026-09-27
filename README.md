@@ -220,6 +220,14 @@ which prints each component page (nested ones too) on its own sheet after the re
 at the same scale; it needs the site served over http(s), so it is hidden when the
 downloaded website is opened from files. Each game-day menu and dish-off card also has **Print menu + recipes**, which prints only that card followed by each of its recipes on its own sheet (and, if ticked, each homemade component once at the end); like the component option, it needs the site served over http(s) and is hidden when the downloaded website is opened from files.
 
+Next to Print, recipe and component pages and every menu and dish-off card offer a
+**Shopping list** (`styles/website-shop.js`, shown only when JavaScript runs): **Download
+.txt**, **Download .csv** (For, Section, Amount, Item) or **Copy**. The list is read
+from the ingredient lists as shown, so a scaled recipe lists scaled amounts, and lines
+are grouped by recipe and component, never merged. A recipe's own list works when the
+downloaded website is opened from files; adding its ticked homemade components, and the
+menu and dish-off lists, need the site served over http(s).
+
 Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
 prompts. They open prefilled quick issue templates on GitHub and, once
 `suggestion_form_url` is set in `data/book.yml`, a form that needs no GitHub
