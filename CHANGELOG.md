@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The EPUB opens each recipe, component, menu and section on its own page, with the indexes at the back. Each recipe shows its short description, lists yield and times on separate lines, and links to its page in this edition of the website. A **Q** beside an ingredient opens the recipe's Quick options card, and sources link to their full address.
 - The EPUB has a cover, a description and rights details, and keeps the same identifier across editions, so reading apps treat a new edition as an update of the same book.
 - The website's **All versions** page links each edition's EPUB next to its PDF.
+- PR checks now render the website and EPUB with Quarto, so a rendering problem fails the pull request instead of the release.
 
 ## [0.11.0] - 2026-09-26
 
