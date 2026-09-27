@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `nfl-book prepare-links --check` requests every recipe and component source URL and lists dead links, DNS failures and permanent redirects (with where they now point), naming the files that use each one. It never changes source files or short links. `--report FILE` also writes the list as Markdown with Wayback Machine links for dead pages.
+- A monthly **Source link check** workflow runs that check and keeps one GitHub issue labelled `link-rot` up to date with the problems, closing it once every link works again.
+
 ## [0.13.0] - 2026-09-26
 
 ### Added

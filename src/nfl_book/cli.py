@@ -88,7 +88,25 @@ def validate(
     out.print(f"[green]OK[/green] ({len(diags.warnings)} warning(s))")
 
 
-def _prepare() -> None:
+CheckOption = Annotated[
+    bool,
+    typer.Option(
+        "--check",
+        help="Only check source URLs for dead links and permanent redirects; change nothing.",
+    ),
+]
+ReportOption = Annotated[
+    Path | None,
+    typer.Option("--report", help="With --check, also write the list as Markdown."),
+]
+
+
+def _prepare(check: bool = False, report_path: Path | None = None) -> None:
+    if report_path is not None and not check:
+        raise typer.BadParameter("--report needs --check", param_hint="--report")
+    if check:
+        _check_links(report_path)
+        return
     project = None
     try:
         project = state.project()
@@ -100,16 +118,39 @@ def _prepare() -> None:
     out.print(f"{len(result.added)} added, {result.cached} already cached")
 
 
+def _check_links(report_path: Path | None) -> None:
+    from nfl_book.shortlinks.check import render_report
+
+    project = None
+    try:
+        project = state.project()
+        result = pipeline.check_links(project)
+    except BookError as exc:
+        fail(exc, project.root if project else None)
+    report(result.diagnostics, project.root)
+    if report_path is not None:
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        report_path.write_text(render_report(result, project.content_root), encoding="utf-8")
+        out.print(f"Report: {report_path}", highlight=False)
+    out.print(f"{result.checked} checked, {len(result.problems)} need attention")
+    if not result.ok:
+        raise typer.Exit(1)
+
+
 @app.command()
-def prepare() -> None:
+def prepare(check: CheckOption = False, report_path: ReportOption = None) -> None:
     """Alias of prepare-links."""
-    _prepare()
+    _prepare(check, report_path)
 
 
 @app.command("prepare-links")
-def prepare_links() -> None:
-    """The ONLY network stage: shorten new source URLs into data/shortlinks.yml, make QRs."""
-    _prepare()
+def prepare_links(check: CheckOption = False, report_path: ReportOption = None) -> None:
+    """The ONLY network stage: shorten new source URLs into data/shortlinks.yml, make QRs.
+
+    With --check it shortens nothing and writes nothing but the optional report: it
+    requests every source URL and lists dead links and permanent redirects.
+    """
+    _prepare(check, report_path)
 
 
 @app.command()

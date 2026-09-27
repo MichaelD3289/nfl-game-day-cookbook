@@ -116,6 +116,7 @@ uv sync                                   # install
 make book                                 # everything: make links, then make pdf
 uv run nfl-book validate [PATHS...]       # validate everything (optionally report only PATHS)
 uv run nfl-book prepare-links             # the ONLY network step (or `make links`): fill data/shortlinks.yml
+uv run nfl-book prepare-links --check [--report FILE]   # network: report dead/moved source URLs, change nothing
 uv run nfl-book preview PATH [--no-pdf]   # render one recipe/component (drafts allowed)
 uv run nfl-book build [--no-pdf] [--strict]   # published-only book -> dist/
 uv run nfl-book clean                     # remove generated/ and dist/
@@ -146,12 +147,26 @@ start and end on the same page. Overflows are warnings, or errors with `--strict
 ## Shortlinks and QR codes
 
 Source URLs in front matter are always full, canonical URLs. `prepare-links` shortens
-any uncached URL of published content and appends the result to `data/shortlinks.yml`.
-It never rewrites existing entries or source files. Builds read that cache offline, so
-a published recipe whose URL is missing from it fails validation. QR codes are generated
-deterministically and open the item's website page (see below); without `website_url`,
-and for draft previews, they encode the full source URL. The printed source link text
-uses the short URL.
+any uncached URL of content that is not retired (drafts included) and appends the
+result to `data/shortlinks.yml`. It never rewrites existing entries or source files.
+Builds read that cache offline, so a published recipe whose URL is missing from it fails
+validation. QR codes are generated deterministically and open the item's website page
+(see below); without `website_url`, and for draft previews, they encode the full source
+URL. The printed source link text uses the short URL.
+
+`prepare-links --check` shortens nothing. It requests every source URL of content that
+is not retired and lists dead links (HTTP 4xx and 5xx, DNS failures, timeouts),
+permanent redirects with where they now point, and sites that refused the check (HTTP
+401, 403 or 429) as "Could not verify". Each entry names the files that use the URL.
+`--report FILE` also writes the list as Markdown, with Wayback Machine links for dead
+pages. The command exits with status 1 when anything is listed, and it never changes
+source files or `data/shortlinks.yml`.
+
+The **Source link check** workflow runs that check on the 1st of every month (or by hand
+from the Actions tab) and keeps a single issue labelled `link-rot` up to date with the
+report, closing it once every link works again. It is not part of PR checks, so a site
+being down never blocks a pull request. GitHub pauses scheduled workflows after 60 days
+without repository activity; re-enable it from the Actions tab if that happens.
 
 See `AGENTS.md` for the rules contributors (human or AI) follow.
 
