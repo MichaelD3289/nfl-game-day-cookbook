@@ -148,10 +148,20 @@ def _validate_graph(content: Content, components: dict[str, Component], diags: D
 
 
 def _validate_menus(content: Content, recipes: dict[str, Recipe], diags: Diagnostics) -> None:
-    items = [(m.path, m.meta.status, m.meta.recipes, None) for m in content.menus] + [
-        (d.path, d.meta.status, d.meta.recipes, d.division) for d in content.dishoffs
+    items = [
+        (m.path, m.meta.status, m.meta.recipes, m.meta.timeline, None) for m in content.menus
+    ] + [
+        (d.path, d.meta.status, d.meta.recipes, d.meta.timeline, d.division)
+        for d in content.dishoffs
     ]
-    for path, status, recipe_ids, division in items:
+    for path, status, recipe_ids, timeline, division in items:
+        for n, step in enumerate(timeline or ()):
+            if step.recipe is not None and step.recipe not in recipe_ids:
+                diags.error(
+                    "reference",
+                    f"timeline.{n}.recipe: {step.recipe!r} is not one of this menu's recipes",
+                    path,
+                )
         seen: set[str] = set()
         for rid in recipe_ids:
             if rid in seen:

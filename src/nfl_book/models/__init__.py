@@ -21,6 +21,7 @@ from nfl_book.models.content import (
     IngredientGroup,
     Recipe,
     RecipeMeta,
+    TimelineStep,
 )
 from nfl_book.models.nfl import Division, League, Team
 
@@ -48,4 +49,5 @@ __all__ = [
     "SourceLink",
     "Status",
     "Team",
+    "TimelineStep",
 ]
