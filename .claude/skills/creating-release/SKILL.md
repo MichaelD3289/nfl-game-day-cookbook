@@ -59,7 +59,9 @@ goes to `0.3.0`. Go to `1.0.0` only when the user asks for it.
    This updates `pyproject.toml` and re-locks `uv.lock`. Never edit the version by hand.
    Read the new version back with `uv version --short`.
 4. **Date the changelog.** Rename `## [Unreleased]` to `## [X.Y.Z] - YYYY-MM-DD`, using
-   today's date. Add a fresh, empty `## [Unreleased]` above it. If a remote exists, add
+   today's date in the maintainer's local time zone, not UTC. Agents and CI often run on
+   UTC, which is already the next day in the maintainer's evening; if you cannot tell the
+   local date, ask. Add a fresh, empty `## [Unreleased]` above it. If a remote exists, add
    or refresh the compare links at the bottom.
 5. **Verify.** Run `make check` and `make pdf`. Both must pass with no overflow warnings.
 6. **Commit:**

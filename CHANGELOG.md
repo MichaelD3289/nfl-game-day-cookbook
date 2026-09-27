@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - `make check`, and so the PR checks, now fail when any file is not formatted, not just Python in `src/` and `tests/`. The existing Markdown, YAML, JavaScript and CSS files were reformatted once to match; recipe content is unchanged.
+- The `creating-release` skill now dates a release by the maintainer's local day instead of UTC, so evening releases are no longer dated the following day.
 
 ## [0.11.0] - 2026-09-26
 
