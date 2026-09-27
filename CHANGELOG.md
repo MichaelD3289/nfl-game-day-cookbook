@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- The release build's rendered-website check no longer fails on the recipe scaling controls, which Quarto writes with `hidden=""` instead of a bare `hidden`. This unblocks publishing the 0.9 recipe scaling to the website.
+
 ## [0.9.0] - 2026-09-27
 
 ### Added
