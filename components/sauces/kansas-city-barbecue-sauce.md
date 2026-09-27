@@ -1,6 +1,7 @@
 ---
 id: kansas-city-barbecue-sauce
 title: Kansas City barbecue sauce
+description: "A thick, sweet tomato sauce with molasses, apricot preserves, brown sugar, and warm spices."
 status: published
 yield: About 3 cups; enough for the chicken card and burnt ends, with leftovers
 quick_buy: Use KC Masterpiece Sweet Honey & Molasses or another Kansas City-style tomato-and-molasses sauce.

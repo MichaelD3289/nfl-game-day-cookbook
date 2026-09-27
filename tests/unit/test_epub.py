@@ -240,3 +240,14 @@ def test_package_check_reports_missing_anchors(tmp_path: Path) -> None:
     diags = Diagnostics()
     check_epub(path, diags, {"recipe-x", "recipe-y"})
     assert "recipe-y" in diags.errors[0].message
+
+
+def test_make_buy_lists_component_descriptions(fixture_book: Project) -> None:
+    path = fixture_book.content_root / "components/sauces/test-wing-sauce.md"
+    path.write_text(
+        path.read_text().replace(
+            "status: published", "status: published\ndescription: Hot and tangy.", 1
+        )
+    )
+    _, body = _source(fixture_book)
+    assert "[Test Wing Sauce](#component-test-wing-sauce) · Hot and tangy." in body

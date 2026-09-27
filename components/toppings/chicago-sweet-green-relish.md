@@ -1,6 +1,7 @@
 ---
 id: chicago-sweet-green-relish
 title: Chicago sweet green relish
+description: "A sweet green relish of peppers, cucumber, and onion for Chicago hot dogs."
 status: published
 yield: About 4 cups
 quick_buy: Use Vienna Beef Chicago Style Relish for the familiar neon-green hot-dog topping.

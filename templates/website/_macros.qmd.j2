@@ -1,7 +1,7 @@
 {% macro anchor(label) %}<span id="{{ label|anchor|e }}"></span>
 
 {% endmacro %}
-{% macro link(ref, description=true) %}<a href="{{ route(ref.label)|e }}">{{ ref.title|e }}</a>{% if ref.note %} <span class="ref-note">{{ ref.note|e }}</span>{% endif %}{% if description and recipe_descriptions.get(ref.label) %} <span class="dish-description">{{ recipe_descriptions[ref.label]|e }}</span>{% endif %}{% endmacro %}
+{% macro link(ref, description=true, team=true) %}{% set meta = [ref.team if team else "", ref.course]|select|list %}<a class="dish-name" href="{{ route(ref.label)|e }}">{{ ref.title|e }}</a>{% if meta %} <span class="dish-meta">{{ meta|join(" · ")|e }}</span>{% elif ref.note %} <span class="ref-note">{{ ref.note|e }}</span>{% endif %}{% if description and descriptions.get(ref.label) %} <span class="dish-description">{{ descriptions[ref.label]|e }}</span>{% endif %}{% endmacro %}
 {% macro ingredients(groups) %}
 {% for group in groups %}
 {% if group.heading %}
@@ -23,17 +23,36 @@
 {% if s.servings %}<label class="scaler-servings">or feed <input type="number" name="servings" min="1" max="500" step="1" inputmode="numeric" value="{{ s.servings }}"> people <small>(serves {{ s.serves|e }} as written)</small></label>
 {% endif %}<span class="scale-status" aria-live="polite"></span>
 </div>
-<p class="scale-note" hidden>Only ingredient amounts change. Pan sizes, temperatures and cooking times stay as written, so a bigger batch may need a second pan or more time; go by the doneness cues.</p>
+<p class="scale-note" hidden>Ingredient amounts and the yield change. Pan sizes, temperatures and cooking times stay as written, so a bigger batch may need a second pan or more time; go by the doneness cues.</p>
 </div>
 <script src="scale.js"></script>
 ```
 
 {% endif %}
 {% endmacro %}
-{% macro refs(entries) %}
+{% macro refs(entries, team=true, description=true, compact=false) %}
+::: {.dish-list{% if compact %} .dish-list-compact{% endif %}}
 {% for ref in entries %}
-- {{ link(ref) }}
+- {{ link(ref, description, team) }}
 {% endfor %}
+:::
+{% endmacro %}
+{% macro header(eyebrow, title, description, facts, byline="") %}
+[{{ eyebrow|md }}]{.eyebrow}
+
+# {{ title|md }}
+
+```{=html}
+{% if description %}
+<p class="page-dek">{{ description|e }}</p>
+{% endif %}
+{% if byline %}
+<p class="recipe-location">{{ byline|e }}</p>
+{% endif %}
+{% if facts %}
+<ul class="recipe-facts">{% for name, value in facts %}{% if name == "Yield" and yield_html %}<li class="fact-yield"{% if yield_fixed %} data-fixed{% endif %}><span class="fact-name">Yield</span> {{ yield_html }}{% if yield_fixed %}<span class="yield-times"></span>{% endif %}</li>{% else %}<li><span class="fact-name">{{ name|e }}</span> {{ value|e }}</li>{% endif %}{% endfor %}</ul>
+{% endif %}
+```
 {% endmacro %}
 {% macro source(src, credit='', qr='', web=none) %}
 {% if src or credit or qr %}
@@ -47,8 +66,8 @@
 :::
 {% endif %}
 {% if src %}
-**Recipe source:** <a href="{{ src.href|e }}">{{ (src.title or src.display)|e }}</a>  
-<small>{{ src.display|e }}</small>
+**Recipe source:** <a href="{{ src.url|e }}">{{ (src.title or src.url|site_name)|e }}</a>
+<span class="source-url">{{ src.display|e }}</span>
 {% endif %}
 {% if credit %}
 Photo: {{ credit }}
@@ -61,7 +80,7 @@ Photo: {{ credit }}
 {{ anchor(item.label) }}
 ## {{ item.title|md }}
 {% if item.subtitle %}
-{{ item.subtitle }}
+[{{ item.subtitle|md }}]{.menu-matchup}
 {% endif %}
 {{ refs(item.recipes) }}
 {% if item.why_it_works %}

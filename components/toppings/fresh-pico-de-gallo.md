@@ -1,6 +1,7 @@
 ---
 id: fresh-pico-de-gallo
 title: Fresh pico de gallo
+description: "Chopped tomato, white onion, fresh chile, cilantro, and lime."
 status: published
 yield: about 2 cups (estimated; tomato size and draining vary)
 quick_buy: Use refrigerated fresh pico de gallo with tomato, white onion, chile and cilantro; allow about 2 tablespoons per fajita.

@@ -1,6 +1,7 @@
 ---
 id: quick-creamy-coleslaw
 title: Quick creamy coleslaw
+description: "Shredded cabbage and carrot in a tangy mayonnaise, sour cream, and cider-vinegar dressing."
 status: published
 yield: 4–6 side servings; enough for several sandwiches
 quick_buy: Use a good deli-style creamy cabbage slaw, about 1/2 cup per Polish Boy.

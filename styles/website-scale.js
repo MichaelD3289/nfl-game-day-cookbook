@@ -461,6 +461,11 @@
           factorText === "1" ? original : scale(readAmount(span), factor);
         span.classList.toggle("qty-scaled", factorText !== "1");
       });
+      // A yield with no number to scale ("One 9-inch cake") says how many batches.
+      document.querySelectorAll(".yield-times").forEach(function (times) {
+        times.textContent =
+          factorText === "1" ? "" : " (" + describe(factor) + ")";
+      });
       Array.prototype.forEach.call(buttons, function (button) {
         var match =
           Math.abs(parseFactor(button.getAttribute("data-factor")) - factor) <

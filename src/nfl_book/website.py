@@ -8,6 +8,7 @@ import re
 import shutil
 import subprocess
 import tomllib
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -16,12 +17,13 @@ from urllib.parse import urlencode
 import yaml
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
-from nfl_book.digital import prepare_pages
+from nfl_book.digital import prepare_pages, site_name
 from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.images import PhotoStats
 from nfl_book.pipeline import load
 from nfl_book.project import Project
 from nfl_book.publishing import EPUB_FILENAME, RELEASES, REPOSITORY
+from nfl_book.quantities import Amount, find_yield_amounts
 from nfl_book.references import html_id
 from nfl_book.render.pages import ItemView, PageSpec
 from nfl_book.resolve import BookModel
@@ -62,11 +64,12 @@ def _web_body(text: str) -> str:
     return re.sub(r"```\{=latex\}\n.*?\n```", "", text, flags=re.DOTALL)
 
 
-def _scalable(item: ItemView) -> str:
-    """Ingredient Markdown with each scalable amount wrapped for website-scale.js."""
+def _marked(text: str, amounts: Iterable[Amount], plain: Callable[[str], str] = str) -> str:
+    """``text`` with each scalable amount wrapped for website-scale.js; ``plain`` escapes
+    the text between them."""
     parts = []
     position = 0
-    for amount in item.amounts:
+    for amount in amounts:
         attrs = {"data-q": str(amount.low)}
         if amount.high is not None:
             attrs["data-q2"] = str(amount.high)
@@ -75,23 +78,38 @@ def _scalable(item: ItemView) -> str:
         if amount.adjective:
             attrs["data-adj"] = amount.adjective
         shown = " ".join(f'{k}="{html.escape(v)}"' for k, v in attrs.items())
-        parts.append(item.text[position : amount.start])
-        parts.append(f'<span class="qty" {shown}>{item.text[amount.start : amount.end]}</span>')
+        parts.append(plain(text[position : amount.start]))
+        parts.append(f'<span class="qty" {shown}>{plain(text[amount.start : amount.end])}</span>')
         position = amount.end
-    parts.append(item.text[position:])
+    parts.append(plain(text[position:]))
     return "".join(parts)
+
+
+def _scalable(item: ItemView) -> str:
+    """Ingredient Markdown with each scalable amount wrapped for website-scale.js."""
+    return _marked(item.text, item.amounts)
 
 
 def _add_scaling(model: BookModel, pages: list[PageSpec]) -> None:
     """Scaling controls for recipe and component pages that have amounts to scale."""
     servings = {f"recipe:{r.id}": r.servings for r in model.recipes}
+    yields: dict[str, str | None] = {f"recipe:{r.id}": r.meta.yield_ for r in model.recipes}
+    yields.update({f"component:{c.id}": c.meta.yield_ for c in model.components})
     for page in pages:
         context = page.context
         if page.template not in ("recipe.qmd.j2", "component.qmd.j2"):
             continue
         context["scaler"] = None
+        context["yield_html"] = ""
+        context["yield_fixed"] = False
         if not any(item.amounts for group in context["groups"] for item in group.items):
             continue
+        # The yield grows with the batch too; one it cannot scale says how many batches.
+        text = yields.get(context["label"])
+        if text:
+            amounts = find_yield_amounts(text)
+            context["yield_html"] = _marked(text, amounts, html.escape)
+            context["yield_fixed"] = not amounts
         scaler: dict[str, Any] = {
             "multipliers": MULTIPLIERS,
             "servings": None,
@@ -198,7 +216,9 @@ def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnos
     return pages, diags, photos
 
 
-def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
+def build_website(project: Project, *, render: bool = True, preview: str = "") -> WebsiteResult:
+    """Build the site; ``preview`` labels an unreleased build (a branch and commit) on
+    every page, so it cannot pass for the published edition."""
     build_dir = project.generated_dir / "site"
     pages, diags, photos = _prepare(project, build_dir)
     routes = {label: f"{_filename(p)}#{html_id(label)}" for p in pages for label in p.anchors}
@@ -211,7 +231,9 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
         autoescape=False,
         keep_trailing_newline=True,
     )
-    env.filters.update(md=_markdown, web_body=_web_body, anchor=html_id, scalable=_scalable)
+    env.filters.update(
+        md=_markdown, web_body=_web_body, anchor=html_id, scalable=_scalable, site_name=site_name
+    )
     book = load(project).settings.book
     env.globals.update(
         route=lambda label: routes[label], suggestion_form_url=book.suggestion_form_url
@@ -255,6 +277,12 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
         resources.append("suggest.js")
         scripts.append("suggest.js")
         shutil.copyfile(project.styles_dir / "website-suggest.js", build_dir / "suggest.js")
+    if preview:
+        html_format["include-before-body"] = {
+            "text": '<div class="preview-banner" role="note"><strong>Preview</strong> '
+            f"{html.escape(preview)}. Not a published edition: the version and download "
+            "links point to the latest release.</div>"
+        }
     html_format["include-after-body"] = {
         "text": "\n".join(f'<script src="{name}"></script>' for name in scripts)
     }
@@ -278,7 +306,9 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
             },
             "page-footer": {
                 "left": "NFL Meals · A city-by-city game-day cookbook",
-                "right": f"Edition {html.escape(version)}",
+                "right": f"Preview {html.escape(preview)}"
+                if preview
+                else f"Edition {html.escape(version)}",
             },
         },
         "format": {"html": html_format},

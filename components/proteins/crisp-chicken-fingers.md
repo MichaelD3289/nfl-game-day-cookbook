@@ -1,6 +1,7 @@
 ---
 id: crisp-chicken-fingers
 title: Crisp chicken fingers
+description: "Buttermilk-soaked chicken tenders in a seasoned flour coat, fried until crisp."
 status: published
 yield: 12 tenders; use two per sub and save extras
 quick_buy: Use quality fully cooked crisp chicken tenders; reheat to package directions before tossing in sauce.

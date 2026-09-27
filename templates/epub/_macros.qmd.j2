@@ -1,4 +1,4 @@
-{% macro link(ref, description=true) %}[{{ ref.title|md }}]({{ route(ref.label) }}){% if ref.note %} — {{ ref.note|md }}{% endif %}{% if description and recipe_descriptions.get(ref.label) %} · {{ recipe_descriptions[ref.label]|md }}{% endif %}{% endmacro %}
+{% macro link(ref, description=true) %}[{{ ref.title|md }}]({{ route(ref.label) }}){% if ref.note %} — {{ ref.note|md }}{% endif %}{% if description and descriptions.get(ref.label) %} · {{ descriptions[ref.label]|md }}{% endif %}{% endmacro %}
 <# On a recipe, a Q goes to the Quick options card, as the cover explains; elsewhere
    (components that use other components) it opens the from-scratch version. #>
 {% macro ingredients(groups, quick_labels=[], quick_target='') %}

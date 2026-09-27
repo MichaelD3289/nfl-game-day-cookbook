@@ -1,0 +1,109 @@
+# Preview builds: the PDF, EPUB and website of any branch as downloadable workflow
+# artifacts, without tags, releases or a Pages deploy, so production never changes.
+# Start one from the Actions tab (Run workflow, pick the branch), or add the `preview`
+# label to a pull request to rebuild on every push until the label is removed.
+# Artifacts expire after 14 days. The website is labelled as a preview on every page.
+name: Preview build
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    types: [labeled, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    name: Build preview
+    # On pull requests, only while the `preview` label is on; adding another label
+    # does not start a second build.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (contains(github.event.pull_request.labels.*.name, 'preview') &&
+      (github.event.action != 'labeled' || github.event.label.name == 'preview'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      # The branch as pushed, not the merge commit GitHub makes for a pull request.
+      SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      BRANCH: ${{ github.head_ref || github.ref_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.SHA }}
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        with:
+          enable-cache: false
+      - uses: quarto-dev/quarto-actions/setup@v2
+        env:
+          # Quarto reads GH_TOKEN when looking up the latest TinyTeX release.
+          GH_TOKEN: ${{ github.token }}
+        with:
+          version: 1.10.18 # keep in step with release.yml
+          tinytex: true
+      - name: Install locked dependencies
+        run: uv sync --locked
+      - name: Name this preview
+        run: |
+          label="$BRANCH @ ${SHA::7}"
+          slug="$(printf '%s' "$BRANCH" | tr -c 'A-Za-z0-9._-' '-')-${SHA::7}"
+          echo "PREVIEW_LABEL=$label" >> "$GITHUB_ENV"
+          echo "PREVIEW_SLUG=$slug" >> "$GITHUB_ENV"
+      # Each format builds even if an earlier one failed, and each uploads on its own,
+      # so a broken PDF still leaves a website to look at. The job fails if any did.
+      - name: Build website
+        id: website
+        run: uv run nfl-book website --preview "$PREVIEW_LABEL"
+      - name: Build PDF
+        id: pdf
+        if: ${{ !cancelled() }}
+        run: uv run nfl-book build
+      - name: Build EPUB
+        id: epub
+        if: ${{ !cancelled() }}
+        run: uv run nfl-book epub
+      - name: Upload website
+        if: ${{ !cancelled() && steps.website.outcome == 'success' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: preview-website-${{ env.PREVIEW_SLUG }}
+          path: dist/site
+          retention-days: 14
+      - name: Upload PDF
+        if: ${{ !cancelled() && steps.pdf.outcome == 'success' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: preview-pdf-${{ env.PREVIEW_SLUG }}
+          path: dist/*.pdf
+          retention-days: 14
+      - name: Upload EPUB
+        if: ${{ !cancelled() && steps.epub.outcome == 'success' }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: preview-epub-${{ env.PREVIEW_SLUG }}
+          path: dist/*.epub
+          retention-days: 14
+      - name: Explain how to open it
+        if: ${{ !cancelled() }}
+        run: |
+          {
+            echo "## Preview of $PREVIEW_LABEL"
+            echo
+            echo "| Format | Result |"
+            echo "| --- | --- |"
+            echo "| Website | ${{ steps.website.outcome }} |"
+            echo "| PDF | ${{ steps.pdf.outcome }} |"
+            echo "| EPUB | ${{ steps.epub.outcome }} |"
+            echo
+            echo "Download the artifacts below this summary; they expire after 14 days."
+            echo "Unzip the website and run \`python3 -m http.server -d <folder>\`, then open"
+            echo "http://localhost:8000 (opening index.html directly works, but search does not)."
+            echo "Nothing here is tagged, released or deployed."
+          } >> "$GITHUB_STEP_SUMMARY"

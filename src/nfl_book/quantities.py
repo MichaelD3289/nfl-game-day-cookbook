@@ -124,6 +124,10 @@ GLUED_RE = re.compile(
     rf"(?<![\w./{_UF}])\d+(?:\.\d+)?(?:g|kg|ml|oz|lbs?|tsp|tbsp)\b", re.IGNORECASE
 )
 BAD_NUMBER_RE = re.compile(r"(?<![\w/])\d+/(?!\d)|\d+/\d+/\d+|\b\d+/0+\b")
+# Any other count in a yield ("or 12 standard bagels", "serves 6–10", "(10 brats)").
+# Sizes such as "12-inch" or "30-pound" are joined to their word by a hyphen and do not
+# match.
+YIELD_COUNT_RE = re.compile(rf"{_START}{_RANGE}(?![\w/.{_UF}–—-])")
 SERVINGS_RE = re.compile(r"^\s*(?P<low>\d+)(?:\s*(?:-|–|—|to)\s*(?P<high>\d+))?\s*$")
 _PEOPLE = r"(?P<low>\d+)(?:\s*(?:-|–|—|to)\s*(?P<high>\d+))?"
 # "6 servings", "4–6 side servings", "4 people", "about 4 appetizer portions", "serves 6–10".
@@ -235,6 +239,31 @@ def find_amounts(text: str) -> tuple[tuple[Amount, ...], list[str]]:
         else:
             amounts.insert(0, amount)
     return tuple(amounts), problems
+
+
+def find_yield_amounts(text: str) -> tuple[Amount, ...]:
+    """Scalable amounts in a yield: those of an ingredient line, plus every other count.
+
+    A yield grows with the batch, so "8 large or 12 standard bagels" scales both counts.
+    Per-portion counts ("4 shrimp each") and spelled-out numbers ("One 9-inch cake")
+    stay as written.
+    """
+    amounts, problems = find_amounts(text)
+    if problems:
+        return ()
+    found = list(amounts)
+    for match in YIELD_COUNT_RE.finditer(text):
+        after = text[match.end() :].split(maxsplit=1)
+        if (
+            any(a.start <= match.start() < a.end for a in found)
+            or (after and after[0].lower().strip(".,;:()") in NOT_COUNTS)
+            or _portion(text, match.end())
+        ):
+            continue
+        amount = _amount(match, None, *match.span())
+        if amount is not None:
+            found.append(amount)
+    return tuple(sorted(found, key=lambda a: a.start))
 
 
 def parse_servings(value: int | str) -> tuple[int, int] | None:

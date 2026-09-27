@@ -1,6 +1,7 @@
 ---
 id: quick-guacamole
 title: Quick guacamole
+description: "Mashed ripe avocado with lime and salt, with optional onion and cilantro."
 status: published
 yield: About 1½ cups (estimated)
 quick_buy: Use refrigerated guacamole with avocado as the first ingredient, such as Wholly Guacamole Classic; allow about 2 tablespoons per fajita.

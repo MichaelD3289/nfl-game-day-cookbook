@@ -1,6 +1,7 @@
 ---
 id: cuban-mojo-pork
 title: Cuban mojo pork
+description: "Pork shoulder marinated in orange, lime, garlic, and oregano, then pressure-cooked until it pulls apart."
 status: published
 yield: about 2–3 pounds cooked pork (estimated); starts with 3–4 pounds raw
 quick_buy: Buy fully cooked mojo roast pork from a Cuban restaurant or deli; plain roast pork is milder.

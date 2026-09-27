@@ -1,6 +1,7 @@
 ---
 id: roasted-salsa-verde
 title: Roasted salsa verde
+description: "Oven-roasted tomatillos, onion, garlic, and serrano blended with lime into a tangy green salsa."
 status: published
 yield: About 1 cup
 quick_buy: Use a good jarred tomatillo salsa verde, such as Herdez, for a quick burrito or taco topping.

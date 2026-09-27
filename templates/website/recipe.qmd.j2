@@ -4,13 +4,7 @@
 {% if image %}
 ![{{ title|md }}]({{ image }}){.dish-photo width="{{ image_size }}" height="{{ image_size }}" loading="lazy" decoding="async"}
 {% endif %}
-[{{ division|md }} · {{ team|md }}]{.eyebrow}
-
-# {{ title|md }}
-
-[{{ location|md }} · {{ course|md }}]{.recipe-location}
-
-{{ meta_line }}
+{{ m.header(division ~ " · " ~ team, title, description, meta, location ~ " · " ~ course) }}
 {{ m.print_button(scaler) }}
 :::
 

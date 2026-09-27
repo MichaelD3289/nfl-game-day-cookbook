@@ -195,6 +195,10 @@ Recipe and component pages can be **scaled** (½× to 4×, or by the number of p
 when a recipe has servings). Amounts are converted to the most readable unit, so
 tripling 4 teaspoons reads ¼ cup; counts stay whole and ranges stay ranges. The
 scale is kept in the page URL (`?scale=2`) and carried to linked component pages.
+The yield scales too: every count and measured amount in it ("8 large or 12 standard
+bagels" doubles both), except per-portion counts ("4 shrimp each") and sizes
+("12-inch"). A yield with no number, such as "One 13-by-9-inch pizza", shows the
+batch count instead ("(2×)").
 `styles/website-scale.js` does the conversion in the browser; its tests run with
 Node.js and are skipped when Node is not installed. The PDF is never scaled.
 
@@ -281,14 +285,32 @@ the newest release at the root, and a missing newest ZIP skips the deploy instea
 putting older content there. Every version is kept; the workflow warns when the site
 nears the 1 GB Pages limit.
 
-### Short recipe descriptions
+### Short descriptions
 
-Recipes may include a one-sentence `description` in front matter. Describe the
-actual dish and its defining ingredients in plain language (roughly 12–22 words).
-The website displays this as small subtext in team cards, recipe lists and indexes;
-it is not printed in the PDF. New recipe scaffolds include an empty field.
-Game-day menu preview cards list their linked dishes, team/course labels and a
-link to the full prep plan; they omit the longer summaries to stay compact.
+Recipes and components may include a one-sentence `description` in front matter.
+Describe the actual dish and its defining ingredients in plain language (roughly
+12–22 words for a recipe; components can be shorter). It is not printed in the PDF.
+New recipe and component scaffolds include an empty field.
+
+On the website every recipe list (team cards, indexes, menus, dish-offs) shows the
+same entry: the dish name, a small **team · course** line (the team is left out on a
+card that is already about that team) and the description. Recipe and component pages
+show the description under the title. Make It or Buy It shows each component as a
+card with its description and a **Used in** row linking the recipes that call for it.
+Game-day menu preview cards show the menu's "why it works" line and each dish's name
+and team/course, and leave the dish descriptions to the full menu page.
+
+### Preview builds
+
+To look at a branch before it is released, run the **Preview build** workflow from the
+Actions tab on that branch, or add the `preview` label to its pull request (it then
+rebuilds on every push until the label is removed). The run uploads the website, PDF
+and EPUB as workflow artifacts that expire after 14 days. Nothing is tagged, released
+or deployed to Pages, so production is untouched. The preview website says so in a
+banner on every page (`nfl-book website --preview "<label>"`); its version and
+download links still point at the latest release. Unzip the website artifact and
+serve it with `python3 -m http.server -d <folder>`: opening `index.html` directly
+works too, but search needs a server.
 
 ## EPUB output
 

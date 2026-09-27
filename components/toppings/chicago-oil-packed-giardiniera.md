@@ -1,6 +1,7 @@
 ---
 id: chicago-oil-packed-giardiniera
 title: Chicago oil-packed giardiniera
+description: "Brined celery, carrot, cauliflower, and olives in oil and vinegar with chili flakes and garlic."
 status: published
 yield: About 2 quarts with the oil and vinegar (this book's estimate; the source gives none)
 quick_buy: Use oil-packed Chicago-style giardiniera such as J.P. Graziano, Ditka's, or Marconi; choose mild or hot.

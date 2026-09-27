@@ -7,13 +7,12 @@ import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-from urllib.parse import urlsplit
 
 import yaml
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from PIL import Image, ImageDraw, ImageFont
 
-from nfl_book.digital import prepare_pages
+from nfl_book.digital import prepare_pages, site_name
 from nfl_book.epub_check import check_epub
 from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.project import Project
@@ -50,12 +49,6 @@ def _prose(value: str) -> str:
     """Authored cover text without its print-only LaTeX."""
     value = value.replace(r"`\QMark{}\ `{=latex}", "**Q** ")
     return re.sub(r"```\{=latex\}\n.*?\n```", "", value, flags=re.DOTALL)
-
-
-def _site_name(url: str) -> str:
-    """``https://www.example.com/a/b`` -> ``example.com``: link text for an untitled source."""
-    host = urlsplit(url).hostname or url
-    return host.removeprefix("www.")
 
 
 def _author(project: Project) -> str:
@@ -142,7 +135,7 @@ def build_epub(project: Project, *, render: bool = True) -> EpubResult:
             raise ValidationFailed(diags)
         return "#" + html_id(label)
 
-    env.filters.update(md=_md, anchor=html_id, web_body=_prose, site_name=_site_name)
+    env.filters.update(md=_md, anchor=html_id, web_body=_prose, site_name=site_name)
     env.globals["route"] = route
     metadata = tomllib.loads((project.root / "pyproject.toml").read_text())
     version = metadata["project"]["version"]

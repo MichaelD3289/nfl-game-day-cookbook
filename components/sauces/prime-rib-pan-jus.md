@@ -1,6 +1,7 @@
 ---
 id: prime-rib-pan-jus
 title: Prime rib pan jus
+description: "Roast drippings deglazed with red wine and simmered with beef stock and thyme."
 status: published
 yield: About 1½ cups
 quick_buy: Use a prepared beef au jus, made to package directions and warmed separately; choose a jus rather than thick gravy.

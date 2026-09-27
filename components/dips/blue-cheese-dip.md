@@ -1,6 +1,7 @@
 ---
 id: blue-cheese-dip
 title: Blue-cheese dip
+description: "Chunky blue cheese mashed with sour cream, buttermilk, mayonnaise, and lemon for wings and subs."
 status: published
 yield: about 1 1/2 cups; enough for wings and chicken-finger subs
 quick_buy: Use thick refrigerated blue-cheese dressing such as Marie's; about 3 tablespoons per sub.

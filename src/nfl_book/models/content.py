@@ -71,6 +71,9 @@ class RecipeMeta(StrictModel):
 class ComponentMeta(StrictModel):
     id: Slug
     title: NonEmpty
+    description: NonEmpty | None = Field(
+        None, description="Short summary for website browsing; not printed in the PDF."
+    )
     status: Status
     yield_: str | None = Field(None, alias="yield")
     source: SourceLink | None = None

@@ -1,6 +1,7 @@
 ---
 id: american-yellow-mustard
 title: American yellow mustard
+description: "Smooth ballpark-style mustard made from dry mustard, vinegar, and turmeric."
 status: published
 yield: About 2 cups
 quick_buy: Use French's Classic Yellow or another plain American yellow mustard for the familiar ballpark flavor.

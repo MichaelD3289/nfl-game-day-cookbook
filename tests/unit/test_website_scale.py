@@ -163,3 +163,35 @@ def test_quick_component_choices_scale_from_generated_markup(
     assert "2–3 tablespoons per roll" in lines[3]
     result = node(f"{json.dumps(amounts)}.map(row => row.map(amount => s.scale(amount, {factor})))")
     assert result == expected
+
+
+def _yield_fact(page: str) -> str:
+    match = re.search(r'<li class="fact-yield"[^>]*>.*?</li>', page)
+    assert match is not None
+    return match.group(0)
+
+
+def test_yield_scales_with_the_recipe(fixture_book: Project) -> None:
+    recipe = next(fixture_book.recipes_dir.rglob("test-citrus-wings.md"))
+    recipe.write_text(
+        re.sub(r"(?m)^yield: .*$", "yield: 8 large or 12 small wings", recipe.read_text())
+    )
+    site = build_website(fixture_book, render=False).document.parent
+    fact = _yield_fact((site / "recipe-test-citrus-wings.qmd").read_text())
+    counts = [
+        {"low": float(Fraction(q)), "high": None, "unit": None}
+        for q in re.findall(r'<span class="qty" data-q="([^"]+)"', fact)
+    ]
+    assert node(f"{json.dumps(counts)}.map(amount => s.scale(amount, 2))") == ["16", "24"]
+    assert "data-fixed" not in fact
+
+
+def test_a_yield_without_a_number_shows_the_batch_count(fixture_book: Project) -> None:
+    recipe = next(fixture_book.recipes_dir.rglob("test-citrus-wings.md"))
+    recipe.write_text(re.sub(r"(?m)^yield: .*$", "yield: One 9-inch pan", recipe.read_text()))
+    site = build_website(fixture_book, render=False).document.parent
+    fact = _yield_fact((site / "recipe-test-citrus-wings.qmd").read_text())
+    assert "data-fixed" in fact
+    assert '<span class="yield-times"></span>' in fact
+    assert 'class="qty"' not in fact
+    assert node("s.describe(2)") == "2×"

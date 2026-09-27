@@ -1,6 +1,7 @@
 ---
 id: creamy-stone-ground-grits
 title: Creamy stone-ground grits
+description: "Slow-cooked stone-ground grits finished with butter and cream."
 status: published
 yield: 4 generous main-dish portions or 6 side portions
 quick_buy: Use Gracious Grits Original Creamy as the original Jacksonville recipe specifies, following the package directions for four servings.

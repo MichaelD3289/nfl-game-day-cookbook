@@ -7,9 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Components can have a one-sentence `description`, and every Make It or Buy It component now has one. The website and EPUB show it in their Make It or Buy It lists; the PDF is unchanged.
+- A **Preview build** workflow builds the website, PDF and EPUB of any branch as downloadable workflow artifacts, without tagging, releasing or touching the published site. Run it from the Actions tab or add the `preview` label to a pull request. `nfl-book website --preview "<label>"` marks every page of such a build as an unreleased preview.
+
 ### Changed
 
 - PR checks now build the full PDF and fail when a recipe overflows its page, so a PDF problem blocks the pull request instead of the release. To save CI minutes this check skips draft PRs: it runs when a PR is marked ready for review and on every push after that. Dependabot PRs, which only update GitHub Actions, skip the PDF, website and EPUB builds.
+- Website recipe lists share one easier-to-scan look: the dish name with its course beside it (Sugar cream pie | Dessert, plus the team where a list mixes teams), the short description underneath, and no bullets. Team cards and the All recipes page no longer repeat the team under each dish, and the suggestion buttons sit at the bottom of every team card so they line up.
+- Website recipe and component pages show the short description under the title, and yield, prep and cook times as labelled chips instead of one line split by bars.
+- Game-day menu preview cards now show each menu's "why it works" line.
+- The website's Make It or Buy It page shows each component as a card with its description and a **Used in** row linking the recipes that call for it.
+
+### Fixed
+
+- Scaling a recipe or component on the website now scales its yield too, so doubling Philadelphia soft pretzels reads 32 pretzels instead of 16. A yield without a number to scale, such as "One 13-by-9-inch pizza", shows the batch count, for example "(2×)".
+- Website recipe and component pages showed the recipe source's short address twice. They now link the source once by its title or site name, and a printed page shows the short address under it.
 
 ## [0.12.1] - 2026-09-26
 
