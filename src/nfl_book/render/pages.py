@@ -76,8 +76,9 @@ class GroupView:
 @dataclass(frozen=True)
 class SourceView:
     title: str
-    href: str
+    href: str  # short link when cached (print), else the full URL
     display: str
+    url: str  # always the full source URL, for formats with clickable links
 
 
 @dataclass(frozen=True)
@@ -129,6 +130,7 @@ def _source(item: Recipe | Component, model: BookModel) -> SourceView | None:
         title=source.title or "",
         href=short or source.url,
         display=short or source.url,
+        url=source.url,
     )
 
 
@@ -153,8 +155,12 @@ def _web(item: Recipe | Component, kind: str, model: BookModel) -> WebView | Non
     return None if href is None else WebView(f"{kind}-{item.id}", href, __version__)
 
 
+def _meta(*parts: tuple[str, str | None]) -> list[tuple[str, str]]:
+    return [(name, value) for name, value in parts if value]
+
+
 def _meta_line(*parts: tuple[str, str | None]) -> str:
-    return "   |   ".join(f"{name}: {value}" for name, value in parts if value)
+    return "   |   ".join(f"{name}: {value}" for name, value in _meta(*parts))
 
 
 def _course(model: BookModel, recipe: Recipe) -> str:
@@ -185,6 +191,10 @@ def recipe_context(model: BookModel, recipe: Recipe, media: Media) -> dict[str, 
         "meta_line": _meta_line(
             ("Yield", recipe.meta.yield_), ("Prep", recipe.meta.prep), ("Cook", recipe.meta.cook)
         ),
+        "meta": _meta(
+            ("Yield", recipe.meta.yield_), ("Prep", recipe.meta.prep), ("Cook", recipe.meta.cook)
+        ),
+        "description": recipe.meta.description or "",
         "image": media.images.get(f"recipe:{recipe.id}", ""),
         "image_size": media.image_sizes.get(f"recipe:{recipe.id}", 0),
         "photo_credit": recipe.meta.photo_credit or "",
@@ -207,6 +217,7 @@ def component_context(model: BookModel, component: Component, media: Media) -> d
         "title": component.title,
         "kind": component.kind.singular,
         "meta_line": _meta_line(("Yield", component.meta.yield_)),
+        "meta": _meta(("Yield", component.meta.yield_)),
         "groups": _groups(component.ingredients),
         "method": component.method,
         "note": component.note or "",

@@ -30,3 +30,28 @@ jobs:
         run: uv sync --locked
       - name: Check formatting, lint, test, and validate content
         run: make check
+
+  # The Quarto-rendered tests skip where Quarto is missing, so make check alone never
+  # renders a page. This job renders the website and EPUB tests plus the real EPUB,
+  # so a rendering problem fails the PR instead of the release. No TinyTeX: the PDF
+  # is still built only by the release workflow.
+  render:
+    name: Render website and EPUB
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        with:
+          enable-cache: false
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.10.18 # keep in step with release.yml
+      - name: Install locked dependencies
+        run: uv sync --locked
+      - name: Render tests
+        run: uv run pytest tests/integration/test_website_build.py tests/integration/test_epub_build.py
+      - name: Build the full EPUB
+        run: make epub

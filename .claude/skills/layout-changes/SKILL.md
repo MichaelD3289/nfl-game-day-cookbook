@@ -90,3 +90,27 @@ This happened in 0.9.0 and needed the 0.9.1 fix.
 - Controls that need JavaScript (the scaler, the Print button, the no-account suggest
   button) ship with `hidden` and are revealed by their script. Keep that pattern so
   readers without JavaScript never see a button that does nothing.
+
+## EPUB layout
+
+EPUB uses `templates/epub/`, `styles/epub.css` and `src/nfl_book/epub.py`. It reflows
+to the reader's screen and font settings; the PDF one-page, two-column, and
+printed-page-number rules above apply only to print. Preserve linked anchors and
+source/photo credits.
+
+- **Headings decide the pages.** The EPUB starts a new file at every heading of level
+  1–3 (`epub-chapter-level: 3`). Book sections are `#`; teams, division dish-offs,
+  menu types and component kinds are `##`; each recipe, component and game-day menu
+  is `###`. Anything inside a
+  recipe or component (Ingredients, Method, Quick options, Kitchen notes) must be
+  `####` or it splits the recipe across pages. Use bold labels, not headings, for
+  groupings inside a page (contents, index sections, Make It or Buy It lists).
+- **Section openers come from `epub.py`:** team and component-kind headings are added
+  between pages, and a menu type's heading is printed once (`continued`).
+- **Labels (`{.eyebrow}`) go after their heading**, never before it.
+- The EPUB links each recipe to its page in this edition of the website instead of a
+  QR code, and shows full source URLs, not print short links.
+- Check the structure with `nfl-book epub --no-render` and the tests in
+  `tests/unit/test_epub.py`. Run `make epub` (needs Quarto) and look at a recipe, a
+  component, a division menu and an index in a reader (Apple Books, Calibre) at a few
+  text sizes. Run EPUBCheck separately when changing packaging.

@@ -1,0 +1,110 @@
+/* EPUB: reflowable, single column. No fixed columns, backgrounds or font sizes in
+   absolute units, so reader font, margin and dark-mode settings still apply.
+   Each break-* rule is paired with its older page-break-* form for EPUB 2-era
+   reading systems that ignore the newer property. */
+body {
+  font-family: serif;
+  line-height: 1.5;
+  margin: 0 4%;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-family: sans-serif;
+  line-height: 1.2;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+h1 {
+  margin-top: 1.5em;
+  border-bottom: 0.08em solid currentColor;
+  padding-bottom: 0.4em;
+}
+h2 {
+  margin-top: 1.6em;
+}
+h3 {
+  margin-top: 1.3em;
+}
+h4 {
+  margin: 1.1em 0 0.5em;
+}
+a {
+  text-decoration: underline;
+}
+p {
+  margin: 0.65em 0;
+  orphans: 2;
+  widows: 2;
+}
+li {
+  margin-bottom: 0.3em;
+}
+
+/* Small label under a heading ("Buffalo Bills · Meal"). */
+.eyebrow {
+  display: block;
+  font-family: sans-serif;
+  font-size: 0.85em;
+  letter-spacing: 0.04em;
+  margin-top: -0.3em;
+}
+.headnote {
+  display: block;
+  font-style: italic;
+  margin: 0.6em 0 0.9em;
+}
+img.dish-photo,
+.dish-photo img {
+  display: block;
+  max-width: 100%;
+  max-height: 13em;
+  width: auto;
+  height: auto;
+  margin: 0.8em auto;
+}
+.recipe-meta {
+  font-family: sans-serif;
+  font-size: 0.9em;
+  margin: 0.8em 0 1em;
+}
+.recipe-meta p {
+  margin: 0.1em 0;
+}
+
+.quick-card,
+.menu-card,
+.kitchen-notes {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+.quick-card,
+.menu-card {
+  border: 0.06em solid currentColor;
+  border-left-width: 0.25em;
+  padding: 0.6em 0.8em;
+  margin: 1.1em 0;
+}
+.quick-card h4,
+.menu-card h2,
+.menu-card h3,
+.kitchen-notes h4 {
+  margin-top: 0.2em;
+}
+.q-mark {
+  font-weight: bold;
+}
+.ref-note {
+  font-family: sans-serif;
+  font-size: 0.85em;
+}
+.recipe-source,
+.cover-notes {
+  font-size: 0.85em;
+  margin-top: 1.2em;
+}
+.recipe-source p,
+.cover-notes p {
+  margin: 0.35em 0;
+}
