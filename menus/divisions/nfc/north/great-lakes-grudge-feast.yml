@@ -3,8 +3,8 @@ title: Great Lakes Grudge Feast
 status: published
 order: 1
 recipes:
-- fried-wisconsin-cheese-curds
-- chicago-style-hot-dogs
-- tater-tot-hotdish
+  - fried-wisconsin-cheese-curds
+  - chicago-style-hot-dogs
+  - tater-tot-hotdish
 description: A hearty tasting spread with crisp curds and two comfort-food mains.
 prep_note: Bake hotdish first; assemble half-size dogs and fry curds last.

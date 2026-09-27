@@ -3,8 +3,8 @@ title: West Coast Street Feast
 status: published
 order: 2
 recipes:
-- mission-style-burritos
-- fry-bread-tacos
-- bacon-wrapped-la-street-dogs-rams
+  - mission-style-burritos
+  - fry-bread-tacos
+  - bacon-wrapped-la-street-dogs-rams
 description: Three street-food favorites in tasting portions.
 prep_note: Chop toppings once; prep burrito fillings first.

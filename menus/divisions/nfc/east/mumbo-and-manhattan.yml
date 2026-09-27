@@ -3,8 +3,8 @@ title: Mumbo & Manhattan
 status: published
 order: 2
 recipes:
-- chicken-wings-with-mumbo-sauce
-- new-york-style-pizza
-- black-and-white-cookies
+  - chicken-wings-with-mumbo-sauce
+  - new-york-style-pizza
+  - black-and-white-cookies
 description: Tangy wings, pizza slices, and bakery-style cookies.
 prep_note: Bake cookies first; finish wings and pizza hot.

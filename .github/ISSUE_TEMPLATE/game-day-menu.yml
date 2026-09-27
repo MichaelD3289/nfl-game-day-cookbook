@@ -1,69 +1,75 @@
 name: Suggest a game-day menu
 description: Build a rivalry spread, shared-prep plan, league tour, premium day, or fast/budget meal.
-title: 'Game-day menu: '
+title: "Game-day menu: "
 body:
-- type: input
-  id: title
-  attributes:
-    label: Menu name
-  validations:
-    required: true
-- type: dropdown
-  id: kind
-  attributes:
-    label: Menu type
-    options:
-    - Grudge Match Grub
-    - Shared Prep
-    - Across the League
-    - Premium Day
-    - Fast Day
-    - Budget Day
-  validations:
-    required: true
-- type: textarea
-  id: teams
-  attributes:
-    label: Teams and theme
-    description: For Grudge Match Grub, identify both rivals and explain the matchup. For other types,
-      describe the occasion or goal.
-  validations:
-    required: true
-- type: textarea
-  id: recipes
-  attributes:
-    label: Dishes and teams
-    description: List recipe links or IDs, team, and course for each. Link separate suggestions for new
-      dishes.
-  validations:
-    required: true
-- type: textarea
-  id: why
-  attributes:
-    label: Why it works
-    description: Explain flavor/course compatibility and how it fits the selected type. Rivalry menus
-      should represent both teams.
-  validations:
-    required: true
-- type: textarea
-  id: prep
-  attributes:
-    label: Prep plan
-    description: Give a practical cooking order. For shared-prep menus, name ingredients or components
-      used in multiple dishes; include quantities where possible.
-  validations:
-    required: true
-- type: textarea
-  id: practical
-  attributes:
-    label: Time, budget, and servings
-    description: For Fast Day or Budget Day, explain the time/cost assumptions, shopping overlap, and
-      shortcuts. Otherwise add helpful estimates.
-  validations:
-    required: true
-- type: textarea
-  id: sources
-  attributes:
-    label: Sources and experience
-    description: Have you served this combination? Link supporting sources for any new claims; identify
-      third-party material and permissions.
+  - type: input
+    id: title
+    attributes:
+      label: Menu name
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Menu type
+      options:
+        - Grudge Match Grub
+        - Shared Prep
+        - Across the League
+        - Premium Day
+        - Fast Day
+        - Budget Day
+    validations:
+      required: true
+  - type: textarea
+    id: teams
+    attributes:
+      label: Teams and theme
+      description:
+        For Grudge Match Grub, identify both rivals and explain the matchup. For other types,
+        describe the occasion or goal.
+    validations:
+      required: true
+  - type: textarea
+    id: recipes
+    attributes:
+      label: Dishes and teams
+      description:
+        List recipe links or IDs, team, and course for each. Link separate suggestions for new
+        dishes.
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it works
+      description:
+        Explain flavor/course compatibility and how it fits the selected type. Rivalry menus
+        should represent both teams.
+    validations:
+      required: true
+  - type: textarea
+    id: prep
+    attributes:
+      label: Prep plan
+      description:
+        Give a practical cooking order. For shared-prep menus, name ingredients or components
+        used in multiple dishes; include quantities where possible.
+    validations:
+      required: true
+  - type: textarea
+    id: practical
+    attributes:
+      label: Time, budget, and servings
+      description:
+        For Fast Day or Budget Day, explain the time/cost assumptions, shopping overlap, and
+        shortcuts. Otherwise add helpful estimates.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources and experience
+      description:
+        Have you served this combination? Link supporting sources for any new claims; identify
+        third-party material and permissions.

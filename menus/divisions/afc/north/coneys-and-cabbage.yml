@@ -3,8 +3,8 @@ title: Coneys & Cabbage
 status: published
 order: 2
 recipes:
-- cheese-coneys
-- haluski-cabbage-and-noodles
-- berger-cookies
+  - cheese-coneys
+  - haluski-cabbage-and-noodles
+  - berger-cookies
 description: Savory coneys and noodles end with chocolate cookies.
 prep_note: Bake cookies ahead; keep chili warm for assembly.

@@ -7,12 +7,12 @@ cooking experience, corrections, and well-sourced recipe suggestions are welcome
 
 Contributions are welcome across the whole cookbook. Choose a form:
 
-| Contribution | What to include |
-| --- | --- |
-| [Recipe](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=recipe-suggestion.yml) | Team/city, local connection, recipe source, and cooking experience |
+| Contribution                                                                                                                      | What to include                                                                                                    |
+| --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| [Recipe](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=recipe-suggestion.yml)                         | Team/city, local connection, recipe source, and cooking experience                                                 |
 | [Make It or Buy It component](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=component-suggestion.yml) | Homemade sauce, dip, topping, seasoning, side, staple, or protein; recipes using it; and a good buy-it alternative |
-| [Division dish-off](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=division-dish-off.yml) | A menu using dishes from one division, why they pair well, and a prep note |
-| [Game-day menu](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=game-day-menu.yml) | Grudge Match Grub, Shared Prep, Across the League, Premium Day, Fast Day, or Budget Day |
+| [Division dish-off](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=division-dish-off.yml)              | A menu using dishes from one division, why they pair well, and a prep note                                         |
+| [Game-day menu](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/new?template=game-day-menu.yml)                      | Grudge Match Grub, Shared Prep, Across the League, Premium Day, Fast Day, or Budget Day                            |
 
 Fun names, regional expertise, practical prep ideas, and improvements to existing
 content are all welcome. Link existing dishes where possible. If a menu needs a new
@@ -51,12 +51,12 @@ can remain Unreleased without rebuilding the cookbook.
 
 ## Content starters and authoring guides
 
-| Content | Starter or format guide | Destination |
-| --- | --- | --- |
-| Recipe | `uv run nfl-book new recipe --team bills --slug your-dish`; [recipe format](.claude/skills/add-recipe/SKILL.md) | `recipes/<conf>/<division>/<team>/<id>.md` |
-| Component | `uv run nfl-book new component --kind sauces --slug your-sauce`; [component format](.claude/skills/add-component/SKILL.md) | `components/<kind>/<id>.md` |
-| Division dish-off | Copy the division YAML example in the [menu guide](.claude/skills/menus-and-dish-offs/SKILL.md); set `status: draft` | `menus/divisions/<conf>/<division>/<id>.yml` |
-| Game-day menu | Copy the game-day YAML example in the [menu guide](.claude/skills/menus-and-dish-offs/SKILL.md); set `status: draft` | `menus/game-day/<type>/<id>.yml` |
+| Content           | Starter or format guide                                                                                                    | Destination                                  |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| Recipe            | `uv run nfl-book new recipe --team bills --slug your-dish`; [recipe format](.claude/skills/add-recipe/SKILL.md)            | `recipes/<conf>/<division>/<team>/<id>.md`   |
+| Component         | `uv run nfl-book new component --kind sauces --slug your-sauce`; [component format](.claude/skills/add-component/SKILL.md) | `components/<kind>/<id>.md`                  |
+| Division dish-off | Copy the division YAML example in the [menu guide](.claude/skills/menus-and-dish-offs/SKILL.md); set `status: draft`       | `menus/divisions/<conf>/<division>/<id>.yml` |
+| Game-day menu     | Copy the game-day YAML example in the [menu guide](.claude/skills/menus-and-dish-offs/SKILL.md); set `status: draft`       | `menus/game-day/<type>/<id>.yml`             |
 
 For every file, `id` must match its filename. Menu recipe lists contain recipe IDs,
 not page numbers or URLs. Published menus can reference only published recipes.

@@ -4,8 +4,8 @@ subtitle: Packers + Chiefs + Seahawks
 status: published
 order: 2
 recipes:
-- fried-wisconsin-cheese-curds
-- kansas-city-cheesy-corn
-- seattle-dogs-with-cream-cheese-and-onions
+  - fried-wisconsin-cheese-curds
+  - kansas-city-cheesy-corn
+  - seattle-dogs-with-cream-cheese-and-onions
 why_it_works: A short-cooking dog, corn side, and crisp starter fill a quick tailgate.
 prep_plan: Start corn and onions together. Fry curds last; the curd source does not state a total time.
