@@ -32,8 +32,8 @@ quick_options:
 
 ### For serving
 
-- Optional: about 1 1/2 cups prime rib pan jus, homemade or prepared {{component:prime-rib-pan-jus}}
-- Optional: about 1 1/4 cups horseradish cream, homemade or prepared {{component:prime-rib-horseradish-cream}}
+- Optional: about 1 1/2 cups homemade prime rib pan jus; or substitute the same amount of store-bought beef au jus, prepared to package directions {{component:prime-rib-pan-jus}}
+- Optional: about 1 1/4 cups homemade horseradish cream; or substitute the same amount of store-bought refrigerated creamy horseradish sauce {{component:prime-rib-horseradish-cream}}
 
 ## Instructions
 

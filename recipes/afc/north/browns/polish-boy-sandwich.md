@@ -30,13 +30,13 @@ quick_options:
 
 - 2 hot dog buns, toasted
 - 2 links fully cooked smoked pork kielbasa (the source uses turkey kielbasa)
-- 1/2 of a 32-ounce package frozen french fries, cooked according to package directions {{component:oven-fries}}
-- 1/4 cup tangy tomato-based barbecue sauce (or Cleveland-style hot sauce) {{component:kansas-city-barbecue-sauce}}
-- 1 cup creamy prepared cabbage coleslaw {{component:quick-creamy-coleslaw}}
+- 1 pound homemade oven fries; or substitute the same weight of store-bought frozen fries (half a 32-ounce package as written), cooked to package directions {{component:oven-fries}}
+- 1/4 cup homemade Kansas City-style barbecue sauce; or substitute the same amount of store-bought tangy tomato-based barbecue sauce or Cleveland-style hot sauce {{component:kansas-city-barbecue-sauce}}
+- 1 cup homemade creamy cabbage coleslaw; or substitute the same amount of store-bought deli coleslaw {{component:quick-creamy-coleslaw}}
 - 1/2 tablespoon canola oil
 
 ## Instructions
 
-1. Cook fries according to package directions and toast the buns.
+1. Make the linked oven fries, or cook frozen fries according to package directions. Toast the buns.
 2. Heat oil in a skillet over medium-high heat. Cook kielbasa, turning often, until heated through. Place links in buns.
 3. Top each with barbecue sauce, fries, and coleslaw. Serve immediately.

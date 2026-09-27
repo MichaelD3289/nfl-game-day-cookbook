@@ -52,7 +52,7 @@ quick_options:
 - 1 teaspoon liquid smoke
 - 1 teaspoon kosher salt
 - ⅛ teaspoon cayenne
-- Alternative: about 3 cups finished Kansas City barbecue sauce, homemade or bottled, replacing the entire sauce mixture above {{component:kansas-city-barbecue-sauce}}
+- About 3 cups homemade Kansas City barbecue sauce; or substitute the same amount of store-bought Kansas City sauce; either replaces the entire sauce mixture above {{component:kansas-city-barbecue-sauce}}
 
 ## Instructions
 

@@ -33,7 +33,7 @@ quick_options:
 - 2 cups finely chopped trinity/seasoning blend: onion, celery and green bell pepper; parsley flakes if desired
 - 1 garlic clove, chopped (source calls this “1 toe”)
 - 1 bay leaf
-- Cajun seasoning, to taste (start with a small pinch, then taste near the end) {{component:cajun-seasoning}}
+- Homemade Cajun seasoning, to taste; or substitute store-bought Cajun seasoning; start with a small pinch and taste near the end {{component:cajun-seasoning}}
 - Kosher salt and black pepper, to taste
 - Hot cooked white rice, for serving; amount depends on portions
 

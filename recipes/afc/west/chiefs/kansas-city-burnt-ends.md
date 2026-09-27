@@ -27,7 +27,7 @@ quick_options:
 
 - 6 pounds USDA Choice or better beef brisket point
 - 3 teaspoons Morton coarse kosher salt (about ½ teaspoon per pound)
-- ¼ cup Kansas City-style barbecue sauce, preferably a sweet tomato-and-molasses style {{component:kansas-city-barbecue-sauce}}
+- ¼ cup homemade Kansas City-style barbecue sauce; or substitute the same amount of store-bought sweet tomato-and-molasses barbecue sauce {{component:kansas-city-barbecue-sauce}}
 - ¾ teaspoon brown sugar (equivalent to source’s ¼ tablespoon)
 - ¼ cup beef broth, for foil wrap
 - About 4 cups hardwood chunks or chips (8 ounces total), for smoker

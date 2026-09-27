@@ -29,7 +29,7 @@ quick_options:
 - 1 pound ground beef or vegetarian/vegan ground-beef alternative
 - 1 onion, small dice
 - 3 garlic cloves, thinly sliced or minced
-- 1 batch homemade hotdish cream sauce (about 3 1/2 cups), or two 10–10.5-ounce cans condensed cream of mushroom soup, undiluted {{component:hotdish-cream-sauce}}
+- 1 batch homemade hotdish cream sauce (about 3 1/2 cups); or substitute store-bought condensed cream of mushroom soup (two 10–10.5-ounce cans per homemade batch), undiluted {{component:hotdish-cream-sauce}}
 - 1 cup frozen corn kernels, thawed
 - 1 cup frozen peas, thawed
 - 2 cups grated cheddar, divided into two equal portions

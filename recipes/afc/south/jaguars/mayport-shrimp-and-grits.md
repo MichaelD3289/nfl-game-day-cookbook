@@ -35,7 +35,7 @@ quick_options:
 - ¼ cup water
 - Juice of 1 large lemon
 - 2 garlic cloves, thinly sliced
-- 4 servings creamy stone-ground grits, homemade or prepared Original Creamy Gracious Grits to package directions {{component:creamy-stone-ground-grits}}
+- 4 servings homemade creamy stone-ground grits; or substitute the same number of servings of store-bought Original Creamy Gracious Grits, prepared to package directions {{component:creamy-stone-ground-grits}}
 - Kosher salt and freshly ground black pepper, to taste
 
 ## Instructions

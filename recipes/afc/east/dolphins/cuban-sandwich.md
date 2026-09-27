@@ -28,9 +28,9 @@ quick_options:
 
 ## Ingredients
 
-- Yellow mustard, for spreading {{component:american-yellow-mustard}}
+- Homemade yellow mustard, for spreading; or substitute store-bought yellow mustard {{component:american-yellow-mustard}}
 - 1 loaf Cuban bread or soft Italian loaf if Cuban bread is unavailable, split
-- 6 ounces thinly sliced mojo roast pork (or plain roasted pork) {{component:cuban-mojo-pork}}
+- 6 ounces thinly sliced homemade mojo roast pork; or substitute the same amount of store-bought cooked mojo or plain roast pork {{component:cuban-mojo-pork}}
 - 6 ounces sliced sweet ham
 - 6 ounces sliced Swiss cheese
 - 6 to 8 dill pickle slices

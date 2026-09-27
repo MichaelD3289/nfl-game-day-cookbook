@@ -41,8 +41,8 @@ quick_options:
 - Canola or other neutral oil, for grill grates
 - Warm flour tortillas, for serving; number to appetite
 - Optional toppings: pickled jalapeños, lime wedges, chopped scallions, or shredded cheddar
-- Optional: guacamole, homemade or refrigerated prepared {{component:quick-guacamole}}
-- Optional: fresh pico de gallo, homemade or deli prepared {{component:fresh-pico-de-gallo}}
+- Optional: homemade guacamole; or substitute store-bought refrigerated guacamole {{component:quick-guacamole}}
+- Optional: homemade fresh pico de gallo; or substitute store-bought refrigerated pico de gallo {{component:fresh-pico-de-gallo}}
 
 ## Instructions
 

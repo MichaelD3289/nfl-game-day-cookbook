@@ -52,7 +52,7 @@ quick_options:
 - 124 g (1/2 cup) sauce
 - 113 g (4 ounces) low-moisture whole-milk mozzarella, shredded
 - 114 g (4 ounces) sweet Italian sausage, casing removed
-- 50 g (1/4 cup) Chicago-style giardiniera, drained, patted dry, and chopped {{component:chicago-oil-packed-giardiniera}}
+- 50 g (1/4 cup) homemade Chicago-style giardiniera; or substitute the same amount of store-bought oil-packed giardiniera; drain, pat dry and chop either {{component:chicago-oil-packed-giardiniera}}
 - 14 g (1/4 cup) finely grated Parmigiano-Reggiano
 - 2 teaspoons dried oregano
 - Optional: 1/4 teaspoon fennel seed

@@ -33,11 +33,11 @@ quick_options:
 
 ### Buffalo wing sauce
 
-- 1 batch homemade Buffalo wing sauce (about 1 1/4 cups), or the same amount of prepared Buffalo wing sauce {{component:buffalo-wing-sauce}}
+- 1 batch homemade Buffalo wing sauce (about 1 1/4 cups); or substitute the same amount of store-bought Buffalo wing sauce {{component:buffalo-wing-sauce}}
 
 ### Blue-cheese dip
 
-- 1 batch homemade blue-cheese dip (about 1 1/2 cups), or the same amount of refrigerated blue-cheese dressing {{component:blue-cheese-dip}}
+- 1 batch homemade blue-cheese dip (about 1 1/2 cups); or substitute the same amount of store-bought refrigerated blue-cheese dressing {{component:blue-cheese-dip}}
 
 ### For serving
 
@@ -45,10 +45,10 @@ quick_options:
 
 ## Instructions
 
-1. Make one batch of the linked blue-cheese dip; cover and refrigerate at least 1 hour. Prepare one batch of the linked Buffalo wing sauce shortly before frying; rewarm gently and whisk if it separates.
+1. If choosing homemade, make one batch of the linked blue-cheese dip; cover and refrigerate at least 1 hour. Make one batch of the linked Buffalo wing sauce shortly before frying; rewarm gently and whisk if it separates. Skip the preparation for any store-bought option.
 2. Pour oil into a Dutch oven or other heavy pot to a depth of 2 inches. Clip on a deep-fry thermometer and heat to 350°F. Set a wire rack over a rimmed tray or line a tray with paper towels.
 3. Pat the wings dry. Fry in uncrowded batches at 350°F for 12–15 minutes, turning once or twice, until golden, crisp and cooked through (165°F at the thickest part). Let the oil return to 350°F between batches. Drain each batch and season lightly with salt and pepper.
-4. Toss the hot, drained wings with the finished Buffalo sauce, adding it gradually to coat. Serve promptly with celery and the homemade blue-cheese dip. Use an equal volume of prepared sauce or dressing for either quick option; do not add extra butter to a premixed wing sauce.
+4. Toss the hot, drained wings with the finished Buffalo sauce, adding it gradually to coat. Serve promptly with celery and your chosen blue-cheese dip or dressing. Do not add extra butter to store-bought Buffalo wing sauce.
 
 ## Kitchen Notes
 

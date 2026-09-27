@@ -30,7 +30,7 @@ source:
 - 1 ounce thinly sliced Genoa salami
 - 1 ounce Swiss cheese
 - 2 pickle chips
-- 1 tablespoon yellow mustard {{component:american-yellow-mustard}}
+- 1 tablespoon homemade yellow mustard; or substitute the same amount of store-bought yellow mustard {{component:american-yellow-mustard}}
 
 ## Instructions
 
