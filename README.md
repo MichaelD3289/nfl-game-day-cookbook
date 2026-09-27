@@ -140,9 +140,10 @@ and `make clean`.
 draft content (not retired) and lists recipes per team by status (fewest first), teams
 missing a course, divisions with fewer than two dish-offs, recipes per index bucket
 (buckets under 10% of recipes are marked thin), how many recipes use each component
-and which components none use, and game-day menu types with fewer than three menus. It
-is informational: warnings and errors belong to `validate`, and it exits non-zero only
-when content fails to load.
+and which components none use, game-day menu types with fewer than three menus, and
+published recipes and components whose review is missing or out of date (stalest
+first). It is informational: warnings and errors belong to `validate`, and it exits
+non-zero only when content fails to load.
 
 ## How page numbers work
 
