@@ -1,4 +1,4 @@
-"""Deterministic QR codes for full source URLs, written to ``generated/qr``."""
+"""Deterministic QR codes for website pages or full source URLs, written to ``generated/qr``."""
 
 from __future__ import annotations
 

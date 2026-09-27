@@ -35,13 +35,18 @@
 - {{ link(ref) }}
 {% endfor %}
 {% endmacro %}
-{% macro source(src, credit='') %}
-{% if src or credit %}
+{% macro source(src, credit='', qr='', web=none) %}
+{% if src or credit or qr %}
 ::: {.recipe-source}
-{% if src %}
-{% if src.qr %}
-![QR code for recipe source]({{ src.qr }}){.source-qr}
+{% if qr %}
+::: {.page-qr}
+<img src="{{ qr|e }}" alt="{{ 'QR code for this page' if web else 'QR code for recipe source' }}" class="source-qr">
+{% if web %}
+<span class="qr-caption">Scan to open on your phone</span>
 {% endif %}
+:::
+{% endif %}
+{% if src %}
 **Recipe source:** <a href="{{ src.href|e }}">{{ (src.title or src.display)|e }}</a>  
 <small>{{ src.display|e }}</small>
 {% endif %}

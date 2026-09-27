@@ -11,7 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Each recipe and component page in the PDF now links to its page on the website, with a note that the online version may differ from the printed edition; the cover explains this once. Set the site root with `website_url` in `data/book.yml`.
+- Each recipe and component page in the PDF now links to its page in the same edition of the website (under `/vX.Y.Z/`), so the link matches the printing; newer editions are linked from there, and the cover explains this once. Set the site root with `website_url` in `data/book.yml`.
+
+### Changed
+
+- The QR code on each recipe and component page, in the PDF and on the website, now opens that page in this edition of the website instead of the recipe source, and pages without a source get one too. The PDF shows a short "View this page online" link instead of the full address, and the source stays a clickable link.
 
 ## [0.10.0] - 2026-09-26
 

@@ -221,11 +221,23 @@ main.content {
   overflow-wrap:anywhere;
   display:flow-root;
 }
-.source-qr {
+.page-qr {
   float:right;
   width:78px;
-  height:78px;
   margin:0 0 .5rem 1rem;
+  text-align:center;
+  line-height:1.2;
+}
+.page-qr p {
+  margin:0;
+}
+.source-qr {
+  display:block;
+  width:78px;
+  height:78px;
+}
+.qr-caption {
+  font-size:.7rem;
 }
 .recipe-source figure {
   margin:0;
@@ -636,8 +648,11 @@ main.content {
     font-size:7.5pt;
     break-inside:avoid;
   }
+  .page-qr,
   .source-qr {
     width:.75in;
+  }
+  .source-qr {
     height:.75in;
   }
   .print-url {

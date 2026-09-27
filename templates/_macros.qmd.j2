@@ -24,11 +24,11 @@
 <% endfor %>
 <% endmacro %>
 
-<% macro source(src, credit, web) %>
-<% if src or credit or web %>
+<% macro source(src, credit, web, qr) %>
+<% if src or credit or web or qr %>
 
 ```{=latex}
-\RecipeSource{<< src.title|tex if src else "" >>}{<< src.href|tex_url if src else "" >>}{<< src.display|tex if src else "" >>}{<< src.qr if src else "" >>}{<< credit|tex >>}{<< web.href|tex_url if web else "" >>}{<< web.display|tex if web else "" >>}{<< web.edition|tex if web else "" >>}
+\RecipeSource{<< src.title|tex if src else "" >>}{<< src.href|tex_url if src else "" >>}{<< src.display|tex if src else "" >>}{<< qr >>}{<< credit|tex >>}{<< web.href|tex_url if web else "" >>}{<< web.edition|tex if web else "" >>}
 ```
 <% endif %>
 <% endmacro %>

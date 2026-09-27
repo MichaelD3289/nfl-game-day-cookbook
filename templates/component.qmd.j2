@@ -33,4 +33,4 @@
 \ComponentUsedIn{<% for ref in used_in %>\BookRefLink{<< ref.label >>}{<< ref.title|tex >>}~(p.\,\BookPageRef{<< ref.label >>})<% if not loop.last %>; <% endif %><% endfor %>}
 ```
 <% endif %>
-<< m.source(source, "", web) >>
+<< m.source(source, "", web, qr) >>

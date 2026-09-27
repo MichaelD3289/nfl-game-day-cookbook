@@ -111,9 +111,9 @@
   \BookCoverBodyFont\raggedright\setlength{\parskip}{\BookCoverParagraphGap}%
 }{\end{minipage}\par}
 \newcommand{\CoverOnline}[3]{% website href, display url, edition
-  \par{\BookSourceFont Each recipe and Make It or Buy It page links to its page online at
-  \href{#1}{#2}. The online version is updated between editions and may differ from this
-  printing (edition #3).\par}}
+  \par{\BookSourceFont Each recipe and Make It or Buy It page links to its page in this
+  edition (#3) of the website at \href{#1}{#2}. Once a newer edition is out, those pages
+  link to it.\par}}
 \newenvironment{CoverFinePrint}{%
   \par\vspace{\BookCoverFinePrintGap}\begingroup\BookSourceFont
 }{\par\endgroup}
@@ -189,13 +189,13 @@
   colback=white, colbacktitle=white, colframe=white, fontupper=\BookNoteSize,
   left=\BookZero, right=\BookZero, top=\BookNotePad, bottom=\BookNotePad,
   before skip=\BookNotePad, after skip=\BookNotePad}
-\newcommand{\RecipeSource}[8]{% source title, href, display url, qr image, photo credit,
-  % website href, website display url, edition
+\newcommand{\RecipeSource}[7]{% source title, href, display url, qr image, photo credit,
+  % website href, edition (the QR code opens the website page when there is one)
   \par\vfill\BookRule\vspace{6pt}\noindent
   \begin{minipage}[b]{\dimexpr\linewidth-\BookQRSize-1em\relax}\BookSourceFont
     \ifblank{#3}{}{Source: \ifblank{#1}{}{#1\ \textendash\ }\href{#2}{#3}\par}%
-    \ifblank{#6}{}{Online: \href{#6}{#7}\par
-      Latest version online; it may differ from this printing (edition #8).\par}%
+    \ifblank{#6}{}{\href{#6}{View this page online} (edition #7), or scan the code to
+      open it on your phone.\par}%
     \ifblank{#5}{}{Photo: #5\par}%
   \end{minipage}\hfill
   \ifblank{#4}{}{\includegraphics[width=\BookQRSize]{#4}}\par}
