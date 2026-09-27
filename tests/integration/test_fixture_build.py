@@ -7,6 +7,7 @@ when they are not installed.
 from __future__ import annotations
 
 import json
+import re
 import shutil
 
 import pytest
@@ -95,10 +96,12 @@ def test_build_is_deterministic(fixture_book: Project) -> None:
     pipeline.build(fixture_book, pdf=False)
     assert pages(fixture_book) == first
     assert {p.name: p.read_bytes() for p in (fixture_book.generated_dir / "qr").glob("*.png")} == qr
-    assert len(qr) == 3
+    assert len(qr) == 5  # every published item, sourced or not
 
 
-def test_qr_codes_encode_full_source_url(fixture_book: Project) -> None:
+def test_qr_codes_encode_full_source_url_without_website_url(fixture_book: Project) -> None:
+    book = fixture_book.content_root / "data/book.yml"
+    book.write_text(re.sub(r"(?m)^website_url:.*$", "", book.read_text()))
     pipeline.build(fixture_book, pdf=False)
     png = (fixture_book.generated_dir / "qr" / "recipe-test-citrus-wings.png").read_bytes()
     assert png == qr_png("https://example.com/recipes/test-citrus-wings")

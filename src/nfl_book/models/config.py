@@ -108,6 +108,11 @@ class BookConfig(StrictModel):
         description="Web app that files anonymous website suggestions as issues.",
     )
     photos: PhotoSettings = PhotoSettings()
+    website_url: str | None = Field(
+        None,
+        pattern=r"^https://",
+        description="Published website root; PDF recipe and component pages link to it.",
+    )
 
 
 class CoverMeta(StrictModel):

@@ -149,7 +149,9 @@ Source URLs in front matter are always full, canonical URLs. `prepare-links` sho
 any uncached URL of published content and appends the result to `data/shortlinks.yml`.
 It never rewrites existing entries or source files. Builds read that cache offline, so
 a published recipe whose URL is missing from it fails validation. QR codes are generated
-deterministically from the full source URL; the printed link text uses the short URL.
+deterministically and open the item's website page (see below); without `website_url`,
+and for draft previews, they encode the full source URL. The printed source link text
+uses the short URL.
 
 See `AGENTS.md` for the rules contributors (human or AI) follow.
 
@@ -196,10 +198,26 @@ scale is kept in the page URL (`?scale=2`) and carried to linked component pages
 `styles/website-scale.js` does the conversion in the browser; its tests run with
 Node.js and are skipped when Node is not installed. The PDF is never scaled.
 
+Recipe, component, game-day menu and division pages have a **Print** button
+(`styles/website-print.js`, shown only when JavaScript runs). The `@media print`
+rules in `styles/website.css` hide the site chrome and lay a recipe out on one page
+where it fits. The browser prints the page as shown, so a scaled recipe prints its
+scaled amounts, with a "Scaled 2× · serves 12" note and the page address at the foot.
+
 Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
 prompts. They open prefilled quick issue templates on GitHub and, once
 `suggestion_form_url` is set in `data/book.yml`, a form that needs no GitHub
 account. Setup is in [docs/website-suggestions.md](docs/website-suggestions.md).
+
+When `website_url` is set in `data/book.yml`, every published recipe and component
+page in the PDF links to its page in the same edition of the website
+(`vX.Y.Z/recipe-<id>.html` or `vX.Y.Z/component-<id>.html`, using the package version)
+through a short "View this page online" label and its QR code, and the cover explains
+this once. The website pages show the same QR code, captioned "Scan to open on your
+phone". Every release keeps its site at `/vX.Y.Z/`, so the
+links match the printing; they open only after that version is released. The links are
+built offline from that one URL; drafts are never
+linked, and the build fails if a link would open a page the website does not publish.
 
 ### Publishing to GitHub Pages
 

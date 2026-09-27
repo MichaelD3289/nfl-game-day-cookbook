@@ -4,6 +4,7 @@
 
 # {{ title|md }}
 {{ meta_line }}
+{{ m.print_button(scaler) }}
 
 :::: {.recipe-columns}
 ::: {.ingredients}
@@ -31,5 +32,5 @@
 ## Used in
 {{ m.refs(used_in) }}
 {% endif %}
-{{ m.source(source) }}
+{{ m.source(source, qr=qr, web=web) }}
 {{ m.suggest(suggest) }}
