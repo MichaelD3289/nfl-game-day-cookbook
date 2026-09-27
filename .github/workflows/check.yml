@@ -62,9 +62,15 @@ jobs:
   # as a draft while iterating, and this runs once it is marked ready and on every push
   # after that. --strict fails on a recipe that overflows its page. It does not run on
   # pushes to main; the release workflow builds the PDF again before publishing.
+  # Dependabot PRs are skipped too: they only bump GitHub Actions, which cannot change
+  # the book. Run the workflow by hand on such a branch if one needs a PDF check.
   pdf:
     name: Build PDF
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'pull_request' && !github.event.pull_request.draft)
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' &&
+      !github.event.pull_request.draft &&
+      github.event.pull_request.user.login != 'dependabot[bot]')
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
