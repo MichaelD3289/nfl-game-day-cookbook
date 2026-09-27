@@ -162,6 +162,12 @@ permanent redirects with where they now point, and sites that refused the check 
 pages. The command exits with status 1 when anything is listed, and it never changes
 source files or `data/shortlinks.yml`.
 
+The **Source link check** workflow runs that check on the 1st of every month (or by hand
+from the Actions tab) and keeps a single issue labelled `link-rot` up to date with the
+report, closing it once every link works again. It is not part of PR checks, so a site
+being down never blocks a pull request. GitHub pauses scheduled workflows after 60 days
+without repository activity; re-enable it from the Actions tab if that happens.
+
 See `AGENTS.md` for the rules contributors (human or AI) follow.
 
 ## Recipe quality reviews
