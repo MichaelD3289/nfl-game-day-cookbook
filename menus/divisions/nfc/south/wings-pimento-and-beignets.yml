@@ -3,8 +3,8 @@ title: Wings, Pimento & Beignets
 status: published
 order: 2
 recipes:
-- lemon-pepper-wet-wings
-- pimento-cheese-sandwiches
-- beignets
+  - lemon-pepper-wet-wings
+  - pimento-cheese-sandwiches
+  - beignets
 description: Bright wings, creamy sandwiches, and warm sweets.
 prep_note: Mix pimento cheese early; fry beignets last.

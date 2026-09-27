@@ -4,8 +4,8 @@ subtitle: Texans + Dolphins + Falcons
 status: published
 order: 1
 recipes:
-- fajitas
-- cuban-black-beans-and-rice
-- peach-cobbler
+  - fajitas
+  - cuban-black-beans-and-rice
+  - peach-cobbler
 why_it_works: Fajitas and beans share bell peppers and onions; cobbler supplies dessert.
 prep_plan: Chop peppers and onions once, then portion them for each recipe. Make cobbler ahead.

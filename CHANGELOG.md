@@ -14,10 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The EPUB has a cover, a description and rights details, and keeps the same identifier across editions, so reading apps treat a new edition as an update of the same book.
 - The website's **All versions** page links each edition's EPUB next to its PDF.
 - PR checks now render the website and EPUB with Quarto, so a rendering problem fails the pull request instead of the release.
+- Formatting rules and pre-commit hooks: Ruff formats and lints Python, and Prettier formats Markdown, YAML, JSON, JavaScript and CSS with its default style. Run `make hooks` once so staged files are fixed at every commit, and `make format` to fix every file.
 
 ### Changed
 
 - The `creating-release` skill now builds the website and EPUB before a release, and the `layout-changes` skill explains how headings decide EPUB pages.
+- `make check`, and so the PR checks, now fail when any file is not formatted, not just Python in `src/` and `tests/`. The existing Markdown, YAML, JavaScript and CSS files were reformatted once to match; recipe content is unchanged.
 
 ## [0.11.0] - 2026-09-26
 
@@ -245,7 +247,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   columns for ingredients and instructions, and compact Kitchen Notes. Recipes with
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
-
 
 [Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.0...HEAD
 [0.11.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.10.0...v0.11.0

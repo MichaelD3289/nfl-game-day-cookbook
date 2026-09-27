@@ -28,7 +28,7 @@ jobs:
           enable-cache: false
       - name: Install locked dependencies
         run: uv sync --locked
-      - name: Lint, test, and validate content
+      - name: Check formatting, lint, test, and validate content
         run: make check
 
   # The Quarto-rendered tests skip where Quarto is missing, so make check alone never

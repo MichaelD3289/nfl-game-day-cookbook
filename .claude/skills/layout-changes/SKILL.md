@@ -7,12 +7,12 @@ description: Change how the cookbook looks - fonts, colours, margins, recipe pag
 
 ## Where things live
 
-| File | Owns |
-| --- | --- |
-| `styles/theme.tex` | **All** colours, fonts, sizes and dimensions (for example `\BookPhotoWidth`, `\BookPhotoHeight`, `\BookIngredientsWidth`, `\BookInstructionsWidth`, `\BookBodySize`, `\BookNoteSize`, geometry) |
-| `styles/book.tex` | Semantic macros (`\RecipePage`, `RecipeIngredients`, `KitchenNotes`, `\RecipeSource`, cards, index and contents pages). It contains no literal colours or sizes and refers only to theme tokens. |
-| `templates/*.qmd.j2` | Jinja2 (`<< >>` expressions, `<% %>` blocks) → QMD that calls those macros. `recipe.qmd.j2` and `_macros.qmd.j2` render recipe pages. |
-| `src/nfl_book/render/pages.py` | Builds the template context (for example `compact_ingredients`, and `COMPACT_INGREDIENTS_OVER = 24`). |
+| File                           | Owns                                                                                                                                                                                             |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `styles/theme.tex`             | **All** colours, fonts, sizes and dimensions (for example `\BookPhotoWidth`, `\BookPhotoHeight`, `\BookIngredientsWidth`, `\BookInstructionsWidth`, `\BookBodySize`, `\BookNoteSize`, geometry)  |
+| `styles/book.tex`              | Semantic macros (`\RecipePage`, `RecipeIngredients`, `KitchenNotes`, `\RecipeSource`, cards, index and contents pages). It contains no literal colours or sizes and refers only to theme tokens. |
+| `templates/*.qmd.j2`           | Jinja2 (`<< >>` expressions, `<% %>` blocks) → QMD that calls those macros. `recipe.qmd.j2` and `_macros.qmd.j2` render recipe pages.                                                            |
+| `src/nfl_book/render/pages.py` | Builds the template context (for example `compact_ingredients`, and `COMPACT_INGREDIENTS_OVER = 24`).                                                                                            |
 
 ## Rules
 
@@ -23,9 +23,9 @@ description: Change how the cookbook looks - fonts, colours, margins, recipe pag
    - two columns for ingredients and instructions
    - compact Kitchen Notes
    - source text and QR code at the bottom
-   Photo pixel size, format and quality for each output live under `photos:` in
-   `data/book.yml` (the book and site crop every photo to a centred square). The
-   printed size of the photo box is set in `theme.tex`.
+     Photo pixel size, format and quality for each output live under `photos:` in
+     `data/book.yml` (the book and site crop every photo to a centred square). The
+     printed size of the photo box is set in `theme.tex`.
 3. Never compute or print page numbers from Python. Use `\BookAnchor` together with
    `\BookPageRef` / `\ComponentRef`.
 4. Keep every `\BookAnchor{<label>}` and `\BookEnd{<end_label>}` in place. The
@@ -72,7 +72,7 @@ edit the PDF templates or styles when making a website-only layout change.
 
 ### Raw HTML and tests: Quarto rewrites your markup
 
-Raw ```` ```{=html} ```` blocks in the web templates reach `dist/site/` only after
+Raw ` ```{=html} ` blocks in the web templates reach `dist/site/` only after
 Quarto re-serializes them. The markup changes on the way. A bare `hidden` becomes
 `hidden=""`, attribute order and quoting can change, and whitespace moves. The
 generated `.qmd` (`nfl-book website --no-render`) keeps your exact text, so a test

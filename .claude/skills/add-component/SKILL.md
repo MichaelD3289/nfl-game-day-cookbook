@@ -22,12 +22,12 @@ uv run nfl-book new component --kind <kind> --slug <id>
 
 ```markdown
 ---
-id: <id>                  # == file name
+id: <id> # == file name
 title: Sentence-case title
 status: draft
-yield: about 1 cup        # optional
-quick_buy: Brand or store-bought suggestion.   # required
-always_include: false     # true = print even if no published recipe uses it
+yield: about 1 cup # optional
+quick_buy: Brand or store-bought suggestion. # required
+always_include: false # true = print even if no published recipe uses it
 source:
   url: https://full.canonical/url
 ---

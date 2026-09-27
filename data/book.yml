@@ -11,8 +11,8 @@ suggestion_form_url: https://script.google.com/macros/s/AKfycbzqOSEWVBAJrP1iYV0d
 # web: 190 px photo box at 2x density. print: 1.67 in box at 300 dpi (pdflatex
 # cannot embed WebP, so print stays JPEG).
 photos:
-  web: {format: webp, size: 400, quality: 80}
-  print: {format: jpeg, size: 500, quality: 82}
+  web: { format: webp, size: 400, quality: 80 }
+  print: { format: jpeg, size: 500, quality: 82 }
 # Published website root. Each PDF recipe and component page links to its page
 # here (recipe-<id>.html / component-<id>.html). Leave empty to omit the links.
 website_url: https://michaeld3289.github.io/nfl-game-day-cookbook/

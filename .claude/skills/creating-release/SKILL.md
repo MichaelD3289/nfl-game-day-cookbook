@@ -19,6 +19,7 @@ A bump resets the parts to its right: `0.2.3` goes to `0.3.0` on a minor bump.
 ## Pick the bump from `[Unreleased]`
 
 In this repo, the "public API" is:
+
 - the content format (recipe and component front matter, and paths);
 - `data/*.yml`;
 - the `nfl-book` CLI and Make targets;
@@ -26,16 +27,17 @@ In this repo, the "public API" is:
 
 Read every entry under `## [Unreleased]` and use the **highest** rule that matches:
 
-| Found in `[Unreleased]` | Bump |
-| --- | --- |
+| Found in `[Unreleased]`                                                                                                                                                                           | Bump      |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------- |
 | Any `Removed` entry, or any **BREAKING:** entry. Examples: renamed or required front-matter field, moved content path, changed `data/*.yml` schema, removed or renamed CLI command or Make target | **major** |
-| Any `Added` entry (new recipe, component, menu, index, command, target or skill), a `Deprecated` entry, or a `Changed` entry that alters the book or tooling behaviour | **minor** |
-| Only `Fixed`, `Security`, or wording-only `Changed` entries | **patch** |
+| Any `Added` entry (new recipe, component, menu, index, command, target or skill), a `Deprecated` entry, or a `Changed` entry that alters the book or tooling behaviour                            | **minor** |
+| Only `Fixed`, `Security`, or wording-only `Changed` entries                                                                                                                                       | **patch** |
 
 **While the version is `0.x`,** use a minor bump where the table says major, so `0.2.0`
 goes to `0.3.0`. Go to `1.0.0` only when the user asks for it.
 
 **Enforce it:**
+
 - If `[Unreleased]` is empty, stop. There is nothing to release.
 - If the user asks for a specific version or bump that differs from the rule, say which
   entries require which bump and ask before continuing. Never pick a smaller bump than
@@ -85,13 +87,13 @@ goes to `0.3.0`. Go to `1.0.0` only when the user asks for it.
 The comparison uses the highest stable version number, not the newest tag by date.
 Both a merged branch and a direct push to `main` follow these rules:
 
-| State at the pushed `main` commit | Automatic result |
-| --- | --- |
-| Package version is higher than every existing stable tag | Create the version tag at this commit and run Release |
-| Package version equals the highest stable tag, and that tag points to this exact commit | Reuse the tag and run Release (safe retry) |
-| Same version tag points to a different commit | Skip; never move the existing tag |
-| Package version is lower than the highest stable tag | Skip, even if an older tag points to this commit |
-| A tag is pushed without a push to `main` | No automatic publication |
+| State at the pushed `main` commit                                                       | Automatic result                                      |
+| --------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Package version is higher than every existing stable tag                                | Create the version tag at this commit and run Release |
+| Package version equals the highest stable tag, and that tag points to this exact commit | Reuse the tag and run Release (safe retry)            |
+| Same version tag points to a different commit                                           | Skip; never move the existing tag                     |
+| Package version is lower than the highest stable tag                                    | Skip, even if an older tag points to this commit      |
+| A tag is pushed without a push to `main`                                                | No automatic publication                              |
 
 Tags only present locally are invisible to CI. Do not pre-tag feature branches.
 Squash merges and merge commits change the commit identity; a pre-existing feature

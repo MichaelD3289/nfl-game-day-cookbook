@@ -126,9 +126,8 @@ def test_corrupt_photo_is_a_diagnostic_naming_the_file(tmp_path: Path) -> None:
 
 def test_print_photos_must_be_jpeg(fixture_book: Project) -> None:
     book = fixture_book.data_dir / "book.yml"
-    book.write_text(
-        book.read_text().replace("print: {format: jpeg", "print: {format: webp"), encoding="utf-8"
-    )
+    # Only the print photo format is JPEG, so this switches print to WebP.
+    book.write_text(book.read_text().replace("format: jpeg", "format: webp"), encoding="utf-8")
     with pytest.raises(ValidationFailed) as failed:
         load_settings(fixture_book)
     assert [d.path for d in failed.value.diagnostics.errors] == [book]

@@ -4,7 +4,7 @@ subtitle: Packers vs Vikings
 status: published
 order: 4
 recipes:
-- fried-wisconsin-cheese-curds
-- tater-tot-hotdish
-why_it_works: 'A compact cold-weather menu: crisp starter and a substantial casserole.'
+  - fried-wisconsin-cheese-curds
+  - tater-tot-hotdish
+why_it_works: "A compact cold-weather menu: crisp starter and a substantial casserole."
 prep_plan: Assemble hotdish ahead and bake it first. Fry curds just before the opening whistle.

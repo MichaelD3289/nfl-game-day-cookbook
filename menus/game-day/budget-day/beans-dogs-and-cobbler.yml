@@ -4,9 +4,10 @@ subtitle: Dolphins + Bears + Falcons
 status: published
 order: 3
 recipes:
-- cuban-black-beans-and-rice
-- chicago-style-hot-dogs
-- peach-cobbler
+  - cuban-black-beans-and-rice
+  - chicago-style-hot-dogs
+  - peach-cobbler
 why_it_works: Beans and dogs anchor the meal; frozen peaches can help control dessert cost.
-prep_plan: Pressure-cook beans ahead and bake cobbler ahead. Make rice while the beans cook; assemble
+prep_plan:
+  Pressure-cook beans ahead and bake cobbler ahead. Make rice while the beans cook; assemble
   dogs last.

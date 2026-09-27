@@ -1,18 +1,18 @@
 name: Suggest a component idea (quick)
 description: Name a sauce, dip, topping, seasoning, side, staple, or protein for Make It or Buy It.
-title: 'Component idea: '
+title: "Component idea: "
 labels:
-- needs-research
-- 'suggestion: component'
+  - needs-research
+  - "suggestion: component"
 body:
-- type: input
-  id: name
-  attributes:
-    label: Component name or idea
-  validations:
-    required: true
-- type: textarea
-  id: details
-  attributes:
-    label: Anything else? (optional)
-    description: Recipes that would use it, a from-scratch source, or a good store-bought option.
+  - type: input
+    id: name
+    attributes:
+      label: Component name or idea
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Anything else? (optional)
+      description: Recipes that would use it, a from-scratch source, or a good store-bought option.

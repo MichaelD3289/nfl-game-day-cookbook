@@ -12,30 +12,30 @@ LaTeX, so no page numbers go anywhere.
 
 ## Pieces
 
-| File | Role |
-| --- | --- |
-| `data/indexes.yml` | Index definitions: `id`, `title`, `kind`, `field`, `required`, `multiple`, `intro`, `buckets`, `options` |
-| `src/nfl_book/models/config.py` | `IndexConfig` / `Bucket` schema (strict; `course` index is mandatory) |
-| `src/nfl_book/indexes/field.py` | Built-in `field` kind, which reads front matter |
-| `src/nfl_book/indexes/base.py` | `IndexDefinition` and `@register_index_kind` for computed kinds |
-| `src/nfl_book/validation.py` | Errors on unknown buckets, on missing required values, and on unknown `index.<key>` keys |
-| `templates/index.qmd.j2` | The index page. The contents page and scaffold pick up new indexes automatically. |
+| File                            | Role                                                                                                     |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `data/indexes.yml`              | Index definitions: `id`, `title`, `kind`, `field`, `required`, `multiple`, `intro`, `buckets`, `options` |
+| `src/nfl_book/models/config.py` | `IndexConfig` / `Bucket` schema (strict; `course` index is mandatory)                                    |
+| `src/nfl_book/indexes/field.py` | Built-in `field` kind, which reads front matter                                                          |
+| `src/nfl_book/indexes/base.py`  | `IndexDefinition` and `@register_index_kind` for computed kinds                                          |
+| `src/nfl_book/validation.py`    | Errors on unknown buckets, on missing required values, and on unknown `index.<key>` keys                 |
+| `templates/index.qmd.j2`        | The index page. The contents page and scaffold pick up new indexes automatically.                        |
 
 ## Option A: a front-matter index (usual case, no Python)
 
 1. Add an entry to `data/indexes.yml` where it should appear in the book:
    ```yaml
-   - id: cooking-method              # kebab-case, unique; becomes label index:<id>
+   - id: cooking-method # kebab-case, unique; becomes label index:<id>
      title: Index by Cooking Method
      kind: field
-     field: index.cooking_method     # snake_case key under the recipe's index: map
-     required: true                  # published recipes must set it
-     multiple: false                 # true = value may be a list of bucket ids
+     field: index.cooking_method # snake_case key under the recipe's index: map
+     required: true # published recipes must set it
+     multiple: false # true = value may be a list of bucket ids
      buckets:
-       - {id: grilled, label: Grilled}
-       - {id: fried, label: Fried}
-       - {id: baked, label: Baked}
-       - {id: no-cook, label: No Cook}
+       - { id: grilled, label: Grilled }
+       - { id: fried, label: Fried }
+       - { id: baked, label: Baked }
+       - { id: no-cook, label: No Cook }
    ```
    Make the buckets **exhaustive**. Every published recipe must fit at least one,
    so add a catch-all such as `other` or `variable` if needed.
