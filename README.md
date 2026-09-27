@@ -208,6 +208,12 @@ rules in `styles/website.css` hide the site chrome and lay a recipe out on one p
 where it fits. The browser prints the page as shown, so a scaled recipe prints its
 scaled amounts, with a "Scaled 2× · serves 12" note and the page address at the foot.
 
+Game-day menus and dish-offs with a kickoff timeline show a **kickoff time** picker
+(`styles/website-timeline.js`, shown only when JavaScript runs). Entering a time adds
+each step's clock time next to its relative time ("1 hr 30 min before"). The time is
+kept in the page URL (`?kickoff=16:25`), and a printed page keeps the clock times and
+names the kickoff.
+
 Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
 prompts. They open prefilled quick issue templates on GitHub and, once
 `suggestion_form_url` is set in `data/book.yml`, a form that needs no GitHub

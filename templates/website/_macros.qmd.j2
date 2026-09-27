@@ -94,7 +94,24 @@ Photo: {{ credit }}
 ### Prep plan
 {{ item.prep_plan or item.prep_note }}
 {% endif %}
+{% if item.timeline %}
+### Game-day timeline
+{{ timeline(item.timeline) }}
+{% endif %}
 :::
+{% endmacro %}
+{% macro timeline(steps) %}
+
+```{=html}
+<div class="menu-timeline">
+<div class="timeline-kickoff" hidden><label>Kickoff at <input type="time" name="kickoff" step="300"></label> <span class="timeline-hint">Set a time to see when to start each step.</span></div>
+<p class="print-kickoff" hidden></p>
+<ol class="timeline-steps">{% for step in steps %}
+<li class="timeline-step"{% if step.minutes is not none %} data-offset-minutes="{{ step.minutes }}"{% endif %}><span class="timeline-when"><span class="timeline-clock" hidden></span><span class="timeline-offset">{{ step.label|e }}</span></span> <span class="timeline-task">{% if step.recipe %}<a href="{{ route(step.recipe)|e }}">{{ step.task|e }}</a>{% else %}{{ step.task|e }}{% endif %}</span></li>{% endfor %}
+</ol>
+</div>
+```
+
 {% endmacro %}
 {% macro print_button(scaled=false) %}
 

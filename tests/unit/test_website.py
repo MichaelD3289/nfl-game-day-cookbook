@@ -369,3 +369,48 @@ def test_source_is_one_named_link_with_the_short_address_for_paper(fixture_book:
     # The address shows once, in the print view only (styled by .source-url).
     assert source.count('<span class="source-url">') == 1
     assert "<small>" not in source
+
+
+def _timeline_rows(page: str) -> list[str]:
+    return re.findall(r'<li class="timeline-step"[^\n]*</li>', page)
+
+
+def test_menus_with_a_timeline_offer_a_kickoff_picker(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    menu = (site / "menus-fast-day-1.qmd").read_text()
+    assert "### Game-day timeline" in menu
+    # Hidden until timeline.js runs, so readers without JavaScript see relative times.
+    assert '<div class="timeline-kickoff" hidden>' in menu
+    assert '<input type="time" name="kickoff"' in menu
+    assert '<p class="print-kickoff" hidden></p>' in menu
+    rows = _timeline_rows(menu)
+    assert len(rows) == 5
+    day_before, marinate, oven, kickoff, halftime = rows
+    # Only times that map to a clock carry an offset for the script.
+    assert "data-offset-minutes" not in day_before
+    assert "Day before" in day_before
+    assert 'data-offset-minutes="-90"' in marinate
+    assert '<span class="timeline-offset">1 hr 30 min before</span>' in marinate
+    assert (
+        '<a href="recipe-test-citrus-wings.qmd#recipe-test-citrus-wings">Marinate the wings.</a>'
+        in marinate
+    )
+    assert 'data-offset-minutes="-30"' in oven
+    assert '<span class="timeline-task">Heat the oven.</span>' in oven
+    assert 'data-offset-minutes="0"' in kickoff
+    assert "data-offset-minutes" not in halftime
+    assert "Halftime" in halftime
+    division = (site / "division-afc-east.qmd").read_text()
+    assert 'class="timeline-steps"' in division
+    assert len(_timeline_rows(division)) == 2
+    for name in ("recipe-test-citrus-wings.qmd", "game-day-menus.qmd", "index.qmd"):
+        assert "timeline-steps" not in (site / name).read_text(), name
+    assert (site / "timeline.js").read_text().startswith("// Kickoff timeline on the website.")
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    assert "timeline.js" in config["project"]["resources"]
+    assert (
+        '<script src="timeline.js"></script>'
+        in (config["format"]["html"]["include-after-body"]["text"])
+    )

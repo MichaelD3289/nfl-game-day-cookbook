@@ -142,6 +142,65 @@ def test_dishoff_recipe_must_be_in_division(fixture_book: Project, write: object
     assert any("belongs to AFC North" in e for e in errors_for(fixture_book, path))
 
 
+def test_timeline_rejects_unknown_time(fixture_book: Project) -> None:
+    path = edit(fixture_book, MENU, "at: -1h30m", "at: -90m")
+    errors = errors_for(fixture_book, path)
+    assert any(e.startswith("schema: timeline.1.at:") and "-1h30m" in e for e in errors)
+
+
+def test_timeline_steps_must_be_in_time_order(fixture_book: Project) -> None:
+    path = edit(fixture_book, MENU, "at: -30m", "at: -4h")
+    assert errors_for(fixture_book, path) == [
+        "schema: timeline: steps must be in time order: "
+        "step 2 (-4h) is earlier than step 1 (-1h30m) but listed after it"
+    ]
+
+
+def test_timeline_recipe_must_be_on_the_menu(fixture_book: Project) -> None:
+    path = edit(
+        fixture_book,
+        MENU,
+        "recipe: test-citrus-wings\n    task: Marinate",
+        "recipe: test-draft-nachos\n    task: Marinate",
+    )
+    assert errors_for(fixture_book, path) == [
+        "reference: timeline.1.recipe: 'test-draft-nachos' is not one of this menu's recipes"
+    ]
+
+
+def test_timeline_task_must_not_be_empty(fixture_book: Project) -> None:
+    path = edit(fixture_book, MENU, "task: Heat the oven.", "task: '  '")
+    assert any(e.startswith("schema: timeline.2.task:") for e in errors_for(fixture_book, path))
+
+
+def test_timeline_task_is_short(fixture_book: Project) -> None:
+    path = edit(fixture_book, MENU, "task: Heat the oven.", "task: " + "x" * 81)
+    assert any(e.startswith("schema: timeline.2.task:") for e in errors_for(fixture_book, path))
+
+
+def test_timeline_has_at_most_six_steps(fixture_book: Project) -> None:
+    extra = "  - at: halftime\n    task: Refill the chips.\n"
+    path = fixture_book.content_root / MENU
+    path.write_text(path.read_text(encoding="utf-8") + extra * 2, encoding="utf-8")
+    assert any(
+        e.startswith("schema: timeline:") and "6" in e for e in errors_for(fixture_book, path)
+    )
+
+
+def test_timeline_may_not_be_empty(fixture_book: Project) -> None:
+    path = fixture_book.content_root / MENU
+    text = path.read_text(encoding="utf-8")
+    path.write_text(text[: text.index("timeline:")] + "timeline: []\n", encoding="utf-8")
+    assert any(e.startswith("schema: timeline:") for e in errors_for(fixture_book, path))
+
+
+def test_dishoff_timeline_recipe_must_be_on_the_dishoff(fixture_book: Project) -> None:
+    path = edit(fixture_book, DISHOFF, "recipe: test-citrus-wings", "recipe: test-ghost")
+    assert errors_for(fixture_book, path) == [
+        "reference: timeline.0.recipe: 'test-ghost' is not one of this menu's recipes"
+    ]
+
+
 def test_missing_shortlink_is_a_clear_error(fixture_book: Project) -> None:
     fixture_book.shortlinks_file.unlink()
     errors = [d for d in load(fixture_book).diagnostics.errors if d.code == "shortlink"]

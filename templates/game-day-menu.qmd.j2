@@ -10,9 +10,21 @@
 \CardHeading{Why it works}
 << menu.why_it_works|tex >>\par
 <% endif %>
-<% if menu.prep_plan %>
+<% if menu.prep_plan or menu.timeline %>
 \CardHeading{Prep plan}
+<% endif %>
+<% if menu.prep_plan %>
 << menu.prep_plan|tex >>\par
+<% endif %>
+<% if menu.timeline %>
+\begin{MenuTimeline}
+<% for step in menu.timeline %>
+\MenuTimelineStep{<< step.label|tex >>}{<< step.task|tex >>}{<< step.recipe >>}
+<% endfor %>
+\end{MenuTimeline}
+<% endif %>
+<% if loop.last %>
+\BookEnd{<< end_label >>}
 <% endif %>
 \end{GameDayMenuCard}
 <% endfor %>

@@ -261,10 +261,11 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
         f"PDF and downloadable website are also on [GitHub releases]({RELEASES}).\n\n"
         "```{=html}\n<!-- site-versions -->\n```\n"
     )
-    resources = ["assets/**", "scale.js", "print.js"]
+    resources = ["assets/**", "scale.js", "print.js", "timeline.js"]
     shutil.copyfile(project.styles_dir / "website-scale.js", build_dir / "scale.js")
     shutil.copyfile(project.styles_dir / "website-print.js", build_dir / "print.js")
-    scripts = ["print.js"]
+    shutil.copyfile(project.styles_dir / "website-timeline.js", build_dir / "timeline.js")
+    scripts = ["print.js", "timeline.js"]
     html_format: dict[str, Any] = {
         "theme": "cosmo",
         "css": "website.css",

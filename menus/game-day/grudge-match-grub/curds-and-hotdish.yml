@@ -8,3 +8,10 @@ recipes:
   - tater-tot-hotdish
 why_it_works: "A compact cold-weather menu: crisp starter and a substantial casserole."
 prep_plan: Assemble hotdish ahead and bake it first. Fry curds just before the opening whistle.
+timeline:
+  - at: -1h
+    recipe: tater-tot-hotdish
+    task: Bake the assembled hotdish.
+  - at: -15m
+    recipe: fried-wisconsin-cheese-curds
+    task: Batter and fry the curds.
