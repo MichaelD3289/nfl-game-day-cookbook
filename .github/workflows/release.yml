@@ -1,4 +1,5 @@
-# Build PDF and HTML after automated tagging; deploy the newest stable release to Pages.
+# Build PDF and HTML after automated tagging; deploy every website version to Pages,
+# with the newest stable release at the root and each release under /vX.Y.Z/.
 # Run it manually from the Actions tab with an existing tag to (re)build that version,
 # including tags created before this workflow existed.
 # Runs offline apart from tool setup: short links come from the committed
@@ -120,16 +121,40 @@ jobs:
               --latest="$latest" --prerelease="$prerelease"
           fi
 
-      - name: Check this is still the newest stable release
-        id: pages-gate
+      - name: Collect earlier website versions
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          latest="$(git ls-remote --tags --refs origin 'v*' | sed 's#.*refs/tags/##' | uv run python -m nfl_book.release_policy "$TAG")"
+          mkdir -p _archive
+          zip_name="$(basename "$WEBSITE")"
+          gh release list --limit 1000 --exclude-drafts --exclude-pre-releases \
+              --json tagName --jq '.[].tagName' |
+            while read -r tag; do
+              if ! gh release view "$tag" --json tagName,publishedAt,assets > "_archive/$tag.json"; then
+                echo "::warning::Could not read release $tag; its website version is skipped"
+                rm -f "_archive/$tag.json"
+                continue
+              fi
+              if [ "$tag" != "$TAG" ] && jq -e --arg n "$zip_name" 'any(.assets[]; .name == $n)' "_archive/$tag.json" >/dev/null; then
+                gh release download "$tag" --pattern "$zip_name" --dir "_archive/$tag" ||
+                  echo "::warning::Could not download the website ZIP for $tag"
+              fi
+            done
+
+      # Every deploy uploads all versions, with the newest stable release at the root.
+      # Deploy only when that root is the newest stable tag, so neither a manual rebuild
+      # of an older tag nor a missing newest ZIP can put older content at the root.
+      - name: Assemble all website versions
+        id: pages-gate
+        run: |
+          newest="$(git ls-remote --tags --refs origin 'v*' | sed 's#.*refs/tags/##' | uv run python -m nfl_book.release_policy --newest)"
+          root="$(uv run python -m nfl_book.site_archive --tag "$TAG" --site dist/site \
+            --archive _archive --out _pages --pdf "$(basename "$PDF")")"
           deploy=false
-          if [ "$latest" = true ]; then
-            published="$(gh release view --json tagName --jq .tagName)"
-            if [ "$published" = "$TAG" ]; then deploy=true; fi
+          if [ -n "$root" ] && [ "$root" = "$newest" ]; then
+            deploy=true
+          else
+            echo "::warning::Not deploying Pages: the site root would be '${root:-nothing}', but the newest stable tag is '${newest:-none}'."
           fi
           echo "deploy=$deploy" >> "$GITHUB_OUTPUT"
 
@@ -141,7 +166,7 @@ jobs:
         if: steps.pages-gate.outputs.deploy == 'true'
         uses: actions/upload-pages-artifact@v5
         with:
-          path: dist/site
+          path: _pages
 
       - name: Deploy website
         id: deployment

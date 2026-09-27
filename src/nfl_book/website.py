@@ -216,6 +216,13 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
         body = env.get_template(page.template).render(**context, version=version, download=download)
         body = re.sub(r"(?m)^(:{3,}[^\n]*)$", r"\n\1\n", body)
         (build_dir / _filename(page)).write_text(f"---\n{front}---\n\n{body}")
+    # The release workflow lists every published website version at the marker.
+    (build_dir / "versions.qmd").write_text(
+        '---\ntitle: ""\npagetitle: All versions\n---\n\n# All versions\n\n'
+        "Each release of this cookbook stays online at its own address. Every edition's "
+        f"PDF and downloadable website are also on [GitHub releases]({RELEASES}).\n\n"
+        "```{=html}\n<!-- site-versions -->\n```\n"
+    )
     resources = ["assets/**"]
     html_format: dict[str, Any] = {
         "theme": "cosmo",
@@ -239,6 +246,7 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
                 "right": [
                     {"text": f"v{version}", "href": f"{RELEASES}/tag/v{version}"},
                     {"text": "Download PDF", "href": download},
+                    {"text": "All versions", "href": "versions.qmd"},
                     {"text": "Earlier releases", "href": RELEASES},
                 ]
             },
