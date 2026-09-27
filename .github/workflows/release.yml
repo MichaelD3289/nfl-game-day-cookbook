@@ -1,4 +1,4 @@
-# Build PDF, HTML and EPUB after automated tagging; deploy every website version to Pages,
+# Build booklet and card PDFs, HTML and EPUB after automated tagging; deploy every website version to Pages,
 # with the newest stable release at the root and each release under /vX.Y.Z/.
 # Run it manually from the Actions tab with an existing tag to (re)build that version,
 # including tags created before this workflow existed.
@@ -40,6 +40,8 @@ jobs:
       # Must match nfl_book.publishing.EPUB_FILENAME (tests/unit/test_epub.py checks it).
       EPUB: dist/nfl-game-day-cookbook.epub
       PDF: dist/nfl-game-day-recipe-booklet.pdf
+      # Must match cards.output_filename in data/book.yml (checked by release tests).
+      CARDS: dist/nfl-game-day-recipe-cards.pdf
       WEBSITE: dist/nfl-game-day-website.zip
     steps:
       - uses: actions/checkout@v7
@@ -88,6 +90,9 @@ jobs:
       - name: Build PDF
         run: make pdf
 
+      - name: Build recipe cards
+        run: make cards
+
       - name: Build website
         run: make website
 
@@ -119,10 +124,10 @@ jobs:
           prerelease=true
           if [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then prerelease=false; fi
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" "$PDF" "$WEBSITE" "$EPUB" --clobber
+            gh release upload "$TAG" "$PDF" "$CARDS" "$WEBSITE" "$EPUB" --clobber
             if [ "$latest" = true ]; then gh release edit "$TAG" --latest; fi
           else
-            gh release create "$TAG" "$PDF" "$WEBSITE" "$EPUB" --title "$TAG" --notes-file release-notes.md \
+            gh release create "$TAG" "$PDF" "$CARDS" "$WEBSITE" "$EPUB" --title "$TAG" --notes-file release-notes.md \
               --latest="$latest" --prerelease="$prerelease"
           fi
 

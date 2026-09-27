@@ -1,11 +1,15 @@
 """Exercise the workflow's release guard against a synthetic Git repository."""
 
 import os
+import shlex
 import subprocess
 from pathlib import Path
 
 import pytest
 import yaml
+
+from nfl_book.config import load_settings
+from nfl_book.project import Project
 
 WORKFLOW = Path(__file__).resolve().parents[2] / ".github/workflows/release.yml"
 
@@ -59,3 +63,16 @@ def test_release_requires_tag_on_main(tmp_path: Path, case: str, allowed: bool) 
         text=True,
     )
     assert (result.returncode == 0) is allowed, result.stdout + result.stderr
+
+
+def test_release_builds_and_publishes_recipe_cards(fixture_book: Project) -> None:
+    workflow = yaml.safe_load(WORKFLOW.read_text())
+    release = workflow["jobs"]["release"]
+    filename = load_settings(fixture_book).book.cards.output_filename
+    assert release["env"]["CARDS"] == f"dist/{filename}"
+    steps = release["steps"]
+    assert any(step.get("run") == "make cards" for step in steps)
+    publish = next(step["run"] for step in steps if step.get("name") == "Publish release")
+    for action in ("upload", "create"):
+        command = next(line for line in publish.splitlines() if f"gh release {action} " in line)
+        assert "$CARDS" in shlex.split(command.rstrip(" \\")), action

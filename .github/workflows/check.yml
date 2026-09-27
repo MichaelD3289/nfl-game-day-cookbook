@@ -91,7 +91,9 @@ jobs:
           tinytex: true
       - name: Install locked dependencies
         run: uv sync --locked
-      - name: Render the fixture PDF test
+      - name: Render the fixture booklet and card PDF tests
         run: uv run pytest -m pdf
       - name: Build the full PDF, failing on page overflows
         run: uv run nfl-book build --strict
+      - name: Build the full recipe cards, failing on side-limit overflows
+        run: uv run nfl-book cards --strict

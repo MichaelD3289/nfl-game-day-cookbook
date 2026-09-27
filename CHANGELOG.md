@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `make cards` builds a separate configurable 4×6-inch recipe-card PDF with ingredients followed by instructions and continuation sides for long recipes; releases include it as a download. Card builds report recipes exceeding the configured side limit by source file, and PR PDF checks enforce that limit with `--strict`.
+
+### Fixed
+
+- Recipe cards render Unicode fractions on fresh TeX installations without requiring the optional `newunicodechar` package or downloading it during builds.
+
 ## [0.13.0] - 2026-09-26
 
 ### Added

@@ -16,3 +16,10 @@ photos:
 # Published website root. Each PDF recipe and component page links to its page
 # here (recipe-<id>.html / component-<id>.html). Leave empty to omit the links.
 website_url: https://michaeld3289.github.io/nfl-game-day-cookbook/
+
+# Separate portrait recipe cards; long recipes continue onto additional cards.
+cards:
+  width_inches: 4
+  height_inches: 6
+  output_filename: nfl-game-day-recipe-cards.pdf
+  max_pages: 4

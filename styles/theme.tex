@@ -85,3 +85,25 @@
 \newlength{\BookCoverBottomGap}\setlength{\BookCoverBottomGap}{12pt}
 
 \newcommand{\BookQFont}{\fontsize{7}{8}\selectfont\bfseries}
+
+% Separate printable recipe cards (paper dimensions live in data/book.yml).
+\newlength{\CardMargin}\setlength{\CardMargin}{0.3in}
+\newlength{\CardHeadHeight}\setlength{\CardHeadHeight}{22pt}
+\newlength{\CardHeadSep}\setlength{\CardHeadSep}{6pt}
+\newcommand{\CardBodyFont}{\fontsize{9}{11}\selectfont}
+\newcommand{\CardTitleFont}{\BookDisplayFont\fontsize{16}{18}\selectfont}
+\newcommand{\CardRunningFont}{\fontsize{8}{9}\selectfont\color{BookMuted}}
+
+% Shared authored Unicode fractions for all print formats.
+% pdflatex provides these mappings directly; no optional package/download needed.
+\newcommand{\BookFrac}[2]{\raisebox{0.45ex}{\scriptsize#1}\kern-0.08em/\kern-0.08em\raisebox{-0.1ex}{\scriptsize#2}}
+\DeclareUnicodeCharacter{2153}{\BookFrac{1}{3}}
+\DeclareUnicodeCharacter{2154}{\BookFrac{2}{3}}
+\DeclareUnicodeCharacter{215B}{\BookFrac{1}{8}}
+\DeclareUnicodeCharacter{215C}{\BookFrac{3}{8}}
+\DeclareUnicodeCharacter{215D}{\BookFrac{5}{8}}
+\DeclareUnicodeCharacter{215E}{\BookFrac{7}{8}}
+\DeclareUnicodeCharacter{00BD}{\BookFrac{1}{2}}
+\DeclareUnicodeCharacter{00BC}{\BookFrac{1}{4}}
+\DeclareUnicodeCharacter{00BE}{\BookFrac{3}{4}}
+\DeclareUnicodeCharacter{00B0}{\textdegree}

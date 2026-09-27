@@ -150,6 +150,26 @@ def build(
 
 
 @app.command()
+def cards(
+    no_pdf: Annotated[bool, typer.Option("--no-pdf", help="Generate card QMD only.")] = False,
+    strict: Annotated[bool, typer.Option(help="Fail when recipes exceed the card limit.")] = False,
+) -> None:
+    """Build a separate printable recipe-card PDF (published content only)."""
+    from nfl_book.cards import build_cards
+
+    project = None
+    try:
+        project = state.project()
+        result = build_cards(project, pdf=not no_pdf, strict=strict)
+    except BookError as exc:
+        fail(exc, project.root if project else None)
+    report(result.diagnostics, project.root)
+    out.print(f"QMD: {result.document}")
+    if result.pdf:
+        out.print(f"PDF: {result.pdf}")
+
+
+@app.command()
 def website(
     no_render: Annotated[
         bool, typer.Option("--no-render", help="Generate website QMD without compiling HTML.")
