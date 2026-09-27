@@ -389,10 +389,9 @@ def test_recipe_print_bar_lists_its_component_pages_in_order(fixture_book: Proje
     ) in wings
     assert f'<button type="button" class="print-button">Print</button>{PRINT_WITH}' in wings
     # Component pages, and recipes without components, offer no extra pages.
-    for name in ("component-test-wing-sauce.qmd", "division-afc-east.qmd"):
-        page = (site / name).read_text()
-        assert "data-print-pages" not in page, name
-        assert "print-with" not in page, name
+    sauce = (site / "component-test-wing-sauce.qmd").read_text()
+    assert "data-print-pages" not in sauce
+    assert "print-with" not in sauce
 
 
 def test_component_pages_print_once_after_first_use(fixture_book: Project) -> None:
@@ -458,3 +457,79 @@ def test_recipe_print_pages_exist_in_the_site_and_print_js_ships(fixture_book: P
     assert '<label class="print-with" hidden>' in wings
     script = (site / "print.js").read_text()
     assert "pageList" in script and "printBundle" in script
+
+
+MENU_PAGES = {
+    "menus-fast-day-1.qmd": "## Test Quick Kickoff",
+    "division-afc-east.qmd": "## Test AFC East Dish-Off",
+}
+MENU_BAR = (
+    '<div class="print-bar print-menu" hidden data-print-pages='
+    '"recipe-test-buffalo-sliders.html recipe-test-citrus-wings.html" data-print-components='
+    '"component-test-blue-cheese-dip.html component-test-wing-sauce.html '
+    'component-test-cajun-seasoning.html"><button type="button" class="print-button">'
+    f"Print menu + recipes</button>{PRINT_WITH}</div>"
+)
+
+
+def test_menu_cards_carry_their_recipe_and_component_pages(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    for name, heading in MENU_PAGES.items():
+        page = (site / name).read_text()
+        # Recipes in menu order, then each component they use once, in order of first use.
+        assert MENU_BAR in page, name
+        card = page.index("::: {.menu-card}")
+        assert card < page.index(heading) < page.index(MENU_BAR), name
+        # The page's own Print button is unchanged.
+        assert (
+            '<div class="print-bar" hidden><button type="button" class="print-button">'
+            "Print</button></div>"
+        ) in page, name
+
+
+def test_menu_print_pages_exist_in_the_site(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    for name in MENU_PAGES:
+        page = (site / name).read_text()
+        found = re.findall(r'data-print-(?:pages|components)="([^"]+)"', page)
+        assert len(found) == 2, name
+        for listed in found:
+            for target in listed.split():
+                assert (site / target.replace(".html", ".qmd")).is_file(), (name, target)
+
+
+def test_menu_without_components_offers_no_component_option(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    for relative, line in (
+        (
+            "afc/east/bills/test-buffalo-sliders.md",
+            "- 1/2 cup blue cheese dip {{component:test-blue-cheese-dip}}",
+        ),
+        (
+            "afc/east/dolphins/test-citrus-wings.md",
+            "- 1 cup wing sauce {{component:test-wing-sauce}}",
+        ),
+    ):
+        recipe = fixture_book.recipes_dir / relative
+        text = recipe.read_text()
+        assert line in text
+        # A quick option only makes sense for a component the recipe still uses.
+        text = text.replace(
+            "quick_options:\n  test-blue-cheese-dip: "
+            "Any chunky store-bought blue cheese dressing\n",
+            "",
+        )
+        recipe.write_text(text.replace(line, line.split(" {{")[0]))
+    site = build_website(fixture_book, render=False).document.parent
+    division = (site / "division-afc-east.qmd").read_text()
+    assert (
+        '<div class="print-bar print-menu" hidden data-print-pages='
+        '"recipe-test-buffalo-sliders.html recipe-test-citrus-wings.html"><button'
+    ) in division
+    assert "data-print-components" not in division
+    assert "print-with" not in division

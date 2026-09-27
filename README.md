@@ -210,7 +210,7 @@ scaled amounts, with a "Scaled 2× · serves 12" note and the page address at th
 A recipe that uses homemade components also offers **Include homemade components**,
 which prints each component page (nested ones too) on its own sheet after the recipe,
 at the same scale; it needs the site served over http(s), so it is hidden when the
-downloaded website is opened from files.
+downloaded website is opened from files. Each game-day menu and dish-off card also has **Print menu + recipes**, which prints only that card followed by each of its recipes on its own sheet (and, if ticked, each homemade component once at the end); like the component option, it needs the site served over http(s) and is hidden when the downloaded website is opened from files.
 
 Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
 prompts. They open prefilled quick issue templates on GitHub and, once

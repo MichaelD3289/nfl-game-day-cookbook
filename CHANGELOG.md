@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Website recipe pages can print their homemade Make It or Buy It components too: tick **Include homemade components** next to Print and each component the recipe uses, including nested ones, prints on its own page after the recipe, at the recipe's scale. The option is hidden when the downloaded website is opened from files; the PDF is unchanged ([#40](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/40)).
+- Game-day menu and division dish-off cards on the website have a **Print menu + recipes** button that prints just that menu card, then every recipe on the menu on its own page, in menu order, as one print job. Tick **Include homemade components** to add each Make It or Buy It component the menu's recipes use, once each, after the recipes. The button needs the site served over http(s), so it is hidden when the downloaded website is opened from files; the page's own Print button and the PDF are unchanged ([#41](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/41)).
 
 ## [0.13.0] - 2026-09-26
 
