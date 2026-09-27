@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Components can have a one-sentence `description`, and every Make It or Buy It component now has one. The website and EPUB show it in their Make It or Buy It lists; the PDF is unchanged.
+
 ### Changed
 
 - PR checks now build the full PDF and fail when a recipe overflows its page, so a PDF problem blocks the pull request instead of the release. To save CI minutes this check skips draft PRs: it runs when a PR is marked ready for review and on every push after that. Dependabot PRs, which only update GitHub Actions, skip the PDF, website and EPUB builds.

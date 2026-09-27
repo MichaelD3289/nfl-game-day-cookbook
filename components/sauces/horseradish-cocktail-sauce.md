@@ -1,6 +1,7 @@
 ---
 id: horseradish-cocktail-sauce
 title: Horseradish cocktail sauce
+description: "Ketchup with a strong hit of freshly grated horseradish, lemon zest, and lemon juice."
 status: published
 yield: about 1 1/4–1 1/2 cups; enough for 16 jumbo shrimp with extra
 quick_buy: Use St. Elmo Cocktail Sauce for the restaurant’s own version; serve about 2 tablespoons per portion, with extra alongside.

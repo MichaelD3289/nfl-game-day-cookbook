@@ -1,6 +1,7 @@
 ---
 id: louisiana-remoulade
 title: Louisiana rémoulade
+description: "Mayonnaise with Creole mustard, lemon, hot sauce, and Cajun seasoning for po'boys."
 status: published
 yield: about 1 1/2 cups; enough for four po’boys
 quick_buy: Prepared Louisiana Fish Fry Products Remoulade Sauce, or plain mayonnaise for a traditional dressed po’boy.

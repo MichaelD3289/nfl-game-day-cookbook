@@ -24,6 +24,7 @@ uv run nfl-book new component --kind <kind> --slug <id>
 ---
 id: <id> # == file name
 title: Sentence-case title
+description: One plain sentence on what it is and its defining ingredients. # website only
 status: draft
 yield: about 1 cup # optional
 quick_buy: Brand or store-bought suggestion. # required

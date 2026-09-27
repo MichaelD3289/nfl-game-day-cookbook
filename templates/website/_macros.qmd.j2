@@ -1,7 +1,7 @@
 {% macro anchor(label) %}<span id="{{ label|anchor|e }}"></span>
 
 {% endmacro %}
-{% macro link(ref, description=true) %}<a href="{{ route(ref.label)|e }}">{{ ref.title|e }}</a>{% if ref.note %} <span class="ref-note">{{ ref.note|e }}</span>{% endif %}{% if description and recipe_descriptions.get(ref.label) %} <span class="dish-description">{{ recipe_descriptions[ref.label]|e }}</span>{% endif %}{% endmacro %}
+{% macro link(ref, description=true) %}<a href="{{ route(ref.label)|e }}">{{ ref.title|e }}</a>{% if ref.note %} <span class="ref-note">{{ ref.note|e }}</span>{% endif %}{% if description and descriptions.get(ref.label) %} <span class="dish-description">{{ descriptions[ref.label]|e }}</span>{% endif %}{% endmacro %}
 {% macro ingredients(groups) %}
 {% for group in groups %}
 {% if group.heading %}

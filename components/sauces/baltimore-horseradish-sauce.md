@@ -1,6 +1,7 @@
 ---
 id: baltimore-horseradish-sauce
 title: Baltimore horseradish sauce
+description: "A creamy, sharp mix of mayonnaise and white horseradish brightened with lemon."
 status: published
 yield: about 1 1/2 cups
 quick_buy: Use Tulkoff Tiger Horseradish Sauce or another creamy prepared horseradish sauce.

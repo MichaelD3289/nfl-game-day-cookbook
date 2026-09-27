@@ -1,6 +1,7 @@
 ---
 id: cajun-seasoning
 title: Cajun seasoning
+description: "A salty, savory blend of garlic, onion, paprika, pepper, oregano, thyme, and cumin."
 status: published
 yield: about 2/3 cup (estimated from ingredient volumes)
 quick_buy: A bottled Louisiana blend such as Tony Chachere’s Original Creole Seasoning or Slap Ya Mama; add sparingly and taste before salting.

@@ -1,6 +1,7 @@
 ---
 id: hotdish-cream-sauce
 title: Hotdish cream sauce
+description: "A quick white sauce of milk, flour, and chicken broth that replaces the canned soup in hotdish."
 status: published
 yield: About 3 1/2 cups (estimated)
 quick_buy: Use two 10–10.5 ounce cans Campbell's condensed cream of mushroom soup, undiluted, for the classic quick hotdish.

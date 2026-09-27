@@ -1,6 +1,7 @@
 ---
 id: oven-fries
 title: Oven fries
+description: "Russet potato wedges tossed in olive oil and salt and roasted until crisp."
 status: published
 yield: 4 servings
 quick_buy: Use fully cooked frozen shoestring fries, heated until crisp according to the package.

@@ -1,6 +1,7 @@
 ---
 id: buffalo-wing-sauce
 title: Buffalo wing sauce
+description: "Frank's RedHot whisked with butter, vinegar, and a little cayenne for tossing wings."
 status: published
 yield: about 1 1/4 cups (estimated)
 quick_buy: Use Frank's RedHot Buffalo Wings Sauce or Anchor Bar Original Wing Sauce; do not add butter to a premixed sauce.

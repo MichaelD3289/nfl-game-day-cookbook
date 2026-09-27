@@ -1,6 +1,7 @@
 ---
 id: prime-rib-horseradish-cream
 title: Prime rib horseradish cream
+description: "Sour cream with grated fresh horseradish, Dijon, and a splash of vinegar, served cold."
 status: published
 yield: About 1 1/4 cups
 quick_buy: Use a refrigerated creamy horseradish sauce, such as St. Elmo Creamy Horseradish; serve cold.
