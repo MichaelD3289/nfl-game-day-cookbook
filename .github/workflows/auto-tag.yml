@@ -26,7 +26,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v7
         with:
-          python-version: '3.13'
+          python-version: "3.13"
       - name: Tag a newer package version
         id: tag
         run: python .github/scripts/tag_release.py

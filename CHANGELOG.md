@@ -234,7 +234,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-
 [Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.0...HEAD
 [0.11.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.1...v0.10.0

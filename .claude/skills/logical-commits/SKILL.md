@@ -32,14 +32,14 @@ Two unrelated concerns in one file become two commits, using partial staging
 
 These pairs belong together in this repo:
 
-| Change | Commit with it |
-| --- | --- |
-| Recipe or component edit | Its `data/shortlinks.yml` entries and its photo beside the `.md` file |
-| `{{component:id}}` marker added to a recipe | The new component, if it is part of the same change |
-| New index key in `data/indexes.yml` | The recipe front matter backfill it requires |
-| Template change in `templates/` | The `styles/` macros it calls and its test |
-| Python behaviour in `src/` | Its tests and the README/CLI docs it changes |
-| Any user-visible change | **Its own `CHANGELOG.md` `[Unreleased]` entry**, partially staged |
+| Change                                      | Commit with it                                                        |
+| ------------------------------------------- | --------------------------------------------------------------------- |
+| Recipe or component edit                    | Its `data/shortlinks.yml` entries and its photo beside the `.md` file |
+| `{{component:id}}` marker added to a recipe | The new component, if it is part of the same change                   |
+| New index key in `data/indexes.yml`         | The recipe front matter backfill it requires                          |
+| Template change in `templates/`             | The `styles/` macros it calls and its test                            |
+| Python behaviour in `src/`                  | Its tests and the README/CLI docs it changes                          |
+| Any user-visible change                     | **Its own `CHANGELOG.md` `[Unreleased]` entry**, partially staged     |
 
 Keep these apart:
 
@@ -58,16 +58,16 @@ together and say why.
 Format: `<type>(<scope>): <imperative summary>`. Add a body when the reason isn't
 obvious.
 
-| Type | Use for |
-| --- | --- |
-| `feat` | New recipe, component, menu, index, CLI command or Make target |
-| `fix` | Wrong recipe content, source, timing, broken reference or layout bug |
-| `feat(layout)` | A deliberate visual redesign in `styles/`/`templates/` |
-| `refactor` | Restructure without changing output |
-| `test` | Test-only changes |
-| `docs` | README, AGENTS.md, `docs/`, skills |
-| `build` | `pyproject.toml`, `uv.lock`, Makefile |
-| `chore` | Maintenance that fits nothing else, and `chore(release): X.Y.Z` |
+| Type           | Use for                                                              |
+| -------------- | -------------------------------------------------------------------- |
+| `feat`         | New recipe, component, menu, index, CLI command or Make target       |
+| `fix`          | Wrong recipe content, source, timing, broken reference or layout bug |
+| `feat(layout)` | A deliberate visual redesign in `styles/`/`templates/`               |
+| `refactor`     | Restructure without changing output                                  |
+| `test`         | Test-only changes                                                    |
+| `docs`         | README, AGENTS.md, `docs/`, skills                                   |
+| `build`        | `pyproject.toml`, `uv.lock`, Makefile                                |
+| `chore`        | Maintenance that fits nothing else, and `chore(release): X.Y.Z`      |
 
 Scopes used here: `recipes`, `components`, `menus`, `indexes`, `links`, `layout`, `cover`,
 `cli`, `build`, `skills`, `agents`. For a single team, use the team name, for example

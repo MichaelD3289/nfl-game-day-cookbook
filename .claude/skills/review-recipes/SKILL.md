@@ -46,7 +46,7 @@ not proof of current correctness. Use `update-recipe`, `add-component`,
 `source-links` and `changelog` for applicable writes.
 
 Research needs web access (`WebFetch`, `WebSearch`). AGENTS.md rule 6 limits the
-*tooling*: only `prepare-links` touches the network. Never add network behaviour to
+_tooling_: only `prepare-links` touches the network. Never add network behaviour to
 build or validation commands. If web access is denied, stop and say so rather than
 reviewing from memory.
 

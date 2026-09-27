@@ -18,6 +18,7 @@ makes it. Use only these subsections, in this order:
 6. `Security`
 
 Write for a reader of the book or repo, not a commit log. Examples:
+
 - "Added Buffalo sliders (Bills)."
 - "Recipe photos now sit beside the title."
 

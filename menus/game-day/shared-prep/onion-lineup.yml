@@ -4,8 +4,8 @@ subtitle: Eagles + Seahawks + Chiefs
 status: published
 order: 2
 recipes:
-- philly-cheesesteak
-- seattle-dogs-with-cream-cheese-and-onions
-- barbecue-baked-beans
+  - philly-cheesesteak
+  - seattle-dogs-with-cream-cheese-and-onions
+  - barbecue-baked-beans
 why_it_works: All three call for onions, prepared as sliced and chopped batches.
 prep_plan: Prep onions once, then divide by recipe. Start beans early; cook sandwich and dog onions later.
