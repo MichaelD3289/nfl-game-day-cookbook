@@ -5,6 +5,11 @@ description: Create or edit game-day menus (menus/game-day/) and division dish-o
 
 # Menus and dish-offs
 
+> **Working from a GitHub issue?** Claim it first ([AGENTS.md](../../../AGENTS.md) rule
+> 15). If the issue already has the `in-progress` label, stop and ask a human; do not
+> work on it without their explicit permission. Otherwise add the label before you
+> change anything.
+
 Both are YAML files that list recipe **ids**. The book prints the page numbers
 itself, so never write page numbers in them.
 

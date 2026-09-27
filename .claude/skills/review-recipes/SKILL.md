@@ -5,6 +5,11 @@ description: Review NFL cookbook recipes for city relevance, regional authentici
 
 # Review recipes
 
+> **Working from a GitHub issue?** Claim it first ([AGENTS.md](../../../AGENTS.md) rule
+> 15). If the issue already has the `in-progress` label, stop and ask a human; do not
+> work on it without their explicit permission. Otherwise add the label before you
+> change anything.
+
 Act as the editorial orchestrator for this cookbook. Review the selected source
 files and their reachable Make It or Buy It components using a small subagent
 team. Authenticity takes priority over simplicity, speed, price, or layout fit.

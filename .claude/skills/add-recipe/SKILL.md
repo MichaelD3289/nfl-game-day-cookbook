@@ -5,6 +5,11 @@ description: Add a new recipe to the NFL game-day cookbook. Use when asked to ad
 
 # Add a recipe
 
+> **Working from a GitHub issue?** Claim it first ([AGENTS.md](../../../AGENTS.md) rule
+> 15). If the issue already has the `in-progress` label, stop and ask a human; do not
+> work on it without their explicit permission. Otherwise add the label before you
+> change anything.
+
 Every recipe is one Markdown file. Its team comes **only** from its path, so never
 add a `team` or `teams` field.
 

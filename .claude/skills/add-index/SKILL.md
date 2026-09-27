@@ -5,6 +5,11 @@ description: Add, change or remove a search index in the NFL cookbook (e.g. "Ind
 
 # Add a search index
 
+> **Working from a GitHub issue?** Claim it first ([AGENTS.md](../../../AGENTS.md) rule
+> 15). If the issue already has the `in-progress` label, stop and ask a human; do not
+> work on it without their explicit permission. Otherwise add the label before you
+> change anything.
+
 Indexes are configured, not hard-coded. Each entry in `data/indexes.yml` produces
 one index page. That page lists recipe title, team and page reference, grouped
 by bucket in the order the buckets are listed. The page number comes from

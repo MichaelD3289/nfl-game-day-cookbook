@@ -5,6 +5,11 @@ description: Edit, fix, rename, move, retire or shorten an existing recipe in th
 
 # Update a recipe
 
+> **Working from a GitHub issue?** Claim it first ([AGENTS.md](../../../AGENTS.md) rule
+> 15). If the issue already has the `in-progress` label, stop and ask a human; do not
+> work on it without their explicit permission. Otherwise add the label before you
+> change anything.
+
 Edit only the source `.md` file under `recipes/`. Never edit `generated/` or `dist/`.
 
 ## Common edits

@@ -5,6 +5,11 @@ description: Add or edit a "Make It or Buy It" component (shared sauce, dip, sea
 
 # Components
 
+> **Working from a GitHub issue?** Claim it first ([AGENTS.md](../../../AGENTS.md) rule
+> 15). If the issue already has the `in-progress` label, stop and ask a human; do not
+> work on it without their explicit permission. Otherwise add the label before you
+> change anything.
+
 A component is a shared sub-recipe with a store-bought shortcut. Recipes reference
 it from an ingredient line, and the book shows a Q marker and a page reference.
 
