@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-09-26
+
 ### Added
 
 - Every released website version stays online at `/vX.Y.Z/`, while the site root keeps serving the latest release. Older versions show a banner linking to the latest version, and a new **All versions** page lists each version with its date and PDF.
@@ -15,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Creative Commons photo credits now say the photo was cropped and resized, and photo credits that were bare web addresses now name the publication or brand.
+- Recipe photos are now cropped to a centred square and resized for each output: the website serves lazy-loaded WebP images of about 400px, and the PDF embeds small progressive JPEGs of about 500px with location and other metadata removed. Original photos in `recipes/` are never modified, and `nfl-book build` and `nfl-book website` report total photo size before and after.
+- Photo size, format and quality for the website and PDF are set under `photos:` in `data/book.yml`. An unreadable photo now fails the build with an error that names the file.
+- The Chicago tavern-style pizza recipe is shorter so it stays on one page with its full-size square photo.
 - Agent rules now also forbid AI attribution in pull request titles and descriptions.
 
 ## [0.6.1] - 2026-09-26
@@ -189,7 +195,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit and integration tests against a synthetic sample book.
 
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.1...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.4.0...v0.5.0

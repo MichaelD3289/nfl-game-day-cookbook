@@ -13,7 +13,7 @@ yield: 4 servings
 prep: 10–15 min (estimated)
 cook: About 30–40 minutes scratch grits plus 4–5 minutes shrimp; coarse grits may take longer
 image: mayport-shrimp-and-grits.jpg
-photo_credit: jacksonvillemag.com
+photo_credit: Jacksonville Magazine
 index:
   main_ingredient: seafood
   practical_time: 31-to-60-minutes

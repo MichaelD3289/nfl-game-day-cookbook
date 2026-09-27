@@ -13,7 +13,7 @@ yield: 8 servings
 prep: 10 minutes
 cook: 40 minutes
 image: detroit-coney-dogs.jpg
-photo_credit: simplyscratch.com
+photo_credit: Simply Scratch
 index:
   main_ingredient: beef
   practical_time: 31-to-60-minutes

@@ -13,7 +13,7 @@ yield: 12 servings
 prep: 15 minutes
 cook: 45–50 minutes bake plus 20–30 minutes resting
 image: peach-cobbler.jpg
-photo_credit: www.kingarthurbaking.com
+photo_credit: King Arthur Baking
 index:
   main_ingredient: meatless
   practical_time: over-60-minutes
