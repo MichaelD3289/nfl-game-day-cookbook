@@ -296,6 +296,18 @@ card with its description and a **Used in** row linking the recipes that call fo
 Game-day menu preview cards show the menu's "why it works" line and each dish's name
 and team/course, and leave the dish descriptions to the full menu page.
 
+### Preview builds
+
+To look at a branch before it is released, run the **Preview build** workflow from the
+Actions tab on that branch, or add the `preview` label to its pull request (it then
+rebuilds on every push until the label is removed). The run uploads the website, PDF
+and EPUB as workflow artifacts that expire after 14 days. Nothing is tagged, released
+or deployed to Pages, so production is untouched. The preview website says so in a
+banner on every page (`nfl-book website --preview "<label>"`); its version and
+download links still point at the latest release. Unzip the website artifact and
+serve it with `python3 -m http.server -d <folder>`: opening `index.html` directly
+works too, but search needs a server.
+
 ## EPUB output
 
 Run `make epub` (or `uv run nfl-book epub`) to create

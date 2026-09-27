@@ -486,6 +486,16 @@ main.content {
   }
 }
 
+/* Unreleased preview builds (nfl-book website --preview). */
+.preview-banner {
+  padding: 0.45rem 1rem;
+  background: #fff4d6;
+  border-bottom: 1px solid #e6c46b;
+  color: #5a4200;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
 /* Suggestion prompts (GitHub link, plus an anonymous form when configured). */
 .suggest {
   display: flex;

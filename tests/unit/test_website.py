@@ -334,3 +334,19 @@ def test_print_script_is_kept_alongside_suggestion_script(fixture_book: Project)
     scripts = config["format"]["html"]["include-after-body"]["text"]
     assert '<script src="print.js"></script>' in scripts
     assert '<script src="suggest.js"></script>' in scripts
+
+
+def test_preview_builds_are_labelled_on_every_page(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    assert "include-before-body" not in config["format"]["html"]
+    assert config["website"]["page-footer"]["right"].startswith("Edition ")
+
+    site = build_website(fixture_book, render=False, preview="ui<polish> @ 1a2b3c4").document.parent
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    banner = config["format"]["html"]["include-before-body"]["text"]
+    assert 'class="preview-banner"' in banner
+    assert "ui&lt;polish&gt; @ 1a2b3c4" in banner
+    assert config["website"]["page-footer"]["right"] == "Preview ui&lt;polish&gt; @ 1a2b3c4"

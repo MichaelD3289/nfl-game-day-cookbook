@@ -154,6 +154,13 @@ def website(
     no_render: Annotated[
         bool, typer.Option("--no-render", help="Generate website QMD without compiling HTML.")
     ] = False,
+    preview: Annotated[
+        str,
+        typer.Option(
+            "--preview",
+            help="Mark every page as an unreleased preview, e.g. 'my-branch @ 1a2b3c4'.",
+        ),
+    ] = "",
 ) -> None:
     """Build the static website in dist/site (offline, published content only)."""
     from nfl_book.website import build_website
@@ -161,7 +168,7 @@ def website(
     project = None
     try:
         project = state.project()
-        result = build_website(project, render=not no_render)
+        result = build_website(project, render=not no_render, preview=preview)
     except BookError as exc:
         fail(exc, project.root if project else None)
     report(result.diagnostics, project.root)

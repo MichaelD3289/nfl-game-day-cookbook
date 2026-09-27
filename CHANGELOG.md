@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Components can have a one-sentence `description`, and every Make It or Buy It component now has one. The website and EPUB show it in their Make It or Buy It lists; the PDF is unchanged.
+- A **Preview build** workflow builds the website, PDF and EPUB of any branch as downloadable workflow artifacts, without tagging, releasing or touching the published site. Run it from the Actions tab or add the `preview` label to a pull request. `nfl-book website --preview "<label>"` marks every page of such a build as an unreleased preview.
 
 ### Changed
 

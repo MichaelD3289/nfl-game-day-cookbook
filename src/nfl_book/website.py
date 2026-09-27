@@ -198,7 +198,9 @@ def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnos
     return pages, diags, photos
 
 
-def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
+def build_website(project: Project, *, render: bool = True, preview: str = "") -> WebsiteResult:
+    """Build the site; ``preview`` labels an unreleased build (a branch and commit) on
+    every page, so it cannot pass for the published edition."""
     build_dir = project.generated_dir / "site"
     pages, diags, photos = _prepare(project, build_dir)
     routes = {label: f"{_filename(p)}#{html_id(label)}" for p in pages for label in p.anchors}
@@ -255,6 +257,12 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
         resources.append("suggest.js")
         scripts.append("suggest.js")
         shutil.copyfile(project.styles_dir / "website-suggest.js", build_dir / "suggest.js")
+    if preview:
+        html_format["include-before-body"] = {
+            "text": '<div class="preview-banner" role="note"><strong>Preview</strong> '
+            f"{html.escape(preview)}. Not a published edition: the version and download "
+            "links point to the latest release.</div>"
+        }
     html_format["include-after-body"] = {
         "text": "\n".join(f'<script src="{name}"></script>' for name in scripts)
     }
@@ -278,7 +286,9 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
             },
             "page-footer": {
                 "left": "NFL Meals · A city-by-city game-day cookbook",
-                "right": f"Edition {html.escape(version)}",
+                "right": f"Preview {html.escape(preview)}"
+                if preview
+                else f"Edition {html.escape(version)}",
             },
         },
         "format": {"html": html_format},
