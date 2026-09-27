@@ -13,7 +13,7 @@ yield: 8 large or 12 standard bagels
 prep: 30 minutes hands-on; 1 1/2–2 hours rise/rest
 cook: 3 minutes boil per batch; 20–25 minutes bake
 image: new-york-bagels.jpg
-photo_credit: www.kingarthurbaking.com
+photo_credit: King Arthur Baking
 index:
   main_ingredient: meatless
   practical_time: variable-or-make-ahead

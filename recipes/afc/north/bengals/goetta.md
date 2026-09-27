@@ -12,7 +12,7 @@ location: Cincinnati, OH
 yield: 6–8 servings
 prep: About 20 minutes active; chill overnight
 image: goetta.jpg
-photo_credit: www.saveur.com
+photo_credit: Saveur
 index:
   main_ingredient: mixed-meat
   practical_time: variable-or-make-ahead

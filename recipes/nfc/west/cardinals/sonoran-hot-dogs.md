@@ -13,7 +13,7 @@ yield: 8 dogs
 prep: 20 minutes estimated active
 cook: About 25 minutes; source total 45 minutes
 image: sonoran-hot-dogs.jpg
-photo_credit: www.saveur.com
+photo_credit: Saveur
 index:
   main_ingredient: mixed-meat
   practical_time: over-60-minutes

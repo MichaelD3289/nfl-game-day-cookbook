@@ -8,7 +8,7 @@ import re
 import shutil
 import subprocess
 import tomllib
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlencode
@@ -17,6 +17,7 @@ import yaml
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 from nfl_book.errors import Diagnostics, ValidationFailed
+from nfl_book.images import PhotoStats
 from nfl_book.pipeline import build_media, load
 from nfl_book.project import Project
 from nfl_book.render.pages import Media, PageSpec, build_pages
@@ -39,6 +40,7 @@ class WebsiteResult:
     document: Path
     site: Path | None
     diagnostics: Diagnostics
+    photos: PhotoStats = field(default_factory=PhotoStats)
 
 
 def _filename(page: PageSpec) -> str:
@@ -144,7 +146,7 @@ def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
     return result
 
 
-def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnostics]:
+def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnostics, PhotoStats]:
     loaded = load(project)
     if not loaded.diagnostics.ok:
         raise ValidationFailed(loaded.diagnostics)
@@ -152,7 +154,11 @@ def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnos
     if build_dir.exists():
         shutil.rmtree(build_dir)
     build_dir.mkdir(parents=True)
-    media = build_media(project, model, build_dir)
+    media, photos = build_media(
+        project, model, build_dir, loaded.diagnostics, loaded.settings.book.photos.web
+    )
+    if not loaded.diagnostics.ok:
+        raise ValidationFailed(loaded.diagnostics)
     assets = build_dir / "assets"
     assets.mkdir()
     maps = []
@@ -166,19 +172,19 @@ def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnos
             shutil.copyfile(source, assets / name)
             copied[label] = f"assets/{name}"
         maps.append(copied)
-    pages = build_pages(model, Media(qr=maps[0], images=maps[1]))
+    pages = build_pages(model, Media(qr=maps[0], images=maps[1], image_sizes=media.image_sizes))
     descriptions = {f"recipe:{r.id}": r.meta.description for r in model.recipes}
     menu_previews = {m["label"]: m for page in pages for m in page.context.get("menus", [])}
     for page in pages:
         page.context["recipe_descriptions"] = descriptions
         page.context["menu_previews"] = menu_previews
     _add_suggestions(project, model, pages)
-    return pages, loaded.diagnostics
+    return pages, loaded.diagnostics, photos
 
 
 def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
     build_dir = project.generated_dir / "site"
-    pages, diags = _prepare(project, build_dir)
+    pages, diags, photos = _prepare(project, build_dir)
     routes = {label: f"{_filename(p)}#{_anchor(label)}" for p in pages for label in p.anchors}
     for p in pages:
         for menu in p.context.get("dishoffs", []):
@@ -254,7 +260,7 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
     (build_dir / "_quarto.yml").write_text(yaml.safe_dump(config, sort_keys=False))
     shutil.copyfile(project.styles_dir / "website.css", build_dir / "website.css")
     if not render:
-        return WebsiteResult(build_dir / "index.qmd", None, diags)
+        return WebsiteResult(build_dir / "index.qmd", None, diags, photos)
     quarto = shutil.which("quarto")
     if quarto is None:
         diags.error(
@@ -284,4 +290,4 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
     if target.exists():
         shutil.rmtree(target)
     shutil.copytree(staged, target)
-    return WebsiteResult(build_dir / "index.qmd", target, diags)
+    return WebsiteResult(build_dir / "index.qmd", target, diags, photos)
