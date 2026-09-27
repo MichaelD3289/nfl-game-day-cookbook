@@ -36,9 +36,11 @@ jobs:
   # The Quarto-rendered tests skip where Quarto is missing, so make check alone never
   # renders a page. This job renders the website and EPUB tests plus the real EPUB,
   # so a rendering problem fails the PR instead of the release. The PDF has its own
-  # job below.
+  # job below. Dependabot PRs skip it (they only bump GitHub Actions); the push to main
+  # after merging still renders.
   render:
     name: Render website and EPUB
+    if: github.event_name != 'pull_request' || github.event.pull_request.user.login != 'dependabot[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -62,8 +64,8 @@ jobs:
   # as a draft while iterating, and this runs once it is marked ready and on every push
   # after that. --strict fails on a recipe that overflows its page. It does not run on
   # pushes to main; the release workflow builds the PDF again before publishing.
-  # Dependabot PRs are skipped too: they only bump GitHub Actions, which cannot change
-  # the book. Run the workflow by hand on such a branch if one needs a PDF check.
+  # Dependabot PRs are skipped too, as in render. Run the workflow by hand on such a
+  # branch if one needs a PDF check.
   pdf:
     name: Build PDF
     if: >-
