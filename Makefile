@@ -1,5 +1,5 @@
 # Thin wrappers around the nfl-book CLI and dev tools. Everything runs via uv.
-.PHONY: book check links preview pdf website epub test lint format hooks clean
+.PHONY: book check links preview pdf website epub stats test lint format hooks clean
 
 UV ?= uv
 BOOK = $(UV) run nfl-book
@@ -31,6 +31,10 @@ epub:
 
 website:
 	$(BOOK) website
+
+# Where the cookbook is thin (offline, never fails on gaps). make stats FORMAT=markdown|json
+stats:
+	$(BOOK) stats $(if $(FORMAT),--format $(FORMAT))
 
 test:
 	$(UV) run pytest
