@@ -284,17 +284,30 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
     recipes = model.recipes
 
     cover = model.cover
+    division = model.division
+    cover_title = (cover.title if cover else "") or model.settings.book.title
+    cover_subtitle = (cover.subtitle if cover else None) or model.settings.book.subtitle or ""
+    cover_tagline = (cover.tagline if cover else None) or ""
+    cover_body = cover.body if cover else ""
+    if division is not None:
+        cover_title = f"{model.settings.book.title}: {division.name}"
+        cover_subtitle = f"{division.name} division booklet"
+        cover_tagline = "Published recipes for your division's game day"
+        cover_body = (
+            f"{len(recipes)} recipes from {len({r.team.slug for r in recipes})} teams "
+            f"in {division.name}.\n\n"
+            "Includes the components these recipes use, division dish-offs, "
+            "and game-day menus drawn entirely from this division."
+        )
     specs.append(
         PageSpec(
             "cover",
             "cover.qmd.j2",
             {
-                "title": (cover.title if cover else "") or model.settings.book.title,
-                "subtitle": (cover.subtitle if cover else None)
-                or model.settings.book.subtitle
-                or "",
-                "tagline": (cover.tagline if cover else None) or "",
-                "body": cover.body if cover else "",
+                "title": cover_title,
+                "subtitle": cover_subtitle,
+                "tagline": cover_tagline,
+                "body": cover_body,
                 "website": _website(model),
                 "stats": {
                     "recipes": len(recipes),

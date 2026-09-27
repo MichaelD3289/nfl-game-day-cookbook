@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Build a division booklet with `nfl-book build --division afc/east`, including its published recipes, required components, division dish-offs, and wholly contained game-day menus. `make booklets` builds all eight with division covers and separate PDFs, which releases attach and the website lists per edition.
+
 ## [0.13.0] - 2026-09-26
 
 ### Added

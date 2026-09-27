@@ -83,3 +83,60 @@ def test_menus_and_dishoffs(fixture_book: Project) -> None:
     model = model_for(fixture_book)
     assert [m.id for m in model.menus] == ["test-quick-kickoff"]
     assert [d.id for d in model.dishoffs] == ["test-afc-east-dish-off"]
+
+
+def test_division_subset_rebuilds_references(fixture_book: Project) -> None:
+    root = fixture_book.content_root
+    original = root / "recipes/afc/east/dolphins/test-citrus-wings.md"
+    other = root / "recipes/nfc/north/packers/test-other-wings.md"
+    other.parent.mkdir(parents=True)
+    other.write_text(original.read_text().replace("id: test-citrus-wings", "id: test-other-wings"))
+    side = root / "components/sides/test-unrelated-side.md"
+    side.write_text(
+        (root / "components/sides/test-draft-side.md")
+        .read_text()
+        .replace("test-draft-side", "test-unrelated-side")
+        .replace("status: draft", "status: published\nalways_include: true")
+    )
+    menu = next((root / "menus/game-day").rglob("*.yml"))
+    cross = menu.with_name("test-cross-menu.yml")
+    cross.write_text(
+        menu.read_text()
+        .replace("test-quick-kickoff", "test-cross-menu")
+        .replace("test-citrus-wings", "test-other-wings")
+    )
+    dishoff = next((root / "menus/divisions").rglob("*.yml"))
+    other_dish = root / "menus/divisions/nfc/north/test-other-dish.yml"
+    other_dish.parent.mkdir(parents=True)
+    other_dish.write_text(
+        dishoff.read_text()
+        .replace("test-afc-east-dish-off", "test-other-dish")
+        .replace("[test-buffalo-sliders, test-citrus-wings]", "[test-other-wings]")
+    )
+    loaded = load(fixture_book)
+    assert loaded.diagnostics.ok, list(loaded.diagnostics)
+    division = loaded.settings.league.division("afc", "east")
+    assert division is not None
+    model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links, division=division)
+    assert model.division == division
+    assert [d.division.key for d in model.divisions] == ["afc-east"]
+    selected = {"test-buffalo-sliders", "test-citrus-wings"}
+    assert set(model.recipes_by_id) == selected
+    assert set(model.quick_options) == selected
+    assert set(model.components_by_id) == {
+        "test-wing-sauce",
+        "test-blue-cheese-dip",
+        "test-cajun-seasoning",
+    }
+    assert {r.id for r in model.usage["test-cajun-seasoning"].indirect} == {"test-citrus-wings"}
+    assert all({r.id for r in u.all} <= selected for u in model.usage.values())
+    assert all({r.id for r in s.recipes} <= selected for i in model.indexes for s in i.sections)
+    assert [m.id for m in model.menus] == ["test-quick-kickoff"]
+    assert [d.id for d in model.dishoffs] == ["test-afc-east-dish-off"]
+    full = resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
+    assert full.division is None
+    assert len(full.divisions) == 8
+    assert "test-unrelated-side" in {c.id for c in full.components}
+    assert "test-draft-nachos" in full.recipes_by_id
+    assert "test-draft-side" in full.components_by_id
+    assert "test-other-wings" in {r.id for r in full.recipes}

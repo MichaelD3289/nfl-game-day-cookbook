@@ -17,8 +17,10 @@ from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.images import PhotoStats, build_photos
 from nfl_book.models.config import PhotoVariant
 from nfl_book.models.content import Component, Content, Recipe
+from nfl_book.models.nfl import Division
 from nfl_book.postbuild import Overflow, check_manifest, read_pagemap, write_pagemap
 from nfl_book.project import Project
+from nfl_book.publishing import booklet_filename
 from nfl_book.qr import generate_qr_codes
 from nfl_book.render import Media, assemble, build_pages, make_env
 from nfl_book.render.env import tex
@@ -145,12 +147,40 @@ def build_media(
     return media, stats
 
 
-def build(project: Project, *, pdf: bool = True, strict: bool = False) -> BuildResult:
+def select_division(settings: Settings, selector: str, project: Project) -> Division:
+    """Accept only a configured conference/division pair, before any output writes."""
+    selected = next(
+        (d for d in settings.league.divisions if selector == f"{d.conference_id}/{d.id}"),
+        None,
+    )
+    if selected is None:
+        diags = Diagnostics()
+        choices = ", ".join(f"{d.conference_id}/{d.id}" for d in settings.league.divisions)
+        diags.error(
+            "division",
+            f"Unknown division {selector!r}; choose one of: {choices}",
+            project.data_dir / "nfl.yml",
+        )
+        raise ValidationFailed(diags)
+    return selected
+
+
+def build(
+    project: Project, *, pdf: bool = True, strict: bool = False, division: str | None = None
+) -> BuildResult:
     loaded = load(project)
     diags = loaded.diagnostics
     if not diags.ok:
         raise ValidationFailed(diags)
-    model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
+    selected = select_division(loaded.settings, division, project) if division is not None else None
+    model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links, division=selected)
+    if selected is not None:
+        project = Project.create(
+            project.root,
+            project.content_root,
+            project.generated_dir / "booklets" / selected.key,
+            project.dist_dir,
+        )
     build_dir = project.book_build_dir
     media, photos = build_media(project, model, build_dir, diags, loaded.settings.book.photos.print)
     pages = build_pages(model, media)
@@ -161,7 +191,11 @@ def build(project: Project, *, pdf: bool = True, strict: bool = False) -> BuildR
         make_env(project.templates_dir),
         pages,
         build_dir,
-        title=tex(loaded.settings.book.title),
+        title=tex(
+            f"{loaded.settings.book.title}: {selected.name}"
+            if selected is not None
+            else loaded.settings.book.title
+        ),
         paper=loaded.settings.book.paper,
         styles_dir=project.styles_dir,
     )
@@ -177,9 +211,23 @@ def build(project: Project, *, pdf: bool = True, strict: bool = False) -> BuildR
     if not diags.ok:
         raise ValidationFailed(diags)
     project.dist_dir.mkdir(parents=True, exist_ok=True)
-    result.pdf = project.dist_dir / loaded.settings.book.output_filename
+    result.pdf = project.dist_dir / (
+        booklet_filename(selected.key)
+        if selected is not None
+        else loaded.settings.book.output_filename
+    )
     shutil.copyfile(compiled, result.pdf)
     return result
+
+
+def build_booklets(
+    project: Project, *, pdf: bool = True, strict: bool = False
+) -> list[BuildResult]:
+    """Build every configured division sequentially through the shared PDF pipeline."""
+    return [
+        build(project, pdf=pdf, strict=strict, division=f"{d.conference_id}/{d.id}")
+        for d in load_settings(project).league.divisions
+    ]
 
 
 def clean(project: Project) -> list[Path]:

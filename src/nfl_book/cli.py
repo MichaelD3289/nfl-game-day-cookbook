@@ -134,12 +134,13 @@ def preview(
 def build(
     no_pdf: Annotated[bool, typer.Option("--no-pdf", help="Generate QMD only.")] = False,
     strict: Annotated[bool, typer.Option(help="Treat page overflows as errors.")] = False,
+    division: Annotated[str | None, typer.Option(help="Build one division, e.g. afc/east.")] = None,
 ) -> None:
     """Validate, generate Quarto sources and compile the PDF (published content only)."""
     project = None
     try:
         project = state.project()
-        result = pipeline.build(project, pdf=not no_pdf, strict=strict)
+        result = pipeline.build(project, pdf=not no_pdf, strict=strict, division=division)
     except BookError as exc:
         fail(exc, project.root if project else None)
     report(result.diagnostics, project.root)
@@ -147,6 +148,25 @@ def build(
     out.print(f"Photos: {result.photos.summary()}")
     if result.pdf:
         out.print(f"PDF: {result.pdf}")
+
+
+@app.command()
+def booklets(
+    no_pdf: Annotated[bool, typer.Option("--no-pdf", help="Generate QMD only.")] = False,
+    strict: Annotated[bool, typer.Option(help="Treat page overflows as errors.")] = False,
+) -> None:
+    """Build a separate PDF for every configured division (offline)."""
+    project = None
+    try:
+        project = state.project()
+        results = pipeline.build_booklets(project, pdf=not no_pdf, strict=strict)
+    except BookError as exc:
+        fail(exc, project.root if project else None)
+    for result in results:
+        report(result.diagnostics, project.root)
+        out.print(f"QMD: {result.document}")
+        if result.pdf:
+            out.print(f"PDF: {result.pdf}")
 
 
 @app.command()

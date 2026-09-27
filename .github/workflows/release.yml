@@ -88,6 +88,10 @@ jobs:
       - name: Build PDF
         run: make pdf
 
+      # Eight additional PDF renders belong to releases, not each pull request.
+      - name: Build division booklets
+        run: make booklets
+
       - name: Build website
         run: make website
 
@@ -119,10 +123,10 @@ jobs:
           prerelease=true
           if [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then prerelease=false; fi
           if gh release view "$TAG" >/dev/null 2>&1; then
-            gh release upload "$TAG" "$PDF" "$WEBSITE" "$EPUB" --clobber
+            gh release upload "$TAG" "$PDF" "$WEBSITE" "$EPUB" dist/nfl-game-day-recipe-booklet-*.pdf --clobber
             if [ "$latest" = true ]; then gh release edit "$TAG" --latest; fi
           else
-            gh release create "$TAG" "$PDF" "$WEBSITE" "$EPUB" --title "$TAG" --notes-file release-notes.md \
+            gh release create "$TAG" "$PDF" "$WEBSITE" "$EPUB" dist/nfl-game-day-recipe-booklet-*.pdf --title "$TAG" --notes-file release-notes.md \
               --latest="$latest" --prerelease="$prerelease"
           fi
 

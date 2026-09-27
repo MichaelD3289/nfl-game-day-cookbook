@@ -177,6 +177,34 @@ A review date does not mean a recipe passed. Incomplete reviews do not replace
 prior completed-review metadata. Existing recipes begin with empty fields; no
 historical review dates are inferred. These fields do not affect booklet content.
 
+## Division booklets
+
+```sh
+uv run nfl-book build --division nfc/north          # one division PDF
+uv run nfl-book build --division nfc/north --no-pdf # generate only
+make booklets                                     # all eight division PDFs
+uv run nfl-book booklets --strict                  # fail on page overflows
+```
+
+Use a conference/division selector from `data/nfl.yml`, such as `afc/east`.
+Each booklet has a division cover, published recipes from that division, its
+required components (including components those components reference), its
+division dish-offs, and indexes containing only included recipes. Unrelated
+`always_include` components are excluded. A game-day menu is included only when
+all its recipes belong to the division; menus are never silently shortened.
+Validation still checks the complete source collection before building a subset.
+
+For `nfc/north`, the PDF is
+`dist/nfl-game-day-recipe-booklet-nfc-north.pdf`, generated source is under
+`generated/booklets/nfc-north/book/`, and post-build checks write
+`generated/booklets/nfc-north/pagemap.json`. These paths keep division builds
+separate from each other and from the full cookbook.
+
+Releases attach eight individual division PDFs. The website's Versions page
+lists a division download only when that edition actually published its asset;
+older editions do not acquire nonexistent download links. The eight extra PDF
+renders run in the release workflow, not on every pull request.
+
 ## Website output
 
 ```sh
@@ -238,7 +266,7 @@ Two workflows handle publication:
    pushed commit. Equal or lower versions create no tag; prerelease/development
    versions are rejected. Other tag names are ignored.
 2. **Release** is called directly after tagging. It checks main ancestry, validates,
-   builds the PDF, website ZIP and EPUB, publishes all three assets, and deploys every website
+   builds the full PDF, eight division PDFs, website ZIP and EPUB, publishes these assets, and deploys every website
    version to `https://MichaelD3289.github.io/nfl-game-day-cookbook/`.
 
 The direct call is necessary because tags pushed with GitHub's built-in token do not
