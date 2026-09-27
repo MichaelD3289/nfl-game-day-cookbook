@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The website's **All versions** page links each edition's EPUB next to its PDF.
 - PR checks now render the website and EPUB with Quarto, so a rendering problem fails the pull request instead of the release.
 
+### Changed
+
+- The `creating-release` skill now builds the website and EPUB before a release, and the `layout-changes` skill explains how headings decide EPUB pages.
+
 ## [0.11.0] - 2026-09-26
 
 ### Added
