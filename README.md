@@ -188,6 +188,13 @@ The website uses the same published sources as the PDF, with separate web templa
 and styles, searchable recipes, division/team navigation, menus, indexes, photos,
 and linked Q quick-option cards. Editorial review metadata stays private.
 
+Recipe and component pages can be **scaled** (½× to 4×, or by the number of people
+when a recipe has servings). Amounts are converted to the most readable unit, so
+tripling 4 teaspoons reads ¼ cup; counts stay whole and ranges stay ranges. The
+scale is kept in the page URL (`?scale=2`) and carried to linked component pages.
+`styles/website-scale.js` does the conversion in the browser; its tests run with
+Node.js and are skipped when Node is not installed. The PDF is never scaled.
+
 Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
 prompts. They open prefilled quick issue templates on GitHub and, once
 `suggestion_form_url` is set in `data/book.yml`, a form that needs no GitHub

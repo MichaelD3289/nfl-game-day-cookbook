@@ -19,7 +19,7 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.pipeline import build_media, load
 from nfl_book.project import Project
-from nfl_book.render.pages import Media, PageSpec, build_pages
+from nfl_book.render.pages import ItemView, Media, PageSpec, build_pages
 from nfl_book.resolve import BookModel, resolve
 
 REPOSITORY = "https://github.com/MichaelD3289/nfl-game-day-cookbook"
@@ -32,6 +32,9 @@ SUGGESTION_FORMS = {
     "menu": ("quick-menu.yml", "Menu idea: ", ""),
     "dish-off": ("quick-dish-off.yml", "Dish-off idea: ", ""),
 }
+
+# Recipe multipliers offered on scalable pages: (label, factor as "n" or "n/d").
+MULTIPLIERS = (("½×", "1/2"), ("1×", "1"), ("1½×", "3/2"), ("2×", "2"), ("3×", "3"), ("4×", "4"))
 
 
 @dataclass(frozen=True)
@@ -58,6 +61,45 @@ def _web_body(text: str) -> str:
     # Print cover annotations: preserve prose and provide the equivalent visible Q.
     text = text.replace(r"`\QMark{}\ `{=latex}", "[Q]{.q-mark}")
     return re.sub(r"```\{=latex\}\n.*?\n```", "", text, flags=re.DOTALL)
+
+
+def _scalable(item: ItemView) -> str:
+    """Ingredient Markdown with each scalable amount wrapped for website-scale.js."""
+    parts = []
+    position = 0
+    for amount in item.amounts:
+        attrs = {"data-q": str(amount.low)}
+        if amount.high is not None:
+            attrs["data-q2"] = str(amount.high)
+        if amount.unit:
+            attrs["data-unit"] = amount.unit
+        if amount.adjective:
+            attrs["data-adj"] = amount.adjective
+        shown = " ".join(f'{k}="{html.escape(v)}"' for k, v in attrs.items())
+        parts.append(item.text[position : amount.start])
+        parts.append(f'<span class="qty" {shown}>{item.text[amount.start : amount.end]}</span>')
+        position = amount.end
+    parts.append(item.text[position:])
+    return "".join(parts)
+
+
+def _add_scaling(model: BookModel, pages: list[PageSpec]) -> None:
+    """Scaling controls for recipe and component pages that have amounts to scale."""
+    servings = {f"recipe:{r.id}": r.servings for r in model.recipes}
+    for page in pages:
+        context = page.context
+        if page.template not in ("recipe.qmd.j2", "component.qmd.j2"):
+            continue
+        context["scaler"] = None
+        if not any(item.amounts for group in context["groups"] for item in group.items):
+            continue
+        scaler: dict[str, Any] = {"multipliers": MULTIPLIERS, "servings": None, "serves": ""}
+        people = servings.get(context["label"])
+        if people:
+            low, high = people
+            scaler["servings"] = low
+            scaler["serves"] = str(low) if low == high else f"{low}–{high}"
+        context["scaler"] = scaler
 
 
 def _suggestion(kind: str, lead: str, **fields: str) -> dict[str, str]:
@@ -173,6 +215,7 @@ def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnos
         page.context["recipe_descriptions"] = descriptions
         page.context["menu_previews"] = menu_previews
     _add_suggestions(project, model, pages)
+    _add_scaling(model, pages)
     return pages, loaded.diagnostics
 
 
@@ -189,7 +232,7 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
         autoescape=False,
         keep_trailing_newline=True,
     )
-    env.filters.update(md=_markdown, web_body=_web_body, anchor=_anchor)
+    env.filters.update(md=_markdown, web_body=_web_body, anchor=_anchor, scalable=_scalable)
     book = load(project).settings.book
     env.globals.update(
         route=lambda label: routes[label], suggestion_form_url=book.suggestion_form_url
@@ -210,7 +253,8 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
         body = env.get_template(page.template).render(**context, version=version, download=download)
         body = re.sub(r"(?m)^(:{3,}[^\n]*)$", r"\n\1\n", body)
         (build_dir / _filename(page)).write_text(f"---\n{front}---\n\n{body}")
-    resources = ["assets/**"]
+    resources = ["assets/**", "scale.js"]
+    shutil.copyfile(project.styles_dir / "website-scale.js", build_dir / "scale.js")
     html_format: dict[str, Any] = {
         "theme": "cosmo",
         "css": "website.css",

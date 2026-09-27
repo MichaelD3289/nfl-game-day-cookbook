@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Recipe and component pages on the website can be scaled from ½× to 4×, or by the number of people when the recipe has servings. Amounts switch to the most readable unit (tripling 4 teaspoons reads ¼ cup), counts stay whole, and the scale is kept in the page link and carried to linked components. The PDF is unchanged.
 - Recipes accept an optional `servings` field (a number or a range such as `6-8`), and yields such as "6–8 servings" or "serves 6–10" are read automatically. Ingredient lines can be marked `{{no-scale}}` to keep their amount fixed, and validation reports amounts it cannot read, such as `500g`.
 - Project Claude Code settings (`.claude/settings.json`), shared by local and cloud sessions: no AI attribution in commits or pull requests, pre-approved routine checks (`make check`, tests, lint, read-only git), and blocks on reading `.env` files, editing `generated/` or `dist/`, and creating or pushing tags.
 

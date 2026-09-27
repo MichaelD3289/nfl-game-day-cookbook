@@ -16,6 +16,7 @@
 :::: {.recipe-columns}
 ::: {.ingredients}
 ## Ingredients
+{{ m.scaler(scaler) }}
 {{ m.ingredients(groups) }}
 :::
 ::: {.instructions}
@@ -29,7 +30,7 @@
 ## [Q]{.q-mark} Quick options
 {% for option in quick_options %}
 **{{ option.title|md }}** — {{ option.text }}  
-<a href="{{ route(option.label)|e }}">Make {{ option.title|e }} from scratch →</a>
+<a href="{{ route(option.label)|e }}" data-carry-scale>Make {{ option.title|e }} from scratch →</a>
 
 {% endfor %}
 :::
