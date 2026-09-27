@@ -208,8 +208,11 @@
   \BookPageTitle{Game Day Menus}
   {\BookMetaFont Choose a matchup or an occasion, then jump to the linked recipe pages.\par}
   \vspace{\BookMenuHeaderGap}}
+% Cards keep the shared height and grow only when their content needs it, so a
+% page that runs over moves its end anchor and fails the span check. The braces
+% keep the space before "to", which TeX drops after a control word.
 \newtcolorbox{GameDayMenuCard}[2]{BookCard,
-  height=\BookMenuCardHeight, valign=top,
+  height from={\BookMenuCardHeight} to {\textheight}, valign=top,
   left=\BookMenuCardPad, right=\BookMenuCardPad,
   toptitle=\BookMenuCardPad, bottom=\BookMenuCardPad,
   fontupper=\BookCardBodyFont, after skip=\BookMenuCardGap,

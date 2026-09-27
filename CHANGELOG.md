@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Game-day menus and division dish-offs can list an optional `timeline` of steps counted back from kickoff (`-1d`, `-4h`, `-30m`, `-1h30m`, `kickoff`, `halftime`), and `nfl-book validate` checks each step.
 
+### Changed
+
+- The PDF check now also fails when a game-day menu page or a division page runs onto another page, and a game-day menu card grows to fit its content instead of letting it spill past the card.
+
 ## [0.13.0] - 2026-09-26
 
 ### Added

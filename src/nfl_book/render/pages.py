@@ -17,8 +17,10 @@ from nfl_book.models.content import Component, IngredientGroup, Recipe
 from nfl_book.quantities import Amount
 from nfl_book.references import (
     component_label,
+    division_end_label,
     division_label,
     index_label,
+    menu_end_label,
     menu_label,
     recipe_end_label,
     recipe_label,
@@ -366,6 +368,7 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
                 "division.qmd.j2",
                 {
                     "label": division_label(division.key),
+                    "end_label": division_end_label(division.key),
                     "name": division.name,
                     "conference": division.conference_name,
                     "teams": [
@@ -382,7 +385,9 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
                 anchors=(
                     division_label(division.key),
                     *(team_label(t.team.slug) for t in section.teams),
+                    division_end_label(division.key),
                 ),
+                spans=((division_label(division.key), division_end_label(division.key)),),
             )
         )
         for recipe in section.recipes:
@@ -411,15 +416,18 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
     )
     for group in model.menu_groups:
         for n, chunk in enumerate(_chunks(group.menus, MENUS_PER_PAGE), start=1):
+            end = menu_end_label(chunk[-1].id)
             specs.append(
                 PageSpec(
                     f"menus-{group.menu_type.id}-{n}",
                     "game-day-menu.qmd.j2",
                     {
                         "type_title": group.menu_type.title,
+                        "end_label": end,
                         "menus": [_menu_view(model, m) for m in chunk],
                     },
-                    anchors=tuple(menu_label(m.id) for m in chunk),
+                    anchors=(*(menu_label(m.id) for m in chunk), end),
+                    spans=((menu_label(chunk[0].id), end),),
                 )
             )
 

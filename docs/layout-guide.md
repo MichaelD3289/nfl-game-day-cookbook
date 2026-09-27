@@ -16,7 +16,14 @@ rules, not individual recipe files. Content edits must not be used to hide overf
 - Use the shared blue-gray background, rounded corners and no visible border.
 - Use blue uppercase labels and dark serif titles for menu and division cards.
 - Game-day pages carry a visible heading and two consistently sized cards. Matchup
-  subtitles sit below the title; recipe page references align to the right.
+  subtitles sit below the title; recipe page references align to the right. A card
+  keeps the shared `\BookMenuCardHeight` and grows only when its content needs more
+  room, so long content pushes the page instead of spilling past the card.
+- Each game-day menu page and division page ends with a `\BookEnd` anchor inside its
+  last card (`menu:<last-id>:end`, or `division:<key>:end`; after the teams when a
+  division has no dish-offs). `nfl-book build --strict` fails when that anchor lands
+  on a later page than the page's first anchor (`menu:<first-id>` or
+  `division:<key>`).
 - Division cards pair side by side with equal heights. Recipe lists precede their
   short description and preparation note.
 - Recipe quick options always follow the two-column ingredients/instructions area,
@@ -36,8 +43,9 @@ layouts. Do not copy literal measurements into templates or recipe content.
 
 After changes, rebuild and visually inspect the cover, a division, a game-day menu,
 a component, a dense recipe, a recipe without a photo, and an index. Check every
-recipe's one-page span and run `make check`. Longer future menu content must be
-checked visually against the shared card height.
+recipe, game-day menu and division page's one-page span and run `make check`. Longer
+menu content must still be checked visually: a card that grows past the shared height
+is allowed as long as the page fits.
 
 Validated 2026-09-26: 152-page production build, no recipe overflow warnings,
 no overfull LaTeX boxes, 100 tests passing, zero content-validation warnings.

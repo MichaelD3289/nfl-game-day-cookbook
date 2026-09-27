@@ -23,8 +23,13 @@
 \CardHeading{Prep note}
 << card.prep_note|tex >>
 <% endif %>
+<% if loop.last %>
+\BookEnd{<< end_label >>}
+<% endif %>
 \end{DivisionDishOffCard}
 <% endfor %>
 \end{DivisionDishOffs}
+<% else %>
+\BookEnd{<< end_label >>}
 <% endif %>
 ```

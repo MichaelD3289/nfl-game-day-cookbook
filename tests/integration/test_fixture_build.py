@@ -87,6 +87,52 @@ def test_manifest_lists_every_anchor(built: Project) -> None:
     assert not any("draft" in a for a in anchors)
     spans = [tuple(s) for p in manifest["pages"] for s in p["spans"]]
     assert ("recipe:test-citrus-wings", "recipe:test-citrus-wings:end") in spans
+    assert ("menu:test-quick-kickoff", "menu:test-quick-kickoff:end") in spans
+    assert ("division:afc-east", "division:afc-east:end") in spans
+    assert {"menu:test-quick-kickoff:end", "division:afc-east:end"} <= anchors
+
+
+def test_menu_and_division_pages_mark_their_end(built: Project) -> None:
+    menu = page(built, "menus-fast-day-1")
+    end = r"\BookEnd{menu:test-quick-kickoff:end}"
+    assert end in menu
+    # Inside the last card, so a card that runs over carries the anchor with it.
+    assert menu.index(end) < menu.rindex(r"\end{GameDayMenuCard}")
+    division = page(built, "division-afc-east")
+    end = r"\BookEnd{division:afc-east:end}"
+    assert end in division
+    assert division.index(end) < division.rindex(r"\end{DivisionDishOffCard}")
+
+
+def test_menu_page_span_runs_from_first_to_last_card(fixture_book: Project) -> None:
+    menus = fixture_book.content_root / "menus/game-day/fast-day"
+    second = (menus / "test-quick-kickoff.yml").read_text(encoding="utf-8")
+    second = second.replace("test-quick-kickoff", "test-second-kickoff")
+    (menus / "test-second-kickoff.yml").write_text(second, encoding="utf-8")
+    pipeline.build(fixture_book, pdf=False)
+    manifest = json.loads(
+        (fixture_book.book_build_dir / "manifest.json").read_text(encoding="utf-8")
+    )
+    spans = [tuple(s) for p in manifest["pages"] for s in p["spans"]]
+    menu_spans = [s for s in spans if s[0].startswith("menu:")]
+    assert len(menu_spans) == 1
+    first, last = menu_spans[0]
+    assert {first, last.removesuffix(":end")} == {
+        "menu:test-quick-kickoff",
+        "menu:test-second-kickoff",
+    }
+    assert last.endswith(":end")
+    menu = page(fixture_book, "menus-fast-day-1")
+    assert menu.count(r"\BookEnd{") == 1
+    assert rf"\BookEnd{{{last}}}" in menu
+
+
+def test_division_without_dishoffs_marks_its_end_after_the_teams(fixture_book: Project) -> None:
+    (fixture_book.content_root / "menus/divisions/afc/east/test-afc-east-dish-off.yml").unlink()
+    pipeline.build(fixture_book, pdf=False)
+    division = page(fixture_book, "division-afc-east")
+    assert "DivisionDishOffCard" not in division
+    assert division.rstrip().endswith("\\BookEnd{division:afc-east:end}\n```")
 
 
 def test_build_is_deterministic(fixture_book: Project) -> None:

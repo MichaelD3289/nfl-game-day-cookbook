@@ -14,6 +14,9 @@
 \CardHeading{Prep plan}
 << menu.prep_plan|tex >>\par
 <% endif %>
+<% if loop.last %>
+\BookEnd{<< end_label >>}
+<% endif %>
 \end{GameDayMenuCard}
 <% endfor %>
 ```
