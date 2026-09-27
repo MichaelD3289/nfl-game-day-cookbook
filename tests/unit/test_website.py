@@ -178,7 +178,10 @@ def test_dish_entries_share_name_meta_and_description(fixture_book: Project) -> 
     assert ".dish-list-compact" in menus
     recipe = (site / "recipe-test-buffalo-sliders.qmd").read_text()
     assert '<p class="page-dek">Small rolls.</p>' in recipe
-    assert '<ul class="recipe-facts"><li><span class="fact-name">Yield</span>' in recipe
+    assert (
+        '<ul class="recipe-facts"><li class="fact-yield"><span class="fact-name">Yield</span>'
+        in recipe
+    )
 
 
 def _set_form_url(project: Project, value: str) -> Path:

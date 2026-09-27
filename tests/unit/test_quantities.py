@@ -8,6 +8,7 @@ import pytest
 
 from nfl_book.quantities import (
     find_amounts,
+    find_yield_amounts,
     parse_number,
     parse_servings,
     servings_from_yield,
@@ -141,3 +142,24 @@ def test_servings_field() -> None:
 )
 def test_servings_from_yield(text: str, servings: tuple[int, int] | None) -> None:
     assert servings_from_yield(text) == servings
+
+
+@pytest.mark.parametrize(
+    ("text", "scaled"),
+    [
+        ("16 pretzels", ["16"]),
+        ("About 1 1/2 cups (estimated)", ["1 1/2 cups"]),
+        ("8 large or 12 standard rolls", ["8", "12"]),
+        ("1 casserole; serves 6–10", ["1", "6–10"]),
+        ("10 servings (10 brats)", ["10", "10"]),
+        ("4 servings (4 shrimp each)", ["4"]),
+        ("12 tenders; use two per sub", ["12"]),
+        ("332 g dough, enough for two 12-inch pizzas", ["332 g"]),
+        ("5 servings (15 pounds crawfish; half a 30-pound batch)", ["5", "15 pounds"]),
+        ("One 12- to 13-inch pizza", []),
+        ("One 13-by-9-inch pan", []),
+        ("See recipe", []),
+    ],
+)
+def test_yield_amounts(text: str, scaled: list[str]) -> None:
+    assert [text[a.start : a.end] for a in find_yield_amounts(text)] == scaled

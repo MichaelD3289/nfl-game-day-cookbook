@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Scaling a recipe or component on the website now scales its yield too, so doubling Philadelphia soft pretzels reads 32 pretzels instead of 16. A yield without a number to scale, such as "One 13-by-9-inch pizza", shows the batch count, for example "(2×)".
 - Website recipe and component pages showed the recipe source's short address twice. They now link the source once by its title or site name, and a printed page shows the short address under it.
 
 ## [0.12.1] - 2026-09-26

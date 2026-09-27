@@ -23,7 +23,7 @@
 {% if s.servings %}<label class="scaler-servings">or feed <input type="number" name="servings" min="1" max="500" step="1" inputmode="numeric" value="{{ s.servings }}"> people <small>(serves {{ s.serves|e }} as written)</small></label>
 {% endif %}<span class="scale-status" aria-live="polite"></span>
 </div>
-<p class="scale-note" hidden>Only ingredient amounts change. Pan sizes, temperatures and cooking times stay as written, so a bigger batch may need a second pan or more time; go by the doneness cues.</p>
+<p class="scale-note" hidden>Ingredient amounts and the yield change. Pan sizes, temperatures and cooking times stay as written, so a bigger batch may need a second pan or more time; go by the doneness cues.</p>
 </div>
 <script src="scale.js"></script>
 ```
@@ -50,7 +50,7 @@
 <p class="recipe-location">{{ byline|e }}</p>
 {% endif %}
 {% if facts %}
-<ul class="recipe-facts">{% for name, value in facts %}<li><span class="fact-name">{{ name|e }}</span> {{ value|e }}</li>{% endfor %}</ul>
+<ul class="recipe-facts">{% for name, value in facts %}{% if name == "Yield" and yield_html %}<li class="fact-yield"{% if yield_fixed %} data-fixed{% endif %}><span class="fact-name">Yield</span> {{ yield_html }}{% if yield_fixed %}<span class="yield-times"></span>{% endif %}</li>{% else %}<li><span class="fact-name">{{ name|e }}</span> {{ value|e }}</li>{% endif %}{% endfor %}</ul>
 {% endif %}
 ```
 {% endmacro %}

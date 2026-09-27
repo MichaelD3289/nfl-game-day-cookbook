@@ -195,6 +195,10 @@ Recipe and component pages can be **scaled** (½× to 4×, or by the number of p
 when a recipe has servings). Amounts are converted to the most readable unit, so
 tripling 4 teaspoons reads ¼ cup; counts stay whole and ranges stay ranges. The
 scale is kept in the page URL (`?scale=2`) and carried to linked component pages.
+The yield scales too: every count and measured amount in it ("8 large or 12 standard
+bagels" doubles both), except per-portion counts ("4 shrimp each") and sizes
+("12-inch"). A yield with no number, such as "One 13-by-9-inch pizza", shows the
+batch count instead ("(2×)").
 `styles/website-scale.js` does the conversion in the browser; its tests run with
 Node.js and are skipped when Node is not installed. The PDF is never scaled.
 
