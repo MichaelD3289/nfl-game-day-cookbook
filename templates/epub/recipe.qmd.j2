@@ -1,45 +1,51 @@
 {% import '_macros.qmd.j2' as m with context %}
+{% set quick_target = (label|anchor) ~ '-quick' if quick_options else '' %}
 
 ### {{ title|md }} {#{{ label|anchor }}}
 
-::: {.recipe-header}
-[{{ division|md }} · {{ team|md }}]{.eyebrow}
+[{{ team|md }} · {{ course|md }}]{.eyebrow}
 
-[{{ location|md }} · {{ course|md }}]{.recipe-location}
+{% if description %}
+[{{ description|md }}]{.headnote}
 
-{{ meta_line }}
-
-{% if image %}
-![{{ title|md }}]({{ image }}){.dish-photo}
 {% endif %}
+{% if image %}
+<# The non-breaking space keeps the photo inline, so Pandoc does not turn the alt text
+   into a caption that repeats the title. #>
+![Photo of {{ title|md }}]({{ image }}){.dish-photo}&nbsp;
 
-:::
+{% endif %}
+{{ m.meta(meta, location|md) }}
 
-:::: {.recipe-columns}
-::: {.ingredients}
 #### Ingredients
-{{ m.ingredients(groups) }}
-:::
-::: {.instructions}
+
+{{ m.ingredients(groups, quick_options|map(attribute='label')|list, quick_target) }}
+
 #### Instructions
+
 {{ instructions }}
-:::
-::::
 
 {% if quick_options %}
+
 ::: {.quick-card}
-#### [Q]{.q-mark} Quick options
+#### [Q]{.q-mark} Quick options {#{{ quick_target }}}
+
 {% for option in quick_options %}
-**{{ option.title|md }}** — {{ option.text }}  
-[Make {{ option.title|md }} from scratch]({{ route(option.label) }})
+**{{ option.title|md }}:** {{ option.text }}
+
+[Make {{ option.title|md }} from scratch]({{ route(option.label, label) }})
 
 {% endfor %}
 :::
+
 {% endif %}
 {% if kitchen_notes %}
+
 ::: {.kitchen-notes}
 #### Kitchen notes
+
 {{ kitchen_notes }}
 :::
+
 {% endif %}
-{{ m.source(source, photo_credit) }}
+{{ m.source(source, photo_credit, web) }}

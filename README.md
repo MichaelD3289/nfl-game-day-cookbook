@@ -297,8 +297,11 @@ Run `make epub` (or `uv run nfl-book epub`) to create
 Use `uv run nfl-book epub --no-render` to generate sources under `generated/epub`.
 
 EPUB is reflowable: readers control font size and pagination. Recipes are grouped
-by division and team, with linked indexes, division dish-offs, game-day menus, and
-Make It or Buy It components. Photos are embedded; external source links need internet.
+by division and team, followed by game-day menus and Make It or Buy It components,
+with the linked indexes at the back. Each recipe, component and menu opens on its own
+page. Photos are embedded; source links and each page's "View this page online" link
+(to the same edition of the website, from `website_url`) need internet. The book keeps
+one identifier across editions, so reading apps update it in place.
 The templates and reader-friendly single-column styles live in `templates/epub/` and
 `styles/epub.css`. PDF one-page rules do not apply to EPUB.
 

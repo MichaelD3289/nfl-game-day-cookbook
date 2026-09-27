@@ -1,33 +1,40 @@
 {% import '_macros.qmd.j2' as m with context %}
+<# Sections sit one level below the component title (the EPUB splits files at level 3),
+   so each component stays on one page, like a recipe. #>
 
-[MAKE IT OR BUY IT · {{ kind|md }}]{.eyebrow}
+### {{ title|md }} {#{{ label|anchor }}}
 
-## {{ title|md }} {#{{ label|anchor }}}
-{{ meta_line }}
+[Make It or Buy It · {{ kind|md }}]{.eyebrow}
 
-:::: {.recipe-columns}
-::: {.ingredients}
-### Ingredients {.unlisted}
+{{ m.meta(meta) }}
+
+#### Ingredients
+
 {{ m.ingredients(groups) }}
-:::
-::: {.instructions}
-### Method {.unlisted}
+
+#### Method
+
 {{ method }}
-:::
-::::
 
 ::: {.quick-card}
-### [Q]{.q-mark} Buy it {.unlisted}
+#### [Q]{.q-mark} Buy it
+
 {{ quick_buy }}
 :::
+
 {% if note %}
+
 ::: {.kitchen-notes}
-### Kitchen notes {.unlisted}
+#### Kitchen notes
+
 {{ note }}
 :::
+
 {% endif %}
 {% if used_in %}
-### Used in {.unlisted}
+
+#### Used in
+
 {{ m.refs(used_in) }}
 {% endif %}
-{{ m.source(source) }}
+{{ m.source(source, web=web) }}
