@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.1] - 2026-09-27
+
 ### Fixed
 
 - The release build's rendered-website check no longer fails on the recipe scaling controls, which Quarto writes with `hidden=""` instead of a bare `hidden`. This unblocks publishing the 0.9 recipe scaling to the website.
@@ -213,7 +215,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit and integration tests against a synthetic sample book.
 
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.1...HEAD
+[0.9.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.1...v0.7.0
