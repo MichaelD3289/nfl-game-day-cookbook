@@ -31,7 +31,7 @@ source:
 - 2 cups buttermilk (preferred for tang) or whole milk
 - 2 tablespoons vinegar-based hot sauce, such as Louisiana-style Crystal or Frank’s RedHot; adjust brand to preference
 - 4 cups all-purpose flour
-- About 10 cups vegetable oil, or enough for 2 inches in a heavy pot
+- About 10 cups vegetable oil, or enough for 2 inches in a heavy pot {{no-scale}}
 - 6 tablespoons cayenne pepper (use 2 tablespoons for a milder coating)
 - 2 tablespoons dark brown sugar
 - 1 teaspoon chili powder

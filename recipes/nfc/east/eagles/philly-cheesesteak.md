@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Philadelphia, PA
 yield: 4 sandwiches
+servings: 4
 prep: 20 minutes (estimated)
 cook: About 10 minutes
 image: philly-cheesesteak.jpg

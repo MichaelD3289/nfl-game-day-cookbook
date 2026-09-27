@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Chicago, IL
 yield: 10 sandwiches
+servings: 10
 prep: 30 minutes (source listed)
 cook: 3 hours, plus several hours chilling
 image: italian-beef-sandwiches.jpg

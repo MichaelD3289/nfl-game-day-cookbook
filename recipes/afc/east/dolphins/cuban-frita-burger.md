@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Miami, FL
 yield: 5 burgers
+servings: 5
 prep: 20–30 min active (estimated)
 cook: Variable frying in batches
 image: cuban-frita-burger.jpg

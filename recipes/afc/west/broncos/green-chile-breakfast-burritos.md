@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Denver, CO
 yield: 5–6 burritos
+servings: 5-6
 prep: 30 minutes with prepared green chile
 cook: About 5–10 minutes oven finish; roughly 35–40 minutes total with prepared green chile
 image: green-chile-breakfast-burritos.jpg

@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Miami, FL
 yield: 4 sandwiches
+servings: 4
 prep: 35 minutes active
 cook: about 20 minutes pressing
 image: cuban-sandwich.jpg
