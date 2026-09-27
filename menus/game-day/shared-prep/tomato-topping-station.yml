@@ -4,8 +4,8 @@ subtitle: 49ers + Cardinals + Bears
 status: published
 order: 4
 recipes:
-- mission-style-burritos
-- fry-bread-tacos
-- chicago-style-hot-dogs
+  - mission-style-burritos
+  - fry-bread-tacos
+  - chicago-style-hot-dogs
 why_it_works: Tomatoes and onions can be prepped for three distinct toppings.
 prep_plan: Dice tomatoes and onions once, then reserve separate portions for each recipe.

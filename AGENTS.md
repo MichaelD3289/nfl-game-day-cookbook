@@ -60,20 +60,20 @@ Rules for any human or AI agent editing this repository.
 
 Step-by-step playbooks for common work live in `.claude/skills/*/SKILL.md`:
 
-| Skill | Use it for |
-| --- | --- |
-| `add-recipe` | Adding a recipe for a team |
-| `review-recipes` | Authenticity/source-quality audit of one recipe, a list, or all recipes |
-| `update-recipe` | Editing, renaming, moving, retiring or shortening a recipe |
-| `add-component` | "Make It or Buy It" components and `{{component:id}}` markers |
-| `menus-and-dish-offs` | Game-day menus and division dish-offs |
-| `add-index` | New or changed search indexes and recipe backfill |
-| `source-links` | Source URLs, `data/shortlinks.yml`, QR codes |
-| `build-pdf` | Building, previewing and debugging the PDF |
-| `layout-changes` | Anything in `styles/` or `templates/` |
-| `changelog` | Writing CHANGELOG entries |
-| `creating-release` | Preparing versions for automated tagging and publication on main |
-| `logical-commits` | Planning and creating every commit |
+| Skill                 | Use it for                                                              |
+| --------------------- | ----------------------------------------------------------------------- |
+| `add-recipe`          | Adding a recipe for a team                                              |
+| `review-recipes`      | Authenticity/source-quality audit of one recipe, a list, or all recipes |
+| `update-recipe`       | Editing, renaming, moving, retiring or shortening a recipe              |
+| `add-component`       | "Make It or Buy It" components and `{{component:id}}` markers           |
+| `menus-and-dish-offs` | Game-day menus and division dish-offs                                   |
+| `add-index`           | New or changed search indexes and recipe backfill                       |
+| `source-links`        | Source URLs, `data/shortlinks.yml`, QR codes                            |
+| `build-pdf`           | Building, previewing and debugging the PDF                              |
+| `layout-changes`      | Anything in `styles/` or `templates/`                                   |
+| `changelog`           | Writing CHANGELOG entries                                               |
+| `creating-release`    | Preparing versions for automated tagging and publication on main        |
+| `logical-commits`     | Planning and creating every commit                                      |
 
 Recipe content is imported. Adding or editing individual recipes is normal work;
 follow the skill for it.

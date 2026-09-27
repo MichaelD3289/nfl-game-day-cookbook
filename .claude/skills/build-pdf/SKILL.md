@@ -7,15 +7,15 @@ description: Build, preview or troubleshoot the cookbook PDF (make pdf, nfl-book
 
 ## Commands
 
-| Goal | Command |
-| --- | --- |
+| Goal                                                  | Command                                              |
+| ----------------------------------------------------- | ---------------------------------------------------- |
 | Everything: short links (network), then the full book | `make book`, which runs `make links` then `make pdf` |
-| Full book (published content only), offline | `make pdf`, which runs `uv run nfl-book build` |
-| Treat warnings as errors | `uv run nfl-book build --strict` |
-| Generate QMD only (no Quarto needed) | `uv run nfl-book build --no-pdf` |
-| One recipe or component, drafts allowed | `make preview FILE=<path>` |
-| Clean output | `make clean` |
-| Lint, types, tests and validation | `make check` |
+| Full book (published content only), offline           | `make pdf`, which runs `uv run nfl-book build`       |
+| Treat warnings as errors                              | `uv run nfl-book build --strict`                     |
+| Generate QMD only (no Quarto needed)                  | `uv run nfl-book build --no-pdf`                     |
+| One recipe or component, drafts allowed               | `make preview FILE=<path>`                           |
+| Clean output                                          | `make clean`                                         |
+| Lint, types, tests and validation                     | `make check`                                         |
 
 The output goes to `dist/nfl-game-day-recipe-booklet.pdf` (the name is set in
 `data/book.yml`). Intermediate files go to `generated/book/`: `book.qmd`,

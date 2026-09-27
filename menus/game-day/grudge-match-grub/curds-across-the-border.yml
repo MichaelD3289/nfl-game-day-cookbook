@@ -4,8 +4,8 @@ subtitle: Bears vs Packers
 status: published
 order: 2
 recipes:
-- fried-wisconsin-cheese-curds
-- chicago-style-hot-dogs
-- beer-brats
+  - fried-wisconsin-cheese-curds
+  - chicago-style-hot-dogs
+  - beer-brats
 why_it_works: Curds start a grill-day tasting of two regional sausage traditions.
 prep_plan: Share buns, onions, and a condiment station. Serve half-size dogs and brats; fry curds last.

@@ -30,25 +30,26 @@ existing recipe from the same team.
 
 ```yaml
 ---
-id: <id>                        # == file name
+id: <id> # == file name
 title: Sentence-case title
-status: draft                   # draft | testing | published | retired
-course: meals                   # appetizers | sides | meals | desserts
-location: Buffalo, NY           # optional, overrides the team's location
-yield: 4 servings               # required, non-empty
-servings: 4                     # optional: people fed (4 or 4-6) when yield is not "N servings"
-prep: 20 minutes                # optional
-cook: 45 minutes                # optional
-image: <id>.jpg                 # optional, next to the .md; requires photo_credit; the build
-                                #   makes square resized copies and never edits the original
+status: draft # draft | testing | published | retired
+course: meals # appetizers | sides | meals | desserts
+location: Buffalo, NY # optional, overrides the team's location
+yield: 4 servings # required, non-empty
+servings: 4 # optional: people fed (4 or 4-6) when yield is not "N servings"
+prep: 20 minutes # optional
+cook: 45 minutes # optional
+image:
+  <id>.jpg # optional, next to the .md; requires photo_credit; the build
+  #   makes square resized copies and never edits the original
 photo_credit: Who took it
-index:                          # one key per field index in data/indexes.yml (see add-index)
-  main_ingredient: beef         # beef | pork-and-sausage | poultry | seafood | mixed-meat | meatless
-  practical_time: 31-to-60-minutes  # up-to-30-minutes | 31-to-60-minutes | over-60-minutes | variable-or-make-ahead
-  cost: moderate                # pantry-friendly | moderate | premium
+index: # one key per field index in data/indexes.yml (see add-index)
+  main_ingredient: beef # beef | pork-and-sausage | poultry | seafood | mixed-meat | meatless
+  practical_time: 31-to-60-minutes # up-to-30-minutes | 31-to-60-minutes | over-60-minutes | variable-or-make-ahead
+  cost: moderate # pantry-friendly | moderate | premium
 source:
-  url: https://full.canonical/url   # never a short link
-quick_options:                  # optional: override a referenced component's quick_buy
+  url: https://full.canonical/url # never a short link
+quick_options: # optional: override a referenced component's quick_buy
   <component-id>: Store-bought suggestion
 ---
 ```
@@ -83,7 +84,7 @@ Optional short paragraph.
   recipe may only reference published components. To create one, see the
   `add-component` skill.
 - Start each ingredient line with its amount (`1 1/2 cups beef broth`, `3 garlic
-  cloves`, `About ½ teaspoon salt`) and put a space before the unit (`500 g`, not
+cloves`, `About ½ teaspoon salt`) and put a space before the unit (`500 g`, not
   `500g`), so the website can scale it. Lines without amounts (`Salt, to taste`) are
   fine. Add `{{no-scale}}` to a line whose amount should not grow with the batch, such
   as frying oil measured by pot depth. Validation reports amounts it cannot read.

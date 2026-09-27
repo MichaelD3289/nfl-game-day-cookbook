@@ -4,8 +4,8 @@ subtitle: Colts + Chiefs + Steelers
 status: published
 order: 1
 recipes:
-- st-elmo-style-shrimp-cocktail
-- kansas-city-cheesy-corn
-- chipped-ham-barbecue-sandwiches
+  - st-elmo-style-shrimp-cocktail
+  - kansas-city-cheesy-corn
+  - chipped-ham-barbecue-sandwiches
 why_it_works: A chilled starter with two short-cooking warm dishes.
 prep_plan: Thaw shrimp in advance. Cook corn and ham in parallel; poach shrimp just before serving.

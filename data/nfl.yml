@@ -14,31 +14,127 @@ conferences:
       - id: east
         name: AFC East
         teams:
-          - {slug: bills, name: Buffalo Bills, short_name: Bills, abbreviation: BUF, location: "Buffalo, New York"}
-          - {slug: dolphins, name: Miami Dolphins, short_name: Dolphins, abbreviation: MIA, location: "Miami, Florida"}
-          - {slug: jets, name: New York Jets, short_name: Jets, abbreviation: NYJ, location: "New York, New York"}
-          - {slug: patriots, name: New England Patriots, short_name: Patriots, abbreviation: NE, location: "Foxborough, Massachusetts"}
+          - {
+              slug: bills,
+              name: Buffalo Bills,
+              short_name: Bills,
+              abbreviation: BUF,
+              location: "Buffalo, New York",
+            }
+          - {
+              slug: dolphins,
+              name: Miami Dolphins,
+              short_name: Dolphins,
+              abbreviation: MIA,
+              location: "Miami, Florida",
+            }
+          - {
+              slug: jets,
+              name: New York Jets,
+              short_name: Jets,
+              abbreviation: NYJ,
+              location: "New York, New York",
+            }
+          - {
+              slug: patriots,
+              name: New England Patriots,
+              short_name: Patriots,
+              abbreviation: NE,
+              location: "Foxborough, Massachusetts",
+            }
       - id: north
         name: AFC North
         teams:
-          - {slug: bengals, name: Cincinnati Bengals, short_name: Bengals, abbreviation: CIN, location: "Cincinnati, Ohio"}
-          - {slug: browns, name: Cleveland Browns, short_name: Browns, abbreviation: CLE, location: "Cleveland, Ohio"}
-          - {slug: ravens, name: Baltimore Ravens, short_name: Ravens, abbreviation: BAL, location: "Baltimore, Maryland"}
-          - {slug: steelers, name: Pittsburgh Steelers, short_name: Steelers, abbreviation: PIT, location: "Pittsburgh, Pennsylvania"}
+          - {
+              slug: bengals,
+              name: Cincinnati Bengals,
+              short_name: Bengals,
+              abbreviation: CIN,
+              location: "Cincinnati, Ohio",
+            }
+          - {
+              slug: browns,
+              name: Cleveland Browns,
+              short_name: Browns,
+              abbreviation: CLE,
+              location: "Cleveland, Ohio",
+            }
+          - {
+              slug: ravens,
+              name: Baltimore Ravens,
+              short_name: Ravens,
+              abbreviation: BAL,
+              location: "Baltimore, Maryland",
+            }
+          - {
+              slug: steelers,
+              name: Pittsburgh Steelers,
+              short_name: Steelers,
+              abbreviation: PIT,
+              location: "Pittsburgh, Pennsylvania",
+            }
       - id: south
         name: AFC South
         teams:
-          - {slug: colts, name: Indianapolis Colts, short_name: Colts, abbreviation: IND, location: "Indianapolis, Indiana"}
-          - {slug: jaguars, name: Jacksonville Jaguars, short_name: Jaguars, abbreviation: JAX, location: "Jacksonville, Florida"}
-          - {slug: texans, name: Houston Texans, short_name: Texans, abbreviation: HOU, location: "Houston, Texas"}
-          - {slug: titans, name: Tennessee Titans, short_name: Titans, abbreviation: TEN, location: "Nashville, Tennessee"}
+          - {
+              slug: colts,
+              name: Indianapolis Colts,
+              short_name: Colts,
+              abbreviation: IND,
+              location: "Indianapolis, Indiana",
+            }
+          - {
+              slug: jaguars,
+              name: Jacksonville Jaguars,
+              short_name: Jaguars,
+              abbreviation: JAX,
+              location: "Jacksonville, Florida",
+            }
+          - {
+              slug: texans,
+              name: Houston Texans,
+              short_name: Texans,
+              abbreviation: HOU,
+              location: "Houston, Texas",
+            }
+          - {
+              slug: titans,
+              name: Tennessee Titans,
+              short_name: Titans,
+              abbreviation: TEN,
+              location: "Nashville, Tennessee",
+            }
       - id: west
         name: AFC West
         teams:
-          - {slug: broncos, name: Denver Broncos, short_name: Broncos, abbreviation: DEN, location: "Denver, Colorado"}
-          - {slug: chargers, name: Los Angeles Chargers, short_name: Chargers, abbreviation: LAC, location: "Los Angeles, California"}
-          - {slug: chiefs, name: Kansas City Chiefs, short_name: Chiefs, abbreviation: KC, location: "Kansas City, Missouri"}
-          - {slug: raiders, name: Las Vegas Raiders, short_name: Raiders, abbreviation: LV, location: "Las Vegas, Nevada"}
+          - {
+              slug: broncos,
+              name: Denver Broncos,
+              short_name: Broncos,
+              abbreviation: DEN,
+              location: "Denver, Colorado",
+            }
+          - {
+              slug: chargers,
+              name: Los Angeles Chargers,
+              short_name: Chargers,
+              abbreviation: LAC,
+              location: "Los Angeles, California",
+            }
+          - {
+              slug: chiefs,
+              name: Kansas City Chiefs,
+              short_name: Chiefs,
+              abbreviation: KC,
+              location: "Kansas City, Missouri",
+            }
+          - {
+              slug: raiders,
+              name: Las Vegas Raiders,
+              short_name: Raiders,
+              abbreviation: LV,
+              location: "Las Vegas, Nevada",
+            }
   - id: nfc
     name: NFC
     full_name: National Football Conference
@@ -46,28 +142,124 @@ conferences:
       - id: east
         name: NFC East
         teams:
-          - {slug: commanders, name: Washington Commanders, short_name: Commanders, abbreviation: WAS, location: "Washington, D.C."}
-          - {slug: cowboys, name: Dallas Cowboys, short_name: Cowboys, abbreviation: DAL, location: "Dallas, Texas"}
-          - {slug: eagles, name: Philadelphia Eagles, short_name: Eagles, abbreviation: PHI, location: "Philadelphia, Pennsylvania"}
-          - {slug: giants, name: New York Giants, short_name: Giants, abbreviation: NYG, location: "New York, New York"}
+          - {
+              slug: commanders,
+              name: Washington Commanders,
+              short_name: Commanders,
+              abbreviation: WAS,
+              location: "Washington, D.C.",
+            }
+          - {
+              slug: cowboys,
+              name: Dallas Cowboys,
+              short_name: Cowboys,
+              abbreviation: DAL,
+              location: "Dallas, Texas",
+            }
+          - {
+              slug: eagles,
+              name: Philadelphia Eagles,
+              short_name: Eagles,
+              abbreviation: PHI,
+              location: "Philadelphia, Pennsylvania",
+            }
+          - {
+              slug: giants,
+              name: New York Giants,
+              short_name: Giants,
+              abbreviation: NYG,
+              location: "New York, New York",
+            }
       - id: north
         name: NFC North
         teams:
-          - {slug: bears, name: Chicago Bears, short_name: Bears, abbreviation: CHI, location: "Chicago, Illinois"}
-          - {slug: lions, name: Detroit Lions, short_name: Lions, abbreviation: DET, location: "Detroit, Michigan"}
-          - {slug: packers, name: Green Bay Packers, short_name: Packers, abbreviation: GB, location: "Green Bay, Wisconsin"}
-          - {slug: vikings, name: Minnesota Vikings, short_name: Vikings, abbreviation: MIN, location: "Minneapolis, Minnesota"}
+          - {
+              slug: bears,
+              name: Chicago Bears,
+              short_name: Bears,
+              abbreviation: CHI,
+              location: "Chicago, Illinois",
+            }
+          - {
+              slug: lions,
+              name: Detroit Lions,
+              short_name: Lions,
+              abbreviation: DET,
+              location: "Detroit, Michigan",
+            }
+          - {
+              slug: packers,
+              name: Green Bay Packers,
+              short_name: Packers,
+              abbreviation: GB,
+              location: "Green Bay, Wisconsin",
+            }
+          - {
+              slug: vikings,
+              name: Minnesota Vikings,
+              short_name: Vikings,
+              abbreviation: MIN,
+              location: "Minneapolis, Minnesota",
+            }
       - id: south
         name: NFC South
         teams:
-          - {slug: buccaneers, name: Tampa Bay Buccaneers, short_name: Buccaneers, abbreviation: TB, location: "Tampa, Florida"}
-          - {slug: falcons, name: Atlanta Falcons, short_name: Falcons, abbreviation: ATL, location: "Atlanta, Georgia"}
-          - {slug: panthers, name: Carolina Panthers, short_name: Panthers, abbreviation: CAR, location: "Charlotte, North Carolina"}
-          - {slug: saints, name: New Orleans Saints, short_name: Saints, abbreviation: "NO", location: "New Orleans, Louisiana"}
+          - {
+              slug: buccaneers,
+              name: Tampa Bay Buccaneers,
+              short_name: Buccaneers,
+              abbreviation: TB,
+              location: "Tampa, Florida",
+            }
+          - {
+              slug: falcons,
+              name: Atlanta Falcons,
+              short_name: Falcons,
+              abbreviation: ATL,
+              location: "Atlanta, Georgia",
+            }
+          - {
+              slug: panthers,
+              name: Carolina Panthers,
+              short_name: Panthers,
+              abbreviation: CAR,
+              location: "Charlotte, North Carolina",
+            }
+          - {
+              slug: saints,
+              name: New Orleans Saints,
+              short_name: Saints,
+              abbreviation: "NO",
+              location: "New Orleans, Louisiana",
+            }
       - id: west
         name: NFC West
         teams:
-          - {slug: 49ers, name: San Francisco 49ers, short_name: 49ers, abbreviation: SF, location: "San Francisco, California"}
-          - {slug: cardinals, name: Arizona Cardinals, short_name: Cardinals, abbreviation: ARI, location: "Phoenix, Arizona"}
-          - {slug: rams, name: Los Angeles Rams, short_name: Rams, abbreviation: LAR, location: "Los Angeles, California"}
-          - {slug: seahawks, name: Seattle Seahawks, short_name: Seahawks, abbreviation: SEA, location: "Seattle, Washington"}
+          - {
+              slug: 49ers,
+              name: San Francisco 49ers,
+              short_name: 49ers,
+              abbreviation: SF,
+              location: "San Francisco, California",
+            }
+          - {
+              slug: cardinals,
+              name: Arizona Cardinals,
+              short_name: Cardinals,
+              abbreviation: ARI,
+              location: "Phoenix, Arizona",
+            }
+          - {
+              slug: rams,
+              name: Los Angeles Rams,
+              short_name: Rams,
+              abbreviation: LAR,
+              location: "Los Angeles, California",
+            }
+          - {
+              slug: seahawks,
+              name: Seattle Seahawks,
+              short_name: Seahawks,
+              abbreviation: SEA,
+              location: "Seattle, Washington",
+            }

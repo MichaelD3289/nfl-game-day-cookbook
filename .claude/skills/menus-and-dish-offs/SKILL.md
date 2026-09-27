@@ -16,14 +16,14 @@ premium-day, fast-day, ...). To add a new type, add it to that file and create
 its directory.
 
 ```yaml
-id: pizza-playoffs          # == file name
+id: pizza-playoffs # == file name
 title: Pizza Playoffs
-subtitle: Bears + Lions + Jets   # optional
+subtitle: Bears + Lions + Jets # optional
 status: published
-order: 2                    # optional sort key within the type
-recipes:                    # at least one; must be published recipe ids
-- tavern-style-thin-crust-pizza
-- detroit-style-pizza
+order: 2 # optional sort key within the type
+recipes: # at least one; must be published recipe ids
+  - tavern-style-thin-crust-pizza
+  - detroit-style-pizza
 why_it_works: One sentence.
 prep_plan: One sentence.
 ```
@@ -39,8 +39,8 @@ title: East Coast Kickoff
 status: published
 order: 1
 recipes:
-- buffalo-wings
-- boston-cream-pie
+  - buffalo-wings
+  - boston-cream-pie
 description: One sentence.
 prep_note: One sentence.
 ```
