@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.11.1] - 2026-09-26
+
 ### Changed
 
 - Every recipe with a quick component now lists the homemade choice followed by an explicit store-bought substitution, with the component link kept at the end of the ingredient line. Batch quantities, measured portions and special substitution amounts are retained, and preparation instructions accommodate either choice.
@@ -240,7 +242,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit and integration tests against a synthetic sample book.
 
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.1...HEAD
+[0.11.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.0...v0.11.1
 [0.11.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.0...v0.9.1
