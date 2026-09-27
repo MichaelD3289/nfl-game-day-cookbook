@@ -195,6 +195,12 @@ scale is kept in the page URL (`?scale=2`) and carried to linked component pages
 `styles/website-scale.js` does the conversion in the browser; its tests run with
 Node.js and are skipped when Node is not installed. The PDF is never scaled.
 
+Recipe, component, game-day menu and division pages have a **Print** button
+(`styles/website-print.js`, shown only when JavaScript runs). The `@media print`
+rules in `styles/website.css` hide the site chrome and lay a recipe out on one page
+where it fits. The browser prints the page as shown, so a scaled recipe prints its
+scaled amounts, with a "Scaled 2× · serves 12" note and the page address at the foot.
+
 Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
 prompts. They open prefilled quick issue templates on GitHub and, once
 `suggestion_form_url` is set in `data/book.yml`, a form that needs no GitHub

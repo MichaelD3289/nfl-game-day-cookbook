@@ -253,6 +253,16 @@
     return (Math.round(factor * 100) / 100) + "×";
   }
 
+  // Printout header for a scaled page: "Scaled 2× · serves 8–12". `low`/`high` are the
+  // servings as written, or null when the recipe does not say.
+  function printLabel(factor, low, high) {
+    var text = "Scaled " + describe(factor);
+    if (!low) return text;
+    var a = Math.max(1, Math.round(low * factor));
+    var b = Math.max(1, Math.round((high || low) * factor));
+    return text + " · serves " + (a === b ? a : a + "–" + b);
+  }
+
   // "10/4" -> "5/2", "8/4" -> "2": short, readable ?scale= values.
   function reduce(text) {
     var parts = String(text).split("/");
@@ -291,6 +301,8 @@
     var note = panel.querySelector(".scale-note");
     var status = panel.querySelector(".scale-status");
     var baseServings = Number(panel.getAttribute("data-servings")) || null;
+    var maxServings = Number(panel.getAttribute("data-servings-max")) || baseServings;
+    var printNote = document.querySelector(".print-scale");
     var factorText = "1";
 
     function apply(text, fromPeople) {
@@ -310,6 +322,11 @@
       }
       if (note) note.hidden = factorText === "1";
       if (status) status.textContent = factorText === "1" ? "" : "Scaled " + describe(factor);
+      if (printNote) {
+        printNote.hidden = factorText === "1";
+        printNote.textContent = factorText === "1" ? "" :
+          printLabel(factor, baseServings, maxServings);
+      }
       document.querySelectorAll("a[data-carry-scale]").forEach(function (link) {
         var url = new URL(link.getAttribute("href"), window.location.href);
         link.setAttribute("href", url.pathname.split("/").pop() + withScale(url, factorText));
@@ -340,6 +357,7 @@
     parseFactor: parseFactor,
     reduce: reduce,
     describe: describe,
+    printLabel: printLabel,
     init: init
   };
 });

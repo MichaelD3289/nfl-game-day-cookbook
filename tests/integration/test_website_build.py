@@ -58,6 +58,10 @@ def test_rendered_website_has_cards_search_and_no_print_markup(fixture_book: Pro
     assert scalers[0].get("data-servings") == "4"
     assert "hidden" in scalers[0]  # revealed by scale.js
     assert (result.site / "scale.js").is_file()
+    bars = _elements(wings, "div", "print-bar")
+    assert len(bars) == 1
+    assert "hidden" in bars[0]  # revealed by print.js
+    assert (result.site / "print.js").is_file()
     search = json.loads((result.site / "search.json").read_text())
     assert any("Test Citrus Wings" in entry["title"] for entry in search)
     assert not any("test-draft" in entry["href"] for entry in search)

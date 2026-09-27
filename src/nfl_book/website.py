@@ -95,11 +95,17 @@ def _add_scaling(model: BookModel, pages: list[PageSpec]) -> None:
         context["scaler"] = None
         if not any(item.amounts for group in context["groups"] for item in group.items):
             continue
-        scaler: dict[str, Any] = {"multipliers": MULTIPLIERS, "servings": None, "serves": ""}
+        scaler: dict[str, Any] = {
+            "multipliers": MULTIPLIERS,
+            "servings": None,
+            "servings_max": None,
+            "serves": "",
+        }
         people = servings.get(context["label"])
         if people:
             low, high = people
             scaler["servings"] = low
+            scaler["servings_max"] = high
             scaler["serves"] = str(low) if low == high else f"{low}–{high}"
         context["scaler"] = scaler
 
@@ -266,8 +272,10 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
         f"PDF and downloadable website are also on [GitHub releases]({RELEASES}).\n\n"
         "```{=html}\n<!-- site-versions -->\n```\n"
     )
-    resources = ["assets/**", "scale.js"]
+    resources = ["assets/**", "scale.js", "print.js"]
     shutil.copyfile(project.styles_dir / "website-scale.js", build_dir / "scale.js")
+    shutil.copyfile(project.styles_dir / "website-print.js", build_dir / "print.js")
+    scripts = ["print.js"]
     html_format: dict[str, Any] = {
         "theme": "cosmo",
         "css": "website.css",
@@ -278,8 +286,11 @@ def build_website(project: Project, *, render: bool = True) -> WebsiteResult:
     }
     if book.suggestion_form_url:
         resources.append("suggest.js")
-        html_format["include-after-body"] = {"text": '<script src="suggest.js"></script>'}
+        scripts.append("suggest.js")
         shutil.copyfile(project.styles_dir / "website-suggest.js", build_dir / "suggest.js")
+    html_format["include-after-body"] = {
+        "text": "\n".join(f'<script src="{name}"></script>' for name in scripts)
+    }
     config = {
         "project": {"type": "website", "output-dir": "_site", "resources": resources},
         "website": {

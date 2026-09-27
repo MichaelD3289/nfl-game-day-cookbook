@@ -204,7 +204,7 @@ def test_scalable_pages_mark_amounts_and_offer_controls(fixture_book: Project) -
     )
     assert "- 2 cups oil for the griddle\n" in sliders  # {{no-scale}}
     assert "{{no-scale}}" not in sliders
-    assert '<div class="scaler" data-servings="4" hidden>' in sliders
+    assert '<div class="scaler" data-servings="4" data-servings-max="6" hidden>' in sliders
     assert "(serves 4–6 as written)" in sliders
     assert 'data-factor="3/2"' in sliders
     assert '<script src="scale.js"></script>' in sliders
@@ -244,3 +244,42 @@ def test_versions_page_has_marker_for_published_versions(fixture_book: Project) 
     config = yaml.safe_load((site / "_quarto.yml").read_text())
     navbar = config["website"]["navbar"]["right"]
     assert {"text": "All versions", "href": "versions.qmd"} in navbar
+
+
+def test_printable_pages_offer_a_print_button(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    printable = [
+        "recipe-test-citrus-wings.qmd",
+        "component-test-wing-sauce.qmd",
+        "menus-fast-day-1.qmd",
+        "division-afc-east.qmd",
+    ]
+    for name in printable:
+        page = (site / name).read_text()
+        # Hidden until print.js runs, so readers without JavaScript never see a dead button.
+        assert '<div class="print-bar" hidden>' in page, name
+        assert '<button type="button" class="print-button">Print</button>' in page, name
+    for name in ("index.qmd", "contents.qmd", "game-day-menus.qmd", "versions.qmd"):
+        assert "print-bar" not in (site / name).read_text(), name
+    # The printout names the scale it was printed at.
+    sliders = (site / "recipe-test-buffalo-sliders.qmd").read_text()
+    assert '<p class="print-scale" hidden></p>' in sliders
+    assert '<div class="scaler" data-servings="4" data-servings-max="6" hidden>' in sliders
+    assert "print-scale" not in (site / "division-afc-east.qmd").read_text()
+    assert (site / "print.js").read_text().startswith("// Print button on the website.")
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    assert "print.js" in config["project"]["resources"]
+    assert "print.js" in config["format"]["html"]["include-after-body"]["text"]
+
+
+def test_print_script_is_kept_alongside_suggestion_script(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    _set_form_url(fixture_book, "https://script.google.com/macros/s/test-deployment/exec")
+    site = build_website(fixture_book, render=False).document.parent
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    scripts = config["format"]["html"]["include-after-body"]["text"]
+    assert '<script src="print.js"></script>' in scripts
+    assert '<script src="suggest.js"></script>' in scripts
