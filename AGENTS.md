@@ -27,8 +27,11 @@ Rules for any human or AI agent editing this repository.
    write production content.
 9. **Do not add dependencies or install system software silently.** Justify any new
    package in the PR. Quarto and TinyTeX are installed by the user, not by scripts.
-10. **Keep it green.** Before finishing, run `make check` (ruff format and lint, strict
-    mypy, pytest, `nfl-book validate`).
+10. **Keep it green.** Before finishing, run `make check` (formatting hooks, strict mypy,
+    pytest, `nfl-book validate`). Formatting is not a matter of taste here: Ruff formats
+    and lints Python, Prettier formats Markdown, YAML, JSON, JS and CSS with its defaults,
+    and `.pre-commit-config.yaml` defines both. Run `make hooks` once per checkout so they
+    fix staged files at every commit, and `make format` to fix everything.
 11. **Log every change in the changelog.** Any change you make that a reader of the
     book or a user of the tooling would notice (content, layout, CLI, Make targets,
     config, agent rules and skills) gets an entry under `## [Unreleased]` in

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Formatting rules and pre-commit hooks: Ruff formats and lints Python, and Prettier formats Markdown, YAML, JSON, JavaScript and CSS with its default style. Run `make hooks` once so staged files are fixed at every commit, and `make format` to fix every file.
+
+### Changed
+
+- `make check`, and so the PR checks, now fail when any file is not formatted, not just Python in `src/` and `tests/`. The existing Markdown, YAML, JavaScript and CSS files were reformatted once to match; recipe content is unchanged.
+
 ## [0.11.0] - 2026-09-26
 
 ### Added
