@@ -27,7 +27,7 @@ source:
 - 6 smoked beef-and-pork half-smoke sausages (such as the half-smokes sold by Ben's Chili Bowl, if available)
 - 6 soft hot dog buns
 - ½ white onion, finely chopped
-- Yellow mustard {{component:american-yellow-mustard}}
+- Homemade yellow mustard; or substitute store-bought yellow mustard {{component:american-yellow-mustard}}
 
 ### Chili spice mix
 
@@ -59,4 +59,4 @@ source:
 
 ## Kitchen Notes
 
-Timing note: This is a homemade beanless chili topping for smoked beef-and-pork half-smokes, not a claim to recreate Ben's proprietary chili formula. D.C.'s classic assembly uses the half-smoke with chili, yellow mustard and chopped onion; cheese is not included in the default. The tomato and pepper quantities remain those of the measured chili-dog source because no measured local Ben's-style chili formula was located.
+This homemade beanless chili is not Ben’s proprietary formula. D.C.’s classic half-smoke comes with chili, yellow mustard and chopped onion, without cheese. Tomato and pepper quantities follow the measured chili-dog source; no measured local Ben’s-style chili formula was located.

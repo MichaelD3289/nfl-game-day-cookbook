@@ -50,7 +50,7 @@ quick_options:
 - 10 soft, fluffy rolls or Italian bread loaf cut into 10 portions
 - 3 green bell peppers
 - 2 tablespoons olive oil
-- 1 cup spicy hot giardiniera (use the linked Chicago oil-packed giardiniera component) {{component:chicago-oil-packed-giardiniera}}
+- 1 cup homemade hot Chicago-style oil-packed giardiniera; or substitute the same amount of store-bought giardiniera {{component:chicago-oil-packed-giardiniera}}
 
 ## Instructions
 

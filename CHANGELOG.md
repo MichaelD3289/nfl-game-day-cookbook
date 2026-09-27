@@ -11,6 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - PR checks now build the full PDF and fail when a recipe overflows its page, so a PDF problem blocks the pull request instead of the release. To save CI minutes this check skips draft PRs: it runs when a PR is marked ready for review and on every push after that.
 
+## [0.12.1] - 2026-09-26
+
+### Changed
+
+- Every recipe with a quick component now lists the homemade choice followed by an explicit store-bought substitution, with the component link kept at the end of the ingredient line. Batch quantities, measured portions and special substitution amounts are retained, and preparation instructions accommodate either choice.
+- Recipe and component skills now document the shared homemade-or-store-bought wording, quantity and scaling conventions for future edits.
+- The `creating-release` skill now dates a release by the maintainer's local day instead of UTC, so evening releases are no longer dated the following day.
+
 ## [0.12.0] - 2026-09-26
 
 ### Added
@@ -26,7 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The `creating-release` skill now builds the website and EPUB before a release, and the `layout-changes` skill explains how headings decide EPUB pages.
 - `make check`, and so the PR checks, now fail when any file is not formatted, not just Python in `src/` and `tests/`. The existing Markdown, YAML, JavaScript and CSS files were reformatted once to match; recipe content is unchanged.
-- The `creating-release` skill now dates a release by the maintainer's local day instead of UTC, so evening releases are no longer dated the following day.
 
 ## [0.11.0] - 2026-09-26
 
@@ -255,7 +262,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.12.1...HEAD
+[0.12.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.1...v0.10.0

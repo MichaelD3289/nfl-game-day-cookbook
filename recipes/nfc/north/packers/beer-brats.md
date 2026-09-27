@@ -33,7 +33,7 @@ quick_options:
 ### For serving
 
 - 10 brat buns, split
-- Yellow or spicy brown mustard; ketchup only if personally preferred {{component:american-yellow-mustard}}
+- Homemade yellow mustard; or substitute store-bought yellow or spicy brown mustard; ketchup only if preferred {{component:american-yellow-mustard}}
 - Sauerkraut
 
 ## Instructions

@@ -40,7 +40,7 @@ quick_options:
 - 1 1/2 cups all-purpose flour
 - 1 cup cornmeal
 - 4 eight-inch New Orleans-style French rolls, light and crisp (ordinary soft French rolls if unavailable)
-- Louisiana lemon rémoulade (homemade or prepared), 2–3 tablespoons per roll; plain mayonnaise is traditional too {{component:louisiana-remoulade}}
+- Homemade Louisiana lemon rémoulade, 2–3 tablespoons per roll; or substitute store-bought rémoulade or plain mayonnaise {{component:louisiana-remoulade}}
 - Shredded iceberg lettuce
 - Sliced tomatoes
 - Dill pickles

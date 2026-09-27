@@ -25,7 +25,7 @@ quick_options:
 ## Ingredients
 
 - 16 giant raw Black Tiger shrimp (one St. Elmo frozen shrimp pack, or similar jumbo shrimp), thawed
-- About 1 cup homemade horseradish cocktail sauce, or 1 (8-ounce) jar St. Elmo sauce; serve 2 tablespoons per portion {{component:horseradish-cocktail-sauce}}
+- About 1 cup homemade horseradish cocktail sauce; or substitute the same amount of store-bought St. Elmo sauce (one 8-ounce jar as written); serve 2 tablespoons per portion {{component:horseradish-cocktail-sauce}}
 - 4 quarts water, for poaching
 - 4 cups ice plus 1 cup water, for chilling
 

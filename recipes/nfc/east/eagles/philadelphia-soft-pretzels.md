@@ -27,7 +27,7 @@ quick_options:
 ## Ingredients
 
 - Pretzel or kosher salt for topping
-- Optional: American yellow mustard, for dipping {{component:american-yellow-mustard}}
+- Optional: homemade American yellow mustard, for dipping; or substitute store-bought yellow mustard {{component:american-yellow-mustard}}
 
 ### Dough
 
