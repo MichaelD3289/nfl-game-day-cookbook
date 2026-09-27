@@ -7,11 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.7.0] - 2026-09-26
-
 ### Added
 
 - Every released website version stays online at `/vX.Y.Z/`, while the site root keeps serving the latest release. Older versions show a banner linking to the latest version, and a new **All versions** page lists each version with its date and PDF.
+
+## [0.7.0] - 2026-09-26
+
+### Added
 
 - Project Claude Code settings (`.claude/settings.json`), shared by local and cloud sessions: no AI attribution in commits or pull requests, pre-approved routine checks (`make check`, tests, lint, read-only git), and blocks on reading `.env` files, editing `generated/` or `dist/`, and creating or pushing tags.
 
