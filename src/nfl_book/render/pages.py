@@ -106,6 +106,26 @@ class OptionView:
 COMPACT_INGREDIENTS_OVER = 24
 
 
+@dataclass(frozen=True)
+class TimelineStepView:
+    """One kickoff-timeline row: when, what, and the recipe it links to."""
+
+    label: str
+    task: str
+    recipe: str  # "recipe:<id>" label, or "" for a general task
+    minutes: int | None  # minutes from kickoff, only when the time maps to a clock
+
+
+def _timeline(model: BookModel, menu: Any) -> list[TimelineStepView]:
+    views = []
+    for step in getattr(menu.meta, "timeline", None) or []:
+        offset = step.offset
+        recipe = recipe_label(step.recipe) if step.recipe in model.recipes_by_id else ""
+        minutes = offset.minutes if offset.clock else None
+        views.append(TimelineStepView(offset.label, step.task, recipe, minutes))
+    return views
+
+
 def _compact(groups: Iterable[IngredientGroup]) -> bool:
     return sum(len(g.items) for g in groups) > COMPACT_INGREDIENTS_OVER
 
@@ -273,6 +293,7 @@ def _menu_view(model: BookModel, menu: Any) -> dict[str, Any]:
         "prep_plan": getattr(menu.meta, "prep_plan", None) or "",
         "description": getattr(menu.meta, "description", None) or "",
         "prep_note": getattr(menu.meta, "prep_note", None) or "",
+        "timeline": _timeline(model, menu),
     }
 
 

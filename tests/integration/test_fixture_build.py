@@ -104,6 +104,42 @@ def test_menu_and_division_pages_mark_their_end(built: Project) -> None:
     assert division.index(end) < division.rindex(r"\end{DivisionDishOffCard}")
 
 
+def test_menu_timeline_prints_under_the_prep_plan(built: Project) -> None:
+    menu = page(built, "menus-fast-day-1")
+    rows = [
+        r"\MenuTimelineStep{Day before}{Make the dip.}{recipe:test-buffalo-sliders}",
+        r"\MenuTimelineStep{1 hr 30 min before}{Marinate the wings.}{recipe:test-citrus-wings}",
+        r"\MenuTimelineStep{30 min before}{Heat the oven.}{}",
+        r"\MenuTimelineStep{Kickoff}{Assemble the sliders.}{recipe:test-buffalo-sliders}",
+        r"\MenuTimelineStep{Halftime}{Bake a second batch of wings.}{recipe:test-citrus-wings}",
+    ]
+    positions = [menu.index(row) for row in rows]
+    assert positions == sorted(positions)
+    assert menu.count(r"\MenuTimelineStep{") == len(rows)
+    start = menu.index(r"\begin{MenuTimeline}")
+    assert menu.index(r"\CardHeading{Prep plan}") < start < positions[0]
+    assert positions[-1] < menu.index(r"\end{MenuTimeline}")
+    assert menu.index(r"\end{MenuTimeline}") < menu.index(r"\BookEnd{menu:test-quick-kickoff:end}")
+
+
+def test_dishoff_timeline_prints_under_the_prep_note(built: Project) -> None:
+    division = page(built, "division-afc-east")
+    kickoff = r"\MenuTimelineStep{Kickoff}{Assemble the sliders.}{recipe:test-buffalo-sliders}"
+    assert kickoff in division
+    assert division.index(r"\begin{MenuTimeline}") < division.index(kickoff)
+    assert division.index(kickoff) < division.index(r"\BookEnd{division:afc-east:end}")
+
+
+def test_menu_without_a_timeline_prints_none(fixture_book: Project) -> None:
+    path = fixture_book.content_root / "menus/game-day/fast-day/test-quick-kickoff.yml"
+    text = path.read_text(encoding="utf-8")
+    path.write_text(text[: text.index("timeline:")], encoding="utf-8")
+    assert pipeline.build(fixture_book, pdf=False).diagnostics.ok
+    menu = page(fixture_book, "menus-fast-day-1")
+    assert "MenuTimeline" not in menu
+    assert r"\CardHeading{Prep plan}" in menu
+
+
 def test_menu_page_span_runs_from_first_to_last_card(fixture_book: Project) -> None:
     menus = fixture_book.content_root / "menus/game-day/fast-day"
     second = (menus / "test-quick-kickoff.yml").read_text(encoding="utf-8")

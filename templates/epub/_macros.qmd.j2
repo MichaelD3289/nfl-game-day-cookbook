@@ -86,6 +86,18 @@
 
 **Prep plan:** {{ item.prep_plan or item.prep_note }}
 {% endif %}
+{% if item.timeline %}
+
+**Timeline:**
+
+{% for step in item.timeline %}
+{% if step.recipe %}
+- **{{ step.label|md }}:** [{{ step.task|md }}]({{ route(step.recipe) }})
+{% else %}
+- **{{ step.label|md }}:** {{ step.task|md }}
+{% endif %}
+{% endfor %}
+{% endif %}
 :::
 
 {% endmacro %}

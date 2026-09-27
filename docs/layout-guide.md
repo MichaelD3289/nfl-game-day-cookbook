@@ -26,6 +26,10 @@ rules, not individual recipe files. Content edits must not be used to hide overf
   `division:<key>`).
 - Division cards pair side by side with equal heights. Recipe lists precede their
   short description and preparation note.
+- A kickoff timeline sits under the menu's Prep plan or the dish-off's Prep note (the
+  heading shows when either is present) as compact rows: a fixed label column
+  (`\BookTimelineLabelWidth`, for example "Day before" or "Kickoff") and the task,
+  linked to its recipe when it names one. Timeline rows carry no page numbers.
 - Recipe quick options always follow the two-column ingredients/instructions area,
   before Kitchen Notes. Their Q markers and page links continue to use component IDs.
 - Component pages combine the purchased option and explanatory note in one panel,
@@ -44,8 +48,8 @@ layouts. Do not copy literal measurements into templates or recipe content.
 After changes, rebuild and visually inspect the cover, a division, a game-day menu,
 a component, a dense recipe, a recipe without a photo, and an index. Check every
 recipe, game-day menu and division page's one-page span and run `make check`. Longer
-menu content must still be checked visually: a card that grows past the shared height
-is allowed as long as the page fits.
+menu content, such as a full kickoff timeline, must still be checked visually: a card
+that grows past the shared height is allowed as long as the page fits.
 
 Validated 2026-09-26: 152-page production build, no recipe overflow warnings,
 no overfull LaTeX boxes, 100 tests passing, zero content-validation warnings.

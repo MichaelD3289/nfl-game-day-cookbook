@@ -19,9 +19,18 @@
 \par\vspace{\BookCardTitleGap}
 << card.description|tex >>\par
 <% endif %>
-<% if card.prep_note %>
+<% if card.prep_note or card.timeline %>
 \CardHeading{Prep note}
-<< card.prep_note|tex >>
+<% endif %>
+<% if card.prep_note %>
+<< card.prep_note|tex >>\par
+<% endif %>
+<% if card.timeline %>
+\begin{MenuTimeline}
+<% for step in card.timeline %>
+\MenuTimelineStep{<< step.label|tex >>}{<< step.task|tex >>}{<< step.recipe >>}
+<% endfor %>
+\end{MenuTimeline}
 <% endif %>
 <% if loop.last %>
 \BookEnd{<< end_label >>}
