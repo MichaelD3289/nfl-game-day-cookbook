@@ -244,6 +244,7 @@ def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
         [
             {"text": "Game Day Menus", "href": "game-day-menus.qmd"},
             {"text": "Build your own menu", "href": "menu-builder.qmd"},
+            {"text": "Matchup menu", "href": "matchup.qmd"},
             {"text": "Make It or Buy It", "href": "make-it-or-buy-it.qmd"},
         ]
     )
@@ -272,20 +273,36 @@ def _add_browse(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
     pages.insert(position, page)
 
 
+def _recipe_prints(pages: list[PageSpec]) -> dict[str, list[str]]:
+    """The component pages each recipe page prints, keyed by the recipe page's file."""
+    return {
+        f"{p.slug}.html": p.context.get("print_pages", [])
+        for p in pages
+        if p.template == "recipe.qmd.j2"
+    }
+
+
+def _course_options(catalog: dict[str, Any]) -> list[dict[str, Any]]:
+    """The course facet's options, in data/indexes.yml order."""
+    course = next(f for f in catalog["facets"] if f["id"] == "course")
+    options: list[dict[str, Any]] = course["options"]
+    return options
+
+
+def _json_script(data: object) -> str:
+    """JSON for a one-line <script> element: no newlines, and no "</" to close it early."""
+    return json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+
+
 def _add_menu_builder(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
     """The Build your own menu page (website only), right after Game Day Menus.
 
     Dishes are grouped by course in data/indexes.yml order, empty courses left out, and
     keep book order within a course. Each carries the component pages its recipe prints.
     """
-    prints: dict[str, list[str]] = {
-        f"{p.slug}.html": p.context.get("print_pages", [])
-        for p in pages
-        if p.template == "recipe.qmd.j2"
-    }
-    course = next(f for f in catalog["facets"] if f["id"] == "course")
+    prints = _recipe_prints(pages)
     courses = []
-    for option in course["options"]:
+    for option in _course_options(catalog):
         dishes = [
             {
                 **recipe,
@@ -317,6 +334,79 @@ def _add_menu_builder(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
     pages.insert(position, page)
 
 
+def _add_matchup(model: BookModel, pages: list[PageSpec], catalog: dict[str, Any]) -> None:
+    """The Matchup menu page (website only), right after Build your own menu.
+
+    Embeds every team grouped by division, and every published dish with its course,
+    team, division and the component pages it prints, for matchup.js to pick from.
+    Courses with no dishes are left out; the rest keep data/indexes.yml order.
+    """
+    prints = _recipe_prints(pages)
+    present = {recipe["course"] for recipe in catalog["recipes"]}
+    courses = []
+    for option in _course_options(catalog):
+        if option["id"] in present:
+            bucket = model.settings.course(option["id"])
+            singular = bucket.singular if bucket else option["label"]
+            courses.append({"id": option["id"], "label": option["label"], "singular": singular})
+    divisions = [
+        {"key": section.division.key, "name": section.division.name} for section in model.divisions
+    ]
+    teams = [
+        {
+            "slug": entry.team.slug,
+            "name": entry.team.name,
+            "short": entry.team.short_name,
+            "division": section.division.key,
+        }
+        for section in model.divisions
+        for entry in section.teams
+    ]
+    dishes = [
+        {
+            "id": recipe["id"],
+            "title": recipe["title"],
+            "url": recipe["url"],
+            "course": recipe["course"],
+            "team": recipe["team"]["slug"],
+            "division": recipe["division"],
+            "printPages": prints.get(recipe["url"], []),
+        }
+        for recipe in catalog["recipes"]
+    ]
+    with_dishes = {dish["team"] for dish in dishes}
+    pickers = [
+        {
+            "label": section.division.name,
+            "teams": [
+                {
+                    "slug": entry.team.slug,
+                    "name": entry.team.name,
+                    "empty": entry.team.slug not in with_dishes,
+                }
+                for entry in section.teams
+            ],
+        }
+        for section in model.divisions
+    ]
+    data = {"courses": courses, "divisions": divisions, "teams": teams, "dishes": dishes}
+    label = section_label("matchup")
+    page = PageSpec(
+        "matchup",
+        "matchup.qmd.j2",
+        {
+            "title": "Matchup menu",
+            "label": label,
+            "pickers": pickers,
+            "data_json": _json_script(data),
+            "suggest": _suggestion("menu", "Have an idea for a game-day menu?"),
+        },
+        anchors=(label,),
+    )
+    position = next((i + 1 for i, p in enumerate(pages) if p.slug == "menu-builder"), len(pages))
+    pages.insert(position, page)
+
+
 def _prepare(
     project: Project, build_dir: Path, edition: str
 ) -> tuple[list[PageSpec], Diagnostics, PhotoStats, dict[str, Any]]:
@@ -327,6 +417,7 @@ def _prepare(
     catalog = recipe_catalog(model, pages, diags, edition=edition)
     _add_browse(pages, catalog)
     _add_menu_builder(pages, catalog)
+    _add_matchup(model, pages, catalog)
     return pages, diags, photos, catalog
 
 
@@ -385,6 +476,7 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
         CATALOG_FILE,
         "browse.js",
         "menu.js",
+        "matchup.js",
     ]
     write_catalog(catalog, build_dir / CATALOG_FILE)
     shutil.copyfile(project.styles_dir / "website-browse.js", build_dir / "browse.js")
@@ -392,6 +484,7 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
     shutil.copyfile(project.styles_dir / "website-print.js", build_dir / "print.js")
     shutil.copyfile(project.styles_dir / "website-shop.js", build_dir / "shop.js")
     shutil.copyfile(project.styles_dir / "website-menu.js", build_dir / "menu.js")
+    shutil.copyfile(project.styles_dir / "website-matchup.js", build_dir / "matchup.js")
     scripts = ["print.js", "shop.js"]
     html_format: dict[str, Any] = {
         "theme": "cosmo",
