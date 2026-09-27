@@ -137,6 +137,18 @@ main.content {
 .menu-card {
   margin: 1.5rem 0;
 }
+.team-card,
+.team-card > section {
+  display: flex;
+  flex-direction: column;
+}
+.team-card > section {
+  flex: 1;
+}
+.team-card .suggest-compact {
+  margin-top: auto;
+  padding-top: 1rem;
+}
 .recipe-header {
   min-height: 210px;
   border-top: 5px solid var(--book-navy);
@@ -322,13 +334,14 @@ main.content {
   text-decoration: underline;
 }
 .dish-meta {
-  display: block;
-  margin-top: 0.1rem;
   color: var(--book-muted);
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+.dish-meta::before {
+  content: "|";
+  margin: 0 0.45rem 0 0.2rem;
+  color: var(--book-rule);
 }
 .dish-description {
   display: block;
@@ -346,7 +359,7 @@ main.content {
   font-size: 0.92rem;
 }
 .dish-list-compact .dish-meta {
-  font-size: 0.66rem;
+  font-size: 0.78rem;
 }
 .team-location,
 .menu-matchup {
