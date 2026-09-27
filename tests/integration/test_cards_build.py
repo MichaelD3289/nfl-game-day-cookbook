@@ -1,6 +1,8 @@
 """Rendered cards preserve synthetic long instructions and enforce source-based limits."""
 
+import os
 import shutil
+from pathlib import Path
 
 import pytest
 import yaml
@@ -50,3 +52,31 @@ def test_long_cards_continue_and_strict_overflow_names_source(fixture_book: Proj
     with pytest.raises(ValidationFailed) as exc:
         build_cards(fixture_book, strict=True)
     assert any(d.code == "overflow" and d.path == source for d in exc.value.diagnostics.errors)
+
+
+@pytest.mark.pdf
+@pytest.mark.skipif(shutil.which("quarto") is None, reason="Quarto is not installed")
+def test_cards_render_fractions_without_optional_unicode_package(
+    fixture_book: Project, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # Shadow the optional package without changing the user's TeX installation.
+    # Loading it must fail even on machines where earlier builds installed it.
+    tex_inputs = tmp_path / "tex-inputs"
+    tex_inputs.mkdir()
+    (tex_inputs / "newunicodechar.sty").write_text(
+        r"\PackageError{test-missing-package}{newunicodechar is unavailable}{}" + "\n"
+    )
+    monkeypatch.setenv("TEXINPUTS", str(tex_inputs) + os.pathsep + os.environ.get("TEXINPUTS", ""))
+    source = fixture_book.content_root / "recipes/afc/east/bills/test-buffalo-sliders.md"
+    source.write_text(
+        source.read_text().replace(
+            "1 lb ground chicken", "⅓ ⅔ ⅛ ⅜ ⅝ ⅞ ½ ¼ ¾ lb ground chicken at 20°"
+        )
+    )
+    result = build_cards(fixture_book, strict=True)
+    assert result.pdf is not None
+    contents = "\n".join(page.extract_text() for page in PdfReader(result.pdf).pages)
+    assert "ground chicken at 20" in contents
+    assert "°" in contents
+    for fraction in ("1/3", "2/3", "1/8", "3/8", "5/8", "7/8", "1/2", "1/4", "3/4"):
+        assert fraction in "".join(contents.split())
