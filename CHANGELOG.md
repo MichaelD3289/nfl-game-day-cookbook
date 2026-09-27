@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `nfl-book stats` (or `make stats`) reports where the cookbook is thin: recipes per team by status, teams missing a course, divisions with fewer than two dish-offs, recipes per index bucket, how often each component is used and which ones no recipe uses, and menu types with few menus. It runs offline, prints a table by default or `--format json` / `--format markdown`, and never fails because of gaps.
+- `nfl-book validate` warns about each published recipe or component whose last completed review (`last_reviewed_at`) is missing or older than `review_max_age_days` in `data/book.yml` (365 days), naming the file. These are warnings only, so `validate`, `make check` and `build --strict` still pass; remove the setting to turn the check off.
+- Components can record `last_reviewed_at` and `last_reviewed_notes` like recipes. Neither is printed.
+- `nfl-book stats` lists published recipes and components whose review is missing or out of date, stalest first.
+- `/review-recipes stale` reviews every published recipe and component that is due for another review.
 
 ## [0.13.0] - 2026-09-26
 

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 from collections.abc import Callable
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -62,6 +63,7 @@ def test_sections_in_order(fixture_book: Project) -> None:
         "components",
         "unreferenced-components",
         "menu-type-gaps",
+        "stale-reviews",
     ]
     assert report.section("index-course").title == "Index by Course"
 
@@ -223,11 +225,108 @@ def test_markdown_escapes_and_empty() -> None:
     assert "## Nothing\n\nAll good." in text
 
 
+def test_markdown_renders_none_as_empty_cell() -> None:
+    columns = (Column("item", "Item"), Column("age_days", "Age (days)"))
+    report = Report(Thresholds(), (Section("demo", "Demo", columns, (("Sauce", None),)),))
+    assert "| Sauce |  |" in render_markdown(report)
+
+
 def test_json_roundtrip(fixture_book: Project) -> None:
     data = json.loads(render_json(build_report(fixture_book, Thresholds(min_menus=4))))
-    assert data["thresholds"] == {"min_dishoffs": 2, "min_menus": 4, "thin_share": 0.1}
+    assert data["thresholds"] == {
+        "min_dishoffs": 2,
+        "min_menus": 4,
+        "thin_share": 0.1,
+        "today": "2026-09-27",
+    }
     teams = data["sections"][0]
     assert (teams["id"], teams["title"]) == ("teams", "Recipes per team")
     assert teams["rows"][0]["team"] == "New England Patriots"
     gaps = next(s for s in data["sections"] if s["id"] == "course-gaps")
     assert gaps["rows"][0]["missing"] == ["Sides", "Meals", "Desserts"]
+    stale = next(s for s in data["sections"] if s["id"] == "stale-reviews")
+    assert stale["rows"] == []
+
+
+def set_reviewed(project: Project, relative: str, value: str | None) -> None:
+    path = project.content_root / relative
+    lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
+    out = [
+        (f"last_reviewed_at: {value}\n" if value else "")
+        if line.startswith("last_reviewed_at:")
+        else line
+        for line in lines
+    ]
+    assert out != lines
+    path.write_text("".join(out), encoding="utf-8")
+
+
+SLIDERS = "recipes/afc/east/bills/test-buffalo-sliders.md"
+WINGS = "recipes/afc/east/dolphins/test-citrus-wings.md"
+SAUCE = "components/sauces/test-wing-sauce.md"
+
+
+def stale_rows(report: Report) -> list[tuple[Any, ...]]:
+    return [
+        (r["item"], r["kind"], r["id"], r["last_reviewed"], r["age_days"])
+        for r in rows(report, "stale-reviews")
+    ]
+
+
+def test_stale_reviews_stalest_first(fixture_book: Project) -> None:
+    set_reviewed(fixture_book, SLIDERS, "2025-01-01")
+    set_reviewed(fixture_book, WINGS, "2025-09-26")
+    set_reviewed(fixture_book, SAUCE, None)
+    report = build_report(fixture_book)
+    section = report.section("stale-reviews")
+    assert section.title == "Published items not reviewed in 365 days (stalest first)"
+    assert [c.label for c in section.columns] == [
+        "Item",
+        "Kind",
+        "Id",
+        "Last reviewed",
+        "Age (days)",
+    ]
+    assert stale_rows(report) == [
+        ("Test Wing Sauce", "component", "test-wing-sauce", "never", None),
+        ("Test Buffalo Sliders", "recipe", "test-buffalo-sliders", "2025-01-01", 634),
+        ("Test Citrus Wings", "recipe", "test-citrus-wings", "2025-09-26", 366),
+    ]
+    text = render_markdown(report)
+    assert "| Test Wing Sauce | component | test-wing-sauce | never |  |" in text
+
+
+def test_stale_reviews_none_due(fixture_book: Project) -> None:
+    section = build_report(fixture_book).section("stale-reviews")
+    assert section.title == "Published items not reviewed in 365 days (stalest first)"
+    assert section.rows == ()
+    assert section.empty == (
+        "Every published recipe and component was reviewed in the last 365 days."
+    )
+
+
+def test_stale_reviews_use_threshold_date(fixture_book: Project) -> None:
+    report = build_report(fixture_book, Thresholds(today=date(2027, 9, 2)))
+    assert report.thresholds.today == date(2027, 9, 2)
+    assert [r["id"] for r in rows(report, "stale-reviews")] == [
+        "test-buffalo-sliders",
+        "test-citrus-wings",
+        "test-blue-cheese-dip",
+        "test-cajun-seasoning",
+        "test-wing-sauce",
+    ]
+    assert {r["age_days"] for r in rows(report, "stale-reviews")} == {366}
+
+
+def test_stale_reviews_off(fixture_book: Project) -> None:
+    book = fixture_book.content_root / "data/book.yml"
+    text = book.read_text(encoding="utf-8")
+    assert "review_max_age_days: 365" in text
+    book.write_text(
+        text.replace("review_max_age_days: 365", "review_max_age_days: null"), encoding="utf-8"
+    )
+    set_reviewed(fixture_book, SAUCE, None)
+    section = build_report(fixture_book).section("stale-reviews")
+    assert section.title == "Stale reviews"
+    assert section.rows == ()
+    assert section.empty == "Review age check is off: set review_max_age_days in data/book.yml."

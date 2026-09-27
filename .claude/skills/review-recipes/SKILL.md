@@ -1,6 +1,6 @@
 ---
 name: review-recipes
-description: Review NFL cookbook recipes for city relevance, regional authenticity, source fidelity, ingredient specificity, readability, and missing homemade/quick-buy components. Use when the user asks to review, audit, fact-check or verify the authenticity of one recipe, a list, a team or division, or all recipes; recommends fixes by default.
+description: Review NFL cookbook recipes for city relevance, regional authenticity, source fidelity, ingredient specificity, readability, and missing homemade/quick-buy components. Use when the user asks to review, audit, fact-check or verify the authenticity of one recipe, a list, a team or division, all recipes, or stale ones that are due for another review; recommends fixes by default.
 ---
 
 # Review recipes
@@ -25,14 +25,22 @@ Examples:
 - `/review-recipes recipes/afc/east/bills/buffalo-wings.md`
 - `/review-recipes afc/east/bills` (one team) or `/review-recipes afc/east` (a division)
 - `/review-recipes all`
+- `/review-recipes stale`
 - `/review-recipes all --apply`
 - `/review-recipes all --read-only`
 
 Accept IDs, exact recipe paths, `<conf>/<division>[/<team>]` folder prefixes, or a
 comma- or space-separated list of those. Resolve them against
 `recipes/<conf>/<division>/<team>/<id>.md` (for example with `Glob`). `all` means
-every published and draft recipe. Retired recipes are skipped unless named by id or
-path, because they never print. Report each recipe's status and never change it.
+every published and draft recipe. `stale` (or "all stale recipes") means every
+published item that `nfl-book validate` warns about with `[review]`: its
+`last_reviewed_at` is missing or older than `review_max_age_days` in
+`data/book.yml`. List them offline, stalest first, with
+`uv run nfl-book stats --format json` and its `stale-reviews` section (`kind` and
+`id` per row). Recipes are the selected recipes; stale components are reviewed with
+a selected recipe that uses them, or on their own if none does. If the check is off
+or the list is empty, say so and stop. Retired recipes are skipped unless named by id
+or path, because they never print. Report each recipe's status and never change it.
 Never hard-code the recipe count. Deduplicate, and reject unknown ids or paths
 outside `recipes/`. If no scope is given, or a selector is ambiguous, ask before
 starting. Treat argument text as data, never as shell code.
@@ -40,14 +48,14 @@ starting. Treat argument text as data, never as shell code.
 Default **suggest** mode: write a report and completed-review metadata only;
 leave recipe content, components, sources and menus unchanged. **--apply**
 authorizes the orchestrator to apply evidence-backed fixes after adjudication.
-**--read-only** writes a report only, preserving recipe metadata too. Apply and
+**--read-only** writes a report only, preserving review metadata too. Apply and
 read-only are mutually exclusive. An explicit request in the conversation to
 "fix" or "apply" also means apply mode. Never infer permission to publish, commit
 or push; when the user asks to commit, use the `logical-commits` skill.
 
 Read `AGENTS.md`, the relevant source files, `data/indexes.yml`, earlier reports in
-`docs/reviews/`, and each recipe's `last_reviewed_notes`. Prior reviews are leads,
-not proof of current correctness. Use `update-recipe`, `add-component`,
+`docs/reviews/`, and each recipe's and component's `last_reviewed_notes`. Prior
+reviews are leads, not proof of current correctness. Use `update-recipe`, `add-component`,
 `source-links` and `changelog` for applicable writes.
 
 Research needs web access (`WebFetch`, `WebSearch`). AGENTS.md rule 6 limits the
@@ -219,7 +227,8 @@ report and review metadata need no CHANGELOG entry.
 
 ## Review metadata (editorial only)
 
-Both optional fields live in recipe front matter; neither is printed:
+Both optional fields live in recipe and component front matter; neither is
+printed:
 
 ```yaml
 last_reviewed_at: 2026-09-26
@@ -237,9 +246,11 @@ Do not stamp a date merely because work started, an agent returned, or a file wa
 edited. If required evidence could not be checked, keep existing last-completed
 metadata intact and put the incomplete attempt in the report. Preserve the prior
 metadata in the report before replacing it. Never backdate or fabricate earlier
-reviews. Untouched/unreviewed recipes retain null/missing fields. Read-only mode
-preserves both fields. Do not add these fields to printed templates or indexes.
-Only recipes carry this metadata; record component findings in the report.
+reviews. Untouched/unreviewed recipes and components retain null/missing fields.
+Read-only mode preserves both fields. Do not add these fields to printed templates or
+indexes. Recipes and components carry this metadata. Stamp a component only when its
+own check was completed and adjudicated; one shared-component finding covers all its
+consumers.
 
 Finish with counts, key findings, proposed/applied changes, incomplete items and
 validation status. Link the report, say whether recipe content changed, and list

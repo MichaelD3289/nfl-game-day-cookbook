@@ -16,3 +16,7 @@ photos:
 # Published website root. Each PDF recipe and component page links to its page
 # here (recipe-<id>.html / component-<id>.html). Leave empty to omit the links.
 website_url: https://michaeld3289.github.io/nfl-game-day-cookbook/
+# Review age limit in days. `nfl-book validate` warns (never fails) about each
+# published recipe or component whose last_reviewed_at is missing or older than
+# this. Remove the line or set it to null to turn the check off.
+review_max_age_days: 365

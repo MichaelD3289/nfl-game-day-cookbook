@@ -77,6 +77,12 @@ class ComponentMeta(StrictModel):
     status: Status
     yield_: str | None = Field(None, alias="yield")
     source: SourceLink | None = None
+    last_reviewed_at: date | None = Field(
+        None, description="Last completed source review date; never rendered in the booklet."
+    )
+    last_reviewed_notes: str | None = Field(
+        None, description="Editorial review outcome/report reference; never rendered."
+    )
     quick_buy: NonEmpty = Field(description="Store-bought shortcut shown in Quick Options.")
     always_include: bool = False
     order: int | None = None

@@ -1,8 +1,9 @@
-"""Cross-document validation: references, indexes, dependencies, shortlinks."""
+"""Cross-document validation: references, indexes, dependencies, shortlinks, review age."""
 
 from __future__ import annotations
 
 from collections.abc import Callable, Iterable, Sequence
+from datetime import date
 from pathlib import Path
 
 from nfl_book.config import Settings
@@ -11,6 +12,7 @@ from nfl_book.errors import Diagnostics
 from nfl_book.indexes import IndexDefinition, build_index
 from nfl_book.models.common import Status
 from nfl_book.models.content import Component, Content, Recipe
+from nfl_book.reviews import check_review_ages
 from nfl_book.shortlinks import ShortlinkCache
 
 
@@ -55,6 +57,7 @@ def validate_content(
     *,
     indexes_path: Path,
     require_shortlinks: bool,
+    today: date | None = None,
 ) -> None:
     indexes = build_indexes(settings, diags, indexes_path)
     components = {c.id: c for c in content.components}
@@ -67,6 +70,7 @@ def validate_content(
     _validate_graph(content, components, diags)
     _validate_menus(content, recipes, diags)
     _validate_shortlinks(content, shortlinks, diags, require_shortlinks)
+    check_review_ages(content, settings.book.review_max_age_days, diags, today)
 
 
 def _validate_recipe(

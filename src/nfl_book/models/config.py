@@ -113,6 +113,12 @@ class BookConfig(StrictModel):
         pattern=r"^https://",
         description="Published website root; PDF recipe and component pages link to it.",
     )
+    review_max_age_days: int | None = Field(
+        None,
+        ge=1,
+        description="Warn about published recipes and components whose last_reviewed_at is "
+        "missing or older than this many days; unset turns the check off.",
+    )
 
 
 class CoverMeta(StrictModel):
