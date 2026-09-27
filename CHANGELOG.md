@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-09-26
+
 ### Added
 
 - Components can have a one-sentence `description`, and every Make It or Buy It component now has one. The website and EPUB show it in their Make It or Buy It lists; the PDF is unchanged.
@@ -277,7 +279,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.12.1...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.13.0...HEAD
+[0.13.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.10.0...v0.11.0
