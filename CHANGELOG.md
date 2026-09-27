@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Agent rules and the task skills now require claiming a GitHub issue with the `in-progress` label before working on it. An agent that finds an issue already labelled `in-progress` must not work on it without a human's explicit permission, so two agents never duplicate the same work.
 - PR checks now build the full PDF and fail when a recipe overflows its page, so a PDF problem blocks the pull request instead of the release. To save CI minutes this check skips draft PRs: it runs when a PR is marked ready for review and on every push after that. Dependabot PRs, which only update GitHub Actions, skip the PDF, website and EPUB builds.
 - Website recipe lists share one easier-to-scan look: the dish name with its course beside it (Sugar cream pie | Dessert, plus the team where a list mixes teams), the short description underneath, and no bullets. Team cards and the All recipes page no longer repeat the team under each dish, and the suggestion buttons sit at the bottom of every team card so they line up.
 - Website recipe and component pages show the short description under the title, and yield, prep and cook times as labelled chips instead of one line split by bars.

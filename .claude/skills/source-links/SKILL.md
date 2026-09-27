@@ -5,6 +5,11 @@ description: Manage recipe/component source URLs, the data/shortlinks.yml cache 
 
 # Source links, short links and QR codes
 
+> **Working from a GitHub issue?** Claim it first ([AGENTS.md](../../../AGENTS.md) rule
+> 15). If the issue already has the `in-progress` label, stop and ask a human; do not
+> work on it without their explicit permission. Otherwise add the label before you
+> change anything.
+
 - Front matter always holds the **full canonical URL** in `source.url`. Never put
   a short link there.
 - `make links` / `uv run nfl-book prepare-links` (alias `prepare`) is the **only** command that

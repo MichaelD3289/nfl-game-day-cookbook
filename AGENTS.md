@@ -59,6 +59,17 @@ Rules for any human or AI agent editing this repository.
     the main checkout. After the branch is merged, remove it with
     `git worktree remove .worktrees/<name>` and delete the merged branch.
 
+15. **Claim an issue before working on it.** GitHub issues carry an `in-progress` label
+    while someone is working on them, so two agents never do the same work.
+    - Before you start on an issue, read its current labels. If it already has
+      `in-progress`, do not work on it, even partly, unless a human explicitly tells
+      you to. Stop and say so instead.
+    - Otherwise add the label before changing anything
+      (`gh issue edit <number> --add-label in-progress`, or your GitHub tool), and
+      reference the issue from your pull request (`Closes #<number>`).
+    - If you stop without finishing, remove the label and comment on the issue with
+      where you left off and the branch, so someone else can pick it up.
+
 ## Task skills
 
 Step-by-step playbooks for common work live in `.claude/skills/*/SKILL.md`:
