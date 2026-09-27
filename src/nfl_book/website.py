@@ -24,9 +24,10 @@ from nfl_book.pipeline import load
 from nfl_book.project import Project
 from nfl_book.publishing import EPUB_FILENAME, RELEASES, REPOSITORY
 from nfl_book.quantities import Amount, find_yield_amounts
-from nfl_book.references import html_id
-from nfl_book.render.pages import ItemView, PageSpec
+from nfl_book.references import html_id, recipe_label
+from nfl_book.render.pages import ItemView, PageSpec, WebView, edition_root
 from nfl_book.resolve import BookModel
+from nfl_book.structured_data import head_html, recipe_json_ld
 
 # Quick issue form per suggestion kind: (template, title prefix, field used in the title).
 SUGGESTION_FORMS = {
@@ -125,6 +126,29 @@ def _add_scaling(model: BookModel, pages: list[PageSpec]) -> None:
         context["scaler"] = scaler
 
 
+def _add_structured_data(model: BookModel, pages: list[PageSpec]) -> None:
+    """schema.org Recipe JSON-LD, and the canonical address, in each recipe page's head.
+
+    The canonical address is the page at the website root, which always serves the
+    latest edition; ``url`` and ``image`` name this edition's own copies.
+    """
+    recipes = {recipe_label(r.id): r for r in model.recipes}
+    base = model.settings.book.website_url
+    for page in pages:
+        context = page.context
+        if page.template != "recipe.qmd.j2":
+            continue
+        web = context.get("web")
+        page_url = web.href if isinstance(web, WebView) else None
+        image = context.get("image")
+        image_url = f"{edition_root(base)}{image}" if base and image else None
+        canonical = f"{base.rstrip('/')}/{page.slug}.html" if base else None
+        data = recipe_json_ld(
+            recipes[context["label"]], model.settings, image_url=image_url, page_url=page_url
+        )
+        context["head"] = head_html(data, canonical)
+
+
 def _suggestion(kind: str, lead: str, **fields: str) -> dict[str, str]:
     """A prefilled GitHub issue link plus the same fields for the anonymous form."""
     template, prefix, title_field = SUGGESTION_FORMS[kind]
@@ -213,6 +237,7 @@ def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnos
     pages, diags, photos, model = prepare_pages(project, build_dir, web=True)
     _add_suggestions(project, model, pages)
     _add_scaling(model, pages)
+    _add_structured_data(model, pages)
     return pages, diags, photos
 
 
@@ -250,7 +275,10 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
             "game-day-menus": "Game Day Menus",
             "make-it-or-buy-it": "Make It or Buy It",
         }.get(page.slug, page.slug)
-        front = yaml.safe_dump({"title": "", "pagetitle": title}, sort_keys=False)
+        matter: dict[str, Any] = {"title": "", "pagetitle": title}
+        if context.get("head"):
+            matter["include-in-header"] = {"text": context["head"]}
+        front = yaml.safe_dump(matter, sort_keys=False)
         body = env.get_template(page.template).render(**context, version=version, download=download)
         body = re.sub(r"(?m)^(:{3,}[^\n]*)$", r"\n\1\n", body)
         (build_dir / _filename(page)).write_text(f"---\n{front}---\n\n{body}")

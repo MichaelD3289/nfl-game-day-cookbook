@@ -141,7 +141,8 @@ def test_quick_component_choices_scale_from_generated_markup(
         )
     )
     site = build_website(fixture_book, render=False).document.parent
-    page = (site / "recipe-test-citrus-wings.qmd").read_text()
+    # The body only: the front matter's JSON-LD repeats the ingredient text.
+    page = (site / "recipe-test-citrus-wings.qmd").read_text().split("\n---\n", 1)[1]
     lines = [line for line in page.splitlines() if "; or substitute" in line]
     assert len(lines) == len(choices)
     amounts = []

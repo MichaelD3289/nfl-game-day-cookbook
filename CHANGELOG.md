@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Website recipe pages now carry schema.org Recipe structured data, so search engines and recipe apps such as Paprika or Mealie can read each recipe's name, photo, yield, course, city, ingredients, steps and source, with prep and cook times included only when they are an exact duration such as "20 minutes". A canonical link points search engines to the latest edition's page ([#45](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/45)).
+
 ## [0.13.0] - 2026-09-26
 
 ### Added
