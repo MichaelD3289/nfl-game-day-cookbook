@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `nfl-book stats` (or `make stats`) reports where the cookbook is thin: recipes per team by status, teams missing a course, divisions with fewer than two dish-offs, recipes per index bucket, how often each component is used and which ones no recipe uses, and menu types with few menus. It runs offline, prints a table by default or `--format json` / `--format markdown`, and never fails because of gaps.
+
 ## [0.13.0] - 2026-09-26
 
 ### Added

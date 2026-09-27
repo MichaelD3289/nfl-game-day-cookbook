@@ -115,6 +115,7 @@ the book unless it sets `always_include: true`.
 uv sync                                   # install
 make book                                 # everything: make links, then make pdf
 uv run nfl-book validate [PATHS...]       # validate everything (optionally report only PATHS)
+uv run nfl-book stats [--format json|markdown]  # where the cookbook is thin (or `make stats`)
 uv run nfl-book prepare-links             # the ONLY network step (or `make links`): fill data/shortlinks.yml
 uv run nfl-book preview PATH [--no-pdf]   # render one recipe/component (drafts allowed)
 uv run nfl-book build [--no-pdf] [--strict]   # published-only book -> dist/
@@ -132,7 +133,16 @@ uv run nfl-book --content "$D" --generated "$D/generated" --dist "$D/dist" build
 ```
 
 Make targets: `make check` (lint, tests, validate), `make test`, `make lint`,
-`make preview FILE=...`, `make pdf` and `make clean`.
+`make preview FILE=...`, `make pdf`, `make stats` (`FORMAT=markdown` or `FORMAT=json`)
+and `make clean`.
+
+`nfl-book stats` shows where the cookbook is thin. It counts published, testing and
+draft content (not retired) and lists recipes per team by status (fewest first), teams
+missing a course, divisions with fewer than two dish-offs, recipes per index bucket
+(buckets under 10% of recipes are marked thin), how many recipes use each component
+and which components none use, and game-day menu types with fewer than three menus. It
+is informational: warnings and errors belong to `validate`, and it exits non-zero only
+when content fails to load.
 
 ## How page numbers work
 
