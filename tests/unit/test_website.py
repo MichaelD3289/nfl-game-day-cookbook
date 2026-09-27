@@ -533,3 +533,48 @@ def test_menu_without_components_offers_no_component_option(fixture_book: Projec
     ) in division
     assert "data-print-components" not in division
     assert "print-with" not in division
+
+
+def test_browse_page_lists_every_card_and_hides_filters_until_scripted(
+    fixture_book: Project,
+) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    browse = (site / "browse.qmd").read_text()
+    assert '<span id="section-browse"></span>' in browse
+    assert "# Browse recipes" in browse
+    assert '<form class="finder-filters" hidden aria-label="Filter recipes">' in browse
+    assert '<div class="finder" data-total="2">' in browse
+    assert '<p class="finder-status" aria-live="polite">2 recipes</p>' in browse
+    cards = re.findall(r'<li class="finder-card" data-id="([^"]+)" data-facets="([^"]+)">', browse)
+    assert [card[0] for card in cards] == ["test-buffalo-sliders", "test-citrus-wings"]
+    facets = json.loads(html.unescape(cards[0][1]))
+    assert facets["team"] == ["bills"] and facets["course"] == ["appetizers"]
+    assert '<a href="recipe-test-buffalo-sliders.html">' in browse
+    assert '<span class="finder-team">Buffalo Bills · Appetizer</span>' in browse
+    assert '<span class="finder-photo-empty" aria-hidden="true"></span>' in browse
+    assert 'name="team" value="dolphins"> Miami Dolphins' in browse
+    assert "jets" not in browse
+    assert "test-draft-nachos" not in browse
+    assert browse.count('<fieldset data-facet="') == 7
+    assert '<p class="finder-empty" hidden>' in browse
+    assert '<script src="browse.js"></script>' in browse
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    sidebar = config["website"]["sidebar"]["contents"]
+    assert sidebar[:3] == [
+        {"text": "Start here", "href": "index.qmd"},
+        {"text": "All recipes", "href": "contents.qmd"},
+        {"text": "Browse recipes", "href": "browse.qmd"},
+    ]
+
+
+def test_browse_page_is_website_only(fixture_book: Project) -> None:
+    pipeline.build(fixture_book, pdf=False)
+    built = "\n".join(
+        p.read_text()
+        for p in fixture_book.book_build_dir.rglob("*")
+        if p.suffix in {".qmd", ".tex"}
+    )
+    assert "Browse recipes" not in built
+    assert "finder-card" not in built

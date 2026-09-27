@@ -15,6 +15,10 @@ one index page. That page lists recipe title, team and page reference, grouped
 by bucket in the order the buckets are listed. The page number comes from
 LaTeX, so no page numbers go anywhere.
 
+Every index also becomes a filter on the website's **Browse recipes** page and a facet
+in `recipes.json`, in `indexes.yml` order, with no code changes. The ids `conference`,
+`division` and `team` are reserved for the league filters, so validation rejects them.
+
 ## Pieces
 
 | File                            | Role                                                                                                     |

@@ -1,0 +1,50 @@
+{% import '_macros.qmd.j2' as m with context %}
+{{ m.anchor(label) }}
+[FIND YOUR NEXT DISH]{.eyebrow}
+
+# Browse recipes
+
+Narrow the whole cookbook by course, main ingredient, time, cost or team, then open a card to cook.
+
+```{=html}
+<div class="finder" data-total="{{ recipes|length }}">
+<form class="finder-filters" hidden aria-label="Filter recipes">
+{% for facet in facets %}
+{% if facet.id == "team" %}
+<fieldset data-facet="{{ facet.id|e }}">
+<legend>{{ facet.title|e }}</legend>
+<details>
+<summary>Choose teams</summary>
+{% for option in facet.options %}
+<label class="finder-option"><input type="checkbox" name="{{ facet.id|e }}" value="{{ option.id|e }}"> {{ option.label|e }} <span class="finder-count"></span></label>
+{% endfor %}
+</details>
+</fieldset>
+{% else %}
+<fieldset data-facet="{{ facet.id|e }}">
+<legend>{{ facet.title|e }}</legend>
+{% for option in facet.options %}
+<label class="finder-option"><input type="checkbox" name="{{ facet.id|e }}" value="{{ option.id|e }}"> {{ option.label|e }} <span class="finder-count"></span></label>
+{% endfor %}
+</fieldset>
+{% endif %}
+{% endfor %}
+<button type="button" class="finder-clear">Clear filters</button>
+</form>
+<div class="finder-results">
+<p class="finder-status" aria-live="polite">{{ recipes|length }} recipe{{ "" if recipes|length == 1 else "s" }}</p>
+<ul class="finder-cards">
+{% for recipe in recipes %}
+<li class="finder-card" data-id="{{ recipe.id|e }}" data-facets="{{ recipe.facets_json|e }}"><a href="{{ recipe.url|e }}">
+{% if recipe.photo %}<img src="{{ recipe.photo|e }}" width="{{ recipe.photo_size }}" height="{{ recipe.photo_size }}" loading="lazy" decoding="async" alt="">{% else %}<span class="finder-photo-empty" aria-hidden="true"></span>{% endif %}
+<span class="finder-title">{{ recipe.title|e }}</span>
+<span class="finder-team">{{ recipe.team.name|e }} · {{ recipe.course_label|e }}</span>
+{% if recipe.description %}<span class="finder-description">{{ recipe.description|e }}</span>{% endif %}
+</a></li>
+{% endfor %}
+</ul>
+<p class="finder-empty" hidden>No recipes match these filters.</p>
+</div>
+</div>
+<script src="browse.js"></script>
+```
