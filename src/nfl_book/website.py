@@ -272,20 +272,31 @@ def _add_browse(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
     pages.insert(position, page)
 
 
+def _recipe_prints(pages: list[PageSpec]) -> dict[str, list[str]]:
+    """The component pages each recipe page prints, keyed by the recipe page's file."""
+    return {
+        f"{p.slug}.html": p.context.get("print_pages", [])
+        for p in pages
+        if p.template == "recipe.qmd.j2"
+    }
+
+
+def _course_options(catalog: dict[str, Any]) -> list[dict[str, Any]]:
+    """The course facet's options, in data/indexes.yml order."""
+    course = next(f for f in catalog["facets"] if f["id"] == "course")
+    options: list[dict[str, Any]] = course["options"]
+    return options
+
+
 def _add_menu_builder(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
     """The Build your own menu page (website only), right after Game Day Menus.
 
     Dishes are grouped by course in data/indexes.yml order, empty courses left out, and
     keep book order within a course. Each carries the component pages its recipe prints.
     """
-    prints: dict[str, list[str]] = {
-        f"{p.slug}.html": p.context.get("print_pages", [])
-        for p in pages
-        if p.template == "recipe.qmd.j2"
-    }
-    course = next(f for f in catalog["facets"] if f["id"] == "course")
+    prints = _recipe_prints(pages)
     courses = []
-    for option in course["options"]:
+    for option in _course_options(catalog):
         dishes = [
             {
                 **recipe,
