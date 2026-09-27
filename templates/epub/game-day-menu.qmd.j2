@@ -1,7 +1,13 @@
 {% import '_macros.qmd.j2' as m with context %}
-[GAME DAY MENUS]{.eyebrow}
+<# The print book repeats the menu type on each page of menus; the EPUB opens the type
+   once and runs its menus on (``continued`` is set by nfl_book.epub). #>
+{% if not continued %}
 
-# {{ type_title|md }}
+## {{ type_title|md }}
+
+[Game Day Menus]{.eyebrow}
+
+{% endif %}
 {% for item in menus %}
-{{ m.menu(item) }}
+{{ m.menu(item, 3) }}
 {% endfor %}

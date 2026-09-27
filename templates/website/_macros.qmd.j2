@@ -16,7 +16,7 @@
 {% if s %}
 
 ```{=html}
-<div class="scaler"{% if s.servings %} data-servings="{{ s.servings }}"{% endif %} hidden>
+<div class="scaler"{% if s.servings %} data-servings="{{ s.servings }}" data-servings-max="{{ s.servings_max }}"{% endif %} hidden>
 <div class="scaler-row">
 <span class="scaler-label">Make</span>
 <span class="scaler-buttons" role="group" aria-label="Recipe multiplier">{% for label, factor in s.multipliers %}<button type="button" data-factor="{{ factor }}" aria-pressed="false">{{ label }}</button>{% endfor %}</span>
@@ -35,13 +35,18 @@
 - {{ link(ref) }}
 {% endfor %}
 {% endmacro %}
-{% macro source(src, credit='') %}
-{% if src or credit %}
+{% macro source(src, credit='', qr='', web=none) %}
+{% if src or credit or qr %}
 ::: {.recipe-source}
-{% if src %}
-{% if src.qr %}
-![QR code for recipe source]({{ src.qr }}){.source-qr}
+{% if qr %}
+::: {.page-qr}
+<img src="{{ qr|e }}" alt="{{ 'QR code for this page' if web else 'QR code for recipe source' }}" class="source-qr">
+{% if web %}
+<span class="qr-caption">Scan to open on your phone</span>
 {% endif %}
+:::
+{% endif %}
+{% if src %}
 **Recipe source:** <a href="{{ src.href|e }}">{{ (src.title or src.display)|e }}</a>  
 <small>{{ src.display|e }}</small>
 {% endif %}
@@ -71,6 +76,16 @@ Photo: {{ credit }}
 {{ item.prep_plan or item.prep_note }}
 {% endif %}
 :::
+{% endmacro %}
+{% macro print_button(scaled=false) %}
+
+```{=html}
+<div class="print-bar" hidden><button type="button" class="print-button">Print</button></div>
+{% if scaled %}
+<p class="print-scale" hidden></p>
+{% endif %}
+```
+
 {% endmacro %}
 {% macro suggest(s, compact=false) %}
 

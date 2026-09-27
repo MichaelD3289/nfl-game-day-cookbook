@@ -97,3 +97,15 @@ def test_units_match_the_parser() -> None:
         "Object.fromEntries(Object.entries(s.UNITS).map(([k, u]) => [k, [u.kind, u.size]]))"
     )
     assert units == {key: [kind, int(size)] for key, (kind, size) in UNITS.items()}
+
+
+def test_print_label_names_scale_and_servings() -> None:
+    assert node(
+        "[s.printLabel(2, 6, 6), s.printLabel(2, 4, 6), s.printLabel(1.5, null, null),"
+        " s.printLabel(2.5, 4, 4)]"
+    ) == [
+        "Scaled 2× · serves 12",
+        "Scaled 2× · serves 8–12",
+        "Scaled 1½×",
+        "Scaled 2½× · serves 10",
+    ]

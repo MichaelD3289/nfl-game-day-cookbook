@@ -1,14 +1,19 @@
 {% import '_macros.qmd.j2' as m with context %}
-
-[SCRATCH FAVORITES · QUICK ALTERNATIVES]{.eyebrow}
+<# Kind headings and the components under them follow this page (added by
+   nfl_book.epub), so this page is a short guide to the section. #>
 
 # Make It or Buy It {#{{ label|anchor }}}
 
-A [Q]{.q-mark} beside an ingredient links to its homemade version.
-Quick-option cards on recipe pages include the ready-to-buy suggestion.
+[Scratch favorites · quick alternatives]{.eyebrow}
+
+From-scratch versions of the sauces, toppings and staples the recipes use, each with a
+store-bought choice. On a recipe, a **Q** beside an ingredient points to its Quick
+options card, which links here.
 
 {% for kind in kinds %}
-## {{ kind.title|md }}
+
+**[{{ kind.title|md }}]({{ route(kind_links[kind.title]) }})**
+
 {% for component in kind.components %}
 - {{ m.link(component.ref) }}
 {% endfor %}

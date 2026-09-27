@@ -4,6 +4,12 @@
 ```
 
 << body >>
+<% if website %>
+
+```{=latex}
+\CoverOnline{<< website.href|tex_url >>}{<< website.display|tex >>}{<< website.edition|tex >>}
+```
+<% endif %>
 
 ```{=latex}
 \end{CoverBody}

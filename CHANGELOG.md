@@ -10,14 +10,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add `make epub` with the full reflowable cookbook, linked indexes and homemade components, embedded optimized photos, and package checks. Releases and download links include EPUB ([#19](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/19)).
+- The EPUB opens each recipe, component, menu and section on its own page, with the indexes at the back. Each recipe shows its short description, lists yield and times on separate lines, and links to its page in this edition of the website. A **Q** beside an ingredient opens the recipe's Quick options card, and sources link to their full address.
+- The EPUB has a cover, a description and rights details, and keeps the same identifier across editions, so reading apps treat a new edition as an update of the same book.
+- The website's **All versions** page links each edition's EPUB next to its PDF.
+- PR checks now render the website and EPUB with Quarto, so a rendering problem fails the pull request instead of the release.
 
-## [0.9.1] - 2026-09-27
+### Changed
+
+- The `creating-release` skill now builds the website and EPUB before a release, and the `layout-changes` skill explains how headings decide EPUB pages.
+
+## [0.11.0] - 2026-09-26
+
+### Added
+
+- Each recipe and component page in the PDF now links to its page in the same edition of the website (under `/vX.Y.Z/`), so the link matches the printing; newer editions are linked from there, and the cover explains this once. Set the site root with `website_url` in `data/book.yml`.
+
+### Changed
+
+- The QR code on each recipe and component page, in the PDF and on the website, now opens that page in this edition of the website instead of the recipe source, and pages without a source get one too. The PDF shows a short "View this page online" link instead of the full address, and the source stays a clickable link.
+
+## [0.10.0] - 2026-09-26
+
+### Added
+
+- Recipe, component, game-day menu and division (dish-off) pages on the website have a **Print** button that prints just the page, without the site navigation, search or suggestion prompts. Most recipes fit on one Letter or A4 page; a scaled recipe prints its scaled amounts with a "Scaled 2× · serves 12" note, and every printout ends with the page's web address. The PDF is unchanged.
+
+### Changed
+
+- The `layout-changes` skill now explains that Quarto rewrites raw HTML in website pages (a bare `hidden` becomes `hidden=""`), so tests of the rendered site must compare attributes rather than exact markup.
+
+## [0.9.1] - 2026-09-26
 
 ### Fixed
 
 - The release build's rendered-website check no longer fails on the recipe scaling controls, which Quarto writes with `hidden=""` instead of a bare `hidden`. This unblocks publishing the 0.9 recipe scaling to the website.
 
-## [0.9.0] - 2026-09-27
+## [0.9.0] - 2026-09-26
 
 ### Added
 
@@ -25,7 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Recipes accept an optional `servings` field (a number or a range such as `6-8`), and yields such as "6–8 servings" or "serves 6–10" are read automatically. Ingredient lines can be marked `{{no-scale}}` to keep their amount fixed, and validation reports amounts it cannot read, such as `500g`.
 - Sandwich, burger, burrito, omelet and roll recipes list their servings, and deep-frying oil measured by pot depth is marked so it does not scale.
 
-## [0.8.0] - 2026-09-27
+## [0.8.0] - 2026-09-26
 
 ### Added
 
@@ -219,7 +247,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit and integration tests against a synthetic sample book.
 
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.1...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.0...HEAD
+[0.11.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.10.0...v0.11.0
+[0.10.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.7.0...v0.8.0
