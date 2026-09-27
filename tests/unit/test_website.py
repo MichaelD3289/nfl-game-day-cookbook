@@ -4,6 +4,7 @@ import html
 import json
 import re
 from pathlib import Path
+from typing import Any
 
 import pytest
 import yaml
@@ -708,3 +709,141 @@ def test_menu_builder_is_website_only(fixture_book: Project) -> None:
     )
     assert "Build your own menu" not in built
     assert "menu-dish" not in built
+
+
+def _matchup_data(page: str) -> dict[str, object]:
+    found = re.search(
+        r'<script type="application/json" class="matchup-data">(.*?)</script>', page, re.S
+    )
+    assert found, "matchup data missing"
+    data: dict[str, object] = json.loads(found.group(1))
+    return data
+
+
+def test_matchup_page_embeds_teams_and_dishes(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    page = (site / "matchup.qmd").read_text()
+    assert "pagetitle: Matchup menu" in page
+    assert '<span id="section-matchup"></span>' in page
+    assert "# Matchup menu" in page
+    data: dict[str, Any] = _matchup_data(page)
+    assert data["courses"] == [
+        {"id": "appetizers", "label": "Appetizers", "singular": "Appetizer"},
+        {"id": "meals", "label": "Meals", "singular": "Meal"},
+    ]
+    dishes = {d["id"]: d for d in data["dishes"]}
+    assert set(dishes) == {"test-buffalo-sliders", "test-citrus-wings"}
+    assert "test-draft-nachos" not in page
+    assert dishes["test-citrus-wings"] == {
+        "id": "test-citrus-wings",
+        "title": dishes["test-citrus-wings"]["title"],
+        "url": "recipe-test-citrus-wings.html",
+        "course": "meals",
+        "team": "dolphins",
+        "division": "afc-east",
+        "printPages": ["component-test-wing-sauce.html", "component-test-cajun-seasoning.html"],
+    }
+    assert dishes["test-buffalo-sliders"]["printPages"] == ["component-test-blue-cheese-dip.html"]
+    assert len(data["teams"]) == 32
+    assert len(data["divisions"]) == 8
+    assert data["divisions"][0] == {"key": "afc-east", "name": "AFC East"}
+    assert data["teams"][0] == {
+        "slug": "bills",
+        "name": "Buffalo Bills",
+        "short": "Bills",
+        "division": "afc-east",
+    }
+    # One line, so the ::: post-processing never sees it, and no closing tags inside.
+    line = next(line for line in page.splitlines() if 'class="matchup-data"' in line)
+    assert line.endswith("</script>")
+
+
+def test_matchup_pickers_group_teams_by_division(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    page = (site / "matchup.qmd").read_text()
+    for side in ("away", "home"):
+        start = page.index(f'<select name="{side}">')
+        select = page[start : page.index("</select>", start)]
+        groups = re.findall(r'<optgroup label="([^"]+)">', select)
+        assert len(groups) == 8
+        assert groups[0] == "AFC East"
+        options = re.findall(r'<option value="([^"]*)">([^<]*)</option>', select)
+        assert options[0] == ("", "Pick a team")
+        assert len(options) == 33
+        labels = dict(options)
+        assert labels["jets"] == "New York Jets (no recipes yet)"
+        assert labels["bills"] == "Buffalo Bills"
+    assert '<form class="matchup-pickers" hidden aria-label="Pick the teams">' in page
+    assert '<p class="matchup-nojs">' in page
+    assert '<section class="matchup-spread" hidden' in page
+
+
+def test_matchup_page_avoids_other_widgets(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    page = (site / "matchup.qmd").read_text()
+    for other in (
+        "print-bar",
+        'class="finder"',
+        'class="scaler"',
+        'menu-builder"',
+        "menu-summary",
+        "menu-matchup",
+    ):
+        assert other not in page
+    spread = page[page.index('<section class="matchup-spread"') : page.index("</section>")]
+    # print.js stamps the first id inside the printed element as the address anchor.
+    assert " id=" not in spread
+    assert '<span class="matchup-served" hidden>' in page
+    assert '<span class="shop-actions" hidden>' in page
+    assert '<a class="matchup-builder" href="menu-builder.html">' in page
+    assert '<div class="suggest" data-kind="menu"' in page
+    scripts = re.findall(r'<script src="([^"]+)"></script>', page)
+    assert scripts == ["menu.js", "matchup.js"]
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    sidebar = config["website"]["sidebar"]["contents"]
+    builder = sidebar.index({"text": "Build your own menu", "href": "menu-builder.qmd"})
+    assert sidebar[builder + 1] == {"text": "Matchup menu", "href": "matchup.qmd"}
+    assert "matchup.js" in config["project"]["resources"]
+    assert (site / "matchup.js").read_text() == (
+        fixture_book.styles_dir / "website-matchup.js"
+    ).read_text()
+
+
+def test_json_script_escapes_closing_tags() -> None:
+    from nfl_book.website import _json_script
+
+    text = _json_script({"a": "</script>", "b": "é"})
+    assert "</" not in text
+    assert "\n" not in text
+    assert json.loads(text) == {"a": "</script>", "b": "é"}
+
+
+def test_matchup_follows_course_order_in_indexes_yml(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    indexes = fixture_book.content_root / "data/indexes.yml"
+    text = indexes.read_text()
+    appetizers = "      - { id: appetizers, label: Appetizers, short_label: Appetizer }\n"
+    meals = "      - { id: meals, label: Meals, short_label: Meal }\n"
+    text = text.replace(appetizers, "@@").replace(meals, appetizers).replace("@@", meals)
+    indexes.write_text(text)
+    site = build_website(fixture_book, render=False).document.parent
+    data: dict[str, Any] = _matchup_data((site / "matchup.qmd").read_text())
+    assert [c["id"] for c in data["courses"]] == ["meals", "appetizers"]
+
+
+def test_matchup_is_website_only(fixture_book: Project) -> None:
+    pipeline.build(fixture_book, pdf=False)
+    built = "\n".join(
+        p.read_text()
+        for p in fixture_book.book_build_dir.rglob("*")
+        if p.suffix in {".qmd", ".tex"}
+    )
+    assert "Matchup menu" not in built
+    assert "matchup-data" not in built

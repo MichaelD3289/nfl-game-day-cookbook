@@ -207,6 +207,16 @@ bookmarked or shared, and in the browser's local storage. **Print menu + recipes
 **Shopping list** work only when the site is served over http(s). Its suggestion
 box is prefilled with the picked dishes and the menu's address.
 
+The **Matchup menu** page (`styles/website-matchup.js`) builds a game-day spread for
+two teams: pick the away and home teams and it suggests one dish per course, the home
+team and the visitors taking turns. When a team has no dish for a course it falls back
+to the rest of its division, then to the other side. **Swap** cycles through the other
+dishes that side could offer. The matchup is kept in the page address
+(`matchup.html?home=chiefs&away=raiders`), and **Open in the menu builder** hands the
+spread to the menu builder. **Print spread + recipes** and **Shopping list** work only
+when the site is served over http(s). Without JavaScript the page links to Browse
+recipes.
+
 Recipe and component pages can be **scaled** (½× to 4×, or by the number of people
 when a recipe has servings). Amounts are converted to the most readable unit, so
 tripling 4 teaspoons reads ¼ cup; counts stay whole and ranges stay ranges. The
