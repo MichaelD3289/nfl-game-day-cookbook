@@ -2,6 +2,7 @@
 id: test-blue-cheese-dip
 title: Test Blue Cheese Dip
 status: published
+last_reviewed_at: 2026-09-01
 yield: 1 cup
 quick_buy: Store-bought blue cheese dressing
 source:

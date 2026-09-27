@@ -10,10 +10,12 @@ from __future__ import annotations
 
 import shutil
 from collections.abc import Callable
+from datetime import date
 from pathlib import Path
 
 import pytest
 
+from nfl_book import reviews
 from nfl_book.config import Settings, load_settings
 from nfl_book.errors import Diagnostics
 from nfl_book.project import Project
@@ -21,6 +23,8 @@ from nfl_book.project import Project
 REPO_ROOT = Path(__file__).resolve().parent.parent
 FIXTURE_BOOK = REPO_ROOT / "tests" / "fixtures" / "sample-book"
 CONFIG_FILES = ("book.yml", "nfl.yml", "indexes.yml", "menu-types.yml", "component-kinds.yml")
+TODAY = date(2026, 9, 27)
+"""The date every test runs on, so review-age checks never depend on the clock."""
 
 
 def make_project(content: Path) -> Project:
@@ -36,6 +40,12 @@ def copy_config(target: Path) -> None:
     (target / "data").mkdir(parents=True, exist_ok=True)
     for name in CONFIG_FILES:
         shutil.copy2(REPO_ROOT / "data" / name, target / "data" / name)
+
+
+@pytest.fixture(autouse=True)
+def fixed_today(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Pin the review-age clock to :data:`TODAY`."""
+    monkeypatch.setattr(reviews, "current_date", lambda: TODAY)
 
 
 @pytest.fixture

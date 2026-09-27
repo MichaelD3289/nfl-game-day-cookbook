@@ -48,6 +48,20 @@ def test_validate_ok(fixture_book: Project) -> None:
     assert "OK" in output
 
 
+def test_validate_warns_about_old_review(fixture_book: Project) -> None:
+    path = fixture_book.content_root / "recipes/afc/east/bills/test-buffalo-sliders.md"
+    text = path.read_text(encoding="utf-8")
+    path.write_text(
+        text.replace("last_reviewed_at: 2026-09-01", "last_reviewed_at: 2025-01-01"),
+        encoding="utf-8",
+    )
+    code, output = invoke(fixture_book, "validate")
+    assert code == 0, output
+    assert "test-buffalo-sliders.md" in output
+    assert "634 days ago" in output
+    assert "OK (1 warning(s))" in output
+
+
 def test_validate_failure_names_file(fixture_book: Project) -> None:
     path = fixture_book.content_root / "recipes/afc/east/bills/test-buffalo-sliders.md"
     path.write_text(path.read_text().replace("course:", "course_typo:"), encoding="utf-8")

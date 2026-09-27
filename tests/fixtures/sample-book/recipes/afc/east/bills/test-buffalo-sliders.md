@@ -2,6 +2,7 @@
 id: test-buffalo-sliders
 title: Test Buffalo Sliders
 status: published
+last_reviewed_at: 2026-09-01
 course: appetizers
 yield: 12 sliders
 servings: 4-6

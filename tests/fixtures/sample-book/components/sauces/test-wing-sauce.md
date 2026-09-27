@@ -2,6 +2,7 @@
 id: test-wing-sauce
 title: Test Wing Sauce
 status: published
+last_reviewed_at: 2026-09-01
 yield: 1 cup
 quick_buy: Bottled wing sauce
 ---
