@@ -187,6 +187,12 @@ prompts. They open prefilled quick issue templates on GitHub and, once
 `suggestion_form_url` is set in `data/book.yml`, a form that needs no GitHub
 account. Setup is in [docs/website-suggestions.md](docs/website-suggestions.md).
 
+When `website_url` is set in `data/book.yml`, every published recipe and component
+page in the PDF prints a link to its website page (`recipe-<id>.html` or
+`component-<id>.html`), and the cover notes that the online version may differ from
+the printed edition. The links are built offline from that one URL; drafts are never
+linked, and the build fails if a link would open a page the website does not publish.
+
 ### Publishing to GitHub Pages
 
 One-time repository setup: in **Settings → Pages**, choose **GitHub Actions** as

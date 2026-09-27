@@ -20,6 +20,7 @@ from nfl_book.project import Project
 from nfl_book.qr import generate_qr_codes
 from nfl_book.render import Media, assemble, build_pages, make_env
 from nfl_book.render.env import tex
+from nfl_book.render.pages import check_web_links
 from nfl_book.render.quarto import render_pdf, scan_log
 from nfl_book.resolve import BookModel, resolve
 from nfl_book.shortlinks import Shortener, ShortlinkCache, get_shortener
@@ -130,9 +131,13 @@ def build(project: Project, *, pdf: bool = True, strict: bool = False) -> BuildR
     model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
     build_dir = project.book_build_dir
     media = build_media(project, model, build_dir)
+    pages = build_pages(model, media)
+    check_web_links(model, pages, diags)
+    if not diags.ok:
+        raise ValidationFailed(diags)
     assembled = assemble(
         make_env(project.templates_dir),
-        build_pages(model, media),
+        pages,
         build_dir,
         title=tex(loaded.settings.book.title),
         paper=loaded.settings.book.paper,

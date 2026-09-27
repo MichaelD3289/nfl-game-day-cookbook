@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Project Claude Code settings (`.claude/settings.json`), shared by local and cloud sessions: no AI attribution in commits or pull requests, pre-approved routine checks (`make check`, tests, lint, read-only git), and blocks on reading `.env` files, editing `generated/` or `dist/`, and creating or pushing tags.
+- Each recipe and component page in the PDF now links to its page on the website, with a note that the online version may differ from the printed edition; the cover explains this once. Set the site root with `website_url` in `data/book.yml`.
 
 ### Changed
 
