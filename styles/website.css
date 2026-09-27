@@ -6,6 +6,8 @@
   --book-pale: #eaf0f4;
   --book-rule: #d3e0e8;
   --book-paper: #fff;
+  --book-card: #f7f9fb;
+  --book-body: #3d4b58;
   --book-display: Palatino, "Palatino Linotype", "Book Antiqua", Georgia, serif;
 }
 body {
@@ -123,9 +125,9 @@ main.content {
 .team-card,
 .menu-card {
   border: 1px solid var(--book-rule);
-  background: #f7f9fb;
+  background: var(--book-card);
   padding: 1.3rem;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 .browse-card h2,
 .team-card h2,
@@ -290,15 +292,170 @@ main.content {
   }
 }
 
-/* Compact browsing summaries and menu previews. */
+/* Dish entries: one look for every recipe or component list (name, team · course,
+   description), in lists, team cards, menus and the Make It or Buy It grid. */
+.dish-list ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.4rem 0 1rem;
+}
+.dish-list li {
+  padding: 0.7rem 0;
+  margin: 0;
+  border-bottom: 1px solid var(--book-rule);
+}
+.dish-list li:last-child {
+  border-bottom: 0;
+}
+.dish-list li p {
+  margin: 0;
+}
+.dish-name {
+  font-weight: 700;
+  font-size: 1.02rem;
+  text-decoration: none;
+}
+.dish-name:hover {
+  text-decoration: underline;
+}
+.dish-meta {
+  display: block;
+  margin-top: 0.1rem;
+  color: var(--book-muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 .dish-description {
   display: block;
-  color: var(--book-muted);
-  font-size: 0.83rem;
-  line-height: 1.45;
   margin-top: 0.25rem;
-  max-width: 58ch;
+  color: var(--book-body);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  max-width: 62ch;
 }
+.dish-list-compact li {
+  padding: 0.3rem 0;
+  border-bottom: 0;
+}
+.dish-list-compact .dish-name {
+  font-size: 0.92rem;
+}
+.dish-list-compact .dish-meta {
+  font-size: 0.66rem;
+}
+.team-location,
+.menu-matchup {
+  display: block;
+  color: var(--book-muted);
+  font-size: 0.88rem;
+}
+.team-card h2,
+.menu-card h2 {
+  margin-bottom: 0.1rem;
+}
+
+/* Page headers: title, one-line summary, then the facts as small chips. */
+.page-dek {
+  max-width: 60ch;
+  margin: 0.2rem 0 0.6rem;
+  font-family: var(--book-display);
+  font-size: 1.22rem;
+  line-height: 1.4;
+  color: var(--book-body);
+}
+.recipe-location {
+  margin: 0 0 0.5rem;
+}
+.recipe-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.4rem 0 0.2rem;
+}
+.recipe-facts li {
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: var(--book-pale);
+  font-size: 0.85rem;
+}
+.fact-name {
+  margin-right: 0.2rem;
+  color: var(--book-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Make It or Buy It: a card per component with the recipes that use it. */
+.component-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 0.8rem 0 2rem;
+}
+.component-card {
+  border: 1px solid var(--book-rule);
+  border-radius: 8px;
+  background: var(--book-card);
+  padding: 1rem 1.2rem;
+}
+.component-card h3,
+.menu-preview-card h3 {
+  margin: 0 0 0.2rem;
+  font-family: var(--book-display);
+  font-weight: 700;
+  font-size: 1.18rem;
+  line-height: 1.3;
+}
+.component-card h3 a,
+.menu-preview-card h3 a {
+  font-weight: inherit;
+  text-decoration: none;
+}
+.component-card h3 a:hover,
+.menu-preview-card h3 a:hover {
+  text-decoration: underline;
+}
+.component-card p {
+  margin: 0;
+}
+.used-in {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.75rem !important;
+  font-size: 0.78rem;
+}
+.used-in-label {
+  flex-basis: 100%;
+  color: var(--book-muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.used-in-chip {
+  border: 1px solid var(--book-rule);
+  border-radius: 999px;
+  background: var(--book-paper);
+  padding: 0.1rem 0.6rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.used-in-chip:hover {
+  border-color: var(--book-navy);
+}
+.used-in-team {
+  color: var(--book-muted);
+}
+
+/* Game-day menu previews. */
 .menu-preview-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -307,39 +464,24 @@ main.content {
 }
 .menu-preview-card {
   border: 1px solid var(--book-rule);
-  border-radius: 6px;
-  background: #f7f9fb;
+  border-radius: 8px;
+  background: var(--book-card);
   padding: 1.1rem 1.2rem;
 }
-.menu-preview-card h3 {
-  font-family: var(--book-display);
-  font-size: 1.18rem;
-  margin: 0 0 0.45rem;
-  line-height: 1.3;
-}
-.menu-matchup {
-  color: var(--book-muted);
-  font-size: 0.8rem;
-}
-.menu-preview-card ul {
-  padding-left: 1.1rem;
-  font-size: 0.85rem;
-  margin-bottom: 0.7rem;
-}
-.menu-preview-card li,
-.menu-preview-card li p {
-  margin-bottom: 0.35rem;
-}
-.menu-preview-card .ref-note {
-  font-size: 0.73rem;
-  line-height: 1.3;
+.menu-summary {
+  display: block;
+  margin: 0.4rem 0 0.2rem;
+  color: var(--book-body);
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 .menu-plan-link {
   font-size: 0.8rem;
   font-weight: 700;
 }
 @media (max-width: 640px) {
-  .menu-preview-grid {
+  .menu-preview-grid,
+  .component-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -624,6 +766,19 @@ main.content {
     height: 1.1in;
     margin: 0 0 0.4rem 0.8rem;
   }
+  .page-dek {
+    font-size: 10.5pt;
+    margin: 0 0 0.2rem;
+  }
+  .recipe-facts {
+    gap: 0 0.9rem;
+    margin: 0.2rem 0 0;
+  }
+  .recipe-facts li {
+    padding: 0;
+    background: none;
+    font-size: 8.5pt;
+  }
   .print-scale:not([hidden]) {
     display: inline-block;
     margin: 0.3rem 0 0;
@@ -661,7 +816,8 @@ main.content {
   .quick-card,
   .menu-card,
   .team-card,
-  .menu-preview-card {
+  .menu-preview-card,
+  .component-card {
     padding: 0.5rem 0.8rem;
     margin: 0.7rem 0;
     break-inside: avoid;

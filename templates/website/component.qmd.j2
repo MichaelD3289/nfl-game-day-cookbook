@@ -1,10 +1,9 @@
 {% import '_macros.qmd.j2' as m with context %}
 {{ m.anchor(label) }}
-[MAKE IT OR BUY IT · {{ kind|md }}]{.eyebrow}
-
-# {{ title|md }}
-{{ meta_line }}
+::: {.recipe-header}
+{{ m.header("Make It or Buy It · " ~ kind, title, description, meta) }}
 {{ m.print_button(scaler) }}
+:::
 
 :::: {.recipe-columns}
 ::: {.ingredients}

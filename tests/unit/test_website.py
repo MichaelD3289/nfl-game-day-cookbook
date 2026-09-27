@@ -130,6 +130,57 @@ def test_recipe_descriptions_and_compact_menu_previews(fixture_book: Project) ->
     }
 
 
+def _describe(project: Project, relative: str, description: str) -> None:
+    path = project.content_root / relative
+    text = path.read_text()
+    path.write_text(
+        text.replace("status: published", f"status: published\ndescription: {description}", 1)
+    )
+
+
+def test_make_buy_cards_show_component_descriptions_and_recipes(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    _describe(fixture_book, "components/sauces/test-wing-sauce.md", '"Hot & tangy wing sauce."')
+    site = build_website(fixture_book, render=False).document.parent
+    make_buy = (site / "make-it-or-buy-it.qmd").read_text()
+    card = make_buy[make_buy.index("Test Wing Sauce") :]
+    card = card[: card.index("::: {.component-card}") if "::: {.component-card}" in card else None]
+    assert '<p class="dish-description">Hot &amp; tangy wing sauce.</p>' in card
+    assert (
+        'class="used-in-chip" href="recipe-test-citrus-wings.qmd#recipe-test-citrus-wings"' in card
+    )
+    assert '<span class="used-in-team">Dolphins</span>' in card
+    component = (site / "component-test-wing-sauce.qmd").read_text()
+    assert '<p class="page-dek">Hot &amp; tangy wing sauce.</p>' in component
+    # The description is for browsing on screen; the print booklet leaves it out.
+    pipeline.build(fixture_book, pdf=False)
+    pages = fixture_book.book_build_dir / "pages"
+    assert not any("tangy wing sauce" in p.read_text() for p in pages.glob("*.qmd"))
+
+
+def test_dish_entries_share_name_meta_and_description(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    _describe(fixture_book, "recipes/afc/east/bills/test-buffalo-sliders.md", '"Small rolls."')
+    site = build_website(fixture_book, render=False).document.parent
+    entry = (
+        '<a class="dish-name" href="recipe-test-buffalo-sliders.qmd#recipe-test-buffalo-sliders">'
+        "Test Buffalo Sliders</a> "
+    )
+    division = (site / "division-afc-east.qmd").read_text()
+    # Team cards drop the team they are about; dish-offs mixing teams keep it.
+    assert f'{entry}<span class="dish-meta">Appetizer</span>' in division
+    assert f'{entry}<span class="dish-meta">Bills · Appetizer</span>' in division
+    assert "::: {.dish-list}" in division
+    menus = (site / "game-day-menus.qmd").read_text()
+    assert '<span class="dish-meta">Bills · Appetizer</span>' in menus
+    assert ".dish-list-compact" in menus
+    recipe = (site / "recipe-test-buffalo-sliders.qmd").read_text()
+    assert '<p class="page-dek">Small rolls.</p>' in recipe
+    assert '<ul class="recipe-facts"><li><span class="fact-name">Yield</span>' in recipe
+
+
 def _set_form_url(project: Project, value: str) -> Path:
     book = project.content_root / "data/book.yml"
     text = re.sub(r"(?m)^suggestion_form_url:.*$", "", book.read_text())

@@ -11,8 +11,8 @@
 ::: {.team-card}
 {{ m.anchor(team.label) }}
 ## {{ team.name|md }}
-{{ team.location }}
-{{ m.refs(team.recipes) }}
+[{{ team.location|md }}]{.team-location}
+{{ m.refs(team.recipes, team=false) }}
 {{ m.suggest(team.suggest, compact=true) }}
 :::
 {% endif %}

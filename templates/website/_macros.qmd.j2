@@ -1,7 +1,7 @@
 {% macro anchor(label) %}<span id="{{ label|anchor|e }}"></span>
 
 {% endmacro %}
-{% macro link(ref, description=true) %}<a href="{{ route(ref.label)|e }}">{{ ref.title|e }}</a>{% if ref.note %} <span class="ref-note">{{ ref.note|e }}</span>{% endif %}{% if description and descriptions.get(ref.label) %} <span class="dish-description">{{ descriptions[ref.label]|e }}</span>{% endif %}{% endmacro %}
+{% macro link(ref, description=true, team=true) %}{% set meta = [ref.team if team else "", ref.course]|select|list %}<a class="dish-name" href="{{ route(ref.label)|e }}">{{ ref.title|e }}</a>{% if meta %} <span class="dish-meta">{{ meta|join(" · ")|e }}</span>{% elif ref.note %} <span class="ref-note">{{ ref.note|e }}</span>{% endif %}{% if description and descriptions.get(ref.label) %} <span class="dish-description">{{ descriptions[ref.label]|e }}</span>{% endif %}{% endmacro %}
 {% macro ingredients(groups) %}
 {% for group in groups %}
 {% if group.heading %}
@@ -30,10 +30,29 @@
 
 {% endif %}
 {% endmacro %}
-{% macro refs(entries) %}
+{% macro refs(entries, team=true, description=true, compact=false) %}
+::: {.dish-list{% if compact %} .dish-list-compact{% endif %}}
 {% for ref in entries %}
-- {{ link(ref) }}
+- {{ link(ref, description, team) }}
 {% endfor %}
+:::
+{% endmacro %}
+{% macro header(eyebrow, title, description, facts, byline="") %}
+[{{ eyebrow|md }}]{.eyebrow}
+
+# {{ title|md }}
+
+```{=html}
+{% if description %}
+<p class="page-dek">{{ description|e }}</p>
+{% endif %}
+{% if byline %}
+<p class="recipe-location">{{ byline|e }}</p>
+{% endif %}
+{% if facts %}
+<ul class="recipe-facts">{% for name, value in facts %}<li><span class="fact-name">{{ name|e }}</span> {{ value|e }}</li>{% endfor %}</ul>
+{% endif %}
+```
 {% endmacro %}
 {% macro source(src, credit='', qr='', web=none) %}
 {% if src or credit or qr %}
@@ -61,7 +80,7 @@ Photo: {{ credit }}
 {{ anchor(item.label) }}
 ## {{ item.title|md }}
 {% if item.subtitle %}
-{{ item.subtitle }}
+[{{ item.subtitle|md }}]{.menu-matchup}
 {% endif %}
 {{ refs(item.recipes) }}
 {% if item.why_it_works %}

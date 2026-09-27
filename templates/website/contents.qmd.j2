@@ -8,6 +8,6 @@
 ## {{ m.link(division.ref) }}
 {% for team in division.teams %}
 ### {{ team.name|md }}
-{{ m.refs(team.recipes) }}
+{{ m.refs(team.recipes, team=false) }}
 {% endfor %}
 {% endfor %}

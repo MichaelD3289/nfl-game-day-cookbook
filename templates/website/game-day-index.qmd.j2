@@ -10,12 +10,14 @@
 {% for ref in group.menus %}
 ::: {.menu-preview-card}
 ### <a href="{{ route(ref.label)|e }}">{{ ref.title|e }}</a>
+{% set preview = menu_previews[ref.label] %}
 {% if ref.note %}
 [{{ ref.note|md }}]{.menu-matchup}
 {% endif %}
-{% for recipe in menu_previews[ref.label].recipes %}
-- {{ m.link(recipe, false) }}
-{% endfor %}
+{% if preview.why_it_works %}
+[{{ preview.why_it_works }}]{.menu-summary}
+{% endif %}
+{{ m.refs(preview.recipes, description=false, compact=true) }}
 
 <a class="menu-plan-link" href="{{ route(ref.label)|e }}">View menu &amp; prep plan →</a>
 :::

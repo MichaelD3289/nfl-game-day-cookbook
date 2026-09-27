@@ -58,6 +58,10 @@ class Ref:
     label: str
     title: str
     note: str = ""
+    # Recipe refs only: the parts of ``note``, kept apart so the website can style
+    # them and leave out the team where the page is already about that team.
+    team: str = ""
+    course: str = ""
 
 
 @dataclass(frozen=True)
@@ -169,10 +173,10 @@ def _course(model: BookModel, recipe: Recipe) -> str:
 
 
 def _recipe_ref(model: BookModel, recipe: Recipe, *, course: bool = False) -> Ref:
-    note = recipe.team.short_name
-    if course:
-        note = f"{note}, {_course(model, recipe)}"
-    return Ref(recipe_label(recipe.id), recipe.title, note)
+    team = recipe.team.short_name
+    kind = _course(model, recipe)
+    note = f"{team}, {kind}" if course else team
+    return Ref(recipe_label(recipe.id), recipe.title, note, team, kind)
 
 
 # --------------------------------------------------------------------------- pages
@@ -215,6 +219,7 @@ def component_context(model: BookModel, component: Component, media: Media) -> d
     return {
         "label": component_label(component.id),
         "title": component.title,
+        "description": component.meta.description or "",
         "kind": component.kind.singular,
         "meta_line": _meta_line(("Yield", component.meta.yield_)),
         "meta": _meta(("Yield", component.meta.yield_)),
@@ -429,6 +434,7 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
                         {
                             "ref": Ref(component_label(c.id), c.title),
                             "used_in": [r.title for r in model.usage[c.id].all],
+                            "used_in_refs": [_recipe_ref(model, r) for r in model.usage[c.id].all],
                         }
                         for c in members
                     ],

@@ -281,14 +281,20 @@ the newest release at the root, and a missing newest ZIP skips the deploy instea
 putting older content there. Every version is kept; the workflow warns when the site
 nears the 1 GB Pages limit.
 
-### Short recipe descriptions
+### Short descriptions
 
-Recipes may include a one-sentence `description` in front matter. Describe the
-actual dish and its defining ingredients in plain language (roughly 12–22 words).
-The website displays this as small subtext in team cards, recipe lists and indexes;
-it is not printed in the PDF. New recipe scaffolds include an empty field.
-Game-day menu preview cards list their linked dishes, team/course labels and a
-link to the full prep plan; they omit the longer summaries to stay compact.
+Recipes and components may include a one-sentence `description` in front matter.
+Describe the actual dish and its defining ingredients in plain language (roughly
+12–22 words for a recipe; components can be shorter). It is not printed in the PDF.
+New recipe and component scaffolds include an empty field.
+
+On the website every recipe list (team cards, indexes, menus, dish-offs) shows the
+same entry: the dish name, a small **team · course** line (the team is left out on a
+card that is already about that team) and the description. Recipe and component pages
+show the description under the title. Make It or Buy It shows each component as a
+card with its description and a **Used in** row linking the recipes that call for it.
+Game-day menu preview cards show the menu's "why it works" line and each dish's name
+and team/course, and leave the dish descriptions to the full menu page.
 
 ## EPUB output
 

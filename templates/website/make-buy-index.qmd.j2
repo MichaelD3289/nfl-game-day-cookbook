@@ -9,8 +9,19 @@ Quick-option cards on recipe pages include the ready-to-buy suggestion.
 
 {% for kind in kinds %}
 ## {{ kind.title|md }}
+
+::: {.component-grid}
 {% for component in kind.components %}
-- {{ m.link(component.ref) }}
+::: {.component-card}
+### <a href="{{ route(component.ref.label)|e }}">{{ component.ref.title|e }}</a>
+{% if descriptions.get(component.ref.label) %}
+<p class="dish-description">{{ descriptions[component.ref.label]|e }}</p>
+{% endif %}
+{% if component.used_in_refs %}
+<p class="used-in"><span class="used-in-label">Used in</span>{% for ref in component.used_in_refs %} <a class="used-in-chip" href="{{ route(ref.label)|e }}">{{ ref.title|e }} <span class="used-in-team">{{ ref.team|e }}</span></a>{% endfor %}</p>
+{% endif %}
+:::
 {% endfor %}
+:::
 {% endfor %}
 {{ m.suggest(suggest) }}
