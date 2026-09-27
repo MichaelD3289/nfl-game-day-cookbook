@@ -29,6 +29,39 @@ def _elements(html: str, tag: str, css_class: str) -> list[dict[str, str | None]
     return found
 
 
+def _head(html: str) -> tuple[list[str], list[dict[str, str | None]]]:
+    """JSON-LD script bodies and ``<link>`` attributes found inside ``<head>``."""
+    scripts: list[str] = []
+    links: list[dict[str, str | None]] = []
+
+    class Head(HTMLParser):
+        in_head = False
+        in_json = False
+
+        def handle_starttag(self, name: str, attrs: list[tuple[str, str | None]]) -> None:
+            data = dict(attrs)
+            if name == "head":
+                self.in_head = True
+            elif self.in_head and name == "script" and data.get("type") == "application/ld+json":
+                self.in_json = True
+                scripts.append("")
+            elif self.in_head and name == "link":
+                links.append(data)
+
+        def handle_endtag(self, name: str) -> None:
+            if name == "head":
+                self.in_head = False
+            elif name == "script":
+                self.in_json = False
+
+        def handle_data(self, data: str) -> None:
+            if self.in_json:
+                scripts[-1] += data
+
+    Head().feed(html)
+    return scripts, links
+
+
 @pytest.mark.skipif(shutil.which("quarto") is None, reason="Quarto not installed")
 def test_rendered_website_has_cards_search_and_no_print_markup(fixture_book: Project) -> None:
     recipe = next(fixture_book.recipes_dir.rglob("test-citrus-wings.md"))
@@ -74,6 +107,18 @@ def test_rendered_website_has_cards_search_and_no_print_markup(fixture_book: Pro
     assert "Scan to open on your phone" in wings
     assert "assets/recipe-test-citrus-wings.webp" in wings
     assert 'loading="lazy"' in wings
+
+    scripts, links = _head(wings)
+    assert len(scripts) == 1
+    data = json.loads(scripts[0])
+    assert data["@type"] == "Recipe"
+    assert data["name"] == "Test Citrus Wings"
+    assert data["image"].endswith("assets/recipe-test-citrus-wings.webp")
+    canonical = [link for link in links if link.get("rel") == "canonical"]
+    assert len(canonical) == 1
+    assert (canonical[0].get("href") or "").endswith("/recipe-test-citrus-wings.html")
+    sauce = (result.site / "component-test-wing-sauce.html").read_text()
+    assert "application/ld+json" not in sauce
 
     for page in result.site.glob("*.html"):
         assert "</span> ##" not in page.read_text(), page.name

@@ -296,3 +296,72 @@ def test_versions_page_links_each_edition_epub_when_it_has_one(
     # v0.5.0 predates the EPUB, so it lists only its PDF.
     v050 = next(line for line in root.splitlines() if "v0.5.0/index.html" in line)
     assert "PDF" in v050 and "EPUB" not in v050
+
+
+BASE = "https://example.test/cookbook"
+
+
+def _json_ld(image: str, url: str) -> str:
+    data = {"@type": "Recipe", "name": "Wings </b>", "image": [image], "url": url}
+    body = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
+    return f'<script type="application/ld+json">{body}</script>'
+
+
+def _read_json_ld(page: Path) -> dict[str, object]:
+    text = page.read_text()
+    start = text.index('<script type="application/ld+json">')
+    body = text[start:].split(">", 1)[1].split("</script>", 1)[0]
+    assert "</" not in body
+    data: dict[str, object] = json.loads(body)
+    return data
+
+
+def test_json_ld_image_urls_are_relinked_to_shared_media(tmp_path: Path, releases: Path) -> None:
+    fresh = _with_photo(_site(tmp_path / "fresh", "0.6.1"), b"photo")
+    page = fresh / "recipe-test-citrus-wings.html"
+    url = f"{BASE}/v0.6.1/recipe-test-citrus-wings.html"
+    image = f"{BASE}/v0.6.1/assets/recipe-test-citrus-wings.jpg"
+    page.write_text(page.read_text().replace("</head>", _json_ld(image, url) + "\n</head>"))
+    _release(releases, "v0.6.1", date="2026-04-01", assets=(WEBSITE_ZIP,))
+    out = tmp_path / "pages"
+    diags = Diagnostics()
+    assemble("v0.6.1", fresh, releases, out, PDF, diags)
+    assert diags.ok, [d.format() for d in diags]
+
+    photo = _media(b"photo", ".jpg")
+    for copy in (
+        out / "recipe-test-citrus-wings.html",
+        out / "v0.6.1/recipe-test-citrus-wings.html",
+    ):
+        data = _read_json_ld(copy)
+        assert data["image"] == [f"{BASE}/{photo}"]
+        assert data["url"] == url
+        assert data["name"] == "Wings </b>"
+    assert (out / photo).is_file()
+
+
+def test_invalid_json_ld_is_left_alone(tmp_path: Path, releases: Path) -> None:
+    site = _site(tmp_path / "fresh", "0.6.0")
+    block = '<script type="application/ld+json">{not json assets/x.jpg</script>'
+    page = site / "index.html"
+    page.write_text(page.read_text().replace("</head>", block + "\n</head>"))
+    out = tmp_path / "pages"
+    assemble("v0.6.0", site, releases, out, PDF, Diagnostics())
+    assert block in (out / "index.html").read_text()
+
+
+def test_archived_canonical_to_a_removed_page_is_dropped(tmp_path: Path, releases: Path) -> None:
+    site = _site(tmp_path / "fresh", "0.6.0")
+    out = tmp_path / "pages"
+    old = tmp_path / "old-with-canonical"
+    _site(old, "0.5.0", extra=("recipe-test-retired.html",))
+    for name in ("recipe-test-retired.html", "recipe-test-citrus-wings.html"):
+        link = f'<link rel="canonical" href="{BASE}/{name}">'
+        (old / name).write_text((old / name).read_text().replace("</head>", link + "\n</head>"))
+    (releases / "v0.5.0" / WEBSITE_ZIP).unlink()
+    (releases / "v0.5.0").rmdir()
+    _zip(releases, "v0.5.0", old)
+    assemble("v0.6.0", site, releases, out, PDF, Diagnostics())
+    assert 'rel="canonical"' not in (out / "v0.5.0/recipe-test-retired.html").read_text()
+    kept = (out / "v0.5.0/recipe-test-citrus-wings.html").read_text()
+    assert f'<link rel="canonical" href="{BASE}/recipe-test-citrus-wings.html">' in kept

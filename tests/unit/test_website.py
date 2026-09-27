@@ -4,6 +4,7 @@ import html
 import json
 import re
 from pathlib import Path
+from typing import Any
 
 import pytest
 import yaml
@@ -369,3 +370,124 @@ def test_source_is_one_named_link_with_the_short_address_for_paper(fixture_book:
     # The address shows once, in the print view only (styled by .source-url).
     assert source.count('<span class="source-url">') == 1
     assert "<small>" not in source
+
+
+def _json_ld(page: Path) -> tuple[dict[str, Any] | None, str]:
+    """The page's schema.org JSON-LD (None without one) and its whole header include."""
+    front = yaml.safe_load(page.read_text().split("---\n")[1])
+    head = str(front.get("include-in-header", {}).get("text", ""))
+    match = re.search(r'<script type="application/ld\+json">(.*?)</script>', head, re.DOTALL)
+    return (json.loads(match.group(1)) if match else None), head
+
+
+def _canonical(head: str) -> str | None:
+    match = re.search(r'<link rel="canonical" href="([^"]+)">', head)
+    return html.unescape(match.group(1)) if match else None
+
+
+def test_recipe_pages_carry_schema_org_recipe_json_ld(fixture_book: Project) -> None:
+    from nfl_book import __version__
+    from nfl_book.config import load_settings
+    from nfl_book.qr import qr_png
+    from nfl_book.website import build_website
+
+    recipe = fixture_book.recipes_dir / "afc/east/bills/test-buffalo-sliders.md"
+    recipe.write_text(
+        recipe.read_text()
+        .replace("prep: 15 min", "prep: PT15M")
+        .replace("cook: 20 min", "cook: 20 minutes")
+        .replace(
+            "status: published",
+            "status: published\ndescription: Small chicken rolls with blue cheese.\n"
+            "image: fixture.png\nphoto_credit: Synthetic fixture",
+        )
+    )
+    (recipe.parent / "fixture.png").write_bytes(qr_png("https://example.com/synthetic-photo"))
+    settings = load_settings(fixture_book)
+    base = settings.book.website_url
+    assert base
+    edition = f"{base.rstrip('/')}/v{__version__}/"
+    site = build_website(fixture_book, render=False).document.parent
+
+    data, head = _json_ld(site / "recipe-test-buffalo-sliders.qmd")
+    assert data is not None
+    assert data["@context"] == "https://schema.org"
+    assert data["@type"] == "Recipe"
+    assert data["name"] == "Test Buffalo Sliders"
+    assert data["description"] == "Small chicken rolls with blue cheese."
+    assert data["recipeYield"] == "12 sliders"
+    assert data["recipeCategory"] == settings.course("appetizers").label  # type: ignore[union-attr]
+    assert data["recipeCuisine"] == "Buffalo, New York"
+    assert (data["prepTime"], data["cookTime"], data["totalTime"]) == ("PT15M", "PT20M", "PT35M")
+    assert "Poultry" in data["keywords"].split(", ")
+    assert "Buffalo Bills" in data["keywords"].split(", ")
+    assert data["recipeIngredient"] == [
+        "1 lb ground chicken",
+        "12 slider buns",
+        "2 cups oil for the griddle",
+        "1/2 cup blue cheese dip",
+        "Celery sticks & carrot sticks (100% optional)",
+    ]
+    assert not any(
+        marker in line
+        for line in data["recipeIngredient"]
+        for marker in ("{{", "component:", "no-scale")
+    )
+    assert data["recipeInstructions"] == [
+        {"@type": "HowToStep", "text": "Form 12 patties and cook until done."},
+        {"@type": "HowToStep", "text": "Spoon the dip over each slider and serve."},
+    ]
+    assert data["isBasedOn"] == "https://example.com/recipes/test-buffalo-sliders?ref=fixture&x=1"
+    assert data["url"] == f"{edition}recipe-test-buffalo-sliders.html"
+    assert data["image"] == f"{edition}assets/recipe-test-buffalo-sliders.webp"
+    assert _canonical(head) == f"{base.rstrip('/')}/recipe-test-buffalo-sliders.html"
+    assert "author" not in data
+    assert "aggregateRating" not in data
+
+
+def test_prose_times_and_missing_fields_are_left_out(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    recipe = fixture_book.recipes_dir / "afc/east/bills/test-buffalo-sliders.md"
+    recipe.write_text(recipe.read_text().replace("prep: 15 min", "prep: 15 min (estimated)"))
+    site = build_website(fixture_book, render=False).document.parent
+
+    sliders, _ = _json_ld(site / "recipe-test-buffalo-sliders.qmd")
+    assert sliders is not None
+    assert "prepTime" not in sliders
+    assert sliders["cookTime"] == "PT20M"
+    assert "totalTime" not in sliders
+
+    wings, head = _json_ld(site / "recipe-test-citrus-wings.qmd")
+    assert wings is not None
+    assert wings["recipeInstructions"] == [
+        {"@type": "HowToStep", "text": "Bake the wings, then toss them in the sauce."}
+    ]
+    for key in ("image", "description", "prepTime", "cookTime", "totalTime"):
+        assert key not in wings
+    assert _canonical(head)
+
+    for name in (
+        "component-test-blue-cheese-dip.qmd",
+        "division-afc-east.qmd",
+        "game-day-menus.qmd",
+        "menus-fast-day-1.qmd",
+        "index.qmd",
+    ):
+        data, head = _json_ld(site / name)
+        assert data is None and head == "", name
+    assert not (site / "recipe-test-draft-nachos.qmd").exists()
+
+
+def test_json_ld_without_website_url(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    book = fixture_book.content_root / "data/book.yml"
+    book.write_text(re.sub(r"(?m)^website_url:.*$", "", book.read_text()))
+    site = build_website(fixture_book, render=False).document.parent
+    data, head = _json_ld(site / "recipe-test-buffalo-sliders.qmd")
+    assert data is not None
+    assert data["@type"] == "Recipe"
+    assert "url" not in data
+    assert "image" not in data
+    assert _canonical(head) is None
