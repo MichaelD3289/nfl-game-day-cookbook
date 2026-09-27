@@ -11,6 +11,8 @@ from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any
 
+from nfl_book import __version__
+from nfl_book.errors import Diagnostics
 from nfl_book.models.content import Component, IngredientGroup, Recipe
 from nfl_book.quantities import Amount
 from nfl_book.references import (
@@ -24,6 +26,7 @@ from nfl_book.references import (
     team_label,
 )
 from nfl_book.resolve import BookModel, QuickOption, menu_recipes, quick_options_for
+from nfl_book.validation import is_published
 
 CONTENTS = section_label("contents")
 GAME_DAY = section_label("game-day-menus")
@@ -75,7 +78,13 @@ class SourceView:
     title: str
     href: str
     display: str
-    qr: str
+
+
+@dataclass(frozen=True)
+class WebView:
+    target: str  # slug of the website page it opens, e.g. "recipe-<id>"
+    href: str
+    edition: str
 
 
 @dataclass(frozen=True)
@@ -111,9 +120,7 @@ def _options(options: Sequence[QuickOption]) -> list[OptionView]:
     return [OptionView(component_label(o.component.id), o.component.title, o.text) for o in options]
 
 
-def _source(
-    item: Recipe | Component, kind: str, model: BookModel, media: Media
-) -> SourceView | None:
+def _source(item: Recipe | Component, model: BookModel) -> SourceView | None:
     source = item.meta.source
     if source is None:
         return None
@@ -122,8 +129,28 @@ def _source(
         title=source.title or "",
         href=short or source.url,
         display=short or source.url,
-        qr=media.qr.get(f"{kind}:{item.id}", ""),
     )
+
+
+def _edition_root(base: str) -> str:
+    """This edition's copy of the website, which every release keeps at ``/vX.Y.Z/``."""
+    return f"{base.rstrip('/')}/v{__version__}/"
+
+
+def web_href(item: Recipe | Component, kind: str, model: BookModel) -> str | None:
+    """The item's page in this edition of the website, built from ``website_url``.
+
+    Drafts have none: the website publishes only published content.
+    """
+    base = model.settings.book.website_url
+    if not base or not is_published(item.meta.status):
+        return None
+    return f"{_edition_root(base)}{kind}-{item.id}.html"
+
+
+def _web(item: Recipe | Component, kind: str, model: BookModel) -> WebView | None:
+    href = web_href(item, kind, model)
+    return None if href is None else WebView(f"{kind}-{item.id}", href, __version__)
 
 
 def _meta_line(*parts: tuple[str, str | None]) -> str:
@@ -166,7 +193,9 @@ def recipe_context(model: BookModel, recipe: Recipe, media: Media) -> dict[str, 
         "compact_ingredients": _compact(recipe.ingredients),
         "instructions": recipe.instructions,
         "kitchen_notes": recipe.kitchen_notes or "",
-        "source": _source(recipe, "recipe", model, media),
+        "source": _source(recipe, model),
+        "web": _web(recipe, "recipe", model),
+        "qr": media.qr.get(f"recipe:{recipe.id}", ""),
     }
 
 
@@ -183,8 +212,37 @@ def component_context(model: BookModel, component: Component, media: Media) -> d
         "note": component.note or "",
         "quick_buy": component.meta.quick_buy,
         "used_in": used_in,
-        "source": _source(component, "component", model, media),
+        "source": _source(component, model),
+        "web": _web(component, "component", model),
+        "qr": media.qr.get(f"component:{component.id}", ""),
     }
+
+
+def _website(model: BookModel) -> dict[str, str] | None:
+    base = model.settings.book.website_url
+    if not base:
+        return None
+    href = _edition_root(base)
+    return {"href": href, "display": href.removeprefix("https://"), "edition": __version__}
+
+
+def check_web_links(model: BookModel, pages: Sequence[PageSpec], diags: Diagnostics) -> None:
+    """Every website link printed in the book must open a page the website publishes.
+
+    The website is built from these same page specs, so a link is valid exactly
+    when its target is one of them.
+    """
+    slugs = {page.slug for page in pages}
+    paths = {f"recipe-{r.id}": r.path for r in model.recipes_by_id.values()}
+    paths.update({f"component-{c.id}": c.path for c in model.components_by_id.values()})
+    for page in pages:
+        web = page.context.get("web")
+        if isinstance(web, WebView) and web.target not in slugs:
+            diags.error(
+                "web-link",
+                f"links to {web.href}, but the website does not publish {web.target}",
+                paths.get(page.slug),
+            )
 
 
 def _menu_view(model: BookModel, menu: Any) -> dict[str, Any]:
@@ -221,6 +279,7 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
                 or "",
                 "tagline": (cover.tagline if cover else None) or "",
                 "body": cover.body if cover else "",
+                "website": _website(model),
                 "stats": {
                     "recipes": len(recipes),
                     "teams": len({r.team.slug for r in recipes}),

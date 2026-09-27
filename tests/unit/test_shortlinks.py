@@ -80,6 +80,8 @@ def test_prepare_fills_cache_and_keeps_full_urls(fixture_book: Project) -> None:
     assert load(fixture_book).diagnostics.ok
     assert sorted(p.name for p in fixture_book.qr_dir.iterdir()) == [
         "component-test-blue-cheese-dip.png",
+        "component-test-cajun-seasoning.png",
+        "component-test-wing-sauce.png",
         "recipe-test-buffalo-sliders.png",
         "recipe-test-citrus-wings.png",
     ]

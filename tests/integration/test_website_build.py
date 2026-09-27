@@ -70,6 +70,8 @@ def test_rendered_website_has_cards_search_and_no_print_markup(fixture_book: Pro
     assert (result.site / "assets/recipe-test-citrus-wings.webp").is_file()
     assert not (result.site / "assets/recipe-test-citrus-wings.png").exists()
     assert (result.site / "assets/qr-recipe-test-citrus-wings.png").is_file()
+    assert (result.site / "assets/qr-component-test-wing-sauce.png").is_file()
+    assert "Scan to open on your phone" in wings
     assert "assets/recipe-test-citrus-wings.webp" in wings
     assert 'loading="lazy"' in wings
 

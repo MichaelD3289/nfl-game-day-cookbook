@@ -22,6 +22,7 @@ from nfl_book.project import Project
 from nfl_book.qr import generate_qr_codes
 from nfl_book.render import Media, assemble, build_pages, make_env
 from nfl_book.render.env import tex
+from nfl_book.render.pages import check_web_links, web_href
 from nfl_book.render.quarto import render_pdf, scan_log
 from nfl_book.resolve import BookModel, resolve
 from nfl_book.shortlinks import Shortener, ShortlinkCache, get_shortener
@@ -112,15 +113,21 @@ def build_media(
     diagnostics: Diagnostics,
     variant: PhotoVariant,
 ) -> tuple[Media, PhotoStats]:
-    """QR codes (from full source URLs) and recipe photo variants, relative to ``build_dir``.
+    """QR codes and recipe photo variants, relative to ``build_dir``.
 
+    A QR code opens the item's page in this edition of the website. Without
+    ``website_url``, and for drafts, it falls back to the full source URL.
     Unreadable photos are reported to ``diagnostics``; source photos are never written.
     """
-    sourced: list[tuple[str, Recipe | Component]] = [
+    all_items: list[tuple[str, Recipe | Component]] = [
         *(("recipe", r) for r in model.recipes_by_id.values()),
         *(("component", c) for c in model.components_by_id.values()),
     ]
-    items = [(kind, item.id, item.meta.source.url) for kind, item in sourced if item.meta.source]
+    items = [
+        (kind, item.id, url)
+        for kind, item in all_items
+        if (url := web_href(item, kind, model) or (item.meta.source and item.meta.source.url))
+    ]
     qr = generate_qr_codes(items, project.qr_dir, _relative(project.qr_dir, build_dir))
 
     sources = {
@@ -146,11 +153,13 @@ def build(project: Project, *, pdf: bool = True, strict: bool = False) -> BuildR
     model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
     build_dir = project.book_build_dir
     media, photos = build_media(project, model, build_dir, diags, loaded.settings.book.photos.print)
+    pages = build_pages(model, media)
+    check_web_links(model, pages, diags)
     if not diags.ok:
         raise ValidationFailed(diags)
     assembled = assemble(
         make_env(project.templates_dir),
-        build_pages(model, media),
+        pages,
         build_dir,
         title=tex(loaded.settings.book.title),
         paper=loaded.settings.book.paper,
