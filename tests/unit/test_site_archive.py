@@ -281,3 +281,18 @@ def test_missed_reference_fails_the_assembly(tmp_path: Path, releases: Path) -> 
     assemble("v0.6.0", site, releases, tmp_path / "pages", PDF, diags)
     assert not diags.ok
     assert {d.code for d in diags.errors} == {"website-link"}
+
+
+def test_versions_page_links_each_edition_epub_when_it_has_one(
+    tmp_path: Path, releases: Path
+) -> None:
+    epub = "test-book.epub"
+    _release(releases, "v0.6.0", date="2026-03-30", assets=(PDF, WEBSITE_ZIP, epub))
+    out = tmp_path / "pages"
+    site = _site(tmp_path / "fresh", "0.6.0")
+    assemble("v0.6.0", site, releases, out, PDF, Diagnostics(), epub)
+    root = (out / "versions.html").read_text()
+    assert f'<a href="{RELEASES}/download/v0.6.0/{epub}">EPUB</a>' in root
+    # v0.5.0 predates the EPUB, so it lists only its PDF.
+    v050 = next(line for line in root.splitlines() if "v0.5.0/index.html" in line)
+    assert "PDF" in v050 and "EPUB" not in v050

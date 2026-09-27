@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `make epub` with the full reflowable cookbook, linked indexes and homemade components, embedded optimized photos, and package checks. Releases and download links include EPUB ([#19](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/19)).
 - The EPUB opens each recipe, component, menu and section on its own page, with the indexes at the back. Each recipe shows its short description, lists yield and times on separate lines, and links to its page in this edition of the website. A **Q** beside an ingredient opens the recipe's Quick options card, and sources link to their full address.
 - The EPUB has a cover, a description and rights details, and keeps the same identifier across editions, so reading apps treat a new edition as an update of the same book.
+- The website's **All versions** page links each edition's EPUB next to its PDF.
 
 ## [0.11.0] - 2026-09-26
 
