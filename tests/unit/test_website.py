@@ -369,3 +369,54 @@ def test_source_is_one_named_link_with_the_short_address_for_paper(fixture_book:
     # The address shows once, in the print view only (styled by .source-url).
     assert source.count('<span class="source-url">') == 1
     assert "<small>" not in source
+
+
+def test_recipe_and_component_pages_offer_cook_mode(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    pages = {
+        "recipe-test-citrus-wings.qmd": "recipe:test-citrus-wings",
+        "component-test-wing-sauce.qmd": "component:test-wing-sauce",
+    }
+    for name, key in pages.items():
+        page = (site / name).read_text()
+        # Hidden until cook.js runs, so readers without JavaScript never see it.
+        assert f'<div class="cook-bar" data-cook-key="{key}" hidden>' in page, name
+        assert (
+            '<button type="button" class="cook-toggle" aria-pressed="false">Cook mode</button>'
+            in page
+        ), name
+        assert '<button type="button" class="cook-reset" hidden>Reset</button>' in page, name
+        assert '<span class="cook-note" hidden>Screen stays on</span>' in page, name
+        assert page.count("cook-bar") == 1, name
+    for name in (
+        "index.qmd",
+        "contents.qmd",
+        "menus-fast-day-1.qmd",
+        "division-afc-east.qmd",
+        "versions.qmd",
+    ):
+        assert "cook-bar" not in (site / name).read_text(), name
+    assert (site / "cook.js").read_text().startswith("// Cook mode on the website.")
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    assert "cook.js" in config["project"]["resources"]
+    assert (
+        '<script src="cook.js"></script>' in config["format"]["html"]["include-after-body"]["text"]
+    )
+
+
+def test_cook_mode_leaves_print_and_epub_pages_unchanged(fixture_book: Project) -> None:
+    from nfl_book.epub import build_epub
+    from nfl_book.website import build_website
+
+    pipeline.build(fixture_book, pdf=False)
+    pages = fixture_book.book_build_dir / "pages"
+    before = {p.name: p.read_bytes() for p in pages.glob("*.qmd")}
+    assert not any(b"cook-" in value for value in before.values())
+    epub = build_epub(fixture_book, render=False).document.read_text()
+    assert "cook-" not in epub
+    build_website(fixture_book, render=False)
+    pipeline.build(fixture_book, pdf=False)
+    assert before == {p.name: p.read_bytes() for p in pages.glob("*.qmd")}
+    assert build_epub(fixture_book, render=False).document.read_text() == epub

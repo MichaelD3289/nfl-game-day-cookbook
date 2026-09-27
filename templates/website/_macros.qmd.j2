@@ -106,6 +106,13 @@ Photo: {{ credit }}
 ```
 
 {% endmacro %}
+{% macro cook_bar(key) %}
+
+```{=html}
+<div class="cook-bar" data-cook-key="{{ key|e }}" hidden><button type="button" class="cook-toggle" aria-pressed="false">Cook mode</button> <button type="button" class="cook-reset" hidden>Reset</button> <span class="cook-note" hidden>Screen stays on</span></div>
+```
+
+{% endmacro %}
 {% macro suggest(s, compact=false) %}
 
 ```{=html}

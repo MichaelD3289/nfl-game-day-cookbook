@@ -208,6 +208,12 @@ rules in `styles/website.css` hide the site chrome and lay a recipe out on one p
 where it fits. The browser prints the page as shown, so a scaled recipe prints its
 scaled amounts, with a "Scaled 2× · serves 12" note and the page address at the foot.
 
+Recipe and component pages also have a **Cook mode** button
+(`styles/website-cook.js`, shown only when JavaScript runs). It enlarges the text, hides
+the site navigation, lets the cook tap ingredients and steps to check them off (saved per
+page in the browser, cleared with **Reset**) and keeps the screen on where the browser
+supports it. Printing, the PDF and the EPUB are unaffected.
+
 Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
 prompts. They open prefilled quick issue templates on GitHub and, once
 `suggestion_form_url` is set in `data/book.yml`, a form that needs no GitHub
