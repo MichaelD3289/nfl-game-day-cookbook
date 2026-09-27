@@ -13,7 +13,7 @@ yield: 6 servings
 prep: About 35 minutes active (estimated)
 cook: About 65 minutes, with sides cooked in parallel; allow 10 minutes meatloaf rest
 image: meat-and-three-plate-with-meatloaf.jpg
-photo_credit: thelocalpalate.com
+photo_credit: The Local Palate
 index:
   main_ingredient: beef
   practical_time: over-60-minutes

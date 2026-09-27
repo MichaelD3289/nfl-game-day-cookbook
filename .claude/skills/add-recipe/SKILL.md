@@ -39,7 +39,8 @@ yield: 4 servings               # required, non-empty
 servings: 4                     # optional: people fed (4 or 4-6) when yield is not "N servings"
 prep: 20 minutes                # optional
 cook: 45 minutes                # optional
-image: <id>.jpg                 # optional, next to the .md; requires photo_credit
+image: <id>.jpg                 # optional, next to the .md; requires photo_credit; the build
+                                #   makes square resized copies and never edits the original
 photo_credit: Who took it
 index:                          # one key per field index in data/indexes.yml (see add-index)
   main_ingredient: beef         # beef | pork-and-sausage | poultry | seafood | mixed-meat | meatless

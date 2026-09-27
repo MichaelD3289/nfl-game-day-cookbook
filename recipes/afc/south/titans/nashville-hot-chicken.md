@@ -13,7 +13,7 @@ yield: 8 servings
 prep: 20–30 min active (estimated)
 cook: 15–18 min frying per batch
 image: nashville-hot-chicken.jpg
-photo_credit: bonappetit.com
+photo_credit: Bon Appétit
 index:
   main_ingredient: poultry
   practical_time: over-60-minutes

@@ -37,6 +37,7 @@ class Media:
 
     qr: Mapping[str, str] = field(default_factory=dict)  # "<kind>:<id>" -> path
     images: Mapping[str, str] = field(default_factory=dict)  # "<kind>:<id>" -> path
+    image_sizes: Mapping[str, int] = field(default_factory=dict)  # square side in px
 
 
 @dataclass(frozen=True)
@@ -158,6 +159,7 @@ def recipe_context(model: BookModel, recipe: Recipe, media: Media) -> dict[str, 
             ("Yield", recipe.meta.yield_), ("Prep", recipe.meta.prep), ("Cook", recipe.meta.cook)
         ),
         "image": media.images.get(f"recipe:{recipe.id}", ""),
+        "image_size": media.image_sizes.get(f"recipe:{recipe.id}", 0),
         "photo_credit": recipe.meta.photo_credit or "",
         "quick_options": _options(options),
         "groups": _groups(recipe.ingredients),

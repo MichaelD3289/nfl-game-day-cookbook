@@ -233,3 +233,14 @@ def test_scaling_leaves_print_pages_unchanged(fixture_book: Project) -> None:
     build_website(fixture_book, render=False)
     pipeline.build(fixture_book, pdf=False)
     assert before == {p.name: p.read_bytes() for p in pages.glob("*.qmd")}
+
+
+def test_versions_page_has_marker_for_published_versions(fixture_book: Project) -> None:
+    from nfl_book.site_archive import VERSIONS_MARKER
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    assert VERSIONS_MARKER in (site / "versions.qmd").read_text()
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    navbar = config["website"]["navbar"]["right"]
+    assert {"text": "All versions", "href": "versions.qmd"} in navbar

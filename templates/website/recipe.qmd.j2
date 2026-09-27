@@ -2,7 +2,7 @@
 {{ m.anchor(label) }}
 ::: {.recipe-header}
 {% if image %}
-![{{ title|md }}]({{ image }}){.dish-photo}
+![{{ title|md }}]({{ image }}){.dish-photo width="{{ image_size }}" height="{{ image_size }}" loading="lazy" decoding="async"}
 {% endif %}
 [{{ division|md }} · {{ team|md }}]{.eyebrow}
 

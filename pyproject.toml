@@ -1,6 +1,6 @@
 [project]
 name = "nfl-game-day-cookbook"
-version = "0.6.1"
+version = "0.8.0"
 description = "Book-as-code publishing system for the NFL Game Day recipe booklet."
 readme = "README.md"
 authors = [
@@ -39,6 +39,7 @@ classifiers = [
 dependencies = [
     "httpx>=0.28.1",
     "jinja2>=3.1.6",
+    "pillow>=12.3.0",
     "pydantic>=2.13.5",
     "pypdf>=6.19.0",
     "python-frontmatter>=1.3.0",

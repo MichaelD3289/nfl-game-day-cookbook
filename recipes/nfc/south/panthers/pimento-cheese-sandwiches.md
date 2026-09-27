@@ -14,7 +14,7 @@ servings: 4
 prep: 10 minutes
 cook: No cooking
 image: pimento-cheese-sandwiches.jpg
-photo_credit: AVID Vines on Flickr, CC BY 2.0
+photo_credit: AVID Vines on Flickr, CC BY 2.0 (cropped and resized)
 index:
   main_ingredient: meatless
   practical_time: variable-or-make-ahead

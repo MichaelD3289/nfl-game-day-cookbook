@@ -144,6 +144,7 @@ def build(
         fail(exc, project.root if project else None)
     report(result.diagnostics, project.root)
     out.print(f"QMD: {result.document}")
+    out.print(f"Photos: {result.photos.summary()}")
     if result.pdf:
         out.print(f"PDF: {result.pdf}")
 
@@ -165,6 +166,7 @@ def website(
         fail(exc, project.root if project else None)
     report(result.diagnostics, project.root)
     out.print(f"Website sources: {result.document.parent}")
+    out.print(f"Photos: {result.photos.summary()}")
     if result.site:
         out.print(f"Website: {result.site}")
 

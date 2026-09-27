@@ -40,9 +40,12 @@ def test_rendered_website_has_cards_search_and_no_print_markup(fixture_book: Pro
     assert any("Test Citrus Wings" in entry["title"] for entry in search)
     assert not any("test-draft" in entry["href"] for entry in search)
 
-    assert (result.site / "assets/recipe-test-citrus-wings.png").read_bytes() == photo
+    assert (recipe.parent / "fixture.png").read_bytes() == photo
+    assert (result.site / "assets/recipe-test-citrus-wings.webp").is_file()
+    assert not (result.site / "assets/recipe-test-citrus-wings.png").exists()
     assert (result.site / "assets/qr-recipe-test-citrus-wings.png").is_file()
-    assert "assets/recipe-test-citrus-wings.png" in wings
+    assert "assets/recipe-test-citrus-wings.webp" in wings
+    assert 'loading="lazy"' in wings
 
     for page in result.site.glob("*.html"):
         assert "</span> ##" not in page.read_text(), page.name
