@@ -710,6 +710,101 @@ main.content {
   background: var(--book-pale);
 }
 
+/* Cook mode (website-cook.js): bigger text, no site chrome, tap lines to check them off.
+   Screen only, so a page printed while cooking prints as usual. */
+.cook-bar[hidden],
+.cook-bar [hidden] {
+  display: none;
+}
+.cook-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.6rem 0 0;
+}
+.cook-toggle,
+.cook-reset {
+  border: 1px solid var(--book-navy);
+  border-radius: 4px;
+  background: var(--book-paper);
+  color: var(--book-navy);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.2rem 0.8rem;
+  cursor: pointer;
+}
+.cook-toggle:hover,
+.cook-reset:hover {
+  background: var(--book-pale);
+}
+.cook-toggle[aria-pressed="true"] {
+  background: var(--book-navy);
+  color: #fff;
+}
+.cook-note {
+  color: var(--book-muted);
+  font-size: 0.85rem;
+}
+@media screen {
+  html.cook-mode #quarto-header,
+  html.cook-mode #quarto-sidebar,
+  html.cook-mode #quarto-margin-sidebar,
+  html.cook-mode .quarto-secondary-nav,
+  html.cook-mode #quarto-search-results,
+  html.cook-mode .nav-footer,
+  html.cook-mode .page-navigation,
+  html.cook-mode #quarto-back-to-top,
+  html.cook-mode .suggest {
+    display: none !important;
+  }
+  html.cook-mode body {
+    padding-top: 0 !important;
+  }
+  html.cook-mode main.content {
+    font-size: 1.2rem;
+    line-height: 1.75;
+    padding-bottom: 6rem;
+  }
+  /* The way out stays on screen however far the cook scrolls. */
+  html.cook-mode .cook-bar {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1040;
+    margin: 0;
+    padding: 0.5rem;
+    border: 1px solid var(--book-rule);
+    border-radius: 6px;
+    background: var(--book-paper);
+    box-shadow: 0 2px 10px rgb(0 0 0 / 18%);
+  }
+  html.cook-mode .cook-toggle,
+  html.cook-mode .cook-reset {
+    font-size: 1rem;
+    min-height: 44px;
+    padding: 0.4rem 1rem;
+  }
+  html.cook-mode .ingredients li,
+  html.cook-mode .instructions li {
+    margin-bottom: 0.4rem;
+    padding: 0.5rem 0.6rem;
+    min-height: 44px;
+    border-radius: 4px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  html.cook-mode .ingredients li:hover,
+  html.cook-mode .instructions li:hover {
+    background: var(--book-card);
+  }
+  html.cook-mode .cook-done {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+}
+
 /* Paper: one recipe per Letter or A4 page, like the booklet, without the site chrome.
    The page prints as shown, so scaled amounts print scaled. */
 @media print {
@@ -726,6 +821,7 @@ main.content {
   #quarto-search-results,
   .quarto-search,
   .print-bar,
+  .cook-bar,
   .scaler,
   .suggest,
   .quick-card a[data-carry-scale] {

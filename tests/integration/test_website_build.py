@@ -62,6 +62,12 @@ def test_rendered_website_has_cards_search_and_no_print_markup(fixture_book: Pro
     assert len(bars) == 1
     assert "hidden" in bars[0]  # revealed by print.js
     assert (result.site / "print.js").is_file()
+    cook = _elements(wings, "div", "cook-bar")
+    assert len(cook) == 1
+    assert cook[0].get("data-cook-key") == "recipe:test-citrus-wings"
+    assert "hidden" in cook[0]  # revealed by cook.js
+    assert len(_elements(wings, "button", "cook-toggle")) == 1
+    assert (result.site / "cook.js").is_file()
     search = json.loads((result.site / "search.json").read_text())
     assert any("Test Citrus Wings" in entry["title"] for entry in search)
     assert not any("test-draft" in entry["href"] for entry in search)
