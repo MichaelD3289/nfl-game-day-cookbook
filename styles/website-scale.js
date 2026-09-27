@@ -433,15 +433,54 @@
     };
   }
 
+  function each(root, selector, fn) {
+    Array.prototype.forEach.call(root.querySelectorAll(selector), fn);
+  }
+
+  // Servings as written for the page under `root`, read from its scaler panel (or from
+  // `root` itself when the panel was stripped, as in a printed bundle).
+  function servingsOf(root) {
+    var holder =
+      root.getAttribute && root.getAttribute("data-servings")
+        ? root
+        : root.querySelector(".scaler[data-servings]");
+    if (!holder) return { low: null, high: null };
+    var low = Number(holder.getAttribute("data-servings")) || null;
+    return {
+      low: low,
+      high: Number(holder.getAttribute("data-servings-max")) || low,
+    };
+  }
+
+  // Rewrites the amounts, batch counts and print label under `root` for `factorText`
+  // ("3/2"; "1" restores the amounts as written). Returns the reduced factor text.
+  function applyScale(root, factorText, servings) {
+    var factor = parseFactor(factorText) || 1;
+    var text = Math.abs(factor - 1) < EPS ? "1" : reduce(factorText);
+    var serves = servings || servingsOf(root);
+    each(root, "span.qty", function (span) {
+      if (!span.hasAttribute("data-original"))
+        span.setAttribute("data-original", span.textContent);
+      var original = span.getAttribute("data-original");
+      span.textContent =
+        text === "1" ? original : scale(readAmount(span), factor);
+      span.classList.toggle("qty-scaled", text !== "1");
+    });
+    // A yield with no number to scale ("One 9-inch cake") says how many batches.
+    each(root, ".yield-times", function (times) {
+      times.textContent = text === "1" ? "" : " (" + describe(factor) + ")";
+    });
+    each(root, ".print-scale", function (label) {
+      label.hidden = text === "1";
+      label.textContent =
+        text === "1" ? "" : printLabel(factor, serves.low, serves.high);
+    });
+    return text;
+  }
+
   function init() {
     var panel = document.querySelector(".scaler");
     if (!panel) return;
-    var spans = Array.prototype.slice.call(
-      document.querySelectorAll("span.qty"),
-    );
-    spans.forEach(function (span) {
-      span.setAttribute("data-original", span.textContent);
-    });
     var buttons = panel.querySelectorAll("button[data-factor]");
     var people = panel.querySelector("input[name=servings]");
     var note = panel.querySelector(".scale-note");
@@ -449,22 +488,13 @@
     var baseServings = Number(panel.getAttribute("data-servings")) || null;
     var maxServings =
       Number(panel.getAttribute("data-servings-max")) || baseServings;
-    var printNote = document.querySelector(".print-scale");
     var factorText = "1";
 
     function apply(text, fromPeople) {
       var factor = parseFactor(text) || 1;
-      factorText = Math.abs(factor - 1) < EPS ? "1" : reduce(text);
-      spans.forEach(function (span) {
-        var original = span.getAttribute("data-original");
-        span.textContent =
-          factorText === "1" ? original : scale(readAmount(span), factor);
-        span.classList.toggle("qty-scaled", factorText !== "1");
-      });
-      // A yield with no number to scale ("One 9-inch cake") says how many batches.
-      document.querySelectorAll(".yield-times").forEach(function (times) {
-        times.textContent =
-          factorText === "1" ? "" : " (" + describe(factor) + ")";
+      factorText = applyScale(document, text, {
+        low: baseServings,
+        high: maxServings,
       });
       Array.prototype.forEach.call(buttons, function (button) {
         var match =
@@ -479,13 +509,6 @@
       if (status)
         status.textContent =
           factorText === "1" ? "" : "Scaled " + describe(factor);
-      if (printNote) {
-        printNote.hidden = factorText === "1";
-        printNote.textContent =
-          factorText === "1"
-            ? ""
-            : printLabel(factor, baseServings, maxServings);
-      }
       document.querySelectorAll("a[data-carry-scale]").forEach(function (link) {
         var url = new URL(link.getAttribute("href"), window.location.href);
         link.setAttribute(
@@ -525,6 +548,8 @@
     reduce: reduce,
     describe: describe,
     printLabel: printLabel,
+    withScale: withScale,
+    applyScale: applyScale,
     init: init,
   };
 });

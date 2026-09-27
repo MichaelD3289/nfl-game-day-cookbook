@@ -689,7 +689,9 @@ main.content {
 /* Print button (website-print.js) and the print-only scale and address lines. */
 .print-bar[hidden],
 .print-scale,
-.print-url {
+.print-url,
+.print-bundle,
+.print-with[hidden] {
   display: none;
 }
 .print-bar {
@@ -709,6 +711,11 @@ main.content {
 .print-button:hover {
   background: var(--book-pale);
 }
+/* "Include homemade components": prints each component page after the recipe. */
+.print-with {
+  margin-left: 0.6rem;
+  font-size: 0.85rem;
+}
 
 /* Paper: one recipe per Letter or A4 page, like the booklet, without the site chrome.
    The page prints as shown, so scaled amounts print scaled. */
@@ -726,6 +733,7 @@ main.content {
   #quarto-search-results,
   .quarto-search,
   .print-bar,
+  .print-with,
   .scaler,
   .suggest,
   .quick-card a[data-carry-scale] {
@@ -886,5 +894,12 @@ main.content {
     color: var(--book-muted);
     font-size: 7.5pt;
     overflow-wrap: anywhere;
+  }
+  /* Homemade components printed with a recipe, one per sheet. */
+  .print-bundle {
+    display: block;
+  }
+  .print-page {
+    break-before: page;
   }
 }

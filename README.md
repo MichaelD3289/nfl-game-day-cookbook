@@ -207,6 +207,10 @@ Recipe, component, game-day menu and division pages have a **Print** button
 rules in `styles/website.css` hide the site chrome and lay a recipe out on one page
 where it fits. The browser prints the page as shown, so a scaled recipe prints its
 scaled amounts, with a "Scaled 2× · serves 12" note and the page address at the foot.
+A recipe that uses homemade components also offers **Include homemade components**,
+which prints each component page (nested ones too) on its own sheet after the recipe,
+at the same scale; it needs the site served over http(s), so it is hidden when the
+downloaded website is opened from files.
 
 Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
 prompts. They open prefilled quick issue templates on GitHub and, once
