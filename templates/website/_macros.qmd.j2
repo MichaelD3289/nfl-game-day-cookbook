@@ -75,11 +75,16 @@ Photo: {{ credit }}
 :::
 {% endif %}
 {% endmacro %}
+{# Shopping list buttons for a print bar; shop.js shows them. #}
+{% macro shop_actions() -%}
+<span class="shop-actions" hidden><span class="shop-label">Shopping list</span><button type="button" class="shop-button" data-shop="txt">Download .txt</button><button type="button" class="shop-button" data-shop="csv">Download .csv</button><button type="button" class="shop-button" data-shop="copy">Copy</button><span class="shop-status" aria-live="polite"></span></span>
+{%- endmacro %}
+
 {% macro print_menu(item) %}
 {% if item.get("print_pages") %}
 
 ```{=html}
-<div class="print-bar print-menu" hidden data-print-pages="{{ item.print_pages|join(" ")|e }}"{% if item.get("print_components") %} data-print-components="{{ item.print_components|join(" ")|e }}"{% endif %}><button type="button" class="print-button">Print menu + recipes</button>{% if item.get("print_components") %}<label class="print-with" hidden><input type="checkbox" name="print-with"> Include homemade components</label>{% endif %}</div>
+<div class="print-bar print-menu" hidden data-print-pages="{{ item.print_pages|join(" ")|e }}"{% if item.get("print_components") %} data-print-components="{{ item.print_components|join(" ")|e }}"{% endif %}><button type="button" class="print-button">Print menu + recipes</button>{% if item.get("print_components") %}<label class="print-with" hidden><input type="checkbox" name="print-with"> Include homemade components</label>{% endif %}{{ shop_actions() }}</div>
 ```
 
 {% endif %}
@@ -106,10 +111,10 @@ Photo: {{ credit }}
 {% endif %}
 :::
 {% endmacro %}
-{% macro print_button(scaled=false, pages=()) %}
+{% macro print_button(scaled=false, pages=(), shop=false) %}
 
 ```{=html}
-<div class="print-bar" hidden{% if pages %} data-print-pages="{{ pages|join(" ")|e }}"{% endif %}><button type="button" class="print-button">Print</button>{% if pages %}<label class="print-with" hidden><input type="checkbox" name="print-with"> Include homemade components</label>{% endif %}</div>
+<div class="print-bar" hidden{% if pages %} data-print-pages="{{ pages|join(" ")|e }}"{% endif %}><button type="button" class="print-button">Print</button>{% if pages %}<label class="print-with" hidden><input type="checkbox" name="print-with"> Include homemade components</label>{% endif %}{% if shop %}{{ shop_actions() }}{% endif %}</div>
 {% if scaled %}
 <p class="print-scale" hidden></p>
 {% endif %}
