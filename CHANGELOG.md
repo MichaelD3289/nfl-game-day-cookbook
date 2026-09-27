@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Recipe, component, game-day menu and division (dish-off) pages on the website have a **Print** button that prints just the page, without the site navigation, search or suggestion prompts. Most recipes fit on one Letter or A4 page; a scaled recipe prints its scaled amounts with a "Scaled 2× · serves 12" note, and every printout ends with the page's web address. The PDF is unchanged.
+
 ## [0.9.1] - 2026-09-27
 
 ### Fixed
