@@ -243,6 +243,7 @@ def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
     result.extend(
         [
             {"text": "Game Day Menus", "href": "game-day-menus.qmd"},
+            {"text": "Build your own menu", "href": "menu-builder.qmd"},
             {"text": "Make It or Buy It", "href": "make-it-or-buy-it.qmd"},
         ]
     )
@@ -271,6 +272,51 @@ def _add_browse(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
     pages.insert(position, page)
 
 
+def _add_menu_builder(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
+    """The Build your own menu page (website only), right after Game Day Menus.
+
+    Dishes are grouped by course in data/indexes.yml order, empty courses left out, and
+    keep book order within a course. Each carries the component pages its recipe prints.
+    """
+    prints: dict[str, list[str]] = {
+        f"{p.slug}.html": p.context.get("print_pages", [])
+        for p in pages
+        if p.template == "recipe.qmd.j2"
+    }
+    course = next(f for f in catalog["facets"] if f["id"] == "course")
+    courses = []
+    for option in course["options"]:
+        dishes = [
+            {
+                **recipe,
+                "facets_json": json.dumps(recipe["facets"], ensure_ascii=False),
+                "print_pages": prints.get(recipe["url"], []),
+            }
+            for recipe in catalog["recipes"]
+            if recipe["course"] == option["id"]
+        ]
+        if dishes:
+            courses.append({"id": option["id"], "label": option["label"], "dishes": dishes})
+    label = section_label("menu-builder")
+    page = PageSpec(
+        "menu-builder",
+        "menu-builder.qmd.j2",
+        {
+            "title": "Build your own menu",
+            "label": label,
+            "facets": catalog["facets"],
+            "courses": courses,
+            "total": sum(len(c["dishes"]) for c in courses),
+            "multipliers": MULTIPLIERS,
+            # menu.js fills the idea field with the picked dishes and the menu address.
+            "suggest": _suggestion("menu", "Think your menu belongs in the book?"),
+        },
+        anchors=(label,),
+    )
+    position = next((i + 1 for i, p in enumerate(pages) if p.slug == "game-day-menus"), len(pages))
+    pages.insert(position, page)
+
+
 def _prepare(
     project: Project, build_dir: Path, edition: str
 ) -> tuple[list[PageSpec], Diagnostics, PhotoStats, dict[str, Any]]:
@@ -280,6 +326,7 @@ def _prepare(
     _add_print_pages(model, pages)
     catalog = recipe_catalog(model, pages, diags, edition=edition)
     _add_browse(pages, catalog)
+    _add_menu_builder(pages, catalog)
     return pages, diags, photos, catalog
 
 
@@ -330,12 +377,21 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
         f"PDF and downloadable website are also on [GitHub releases]({RELEASES}).\n\n"
         "```{=html}\n<!-- site-versions -->\n```\n"
     )
-    resources = ["assets/**", "scale.js", "print.js", "shop.js", CATALOG_FILE, "browse.js"]
+    resources = [
+        "assets/**",
+        "scale.js",
+        "print.js",
+        "shop.js",
+        CATALOG_FILE,
+        "browse.js",
+        "menu.js",
+    ]
     write_catalog(catalog, build_dir / CATALOG_FILE)
     shutil.copyfile(project.styles_dir / "website-browse.js", build_dir / "browse.js")
     shutil.copyfile(project.styles_dir / "website-scale.js", build_dir / "scale.js")
     shutil.copyfile(project.styles_dir / "website-print.js", build_dir / "print.js")
     shutil.copyfile(project.styles_dir / "website-shop.js", build_dir / "shop.js")
+    shutil.copyfile(project.styles_dir / "website-menu.js", build_dir / "menu.js")
     scripts = ["print.js", "shop.js"]
     html_format: dict[str, Any] = {
         "theme": "cosmo",
