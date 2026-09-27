@@ -17,6 +17,7 @@ from urllib.parse import urlencode
 import yaml
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
+from nfl_book.catalog import CATALOG_FILE, recipe_catalog, write_catalog
 from nfl_book.digital import prepare_pages, site_name
 from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.images import PhotoStats
@@ -24,7 +25,7 @@ from nfl_book.pipeline import load
 from nfl_book.project import Project
 from nfl_book.publishing import EPUB_FILENAME, RELEASES, REPOSITORY
 from nfl_book.quantities import Amount, find_yield_amounts
-from nfl_book.references import component_label, html_id
+from nfl_book.references import component_label, html_id, section_label
 from nfl_book.render.pages import ItemView, PageSpec
 from nfl_book.resolve import BookModel
 from nfl_book.validation import component_graph
@@ -220,6 +221,7 @@ def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
     result: list[dict[str, Any]] = [
         {"text": "Start here", "href": "index.qmd"},
         {"text": "All recipes", "href": "contents.qmd"},
+        {"text": "Browse recipes", "href": "browse.qmd"},
     ]
     indexes = [
         {"text": p.context["title"], "href": _filename(p)}
@@ -247,19 +249,49 @@ def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
     return result
 
 
-def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnostics, PhotoStats]:
+def _add_browse(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
+    """The Browse recipes page (website only), right after All recipes."""
+    recipes = [
+        {**recipe, "facets_json": json.dumps(recipe["facets"], ensure_ascii=False)}
+        for recipe in catalog["recipes"]
+    ]
+    label = section_label("browse")
+    page = PageSpec(
+        "browse",
+        "browse.qmd.j2",
+        {
+            "title": "Browse recipes",
+            "label": label,
+            "facets": catalog["facets"],
+            "recipes": recipes,
+        },
+        anchors=(label,),
+    )
+    position = next((i + 1 for i, p in enumerate(pages) if p.slug == "contents"), len(pages))
+    pages.insert(position, page)
+
+
+def _prepare(
+    project: Project, build_dir: Path, edition: str
+) -> tuple[list[PageSpec], Diagnostics, PhotoStats, dict[str, Any]]:
     pages, diags, photos, model = prepare_pages(project, build_dir, web=True)
     _add_suggestions(project, model, pages)
     _add_scaling(model, pages)
     _add_print_pages(model, pages)
-    return pages, diags, photos
+    catalog = recipe_catalog(model, pages, diags, edition=edition)
+    _add_browse(pages, catalog)
+    return pages, diags, photos, catalog
 
 
 def build_website(project: Project, *, render: bool = True, preview: str = "") -> WebsiteResult:
     """Build the site; ``preview`` labels an unreleased build (a branch and commit) on
     every page, so it cannot pass for the published edition."""
     build_dir = project.generated_dir / "site"
-    pages, diags, photos = _prepare(project, build_dir)
+    metadata = tomllib.loads((project.root / "pyproject.toml").read_text())
+    version = metadata["project"]["version"]
+    pages, diags, photos, catalog = _prepare(project, build_dir, version)
+    if not diags.ok:
+        raise ValidationFailed(diags)
     routes = {label: f"{_filename(p)}#{html_id(label)}" for p in pages for label in p.anchors}
     for p in pages:
         for menu in p.context.get("dishoffs", []):
@@ -277,8 +309,6 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
     env.globals.update(
         route=lambda label: routes[label], suggestion_form_url=book.suggestion_form_url
     )
-    metadata = tomllib.loads((project.root / "pyproject.toml").read_text())
-    version = metadata["project"]["version"]
     pdf = book.output_filename
     download = f"{RELEASES}/latest/download/{pdf}"
     for page in pages:
@@ -300,7 +330,9 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
         f"PDF and downloadable website are also on [GitHub releases]({RELEASES}).\n\n"
         "```{=html}\n<!-- site-versions -->\n```\n"
     )
-    resources = ["assets/**", "scale.js", "print.js"]
+    resources = ["assets/**", "scale.js", "print.js", CATALOG_FILE, "browse.js"]
+    write_catalog(catalog, build_dir / CATALOG_FILE)
+    shutil.copyfile(project.styles_dir / "website-browse.js", build_dir / "browse.js")
     shutil.copyfile(project.styles_dir / "website-scale.js", build_dir / "scale.js")
     shutil.copyfile(project.styles_dir / "website-print.js", build_dir / "print.js")
     scripts = ["print.js"]

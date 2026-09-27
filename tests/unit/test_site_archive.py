@@ -260,6 +260,23 @@ def test_search_index_asset_paths_are_relinked(tmp_path: Path, releases: Path) -
     assert (out / unused).is_file()
 
 
+def test_recipe_catalog_photo_paths_are_relinked(tmp_path: Path, releases: Path) -> None:
+    site = _with_photo(_site(tmp_path / "fresh", "0.6.0"), b"photo")
+    catalog = {
+        "version": 1,
+        "recipes": [{"url": "recipe-test-citrus-wings.html", "photo": "assets/unused.png"}],
+    }
+    (site / "recipes.json").write_text(json.dumps(catalog))
+    out = tmp_path / "pages"
+    assemble("v0.6.0", site, releases, out, PDF, Diagnostics())
+    unused = _media(b"never linked photo", ".png")
+    root = json.loads((out / "recipes.json").read_text())["recipes"][0]
+    assert root == {"url": "recipe-test-citrus-wings.html", "photo": unused}
+    nested = json.loads((out / "v0.6.0/recipes.json").read_text())["recipes"][0]
+    assert nested["photo"] == f"../{unused}"
+    assert (out / unused).is_file()
+
+
 def test_release_zips_are_left_unchanged(tmp_path: Path, releases: Path) -> None:
     _zip(releases, "v0.6.0", _with_photo(_site(tmp_path / "newest", "0.6.0"), b"photo"))
     before = (releases / "v0.6.0" / WEBSITE_ZIP).read_bytes()

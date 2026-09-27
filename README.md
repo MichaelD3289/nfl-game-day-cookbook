@@ -191,6 +191,14 @@ The website uses the same published sources as the PDF, with separate web templa
 and styles, searchable recipes, division/team navigation, menus, indexes, photos,
 and linked Q quick-option cards. Editorial review metadata stays private.
 
+The **Browse recipes** page (`styles/website-browse.js`) narrows every published
+recipe by course, main ingredient, practical time, ingredient cost, conference,
+division and team. Choices within one filter widen the list, choices across filters
+narrow it, and each choice shows how many recipes it would give. The chosen filters
+are kept in the page address (`browse.html?course=appetizers&team=bills`) so a view
+can be shared. Without JavaScript the page lists every recipe. New indexes in
+`data/indexes.yml` become filters automatically.
+
 Recipe and component pages can be **scaled** (½× to 4×, or by the number of people
 when a recipe has servings). Amounts are converted to the most readable unit, so
 tripling 4 teaspoons reads ¼ cup; counts stay whole and ranges stay ranges. The
@@ -226,6 +234,18 @@ phone". Every release keeps its site at `/vX.Y.Z/`, so the
 links match the printing; they open only after that version is released. The links are
 built offline from that one URL; drafts are never
 linked, and the build fails if a link would open a page the website does not publish.
+
+### Recipe catalog (recipes.json)
+
+Each website build writes `recipes.json` at the site root: one entry per published
+recipe, in book order, for Browse recipes and later site features. It has a `version`
+(the schema, currently `1`), the `edition` (package version), the `facets` (each index
+from `data/indexes.yml`, then `conference`, `division` and `team`, with their options)
+and the `recipes`. Each recipe has its `id`, `title`, page `url`, web `photo` (or
+`null`), `description`, `course`, `team`, `conference`, `division`, `servings`,
+`yield`, `prep`, `cook`, the homemade `components` it uses (nested ones included) and
+its facet values. Drafts and review metadata are never included. `url` and `photo` are
+relative to the site root, and the website link check fails if either is missing.
 
 ### Publishing to GitHub Pages
 

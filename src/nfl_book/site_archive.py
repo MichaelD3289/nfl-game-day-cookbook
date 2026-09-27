@@ -153,7 +153,7 @@ def _share_media(out: Path, builds: dict[Path, list[Path]]) -> None:
             if page.suffix in (".html", ".css"):
                 text = page.read_text(encoding="utf-8")
                 relinked = _relink(text, page, shared, used)
-            elif page.name == "search.json":
+            elif page.name in ("search.json", "recipes.json"):
                 text = page.read_text(encoding="utf-8")
                 index = json.loads(text)
                 data = _relink_json(index, build / "index.html", shared, used)
@@ -200,7 +200,10 @@ def _relink(text: str, page: Path, shared: dict[Path, Path], used: set[str]) -> 
 
 
 def _relink_json(data: Any, page: Path, shared: dict[Path, Path], used: set[str]) -> Any:
-    """Relink asset paths in Quarto's search index (relative to the build root)."""
+    """Relink asset paths in Quarto's search index or the recipe catalog.
+
+    Both files sit at the build root, and their paths are relative to it.
+    """
     if isinstance(data, str):
         return _shared(data, page, shared, used) if "assets/" in data else data
     if isinstance(data, list):

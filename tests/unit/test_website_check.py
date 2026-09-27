@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 from nfl_book.errors import Diagnostics
@@ -45,3 +46,36 @@ def test_print_components_are_checked_like_links(tmp_path: Path) -> None:
     check_site(tmp_path, diags)
     assert [d.message for d in diags.errors] == ["Missing local target: component-b.html"]
     assert diags.errors[0].path == tmp_path / "menu.html"
+
+
+def test_recipe_catalog_targets_are_checked(tmp_path: Path) -> None:
+    (tmp_path / "recipe-a.html").write_text("<h1>A</h1>")
+    (tmp_path / "assets").mkdir()
+    (tmp_path / "assets/a.jpg").write_bytes(b"photo")
+    catalog = tmp_path / "recipes.json"
+    catalog.write_text(
+        json.dumps(
+            {
+                "recipes": [
+                    {"url": "recipe-a.html", "photo": "assets/a.jpg"},
+                    {"url": "recipe-b.html", "photo": None},
+                    {"url": "recipe-a.html", "photo": "assets/missing.jpg"},
+                ]
+            }
+        )
+    )
+    diags = Diagnostics()
+    check_site(tmp_path, diags)
+    assert [(d.code, d.message, d.path) for d in diags.errors] == [
+        ("website-link", "Missing catalog target: recipe-b.html", catalog),
+        ("website-link", "Missing catalog target: assets/missing.jpg", catalog),
+    ]
+
+
+def test_invalid_recipe_catalog_is_reported(tmp_path: Path) -> None:
+    catalog = tmp_path / "recipes.json"
+    catalog.write_text("{not json")
+    diags = Diagnostics()
+    check_site(tmp_path, diags)
+    assert [(d.code, d.path) for d in diags.errors] == [("website-link", catalog)]
+    assert diags.errors[0].message.startswith("Invalid recipe catalog")
