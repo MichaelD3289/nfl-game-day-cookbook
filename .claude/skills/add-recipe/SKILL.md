@@ -36,6 +36,7 @@ status: draft                   # draft | testing | published | retired
 course: meals                   # appetizers | sides | meals | desserts
 location: Buffalo, NY           # optional, overrides the team's location
 yield: 4 servings               # required, non-empty
+servings: 4                     # optional: people fed (4 or 4-6) when yield is not "N servings"
 prep: 20 minutes                # optional
 cook: 45 minutes                # optional
 image: <id>.jpg                 # optional, next to the .md; requires photo_credit; the build
@@ -81,6 +82,12 @@ Optional short paragraph.
   `## Ingredients`. The component must exist under `components/`, and a published
   recipe may only reference published components. To create one, see the
   `add-component` skill.
+- Start each ingredient line with its amount (`1 1/2 cups beef broth`, `3 garlic
+  cloves`, `About ½ teaspoon salt`) and put a space before the unit (`500 g`, not
+  `500g`), so the website can scale it. Lines without amounts (`Salt, to taste`) are
+  fine. Add `{{no-scale}}` to a line whose amount should not grow with the batch, such
+  as frying oil measured by pot depth. Validation reports amounts it cannot read.
+- For a yield such as "4 sandwiches", add `servings:` so readers can scale by people.
 - Don't write single-item `###` groups. Use an inline bullet such as
   `- Optional: ...` instead.
 - Every recipe must fit on **one page**. As a rough budget, keep to 20 ingredient

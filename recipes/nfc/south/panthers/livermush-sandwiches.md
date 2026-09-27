@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Charlotte, NC
 yield: 1 sandwich
+servings: 1
 prep: 3–5 min (estimated)
 cook: About 6 min frying
 image: livermush-sandwiches.jpg

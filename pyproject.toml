@@ -1,6 +1,6 @@
 [project]
 name = "nfl-game-day-cookbook"
-version = "0.8.0"
+version = "0.9.0"
 description = "Book-as-code publishing system for the NFL Game Day recipe booklet."
 readme = "README.md"
 authors = [
@@ -75,6 +75,8 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "PTH"]
+# Recipe text uses en dashes for ranges and × for multipliers.
+allowed-confusables = ["–", "×"]
 
 [tool.mypy]
 python_version = "3.11"

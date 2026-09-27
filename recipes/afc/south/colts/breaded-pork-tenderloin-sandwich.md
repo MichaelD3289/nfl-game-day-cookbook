@@ -32,7 +32,7 @@ source:
 - 2 tablespoons salt
 - 4 eggs
 - 1 cup milk
-- 40 ounces vegetable oil for deep frying (use only enough for safe frying depth)
+- 40 ounces vegetable oil for deep frying (use only enough for safe frying depth) {{no-scale}}
 - 4 soft hamburger buns (assembly quantity inferred from four cutlets)
 - Classic toppings to taste: dill pickle chips, sliced white onion, yellow mustard; lettuce, tomato, and mayonnaise optional
 

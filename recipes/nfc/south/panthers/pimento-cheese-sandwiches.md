@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Charlotte, NC
 yield: 4 sandwiches
+servings: 4
 prep: 10 minutes
 cook: No cooking
 image: pimento-cheese-sandwiches.jpg

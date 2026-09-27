@@ -12,6 +12,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from nfl_book.models.content import Component, IngredientGroup, Recipe
+from nfl_book.quantities import Amount
 from nfl_book.references import (
     component_label,
     division_label,
@@ -60,6 +61,7 @@ class Ref:
 class ItemView:
     text: str  # Markdown
     ref: str | None  # component label when the line references a component
+    amounts: tuple[Amount, ...] = ()  # scalable amounts in ``text`` (website only)
 
 
 @dataclass(frozen=True)
@@ -97,7 +99,7 @@ def _groups(groups: Iterable[IngredientGroup]) -> list[GroupView]:
         GroupView(
             g.heading,
             tuple(
-                ItemView(i.text, component_label(i.component) if i.component else None)
+                ItemView(i.text, component_label(i.component) if i.component else None, i.amounts)
                 for i in g.items
             ),
         )

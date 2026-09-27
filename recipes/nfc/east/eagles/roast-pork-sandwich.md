@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Philadelphia, PA
 yield: 6 sandwiches
+servings: 6
 prep: 15 minutes (source listed)
 cook: 3 hours 5 minutes, plus 13 hours chilling/cooling
 image: roast-pork-sandwich.jpg

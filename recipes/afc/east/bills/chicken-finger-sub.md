@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Buffalo, NY
 yield: 1 sub
+servings: 1
 prep: 5–10 minutes assembly; about 1 hour marinating if making tenders
 cook: About 5 minutes oven warming; add 20–30 minutes for scratch tender breading and frying
 image: chicken-finger-sub.jpg

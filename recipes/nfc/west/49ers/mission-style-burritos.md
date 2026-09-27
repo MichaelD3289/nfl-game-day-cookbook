@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: San Francisco Bay Area, CA
 yield: 3–4 large burritos
+servings: 3-4
 prep: 45–60 minutes hands-on plus 3–4 hours marinating
 cook: About 45 minutes (rice and beans overlap)
 image: mission-style-burritos.jpg

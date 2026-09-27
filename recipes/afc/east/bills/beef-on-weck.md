@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Buffalo, NY
 yield: 5 to 6 sandwiches
+servings: 5-6
 prep: 20 minutes
 cook: 50 minutes
 image: beef-on-weck.jpg

@@ -78,6 +78,7 @@ title: Buffalo Chicken Sliders
 status: draft                  # draft | testing | published | retired
 course: appetizers             # a bucket of the `course` index
 yield: 12 sliders
+servings: 4-6                  # optional; people fed, when yield isn't "N servings"
 index:                         # one value per index in data/indexes.yml
   main_ingredient: poultry
   practical_time: under-30-minutes
@@ -96,6 +97,11 @@ source:
 
 ...
 ```
+
+Ingredient lines stay free text, but the build reads their amounts so the website can
+scale them (see below). Lead with the amount (`1 1/2 cups beef broth`, `3 garlic
+cloves`) and write a space before the unit. Add `{{no-scale}}` to a line whose amount
+must not change with the batch size, such as frying oil measured by pot depth.
 
 Components use the sections `## Ingredients`, `## From Scratch` and an optional
 `## Note`, plus the front-matter fields `quick_buy` and `always_include`. A component
@@ -181,6 +187,13 @@ for the HTML build; TinyTeX is needed only for the PDF. Local builds never deplo
 The website uses the same published sources as the PDF, with separate web templates
 and styles, searchable recipes, division/team navigation, menus, indexes, photos,
 and linked Q quick-option cards. Editorial review metadata stays private.
+
+Recipe and component pages can be **scaled** (½× to 4×, or by the number of people
+when a recipe has servings). Amounts are converted to the most readable unit, so
+tripling 4 teaspoons reads ¼ cup; counts stay whole and ranges stay ranges. The
+scale is kept in the page URL (`?scale=2`) and carried to linked component pages.
+`styles/website-scale.js` does the conversion in the browser; its tests run with
+Node.js and are skipped when Node is not installed. The PDF is never scaled.
 
 Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
 prompts. They open prefilled quick issue templates on GitHub and, once

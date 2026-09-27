@@ -452,3 +452,67 @@ main.content {
 @media print {
   .suggest { display: none; }
 }
+/* Recipe scaling controls (website-scale.js); hidden until the script runs. */
+.scaler[hidden], .scale-note[hidden] {
+  display:none;
+}
+.scaler {
+  margin:.4rem 0 1rem;
+  padding:.6rem .8rem;
+  border:1px solid var(--book-rule);
+  border-radius:6px;
+  background:var(--book-pale);
+  font-size:.92rem;
+}
+.scaler-row {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:.4rem .8rem;
+}
+.scaler-label {
+  font-weight:700;
+  color:var(--book-navy);
+}
+.scaler-buttons {
+  display:inline-flex;
+  flex-wrap:wrap;
+  gap:.25rem;
+}
+.scaler-buttons button {
+  min-width:2.6rem;
+  padding:.15rem .5rem;
+  border:1px solid var(--book-navy);
+  border-radius:4px;
+  background:var(--book-paper);
+  color:var(--book-navy);
+  font:inherit;
+  cursor:pointer;
+}
+.scaler-buttons button[aria-pressed="true"] {
+  background:var(--book-navy);
+  color:var(--book-paper);
+}
+.scaler-servings input {
+  width:4.2rem;
+  padding:.1rem .3rem;
+  border:1px solid var(--book-rule);
+  border-radius:4px;
+  font:inherit;
+}
+.scaler-servings small, .scale-status {
+  color:var(--book-muted);
+}
+.scale-note {
+  margin:.5rem 0 0;
+  color:var(--book-muted);
+  font-size:.85rem;
+}
+.qty-scaled {
+  font-weight:700;
+}
+@media print {
+  .scaler {
+    display:none;
+  }
+}

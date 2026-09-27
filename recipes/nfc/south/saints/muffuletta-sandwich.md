@@ -10,6 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: New Orleans, LA
 yield: 4 sandwiches
+servings: 4
 prep: 25 minutes active, plus chilling (estimated)
 cook: 10–12 minutes for the olive salad
 image: muffuletta-sandwich.jpg

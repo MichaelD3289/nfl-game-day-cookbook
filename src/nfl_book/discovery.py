@@ -130,7 +130,7 @@ def _sections(
         if title != "Ingredients" and find_markers(text):
             diags.error(
                 "reference",
-                "component references are only allowed in '## Ingredients' "
+                "component and {{no-scale}} markers are only allowed in '## Ingredients' "
                 f"(found in '## {title}')",
                 path,
             )

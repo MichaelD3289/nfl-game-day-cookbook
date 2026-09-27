@@ -192,6 +192,49 @@ def test_suggestion_form_url_must_be_https(fixture_book: Project) -> None:
     assert raised.value.diagnostics.errors[0].path == book
 
 
+def test_scalable_pages_mark_amounts_and_offer_controls(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    sliders = (site / "recipe-test-buffalo-sliders.qmd").read_text()
+    assert '<span class="qty" data-q="1" data-unit="lb">1 lb</span> ground chicken' in sliders
+    assert '<span class="qty" data-q="12">12</span> slider buns' in sliders
+    assert (
+        '<span class="qty" data-q="1/2" data-unit="cup">1/2 cup</span> blue cheese dip' in sliders
+    )
+    assert "- 2 cups oil for the griddle\n" in sliders  # {{no-scale}}
+    assert "{{no-scale}}" not in sliders
+    assert '<div class="scaler" data-servings="4" hidden>' in sliders
+    assert "(serves 4–6 as written)" in sliders
+    assert 'data-factor="3/2"' in sliders
+    assert '<script src="scale.js"></script>' in sliders
+    assert 'class="q-mark" href="component-test-blue-cheese-dip.qmd' in sliders
+    assert "data-carry-scale" in sliders
+    # Components scale by multiplier only; recipes without servings do the same.
+    sauce = (site / "component-test-wing-sauce.qmd").read_text()
+    assert '<div class="scaler" hidden>' in sauce
+    assert 'name="servings"' not in sauce
+    assert (site / "scale.js").read_text().startswith("// Recipe scaling on the website.")
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    assert "scale.js" in config["project"]["resources"]
+
+
+def test_scaling_leaves_print_pages_unchanged(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    pipeline.build(fixture_book, pdf=False)
+    pages = fixture_book.book_build_dir / "pages"
+    before = {p.name: p.read_bytes() for p in pages.glob("*.qmd")}
+    text = "\n".join(p.decode() for p in before.values())
+    assert "2 cups oil for the griddle" in text
+    assert "no-scale" not in text
+    assert "qty" not in text
+    assert "scaler" not in text
+    build_website(fixture_book, render=False)
+    pipeline.build(fixture_book, pdf=False)
+    assert before == {p.name: p.read_bytes() for p in pages.glob("*.qmd")}
+
+
 def test_versions_page_has_marker_for_published_versions(fixture_book: Project) -> None:
     from nfl_book.site_archive import VERSIONS_MARKER
     from nfl_book.website import build_website

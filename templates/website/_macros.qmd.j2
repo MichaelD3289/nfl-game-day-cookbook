@@ -8,9 +8,27 @@
 ### {{ group.heading|md }}
 {% endif %}
 {% for item in group.items %}
-- {{ item.text }}{% if item.ref %} <a class="q-mark" href="{{ route(item.ref)|e }}" aria-label="Make {{ item.text|striptags|e }} from scratch">Q</a>{% endif %}
+- {{ item|scalable }}{% if item.ref %} <a class="q-mark" href="{{ route(item.ref)|e }}" data-carry-scale aria-label="Make {{ item.text|striptags|e }} from scratch">Q</a>{% endif %}
 {% endfor %}
 {% endfor %}
+{% endmacro %}
+{% macro scaler(s) %}
+{% if s %}
+
+```{=html}
+<div class="scaler"{% if s.servings %} data-servings="{{ s.servings }}"{% endif %} hidden>
+<div class="scaler-row">
+<span class="scaler-label">Make</span>
+<span class="scaler-buttons" role="group" aria-label="Recipe multiplier">{% for label, factor in s.multipliers %}<button type="button" data-factor="{{ factor }}" aria-pressed="false">{{ label }}</button>{% endfor %}</span>
+{% if s.servings %}<label class="scaler-servings">or feed <input type="number" name="servings" min="1" max="500" step="1" inputmode="numeric" value="{{ s.servings }}"> people <small>(serves {{ s.serves|e }} as written)</small></label>
+{% endif %}<span class="scale-status" aria-live="polite"></span>
+</div>
+<p class="scale-note" hidden>Only ingredient amounts change. Pan sizes, temperatures and cooking times stay as written, so a bigger batch may need a second pan or more time; go by the doneness cues.</p>
+</div>
+<script src="scale.js"></script>
+```
+
+{% endif %}
 {% endmacro %}
 {% macro refs(entries) %}
 {% for ref in entries %}

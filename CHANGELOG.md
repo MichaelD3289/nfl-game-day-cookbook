@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-09-27
+
+### Added
+
+- Recipe and component pages on the website can be scaled from ½× to 4×, or by the number of people when the recipe has servings. Amounts switch to the most readable unit (tripling 4 teaspoons reads ¼ cup), counts stay whole, and the scale is kept in the page link and carried to linked components. The PDF is unchanged.
+- Recipes accept an optional `servings` field (a number or a range such as `6-8`), and yields such as "6–8 servings" or "serves 6–10" are read automatically. Ingredient lines can be marked `{{no-scale}}` to keep their amount fixed, and validation reports amounts it cannot read, such as `500g`.
+- Sandwich, burger, burrito, omelet and roll recipes list their servings, and deep-frying oil measured by pot depth is marked so it does not scale.
+
 ## [0.8.0] - 2026-09-27
 
 ### Added
@@ -201,7 +209,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Unit and integration tests against a synthetic sample book.
 
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.9.0...HEAD
+[0.9.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.1...v0.7.0
 [0.6.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.6.0...v0.6.1

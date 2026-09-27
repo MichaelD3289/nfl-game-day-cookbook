@@ -29,7 +29,7 @@ source:
 - 1/2 teaspoon salt
 - 1 cup club soda
 - 1 pound fresh Wisconsin cheddar cheese curds (white or yellow; cold, well drained)
-- 4 cups vegetable or canola oil, for frying
+- 4 cups vegetable or canola oil, for frying {{no-scale}}
 
 ### For serving
 

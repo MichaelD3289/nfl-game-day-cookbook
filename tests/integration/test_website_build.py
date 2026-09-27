@@ -33,6 +33,9 @@ def test_rendered_website_has_cards_search_and_no_print_markup(fixture_book: Pro
     assert "::: {" not in wings
     assert '<h1 class="title"' not in wings
     assert "component-test-wing-sauce.html#component-test-wing-sauce" in wings
+    assert '<span class="qty" data-q="2" data-unit="lb">2 lb</span>' in wings
+    assert '<div class="scaler" data-servings="4" hidden>' in wings
+    assert (result.site / "scale.js").is_file()
     search = json.loads((result.site / "search.json").read_text())
     assert any("Test Citrus Wings" in entry["title"] for entry in search)
     assert not any("test-draft" in entry["href"] for entry in search)
