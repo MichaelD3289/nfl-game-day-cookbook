@@ -71,21 +71,21 @@ jobs:
         run: uv run nfl-book epub
       - name: Upload website
         if: ${{ !cancelled() && steps.website.outcome == 'success' }}
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: preview-website-${{ env.PREVIEW_SLUG }}
           path: dist/site
           retention-days: 14
       - name: Upload PDF
         if: ${{ !cancelled() && steps.pdf.outcome == 'success' }}
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: preview-pdf-${{ env.PREVIEW_SLUG }}
           path: dist/*.pdf
           retention-days: 14
       - name: Upload EPUB
         if: ${{ !cancelled() && steps.epub.outcome == 'success' }}
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: preview-epub-${{ env.PREVIEW_SLUG }}
           path: dist/*.epub
