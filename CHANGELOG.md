@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-10-17
+
 ### Added
 
 - A design proposal for recording what each ingredient line is (`docs/ingredients-design.md`), comparing inline keys, structured front matter and inferred keys, for the maintainer to decide in [#44](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/44). Nothing in the book or tooling changes yet.
@@ -295,7 +297,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.14.0...HEAD
+[0.14.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.0...v0.12.0
