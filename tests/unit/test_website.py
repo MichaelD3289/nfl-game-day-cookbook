@@ -314,7 +314,7 @@ def test_printable_pages_offer_a_print_button(fixture_book: Project) -> None:
     for name in printable:
         page = (site / name).read_text()
         # Hidden until print.js runs, so readers without JavaScript never see a dead button.
-        assert '<div class="print-bar" hidden>' in page, name
+        assert '<div class="print-bar" hidden' in page, name
         assert '<button type="button" class="print-button">Print</button>' in page, name
     for name in ("index.qmd", "contents.qmd", "game-day-menus.qmd", "versions.qmd"):
         assert "print-bar" not in (site / name).read_text(), name
@@ -491,3 +491,480 @@ def test_json_ld_without_website_url(fixture_book: Project) -> None:
     assert "url" not in data
     assert "image" not in data
     assert _canonical(head) is None
+
+
+PRINT_WITH = (
+    '<label class="print-with" hidden><input type="checkbox" name="print-with"> '
+    "Include homemade components</label>"
+)
+
+SHOP = (
+    '<span class="shop-actions" hidden><span class="shop-label">Shopping list</span>'
+    '<button type="button" class="shop-button" data-shop="txt">Download .txt</button>'
+    '<button type="button" class="shop-button" data-shop="csv">Download .csv</button>'
+    '<button type="button" class="shop-button" data-shop="copy">Copy</button>'
+    '<span class="shop-status" aria-live="polite"></span></span>'
+)
+
+
+def test_recipe_and_component_print_bars_offer_a_shopping_list(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    sliders = (site / "recipe-test-buffalo-sliders.qmd").read_text()
+    # Hidden until shop.js runs, after the component option inside the recipe's bar.
+    assert f"{PRINT_WITH}{SHOP}</div>" in sliders
+    sauce = (site / "component-test-wing-sauce.qmd").read_text()
+    assert f'<button type="button" class="print-button">Print</button>{SHOP}</div>' in sauce
+    # Page-level bars on menu and division pages print the page only.
+    for name in ("menus-fast-day-1.qmd", "division-afc-east.qmd"):
+        page = (site / name).read_text()
+        assert page.count('class="shop-actions"') == page.count("print-bar print-menu"), name
+
+
+def test_shop_script_ships_after_print_script(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    assert (site / "shop.js").read_text().startswith("// Shopping list on the website:")
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    assert "shop.js" in config["project"]["resources"]
+    scripts = config["format"]["html"]["include-after-body"]["text"]
+    assert scripts.index('<script src="print.js"></script>') < scripts.index(
+        '<script src="shop.js"></script>'
+    )
+
+
+def test_recipe_print_bar_lists_its_component_pages_in_order(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
+    # The wing sauce uses the Cajun seasoning, so both print, in order of appearance.
+    assert (
+        '<div class="print-bar" hidden data-print-pages='
+        '"component-test-wing-sauce.html component-test-cajun-seasoning.html">'
+    ) in wings
+    assert f'<button type="button" class="print-button">Print</button>{PRINT_WITH}' in wings
+    # Component pages, and recipes without components, offer no extra pages.
+    sauce = (site / "component-test-wing-sauce.qmd").read_text()
+    assert "data-print-pages" not in sauce
+    assert "print-with" not in sauce
+
+
+def test_component_pages_print_once_after_first_use(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    recipe = fixture_book.recipes_dir / "afc/east/dolphins/test-citrus-wings.md"
+    recipe.write_text(
+        recipe.read_text().replace(
+            "{{component:test-wing-sauce}}\n",
+            "{{component:test-wing-sauce}}\n- 1 tsp seasoning {{component:test-cajun-seasoning}}\n",
+        )
+    )
+    site = build_website(fixture_book, render=False).document.parent
+    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
+    assert (
+        'data-print-pages="component-test-wing-sauce.html component-test-cajun-seasoning.html"'
+    ) in wings
+
+
+def test_recipe_without_components_has_no_print_pages(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    recipe = fixture_book.recipes_dir / "afc/east/dolphins/test-citrus-wings.md"
+    recipe.write_text(
+        recipe.read_text().replace(
+            "- 1 cup wing sauce {{component:test-wing-sauce}}", "- 1 cup wing sauce"
+        )
+    )
+    site = build_website(fixture_book, render=False).document.parent
+    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
+    assert '<div class="print-bar" hidden><button' in wings
+    assert "data-print-pages" not in wings
+    assert "print-with" not in wings
+
+
+def test_print_pages_skip_components_left_out_of_the_book(
+    fixture_book: Project, tmp_path: Path
+) -> None:
+    from nfl_book.digital import prepare_pages
+    from nfl_book.website import _add_print_pages
+
+    pages, _, _, model = prepare_pages(fixture_book, tmp_path / "site", web=True)
+    # Validation stops published content referencing drafts, so drop one by hand.
+    model.components = [c for c in model.components if c.id != "test-cajun-seasoning"]
+    _add_print_pages(model, pages)
+    wings = next(p for p in pages if p.slug == "recipe-test-citrus-wings")
+    assert wings.context["print_pages"] == ["component-test-wing-sauce.html"]
+
+
+def test_recipe_print_pages_exist_in_the_site_and_print_js_ships(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
+    match = re.search(r'data-print-pages="([^"]+)"', wings)
+    assert match is not None
+    pages = match.group(1).split()
+    assert pages
+    for page in pages:
+        # Every page print.js fetches is a page of the generated site.
+        assert (site / page.replace(".html", ".qmd")).is_file(), page
+    # Hidden until print.js decides the site is served over http(s).
+    assert '<label class="print-with" hidden>' in wings
+    script = (site / "print.js").read_text()
+    assert "pageList" in script and "printBundle" in script
+
+
+MENU_PAGES = {
+    "menus-fast-day-1.qmd": "## Test Quick Kickoff",
+    "division-afc-east.qmd": "## Test AFC East Dish-Off",
+}
+MENU_BAR = (
+    '<div class="print-bar print-menu" hidden data-print-pages='
+    '"recipe-test-buffalo-sliders.html recipe-test-citrus-wings.html" data-print-components='
+    '"component-test-blue-cheese-dip.html component-test-wing-sauce.html '
+    'component-test-cajun-seasoning.html"><button type="button" class="print-button">'
+    f"Print menu + recipes</button>{PRINT_WITH}{SHOP}</div>"
+)
+
+
+def test_menu_cards_carry_their_recipe_and_component_pages(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    for name, heading in MENU_PAGES.items():
+        page = (site / name).read_text()
+        # Recipes in menu order, then each component they use once, in order of first use.
+        assert MENU_BAR in page, name
+        card = page.index("::: {.menu-card}")
+        assert card < page.index(heading) < page.index(MENU_BAR), name
+        # The page's own Print button is unchanged.
+        assert (
+            '<div class="print-bar" hidden><button type="button" class="print-button">'
+            "Print</button></div>"
+        ) in page, name
+
+
+def test_menu_print_pages_exist_in_the_site(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    for name in MENU_PAGES:
+        page = (site / name).read_text()
+        found = re.findall(r'data-print-(?:pages|components)="([^"]+)"', page)
+        assert len(found) == 2, name
+        for listed in found:
+            for target in listed.split():
+                assert (site / target.replace(".html", ".qmd")).is_file(), (name, target)
+
+
+def test_menu_without_components_offers_no_component_option(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    for relative, line in (
+        (
+            "afc/east/bills/test-buffalo-sliders.md",
+            "- 1/2 cup blue cheese dip {{component:test-blue-cheese-dip}}",
+        ),
+        (
+            "afc/east/dolphins/test-citrus-wings.md",
+            "- 1 cup wing sauce {{component:test-wing-sauce}}",
+        ),
+    ):
+        recipe = fixture_book.recipes_dir / relative
+        text = recipe.read_text()
+        assert line in text
+        # A quick option only makes sense for a component the recipe still uses.
+        text = text.replace(
+            "quick_options:\n  test-blue-cheese-dip: "
+            "Any chunky store-bought blue cheese dressing\n",
+            "",
+        )
+        recipe.write_text(text.replace(line, line.split(" {{")[0]))
+    site = build_website(fixture_book, render=False).document.parent
+    division = (site / "division-afc-east.qmd").read_text()
+    assert (
+        '<div class="print-bar print-menu" hidden data-print-pages='
+        '"recipe-test-buffalo-sliders.html recipe-test-citrus-wings.html"><button'
+    ) in division
+    assert "data-print-components" not in division
+    assert "print-with" not in division
+
+
+def test_browse_page_lists_every_card_and_hides_filters_until_scripted(
+    fixture_book: Project,
+) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    browse = (site / "browse.qmd").read_text()
+    assert '<span id="section-browse"></span>' in browse
+    assert "# Browse recipes" in browse
+    assert '<form class="finder-filters" hidden aria-label="Filter recipes">' in browse
+    assert '<div class="finder" data-total="2">' in browse
+    assert '<p class="finder-status" aria-live="polite">2 recipes</p>' in browse
+    cards = re.findall(r'<li class="finder-card" data-id="([^"]+)" data-facets="([^"]+)">', browse)
+    assert [card[0] for card in cards] == ["test-buffalo-sliders", "test-citrus-wings"]
+    facets = json.loads(html.unescape(cards[0][1]))
+    assert facets["team"] == ["bills"] and facets["course"] == ["appetizers"]
+    assert '<a href="recipe-test-buffalo-sliders.html">' in browse
+    assert '<span class="finder-team">Buffalo Bills · Appetizer</span>' in browse
+    assert '<span class="finder-photo-empty" aria-hidden="true"></span>' in browse
+    assert 'name="team" value="dolphins"> Miami Dolphins' in browse
+    assert "jets" not in browse
+    assert "test-draft-nachos" not in browse
+    assert browse.count('<fieldset data-facet="') == 7
+    assert '<p class="finder-empty" hidden>' in browse
+    assert '<script src="browse.js"></script>' in browse
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    sidebar = config["website"]["sidebar"]["contents"]
+    assert sidebar[:3] == [
+        {"text": "Start here", "href": "index.qmd"},
+        {"text": "All recipes", "href": "contents.qmd"},
+        {"text": "Browse recipes", "href": "browse.qmd"},
+    ]
+
+
+def test_browse_page_is_website_only(fixture_book: Project) -> None:
+    pipeline.build(fixture_book, pdf=False)
+    built = "\n".join(
+        p.read_text()
+        for p in fixture_book.book_build_dir.rglob("*")
+        if p.suffix in {".qmd", ".tex"}
+    )
+    assert "Browse recipes" not in built
+    assert "finder-card" not in built
+
+
+def _menu_dishes(page: str) -> list[dict[str, str]]:
+    """Each menu dish's data attributes, in page order."""
+    dishes = []
+    for tag in re.findall(r'<li class="menu-dish"[^>]*>', page):
+        attrs = dict(re.findall(r'(data-[\w-]+)="([^"]*)"', tag))
+        dishes.append({k: html.unescape(v) for k, v in attrs.items()})
+    return dishes
+
+
+def test_menu_builder_lists_published_recipes_grouped_by_course(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    page = (site / "menu-builder.qmd").read_text()
+    assert "pagetitle: Build your own menu" in page
+    assert '<span id="section-menu-builder"></span>' in page
+    assert "# Build your own menu" in page
+    courses = re.findall(r'<section class="menu-course" data-course="([^"]+)">', page)
+    assert courses == ["appetizers", "meals"]
+    dishes = _menu_dishes(page)
+    assert [d["data-id"] for d in dishes] == ["test-buffalo-sliders", "test-citrus-wings"]
+    assert [d["data-course"] for d in dishes] == ["appetizers", "meals"]
+    assert json.loads(dishes[0]["data-facets"])["team"] == ["bills"]
+    # The same component pages the recipe's own print bar offers.
+    assert dishes[0]["data-print-pages"] == "component-test-blue-cheese-dip.html"
+    assert dishes[1]["data-print-pages"] == (
+        "component-test-wing-sauce.html component-test-cajun-seasoning.html"
+    )
+    assert '<a class="menu-dish-name" href="recipe-test-buffalo-sliders.html">' in page
+    assert '<span class="menu-dish-team">Buffalo Bills</span>' in page
+    assert "test-draft-nachos" not in page
+    assert all(json.loads(d["data-facets"])["team"] != ["jets"] for d in dishes)
+    # Filters, Add buttons, the summary and its actions wait for the script.
+    assert '<form class="finder-filters" hidden aria-label="Filter recipes">' in page
+    assert page.count('<fieldset data-facet="') == 7
+    assert page.count('<button type="button" class="menu-add" hidden aria-pressed="false"') == 2
+    assert '<aside class="menu-summary" hidden aria-label="Your menu">' in page
+    assert '<div class="menu-actions" hidden>' in page
+    assert '<span class="shop-actions" hidden>' in page
+    summary = page[page.index('<aside class="menu-summary"') : page.index("</aside>")]
+    # print.js stamps the first id inside the printed element as the address anchor.
+    assert " id=" not in summary
+    # "Suggest this menu": a menu suggestion box after the summary, filled in by menu.js.
+    suggest = page.index('<div class="suggest" data-kind="menu"')
+    assert suggest > page.index("</aside>")
+    assert "Think your menu belongs in the book?" in page
+    assert page.count('<button type="button" data-factor="') == 6
+    assert '<div class="menu-scale">' in page
+    # Classes other scripts wire themselves to stay off this page.
+    for other in ("print-bar", 'class="finder"', 'class="scaler"'):
+        assert other not in page
+    scripts = re.findall(r'<script src="([^"]+)"></script>', page)
+    assert scripts == ["browse.js", "scale.js", "menu.js"]
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    sidebar = config["website"]["sidebar"]["contents"]
+    menus = sidebar.index({"text": "Game Day Menus", "href": "game-day-menus.qmd"})
+    assert sidebar[menus + 1] == {"text": "Build your own menu", "href": "menu-builder.qmd"}
+    assert "menu.js" in config["project"]["resources"]
+    assert (site / "menu.js").read_text() == (
+        fixture_book.styles_dir / "website-menu.js"
+    ).read_text()
+
+
+def test_menu_builder_follows_course_order_in_indexes_yml(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    indexes = fixture_book.content_root / "data/indexes.yml"
+    text = indexes.read_text()
+    appetizers = "      - { id: appetizers, label: Appetizers, short_label: Appetizer }\n"
+    meals = "      - { id: meals, label: Meals, short_label: Meal }\n"
+    assert appetizers in text and meals in text
+    text = text.replace(appetizers, "@@").replace(meals, appetizers).replace("@@", meals)
+    indexes.write_text(text)
+    site = build_website(fixture_book, render=False).document.parent
+    page = (site / "menu-builder.qmd").read_text()
+    courses = re.findall(r'<section class="menu-course" data-course="([^"]+)">', page)
+    assert courses == ["meals", "appetizers"]
+    assert [d["data-id"] for d in _menu_dishes(page)] == [
+        "test-citrus-wings",
+        "test-buffalo-sliders",
+    ]
+
+
+def test_menu_builder_is_website_only(fixture_book: Project) -> None:
+    pipeline.build(fixture_book, pdf=False)
+    built = "\n".join(
+        p.read_text()
+        for p in fixture_book.book_build_dir.rglob("*")
+        if p.suffix in {".qmd", ".tex"}
+    )
+    assert "Build your own menu" not in built
+    assert "menu-dish" not in built
+
+
+def _matchup_data(page: str) -> dict[str, object]:
+    found = re.search(
+        r'<script type="application/json" class="matchup-data">(.*?)</script>', page, re.S
+    )
+    assert found, "matchup data missing"
+    data: dict[str, object] = json.loads(found.group(1))
+    return data
+
+
+def test_matchup_page_embeds_teams_and_dishes(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    page = (site / "matchup.qmd").read_text()
+    assert "pagetitle: Matchup menu" in page
+    assert '<span id="section-matchup"></span>' in page
+    assert "# Matchup menu" in page
+    data: dict[str, Any] = _matchup_data(page)
+    assert data["courses"] == [
+        {"id": "appetizers", "label": "Appetizers", "singular": "Appetizer"},
+        {"id": "meals", "label": "Meals", "singular": "Meal"},
+    ]
+    dishes = {d["id"]: d for d in data["dishes"]}
+    assert set(dishes) == {"test-buffalo-sliders", "test-citrus-wings"}
+    assert "test-draft-nachos" not in page
+    assert dishes["test-citrus-wings"] == {
+        "id": "test-citrus-wings",
+        "title": dishes["test-citrus-wings"]["title"],
+        "url": "recipe-test-citrus-wings.html",
+        "course": "meals",
+        "team": "dolphins",
+        "division": "afc-east",
+        "printPages": ["component-test-wing-sauce.html", "component-test-cajun-seasoning.html"],
+    }
+    assert dishes["test-buffalo-sliders"]["printPages"] == ["component-test-blue-cheese-dip.html"]
+    assert len(data["teams"]) == 32
+    assert len(data["divisions"]) == 8
+    assert data["divisions"][0] == {"key": "afc-east", "name": "AFC East"}
+    assert data["teams"][0] == {
+        "slug": "bills",
+        "name": "Buffalo Bills",
+        "short": "Bills",
+        "division": "afc-east",
+    }
+    # One line, so the ::: post-processing never sees it, and no closing tags inside.
+    line = next(line for line in page.splitlines() if 'class="matchup-data"' in line)
+    assert line.endswith("</script>")
+
+
+def test_matchup_pickers_group_teams_by_division(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    page = (site / "matchup.qmd").read_text()
+    for side in ("away", "home"):
+        start = page.index(f'<select name="{side}">')
+        select = page[start : page.index("</select>", start)]
+        groups = re.findall(r'<optgroup label="([^"]+)">', select)
+        assert len(groups) == 8
+        assert groups[0] == "AFC East"
+        options = re.findall(r'<option value="([^"]*)">([^<]*)</option>', select)
+        assert options[0] == ("", "Pick a team")
+        assert len(options) == 33
+        labels = dict(options)
+        assert labels["jets"] == "New York Jets (no recipes yet)"
+        assert labels["bills"] == "Buffalo Bills"
+    assert '<form class="matchup-pickers" hidden aria-label="Pick the teams">' in page
+    assert '<p class="matchup-nojs">' in page
+    assert '<section class="matchup-spread" hidden' in page
+
+
+def test_matchup_page_avoids_other_widgets(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    page = (site / "matchup.qmd").read_text()
+    for other in (
+        "print-bar",
+        'class="finder"',
+        'class="scaler"',
+        'menu-builder"',
+        "menu-summary",
+        "menu-matchup",
+    ):
+        assert other not in page
+    spread = page[page.index('<section class="matchup-spread"') : page.index("</section>")]
+    # print.js stamps the first id inside the printed element as the address anchor.
+    assert " id=" not in spread
+    assert '<span class="matchup-served" hidden>' in page
+    assert '<span class="shop-actions" hidden>' in page
+    assert '<a class="matchup-builder" href="menu-builder.html">' in page
+    assert '<div class="suggest" data-kind="menu"' in page
+    scripts = re.findall(r'<script src="([^"]+)"></script>', page)
+    assert scripts == ["menu.js", "matchup.js"]
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    sidebar = config["website"]["sidebar"]["contents"]
+    builder = sidebar.index({"text": "Build your own menu", "href": "menu-builder.qmd"})
+    assert sidebar[builder + 1] == {"text": "Matchup menu", "href": "matchup.qmd"}
+    assert "matchup.js" in config["project"]["resources"]
+    assert (site / "matchup.js").read_text() == (
+        fixture_book.styles_dir / "website-matchup.js"
+    ).read_text()
+
+
+def test_json_script_escapes_closing_tags() -> None:
+    from nfl_book.website import _json_script
+
+    text = _json_script({"a": "</script>", "b": "é"})
+    assert "</" not in text
+    assert "\n" not in text
+    assert json.loads(text) == {"a": "</script>", "b": "é"}
+
+
+def test_matchup_follows_course_order_in_indexes_yml(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    indexes = fixture_book.content_root / "data/indexes.yml"
+    text = indexes.read_text()
+    appetizers = "      - { id: appetizers, label: Appetizers, short_label: Appetizer }\n"
+    meals = "      - { id: meals, label: Meals, short_label: Meal }\n"
+    text = text.replace(appetizers, "@@").replace(meals, appetizers).replace("@@", meals)
+    indexes.write_text(text)
+    site = build_website(fixture_book, render=False).document.parent
+    data: dict[str, Any] = _matchup_data((site / "matchup.qmd").read_text())
+    assert [c["id"] for c in data["courses"]] == ["meals", "appetizers"]
+
+
+def test_matchup_is_website_only(fixture_book: Project) -> None:
+    pipeline.build(fixture_book, pdf=False)
+    built = "\n".join(
+        p.read_text()
+        for p in fixture_book.book_build_dir.rglob("*")
+        if p.suffix in {".qmd", ".tex"}
+    )
+    assert "Matchup menu" not in built
+    assert "matchup-data" not in built

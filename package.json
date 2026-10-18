@@ -1,0 +1,12 @@
+{
+  "name": "nfl-game-day-cookbook-checks",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/browser/*.test.js"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@lhci/cli": "0.15.1",
+    "playwright": "1.63.0"
+  }
+}

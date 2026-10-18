@@ -1,0 +1,46 @@
+{% import '_macros.qmd.j2' as m with context %}
+{{ m.anchor(label) }}
+[PLAN YOUR SPREAD]{.eyebrow}
+
+# Matchup menu
+
+Pick the two teams playing and get a game-day spread from both cities: one dish per course, with the home team and the visitors taking turns. Swap any dish for another from the same side, then print the spread or take one shopping list to the store. The matchup stays in the page address, so you can bookmark or share it.
+
+```{=html}
+<p class="matchup-nojs">The matchup menu needs JavaScript. You can still <a href="browse.html">browse every recipe</a> by team and course.</p>
+<div class="matchup">
+<form class="matchup-pickers" hidden aria-label="Pick the teams">
+{%- for side, text in (("away", "Away team"), ("home", "Home team")) %}
+<label class="matchup-picker"><span class="matchup-picker-label">{{ text }}</span>
+<select name="{{ side }}">
+<option value="">Pick a team</option>
+{%- for group in pickers %}
+<optgroup label="{{ group.label|e }}">
+{%- for team in group.teams %}
+<option value="{{ team.slug|e }}">{{ team.name|e }}{% if team.empty %} (no recipes yet){% endif %}</option>
+{%- endfor %}
+</optgroup>
+{%- endfor %}
+</select>
+</label>
+{%- endfor %}
+</form>
+<p class="matchup-status" aria-live="polite"></p>
+<section class="matchup-spread" hidden aria-label="Your matchup spread">
+<h2 class="matchup-title"></h2>
+<ol class="matchup-courses"></ol>
+</section>
+<div class="matchup-actions" hidden>
+<a class="matchup-builder" href="menu-builder.html">Open in the menu builder</a>
+<span class="matchup-served" hidden>
+<button type="button" class="print-button">Print spread + recipes</button>
+<label class="print-with" hidden><input type="checkbox" name="print-with"> Include homemade components</label>
+{{ m.shop_actions() }}
+</span>
+</div>
+<script type="application/json" class="matchup-data">{{ data_json }}</script>
+</div>
+<script src="menu.js"></script>
+<script src="matchup.js"></script>
+```
+{{ m.suggest(suggest) }}
