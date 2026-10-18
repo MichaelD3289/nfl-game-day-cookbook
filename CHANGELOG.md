@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - A design proposal for recording what each ingredient line is (`docs/ingredients-design.md`), comparing inline keys, structured front matter and inferred keys, for the maintainer to decide in [#44](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/44). Nothing in the book or tooling changes yet.
+- Local browser audits check website accessibility, keyboard controls, mobile overflow and print content. Lighthouse CI reports image and JavaScript transfer budgets and largest contentful paint as warnings, with reports saved locally and uploaded by ready-for-review pull request checks.
+
+### Fixed
+
+- Recipe photos retain descriptive alternative text after website rendering. The website uses local system fonts without requesting Google Fonts.
 
 ## [0.13.0] - 2026-09-26
 

@@ -74,6 +74,9 @@ def test_rendered_website_has_cards_search_and_no_print_markup(fixture_book: Pro
     assert "Scan to open on your phone" in wings
     assert "assets/recipe-test-citrus-wings.webp" in wings
     assert 'loading="lazy"' in wings
+    assert _elements(wings, "img", "dish-photo")[0]["alt"] == "Test Citrus Wings"
+    for css in result.site.rglob("*.css"):
+        assert "fonts.googleapis.com" not in css.read_text(), css
 
     for page in result.site.glob("*.html"):
         assert "</span> ##" not in page.read_text(), page.name

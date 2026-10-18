@@ -332,3 +332,42 @@ before replacing an existing output. The release workflow publishes it alongside
 and HTML. For independent standards validation, install EPUBCheck separately and run
 `epubcheck dist/nfl-game-day-cookbook.epub`. Always preview layout in an EPUB reader
 after styling changes; package checks cannot certify visual appearance.
+
+### Website accessibility and performance checks
+
+Use Node.js 22, `npm ci`, and `npx playwright install chromium` to install the
+locked development tools and browser. These tools do not ship with the website.
+Playwright exercises real keyboard, mobile, scaling, suggestion-dialog and print
+behavior; axe checks accessibility, and Lighthouse CI measures page performance.
+Quarto is required for the synthetic browser tests and website build. Install
+Quarto yourself; these targets do not install system software.
+
+Run `make browser-test` for JavaScript checks and a rendered synthetic sample book.
+Then run `make website`, `make website-audit` and `make website-performance` to
+inspect the built book. Override `SITE=/path/to/site` to inspect an existing build
+and `REPORTS=/path/to/reports` to change the default `website-reports/` directory.
+An existing Chromium-based browser can be selected with
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/absolute/path/to/chrome` for both tools.
+
+The audits inspect home, recipe, component, menu, division dish-off, index and
+version pages. Accessibility runs at desktop and phone widths. Serious and critical
+axe findings, broken controls, external browser requests, and audit execution
+errors fail the check; lesser accessibility findings are warnings. Browser requests
+are restricted to the local site, suggestion forms are never submitted, and
+Lighthouse uses a local allowlist proxy. No report is uploaded to a public service.
+
+Lighthouse initially warns at 500 KiB of images, 500 KiB of JavaScript, and 2.5 seconds
+largest contentful paint per page. One mobile-emulated run per page gives a useful
+baseline, but timings vary by machine. Budget misses are warnings; missing or
+failed measurements fail. JSON diagnostics and Lighthouse HTML/JSON reports remain
+in the reports directory for inspection. These checks sample pages; they do not
+certify the entire site's accessibility or replace manual review.
+
+The read-only **Website accessibility and performance** CI job runs for manual
+workflow dispatch and ready, non-Dependabot pull requests, matching the PDF gate.
+It builds and audits the real site separately from fixture tests and uploads reports
+even after a failure, retaining them for 14 days. Draft PRs skip this job.
+
+The pinned Lighthouse CLI has development-only transitive npm security advisories;
+review `npm audit` when updating the lockfile. The audit serves local generated
+files, blocks remote browsing, and does not deploy these packages to readers.
