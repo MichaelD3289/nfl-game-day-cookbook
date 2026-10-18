@@ -3,3 +3,10 @@ title: Test AFC East Dish-Off
 status: published
 recipes: [test-buffalo-sliders, test-citrus-wings]
 description: Sliders against wings.
+timeline:
+  - at: -30m
+    recipe: test-citrus-wings
+    task: Put the wings in the oven.
+  - at: kickoff
+    recipe: test-buffalo-sliders
+    task: Assemble the sliders.

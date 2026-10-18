@@ -506,6 +506,7 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
         "menu.js",
         "matchup.js",
         "cook.js",
+        "timeline.js",
     ]
     write_catalog(catalog, build_dir / CATALOG_FILE)
     shutil.copyfile(project.styles_dir / "website-browse.js", build_dir / "browse.js")
@@ -515,7 +516,8 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
     shutil.copyfile(project.styles_dir / "website-menu.js", build_dir / "menu.js")
     shutil.copyfile(project.styles_dir / "website-matchup.js", build_dir / "matchup.js")
     shutil.copyfile(project.styles_dir / "website-cook.js", build_dir / "cook.js")
-    scripts = ["print.js", "shop.js", "cook.js"]
+    shutil.copyfile(project.styles_dir / "website-timeline.js", build_dir / "timeline.js")
+    scripts = ["print.js", "shop.js", "cook.js", "timeline.js"]
     html_format: dict[str, Any] = {
         "theme": ["cosmo", "website.scss"],
         "css": "website.css",

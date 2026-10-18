@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Website recipe pages now carry schema.org Recipe structured data, so search engines and recipe apps such as Paprika or Mealie can read each recipe's name, photo, yield, course, city, ingredients, steps and source, with prep and cook times included only when they are an exact duration such as "20 minutes". A canonical link points search engines to the latest edition's page ([#45](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/45)).
 - Recipe and component pages on the website have a **Cook mode** button for cooking from a phone or tablet. It enlarges the text, hides site navigation and suggestion prompts, and lets you tap ingredients and steps to check them off. Checked-off lines are remembered per recipe, survive scaling, and clear with **Reset**. Where the browser supports it, the screen stays on. Printing, the PDF and the EPUB are unchanged ([#46](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/46)).
+- Game-day menus and division dish-offs can list an optional `timeline` of steps counted back from kickoff (`-1d`, `-4h`, `-30m`, `-1h30m`, `kickoff`, `halftime`), and `nfl-book validate` checks each step. The PDF and EPUB print the steps under the prep plan. On the website, enter a kickoff time to see each step's clock time; the page prints with those times. Smoke on the Strip and Curds & Hotdish have the first timelines.
+
+### Changed
+
+- The PDF check now also fails when a game-day menu page or a division page runs onto another page, and a game-day menu card grows to fit its content instead of letting it spill past the card.
 
 ## [0.14.0] - 2026-10-17
 

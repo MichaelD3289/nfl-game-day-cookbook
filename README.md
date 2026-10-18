@@ -252,6 +252,12 @@ the site navigation, lets the cook tap ingredients and steps to check them off (
 page in the browser, cleared with **Reset**) and keeps the screen on where the browser
 supports it. Printing, the PDF and the EPUB are unaffected.
 
+Game-day menus and dish-offs with a kickoff timeline show a **kickoff time** picker
+(`styles/website-timeline.js`, shown only when JavaScript runs). Entering a time adds
+each step's clock time next to its relative time ("1 hr 30 min before"). The time is
+kept in the page URL (`?kickoff=16:25`), and a printed page keeps the clock times and
+names the kickoff.
+
 Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
 prompts. They open prefilled quick issue templates on GitHub and, once
 `suggestion_form_url` is set in `data/book.yml`, a form that needs no GitHub

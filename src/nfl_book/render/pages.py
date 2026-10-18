@@ -17,8 +17,10 @@ from nfl_book.models.content import Component, IngredientGroup, Recipe
 from nfl_book.quantities import Amount
 from nfl_book.references import (
     component_label,
+    division_end_label,
     division_label,
     index_label,
+    menu_end_label,
     menu_label,
     recipe_end_label,
     recipe_label,
@@ -102,6 +104,26 @@ class OptionView:
 # Past this many ingredient lines a bulleted list cannot share a page with the
 # instructions, so groups are set as run-in paragraphs (as in the print booklet).
 COMPACT_INGREDIENTS_OVER = 24
+
+
+@dataclass(frozen=True)
+class TimelineStepView:
+    """One kickoff-timeline row: when, what, and the recipe it links to."""
+
+    label: str
+    task: str
+    recipe: str  # "recipe:<id>" label, or "" for a general task
+    minutes: int | None  # minutes from kickoff, only when the time maps to a clock
+
+
+def _timeline(model: BookModel, menu: Any) -> list[TimelineStepView]:
+    views = []
+    for step in getattr(menu.meta, "timeline", None) or []:
+        offset = step.offset
+        recipe = recipe_label(step.recipe) if step.recipe in model.recipes_by_id else ""
+        minutes = offset.minutes if offset.clock else None
+        views.append(TimelineStepView(offset.label, step.task, recipe, minutes))
+    return views
 
 
 def _compact(groups: Iterable[IngredientGroup]) -> bool:
@@ -271,6 +293,7 @@ def _menu_view(model: BookModel, menu: Any) -> dict[str, Any]:
         "prep_plan": getattr(menu.meta, "prep_plan", None) or "",
         "description": getattr(menu.meta, "description", None) or "",
         "prep_note": getattr(menu.meta, "prep_note", None) or "",
+        "timeline": _timeline(model, menu),
     }
 
 
@@ -366,6 +389,7 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
                 "division.qmd.j2",
                 {
                     "label": division_label(division.key),
+                    "end_label": division_end_label(division.key),
                     "name": division.name,
                     "conference": division.conference_name,
                     "teams": [
@@ -382,7 +406,9 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
                 anchors=(
                     division_label(division.key),
                     *(team_label(t.team.slug) for t in section.teams),
+                    division_end_label(division.key),
                 ),
+                spans=((division_label(division.key), division_end_label(division.key)),),
             )
         )
         for recipe in section.recipes:
@@ -411,15 +437,18 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
     )
     for group in model.menu_groups:
         for n, chunk in enumerate(_chunks(group.menus, MENUS_PER_PAGE), start=1):
+            end = menu_end_label(chunk[-1].id)
             specs.append(
                 PageSpec(
                     f"menus-{group.menu_type.id}-{n}",
                     "game-day-menu.qmd.j2",
                     {
                         "type_title": group.menu_type.title,
+                        "end_label": end,
                         "menus": [_menu_view(model, m) for m in chunk],
                     },
-                    anchors=tuple(menu_label(m.id) for m in chunk),
+                    anchors=(*(menu_label(m.id) for m in chunk), end),
+                    spans=((menu_label(chunk[0].id), end),),
                 )
             )
 

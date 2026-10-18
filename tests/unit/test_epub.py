@@ -251,3 +251,21 @@ def test_make_buy_lists_component_descriptions(fixture_book: Project) -> None:
     )
     _, body = _source(fixture_book)
     assert "[Test Wing Sauce](#component-test-wing-sauce) · Hot and tangy." in body
+
+
+def test_menu_timeline_lists_steps_after_the_prep_plan(fixture_book: Project) -> None:
+    _, body = _source(fixture_book)
+    menu = body[body.index("### Test Quick Kickoff") :]
+    steps = [
+        "- **Day before:** [Make the dip.](#recipe-test-buffalo-sliders)",
+        "- **1 hr 30 min before:** [Marinate the wings.](#recipe-test-citrus-wings)",
+        "- **30 min before:** Heat the oven.",
+        "- **Kickoff:** [Assemble the sliders.](#recipe-test-buffalo-sliders)",
+        "- **Halftime:** [Bake a second batch of wings.](#recipe-test-citrus-wings)",
+    ]
+    positions = [menu.index(step) for step in steps]
+    assert positions == sorted(positions)
+    assert menu.index("**Prep plan:**") < menu.index("**Timeline:**") < positions[0]
+    division = body[body.index("Test AFC East Dish-Off") :]
+    assert "**Timeline:**" in division
+    assert "- **Kickoff:** [Assemble the sliders.](#recipe-test-buffalo-sliders)" in division
