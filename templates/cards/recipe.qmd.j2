@@ -1,0 +1,44 @@
+```{=latex}
+\CardStart{<< label >>}{<< title|tex >>}{<< team|tex >> — << location|tex >>}{<< course|tex >>}{<< meta_line|tex >>}
+```
+
+## Ingredients
+
+<% for group in groups %>
+
+<% if group.heading %>
+**<< group.heading >>**
+
+<% endif %>
+<% for item in group.items %>
+- << item.text >><% if item.ref %><% set c = component_links[item.ref] %> (<% if c.href %>`\href{<< c.href|tex_url >>}{<< c.title|tex >>}`{=latex}<% else %><< c.title >> — available in the cookbook<% endif %>)<% endif %>
+
+<% endfor %>
+<% endfor %>
+
+```{=latex}
+\CardInstructions
+```
+
+## Instructions
+
+<< instructions >>
+
+<% if quick_options %>
+## Quick options
+
+<% for option in quick_options %>
+**<< option.title >>:** << option.text >>
+
+<% endfor %>
+<% endif %>
+<% if kitchen_notes %>
+## Kitchen notes
+
+<< kitchen_notes >>
+<% endif %>
+
+```{=latex}
+\CardSource{<< source.title|tex if source else "" >>}{<< source.href|tex_url if source else "" >>}{<< source.display|tex if source else "" >>}{<< qr >>}{<< web.href|tex_url if web else "" >>}
+\BookEnd{<< end_label >>}
+```

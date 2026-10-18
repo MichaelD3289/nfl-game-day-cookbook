@@ -9,7 +9,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `make cards` builds a separate configurable 4×6-inch recipe-card PDF with ingredients followed by instructions and continuation sides for long recipes; releases include it as a download. Card builds report recipes exceeding the configured side limit by source file, and PR PDF checks enforce that limit with `--strict`.
 - Build a division booklet with `nfl-book build --division afc/east`, including its published recipes, required components, division dish-offs, and wholly contained game-day menus. `make booklets` builds all eight with division covers and separate PDFs, which releases attach and the website lists per edition.
+
+### Fixed
+
+- Recipe cards render Unicode fractions on fresh TeX installations without requiring the optional `newunicodechar` package or downloading it during builds.
+
+## [0.16.0] - 2026-10-18
+
+### Added
+
+- `nfl-book stats` (or `make stats`) reports where the cookbook is thin: recipes per team by status, teams missing a course, divisions with fewer than two dish-offs, recipes per index bucket, how often each component is used and which ones no recipe uses, and menu types with few menus. It runs offline, prints a table by default or `--format json` / `--format markdown`, and never fails because of gaps.
+- `nfl-book validate` warns about each published recipe or component whose last completed review (`last_reviewed_at`) is missing or older than `review_max_age_days` in `data/book.yml` (365 days), naming the file. These are warnings only, so `validate`, `make check` and `build --strict` still pass; remove the setting to turn the check off.
+- Components can record `last_reviewed_at` and `last_reviewed_notes` like recipes. Neither is printed.
+- `nfl-book stats` lists published recipes and components whose review is missing or out of date, stalest first.
+- `/review-recipes stale` reviews every published recipe and component that is due for another review.
+- `nfl-book prepare-links --check` requests every recipe and component source URL and lists dead links, DNS failures and permanent redirects (with where they now point), naming the files that use each one. It never changes source files or short links. `--report FILE` also writes the list as Markdown with Wayback Machine links for dead pages.
+- A monthly **Source link check** workflow runs that check and keeps one GitHub issue labelled `link-rot` up to date with the problems, closing it once every link works again.
+
+## [0.15.0] - 2026-10-17
+
+### Added
+
+- Website recipe pages now carry schema.org Recipe structured data, so search engines and recipe apps such as Paprika or Mealie can read each recipe's name, photo, yield, course, city, ingredients, steps and source, with prep and cook times included only when they are an exact duration such as "20 minutes". A canonical link points search engines to the latest edition's page ([#45](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/45)).
+- Recipe and component pages on the website have a **Cook mode** button for cooking from a phone or tablet. It enlarges the text, hides site navigation and suggestion prompts, and lets you tap ingredients and steps to check them off. Checked-off lines are remembered per recipe, survive scaling, and clear with **Reset**. Where the browser supports it, the screen stays on. Printing, the PDF and the EPUB are unchanged ([#46](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/46)).
+- Game-day menus and division dish-offs can list an optional `timeline` of steps counted back from kickoff (`-1d`, `-4h`, `-30m`, `-1h30m`, `kickoff`, `halftime`), and `nfl-book validate` checks each step. The PDF and EPUB print the steps under the prep plan. On the website, enter a kickoff time to see each step's clock time; the page prints with those times. Smoke on the Strip and Curds & Hotdish have the first timelines.
+
+### Changed
+
+- The PDF check now also fails when a game-day menu page or a division page runs onto another page, and a game-day menu card grows to fit its content instead of letting it spill past the card.
+
+## [0.14.0] - 2026-10-17
+
+### Added
+
+- A design proposal for recording what each ingredient line is (`docs/ingredients-design.md`), comparing inline keys, structured front matter and inferred keys, for the maintainer to decide in [#44](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/44). Nothing in the book or tooling changes yet.
+- Local browser audits check website accessibility, keyboard controls, mobile overflow and print content. Lighthouse CI reports image and JavaScript transfer budgets and largest contentful paint as warnings, with reports saved locally and uploaded by ready-for-review pull request checks.
+- Website recipe pages can print their homemade Make It or Buy It components too: tick **Include homemade components** next to Print and each component the recipe uses, including nested ones, prints on its own page after the recipe, at the recipe's scale. The option is hidden when the downloaded website is opened from files; the PDF is unchanged ([#40](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/40)).
+- Game-day menu and division dish-off cards on the website have a **Print menu + recipes** button that prints just that menu card, then every recipe on the menu on its own page, in menu order, as one print job. Tick **Include homemade components** to add each Make It or Buy It component the menu's recipes use, once each, after the recipes. The button needs the site served over http(s), so it is hidden when the downloaded website is opened from files; the page's own Print button and the PDF are unchanged ([#41](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/41)).
+- Website recipe and component pages and game-day menu and dish-off cards have a **Shopping list** next to Print: download it as a text or CSV file, or copy it, with the ingredients grouped by recipe and at the scale shown. Ticking **Include homemade components** adds each component's ingredients too. Menu and dish-off lists, and component ingredients, need the site served over http(s) ([#43](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/43)).
+- The website has a **Browse recipes** page that filters recipe cards by course, main ingredient, practical time, ingredient cost, conference, division and team, with a count beside each choice and the filters kept in the page address so a view can be shared. Without JavaScript it lists every recipe. Each build also publishes `recipes.json`, a catalog of published recipes for upcoming site features ([#48](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/48)).
+- The website has a **Build your own menu** page: filter recipes, add dishes from any team, scale the whole menu at once, then print the menu with its recipes or make one shopping list. The picks are kept in the page address so a menu can be bookmarked or shared ([#42](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/42)).
+- The **Build your own menu** page has a "Think your menu belongs in the book?" suggestion box, prefilled with the picked dishes and the menu's address ([#42](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/42)).
+- The website has a **Matchup menu** page: pick the two teams playing and get a game-day spread drawn from both cities, one dish per course with the home team and visitors taking turns, falling back to the rest of the division when a team has no dish for a course. Swap any dish, print the spread with its recipes, make one shopping list or open it in the menu builder; the matchup is kept in the page address so it can be shared ([#53](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/53)).
+
+### Fixed
+
+- Recipe photos retain descriptive alternative text after website rendering. The website uses local system fonts without requesting Google Fonts.
 
 ## [0.13.0] - 2026-09-26
 
@@ -283,7 +330,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.16.0...HEAD
+[0.16.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.15.0...v0.16.0
+[0.15.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.14.0...v0.15.0
+[0.14.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.12.1...v0.13.0
 [0.12.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.12.0...v0.12.1
 [0.12.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.11.0...v0.12.0

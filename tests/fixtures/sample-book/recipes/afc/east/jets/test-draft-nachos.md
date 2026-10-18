@@ -2,6 +2,7 @@
 id: test-draft-nachos
 title: Test Draft Nachos
 status: draft
+last_reviewed_at: 2020-01-01
 course: appetizers
 yield: 1 tray
 ---

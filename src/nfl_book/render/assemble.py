@@ -32,7 +32,14 @@ def write_if_changed(path: Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
-def front_matter(title: str, paper: str, header_includes: Sequence[str], preamble: str) -> str:
+def front_matter(
+    title: str,
+    paper: str,
+    header_includes: Sequence[str],
+    preamble: str,
+    *,
+    latex_auto_install: bool | None = None,
+) -> str:
     """Quarto document options. Generated, never authored by hand.
 
     No ``title`` key: Quarto would emit ``\\maketitle``; the cover page is ours.
@@ -54,6 +61,8 @@ def front_matter(title: str, paper: str, header_includes: Sequence[str], preambl
             }
         },
     }
+    if latex_auto_install is not None:
+        data["format"]["pdf"]["latex-auto-install"] = latex_auto_install
     return yaml.safe_dump(data, sort_keys=False, allow_unicode=True, width=1000).strip()
 
 

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from enum import StrEnum
 from pathlib import Path
 from typing import Annotated, NoReturn
 
@@ -88,7 +89,25 @@ def validate(
     out.print(f"[green]OK[/green] ({len(diags.warnings)} warning(s))")
 
 
-def _prepare() -> None:
+CheckOption = Annotated[
+    bool,
+    typer.Option(
+        "--check",
+        help="Only check source URLs for dead links and permanent redirects; change nothing.",
+    ),
+]
+ReportOption = Annotated[
+    Path | None,
+    typer.Option("--report", help="With --check, also write the list as Markdown."),
+]
+
+
+def _prepare(check: bool = False, report_path: Path | None = None) -> None:
+    if report_path is not None and not check:
+        raise typer.BadParameter("--report needs --check", param_hint="--report")
+    if check:
+        _check_links(report_path)
+        return
     project = None
     try:
         project = state.project()
@@ -100,16 +119,39 @@ def _prepare() -> None:
     out.print(f"{len(result.added)} added, {result.cached} already cached")
 
 
+def _check_links(report_path: Path | None) -> None:
+    from nfl_book.shortlinks.check import render_report
+
+    project = None
+    try:
+        project = state.project()
+        result = pipeline.check_links(project)
+    except BookError as exc:
+        fail(exc, project.root if project else None)
+    report(result.diagnostics, project.root)
+    if report_path is not None:
+        report_path.parent.mkdir(parents=True, exist_ok=True)
+        report_path.write_text(render_report(result, project.content_root), encoding="utf-8")
+        out.print(f"Report: {report_path}", highlight=False)
+    out.print(f"{result.checked} checked, {len(result.problems)} need attention")
+    if not result.ok:
+        raise typer.Exit(1)
+
+
 @app.command()
-def prepare() -> None:
+def prepare(check: CheckOption = False, report_path: ReportOption = None) -> None:
     """Alias of prepare-links."""
-    _prepare()
+    _prepare(check, report_path)
 
 
 @app.command("prepare-links")
-def prepare_links() -> None:
-    """The ONLY network stage: shorten new source URLs into data/shortlinks.yml, make QRs."""
-    _prepare()
+def prepare_links(check: CheckOption = False, report_path: ReportOption = None) -> None:
+    """The ONLY network stage: shorten new source URLs into data/shortlinks.yml, make QRs.
+
+    With --check it shortens nothing and writes nothing but the optional report: it
+    requests every source URL and lists dead links and permanent redirects.
+    """
+    _prepare(check, report_path)
 
 
 @app.command()
@@ -170,6 +212,26 @@ def booklets(
 
 
 @app.command()
+def cards(
+    no_pdf: Annotated[bool, typer.Option("--no-pdf", help="Generate card QMD only.")] = False,
+    strict: Annotated[bool, typer.Option(help="Fail when recipes exceed the card limit.")] = False,
+) -> None:
+    """Build a separate printable recipe-card PDF (published content only)."""
+    from nfl_book.cards import build_cards
+
+    project = None
+    try:
+        project = state.project()
+        result = build_cards(project, pdf=not no_pdf, strict=strict)
+    except BookError as exc:
+        fail(exc, project.root if project else None)
+    report(result.diagnostics, project.root)
+    out.print(f"QMD: {result.document}")
+    if result.pdf:
+        out.print(f"PDF: {result.pdf}")
+
+
+@app.command()
 def website(
     no_render: Annotated[
         bool, typer.Option("--no-render", help="Generate website QMD without compiling HTML.")
@@ -217,6 +279,35 @@ def epub(
     out.print(f"EPUB sources: {result.document}")
     if result.epub:
         out.print(f"EPUB: {result.epub}")
+
+
+class StatsFormat(StrEnum):
+    TABLE = "table"
+    JSON = "json"
+    MARKDOWN = "markdown"
+
+
+@app.command()
+def stats(
+    output_format: Annotated[
+        StatsFormat, typer.Option("--format", help="Output format.")
+    ] = StatsFormat.TABLE,
+) -> None:
+    """Report where the cookbook is thin (offline, informational; gaps never fail)."""
+    from nfl_book.stats import build_report, render_json, render_markdown, render_table
+
+    project = None
+    try:
+        project = state.project()
+        result = build_report(project)
+    except BookError as exc:
+        fail(exc, project.root if project else None)
+    if output_format is StatsFormat.JSON:
+        typer.echo(render_json(result))
+    elif output_format is StatsFormat.MARKDOWN:
+        typer.echo(render_markdown(result), nl=False)
+    else:
+        render_table(result, out)
 
 
 @app.command()

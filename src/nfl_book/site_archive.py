@@ -44,6 +44,13 @@ URL_ATTRIBUTE = re.compile(
 SRCSET = re.compile(r"""(\bsrcset\s*=\s*)(["'])(.*?)\2""", re.I | re.S)
 CSS_URL = re.compile(r"""(url\(\s*)(["']?)([^"')\s]+)\2(\s*\))""", re.I)
 NOINDEX = '<meta name="robots" content="noindex">'
+# schema.org JSON-LD blocks, whose image URLs are absolute (see structured_data.py).
+JSON_LD = re.compile(
+    r"""(<script\b[^>]*application/ld\+json[^>]*>)(.*?)(</script\s*>)""", re.I | re.S
+)
+# An absolute URL to a build's assets/, optionally inside a /vX.Y.Z/ edition folder.
+ABSOLUTE_ASSET = re.compile(r"^(https?://[^?#]*?/)(?:v\d+\.\d+\.\d+/)?assets/([^/?#]+)$")
+CANONICAL = re.compile(r"""<link\b[^>]*\brel\s*=\s*["']?canonical\b[^>]*>\n?""", re.I)
 BANNER_STYLE = (
     "position:fixed;left:0;right:0;bottom:0;z-index:2000;padding:.5rem 1rem;"
     "background:#fff3cd;color:#3d2e00;border-top:1px solid #e0c36b;text-align:center"
@@ -120,6 +127,9 @@ def _mark(folder: Path, tag: str, latest: Path, *, archived: bool) -> None:
             relative = page.relative_to(folder)
             up = "../" * len(relative.parts)
             same = relative.as_posix() if (latest / relative).is_file() else "index.html"
+            if not (latest / relative).is_file():
+                # The canonical root page was removed since this edition.
+                text = CANONICAL.sub("", text)
             banner = (
                 f'<div class="archived-version" role="note" style="{BANNER_STYLE}">'
                 f"You're viewing {html.escape(tag)}. "
@@ -160,7 +170,7 @@ def _share_media(out: Path, builds: dict[Path, list[Path]]) -> None:
             if page.suffix in (".html", ".css"):
                 text = page.read_text(encoding="utf-8")
                 relinked = _relink(text, page, shared, used)
-            elif page.name == "search.json":
+            elif page.name in ("search.json", "recipes.json"):
                 text = page.read_text(encoding="utf-8")
                 index = json.loads(text)
                 data = _relink_json(index, build / "index.html", shared, used)
@@ -203,11 +213,47 @@ def _relink(text: str, page: Path, shared: dict[Path, Path], used: set[str]) -> 
     text = CSS_URL.sub(css, text)
     if page.suffix == ".html":
         text = SRCSET.sub(srcset, URL_ATTRIBUTE.sub(attribute, text))
+        text = JSON_LD.sub(lambda m: _relink_json_ld(m, page, shared, used), text)
     return text
 
 
+def _relink_json_ld(
+    match: re.Match[str], page: Path, shared: dict[Path, Path], used: set[str]
+) -> str:
+    """Point absolute ``assets/`` URLs in a JSON-LD block at the shared media copy."""
+    try:
+        data = json.loads(match[2])
+    except ValueError:
+        return match[0]
+
+    def walk(value: Any) -> Any:
+        if isinstance(value, list):
+            return [walk(item) for item in value]
+        if isinstance(value, dict):
+            return {key: walk(item) for key, item in value.items()}
+        if not isinstance(value, str):
+            return value
+        url = ABSOLUTE_ASSET.match(value)
+        if url is None:
+            return value
+        target = shared.get((page.parent / "assets" / unquote(url[2])).resolve())
+        if target is None:
+            return value
+        used.add(target.name)
+        return f"{url[1]}{MEDIA}/{target.name}"
+
+    relinked = walk(data)
+    if relinked == data:
+        return match[0]
+    body = json.dumps(relinked, ensure_ascii=False).replace("</", "<\\/")
+    return match[1] + body + match[3]
+
+
 def _relink_json(data: Any, page: Path, shared: dict[Path, Path], used: set[str]) -> Any:
-    """Relink asset paths in Quarto's search index (relative to the build root)."""
+    """Relink asset paths in Quarto's search index or the recipe catalog.
+
+    Both files sit at the build root, and their paths are relative to it.
+    """
     if isinstance(data, str):
         return _shared(data, page, shared, used) if "assets/" in data else data
     if isinstance(data, list):

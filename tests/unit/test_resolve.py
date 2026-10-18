@@ -108,8 +108,10 @@ def test_division_subset_rebuilds_references(fixture_book: Project) -> None:
     dishoff = next((root / "menus/divisions").rglob("*.yml"))
     other_dish = root / "menus/divisions/nfc/north/test-other-dish.yml"
     other_dish.parent.mkdir(parents=True)
+    # The copy keeps no timeline: its steps name AFC East recipes it no longer has.
     other_dish.write_text(
         dishoff.read_text()
+        .split("timeline:")[0]
         .replace("test-afc-east-dish-off", "test-other-dish")
         .replace("[test-buffalo-sliders, test-citrus-wings]", "[test-other-wings]")
     )

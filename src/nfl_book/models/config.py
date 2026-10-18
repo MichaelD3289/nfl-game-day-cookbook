@@ -97,6 +97,17 @@ class PhotoSettings(StrictModel):
         return self
 
 
+class CardSettings(StrictModel):
+    """Separate portrait recipe-card output; dimensions are authored in inches."""
+
+    width_inches: float = Field(default=4, ge=3, le=12)
+    height_inches: float = Field(default=6, ge=3, le=12)
+    output_filename: str = Field(
+        default="nfl-game-day-recipe-cards.pdf", pattern=r"^[A-Za-z0-9][A-Za-z0-9._-]*\.pdf$"
+    )
+    max_pages: int = Field(default=4, ge=2)
+
+
 class BookConfig(StrictModel):
     title: NonEmpty
     subtitle: str | None = None
@@ -107,11 +118,18 @@ class BookConfig(StrictModel):
         pattern=r"^https://",
         description="Web app that files anonymous website suggestions as issues.",
     )
+    cards: CardSettings = CardSettings()
     photos: PhotoSettings = PhotoSettings()
     website_url: str | None = Field(
         None,
         pattern=r"^https://",
         description="Published website root; PDF recipe and component pages link to it.",
+    )
+    review_max_age_days: int | None = Field(
+        None,
+        ge=1,
+        description="Warn about published recipes and components whose last_reviewed_at is "
+        "missing or older than this many days; unset turns the check off.",
     )
 
 
