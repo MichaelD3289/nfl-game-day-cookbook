@@ -95,3 +95,52 @@ jobs:
         run: uv run pytest -m pdf
       - name: Build the full PDF, failing on page overflows
         run: uv run nfl-book build --strict
+
+  website-checks:
+    name: Website accessibility and performance
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request' &&
+      !github.event.pull_request.draft &&
+      github.event.pull_request.user.login != 'dependabot[bot]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        with:
+          enable-cache: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 1.10.18
+      - name: Install locked development dependencies
+        run: |
+          uv sync --locked
+          npm ci
+          npx playwright install chromium
+      - name: Test checks against synthetic content
+        env:
+          NFL_BROWSER_REPORTS: website-reports
+        run: make browser-test
+      - name: Build the full website
+        run: make website
+      - name: Audit website accessibility and controls
+        run: make website-audit
+      - name: Measure website performance budgets
+        if: ${{ !cancelled() && hashFiles('dist/site/index.html') != '' }}
+        run: make website-performance
+      - name: Upload browser and Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: website-check-reports
+          path: website-reports/
+          include-hidden-files: true
+          if-no-files-found: warn
+          retention-days: 14
