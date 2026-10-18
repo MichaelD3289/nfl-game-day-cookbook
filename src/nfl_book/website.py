@@ -394,7 +394,7 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
     shutil.copyfile(project.styles_dir / "website-menu.js", build_dir / "menu.js")
     scripts = ["print.js", "shop.js"]
     html_format: dict[str, Any] = {
-        "theme": "cosmo",
+        "theme": ["cosmo", "website.scss"],
         "css": "website.css",
         "toc": False,
         "anchor-sections": False,
@@ -443,6 +443,7 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
     }
     (build_dir / "_quarto.yml").write_text(yaml.safe_dump(config, sort_keys=False))
     shutil.copyfile(project.styles_dir / "website.css", build_dir / "website.css")
+    shutil.copyfile(project.styles_dir / "website.scss", build_dir / "website.scss")
     if not render:
         return WebsiteResult(build_dir / "index.qmd", None, diags, photos)
     quarto = shutil.which("quarto")
