@@ -32,3 +32,16 @@ def test_print_pages_are_checked_like_links(tmp_path: Path) -> None:
     check_site(tmp_path, diags)
     assert [d.message for d in diags.errors] == ["Missing local target: component-b.html"]
     assert diags.errors[0].path == tmp_path / "recipe.html"
+
+
+def test_print_components_are_checked_like_links(tmp_path: Path) -> None:
+    (tmp_path / "menu.html").write_text(
+        '<div class="print-bar print-menu" data-print-pages="recipe-a.html"'
+        ' data-print-components="component-a.html component-b.html"></div>'
+    )
+    (tmp_path / "recipe-a.html").write_text("<h1>Recipe</h1>")
+    (tmp_path / "component-a.html").write_text("<h1>A</h1>")
+    diags = Diagnostics()
+    check_site(tmp_path, diags)
+    assert [d.message for d in diags.errors] == ["Missing local target: component-b.html"]
+    assert diags.errors[0].path == tmp_path / "menu.html"

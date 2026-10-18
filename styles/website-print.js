@@ -5,7 +5,14 @@
 // A recipe that uses homemade components lists their pages in the print bar's
 // data-print-pages. When the site is served over http(s), ticking "Include homemade
 // components" fetches those pages, and printing appends each one (at the recipe's scale)
-// on its own sheet after the recipe. Tested from tests/unit/test_website_print.py.
+// on its own sheet after the recipe.
+//
+// Each game-day menu and dish-off card has its own "Print menu + recipes" bar
+// (.print-menu) listing its recipe pages in data-print-pages and the components those
+// recipes use in data-print-components. It prints only that card (isolate() hides the
+// rest of the page), then each recipe on its own sheet, then, if ticked, each component
+// once. It needs the site served over http(s), so opened from files it stays hidden.
+// Tested from tests/unit/test_website_print.py.
 (function (root, factory) {
   "use strict";
   var api = factory(root);
@@ -62,6 +69,14 @@
         });
     });
     return pages;
+  }
+
+  // A menu card's pages: its recipes in menu order, then its components if wanted.
+  function menuPages(bar, withComponents) {
+    return pageList(
+      bar.getAttribute("data-print-pages"),
+      withComponents ? bar.getAttribute("data-print-components") : "",
+    );
   }
 
   // ------------------------------------------------------------------ fetching
@@ -263,16 +278,62 @@
     });
   }
 
-  // Fetches `urls`, appends them to the page, prints, and tidies up afterwards.
+  // ------------------------------------------------------------------ isolating
+  // Printing one menu card: every element beside the card, or beside one of its
+  // ancestors up to `stop`, gets .print-hide (display: none on paper) until release().
+  // The page's address line and the printed bundle stay.
+  var isolated = [];
+  var isolatedTarget = null;
+
+  function isolate(target, stop) {
+    release();
+    target.classList.add("print-target");
+    isolatedTarget = target;
+    var node = target;
+    while (node.parentNode && node !== stop) {
+      each(node.parentNode.children, function (sibling) {
+        if (
+          sibling === node ||
+          sibling.classList.contains("print-url") ||
+          sibling.classList.contains("print-bundle")
+        )
+          return;
+        sibling.classList.add("print-hide");
+        isolated.push(sibling);
+      });
+      node = node.parentNode;
+    }
+  }
+
+  function release() {
+    isolated.forEach(function (node) {
+      node.classList.remove("print-hide");
+    });
+    isolated = [];
+    if (isolatedTarget) isolatedTarget.classList.remove("print-target");
+    isolatedTarget = null;
+  }
+
+  function tidy() {
+    removeBundle();
+    release();
+  }
+
+  // Fetches `urls`, appends them to the page, prints, and tidies up afterwards. With
+  // `options.target`, only that element of the page prints before the bundle.
   function printBundle(urls, options) {
     options = options || {};
     return prefetch(urls, options).then(function (entries) {
       var bundle = assemble(entries, options);
+      if (options.target) {
+        isolate(options.target, mainContent());
+        stampAddress();
+      }
       return imagesLoaded(
         bundle,
         options.timeout == null ? IMAGE_TIMEOUT : options.timeout,
       ).then(function () {
-        window.addEventListener("afterprint", removeBundle, { once: true });
+        window.addEventListener("afterprint", tidy, { once: true });
         window.print();
       });
     });
@@ -294,7 +355,50 @@
       main.insertBefore(line, bundle);
     }
     var here = new URL(window.location.href);
-    line.textContent = here.origin + here.pathname + here.search;
+    // A lone menu card names its own anchor.
+    var target = document.querySelector(".print-target");
+    var anchor = target && target.querySelector("[id]");
+    line.textContent =
+      here.origin +
+      here.pathname +
+      here.search +
+      (anchor ? "#" + anchor.id : "");
+  }
+
+  // A menu card's "Print menu + recipes" bar. Opened from files, pages cannot fetch
+  // each other, so the bar stays hidden.
+  function wireMenu(bar, button, served) {
+    if (!served) return;
+    var label = bar.querySelector(".print-with");
+    var toggle = label && label.querySelector("input[name=print-with]");
+    if (toggle && bar.hasAttribute("data-print-components")) {
+      label.hidden = false;
+      var warm = function () {
+        if (toggle.checked) prefetch(menuPages(bar, true));
+      };
+      toggle.addEventListener("change", warm);
+      warm(); // the browser may restore a ticked box
+    } else {
+      toggle = null;
+    }
+    button.addEventListener("click", function () {
+      button.disabled = true;
+      var card = bar.closest(".menu-card");
+      var pages = menuPages(bar, Boolean(toggle && toggle.checked));
+      printBundle(pages, { scale: null, target: card }).then(
+        function () {
+          button.disabled = false;
+        },
+        function () {
+          tidy();
+          if (card) isolate(card, mainContent());
+          stampAddress();
+          window.print();
+          button.disabled = false;
+        },
+      );
+    });
+    bar.hidden = false;
   }
 
   function init() {
@@ -306,6 +410,10 @@
     each(bars, function (bar) {
       var button = bar.querySelector(".print-button");
       if (!button) return;
+      if (bar.classList.contains("print-menu")) {
+        wireMenu(bar, button, served);
+        return;
+      }
       var pages = pageList(bar.getAttribute("data-print-pages"));
       var label = bar.querySelector(".print-with");
       var toggle = label && label.querySelector("input[name=print-with]");
@@ -350,7 +458,7 @@
         return true;
       });
     });
-    window.addEventListener("afterprint", removeBundle);
+    window.addEventListener("afterprint", tidy);
   }
 
   return {
@@ -361,5 +469,8 @@
     assemble: assemble,
     printBundle: printBundle,
     init: init,
+    isolate: isolate,
+    menuPages: menuPages,
+    release: release,
   };
 });

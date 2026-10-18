@@ -716,6 +716,10 @@ main.content {
   margin-left: 0.6rem;
   font-size: 0.85rem;
 }
+/* "Print menu + recipes" on a game-day menu or dish-off card. */
+.print-menu {
+  margin: 0.8rem 0 0;
+}
 
 /* Paper: one recipe per Letter or A4 page, like the booklet, without the site chrome.
    The page prints as shown, so scaled amounts print scaled. */
@@ -901,5 +905,12 @@ main.content {
   }
   .print-page {
     break-before: page;
+  }
+  /* Print menu + recipes: only the chosen card and its bundle (website-print.js). */
+  .print-hide {
+    display: none !important;
+  }
+  .print-target {
+    margin-top: 0;
   }
 }

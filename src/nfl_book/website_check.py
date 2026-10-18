@@ -8,6 +8,8 @@ from urllib.parse import unquote, urlsplit
 
 from nfl_book.errors import Diagnostics
 
+PRINT_PAGE_ATTRIBUTES = ("data-print-pages", "data-print-components")
+
 
 class _Links(HTMLParser):
     def __init__(self) -> None:
@@ -22,8 +24,9 @@ class _Links(HTMLParser):
         for attribute in ("href", "src"):
             if data.get(attribute):
                 self.links.append(str(data[attribute]))
-        # Pages print.js fetches to print after a recipe are links too.
-        self.links.extend((data.get("data-print-pages") or "").split())
+        # Pages print.js fetches to print with a recipe or menu are links too.
+        for attribute in PRINT_PAGE_ATTRIBUTES:
+            self.links.extend((data.get(attribute) or "").split())
 
 
 def check_site(root: Path, diags: Diagnostics) -> None:
