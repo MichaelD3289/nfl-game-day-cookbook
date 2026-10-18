@@ -1038,6 +1038,140 @@ main.content {
   }
 }
 
+/* Matchup menu: two team pickers, then one dish per course from either side. */
+.matchup {
+  margin: 1.5rem 0;
+  max-width: 44rem;
+}
+.matchup-nojs[hidden],
+.matchup-pickers[hidden],
+.matchup-spread[hidden],
+.matchup-actions[hidden],
+.matchup-served[hidden] {
+  display: none;
+}
+.matchup-pickers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0 0 0.8rem;
+}
+.matchup-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1 1 14rem;
+}
+.matchup-picker-label {
+  color: var(--book-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.matchup-picker select {
+  border: 1px solid var(--book-rule);
+  border-radius: 4px;
+  background: var(--book-paper);
+  font: inherit;
+  padding: 0.35rem 0.5rem;
+}
+.matchup-status {
+  color: var(--book-muted);
+  margin: 0 0 0.8rem;
+}
+.matchup-title {
+  margin: 0 0 0.4rem;
+  font-size: 1.3rem;
+}
+.matchup-courses {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.matchup-course {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr) auto;
+  column-gap: 0.8rem;
+  align-items: start;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--book-rule);
+}
+.matchup-course > :not(.matchup-course-name, .matchup-swap) {
+  grid-column: 2;
+}
+.matchup-course-name {
+  grid-row: 1 / span 3;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.82rem;
+  padding-top: 0.15rem;
+}
+.matchup-side {
+  color: var(--book-muted);
+  font-size: 0.82rem;
+}
+.matchup-dish {
+  font-weight: 700;
+}
+.matchup-note {
+  margin: 0.1rem 0 0;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+.matchup-swap {
+  grid-column: 3;
+  grid-row: 1 / span 3;
+  border: 1px solid var(--book-navy);
+  border-radius: 4px;
+  background: var(--book-paper);
+  color: var(--book-navy);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.2rem 0.8rem;
+  cursor: pointer;
+}
+.matchup-swap:disabled,
+.matchup-actions button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.matchup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: 1rem 0;
+}
+.matchup-served {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.matchup-served .print-with,
+.matchup-served .shop-actions {
+  margin-left: 0;
+}
+@media (max-width: 480px) {
+  .matchup-course {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .matchup-course > :not(.matchup-course-name, .matchup-swap),
+  .matchup-course-name {
+    grid-column: 1;
+  }
+  .matchup-course-name {
+    grid-row: auto;
+  }
+  .matchup-swap {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+  }
+}
+
 /* Paper: one recipe per Letter or A4 page, like the booklet, without the site chrome.
    The page prints as shown, so scaled amounts print scaled. */
 @media print {
@@ -1063,6 +1197,11 @@ main.content {
   .menu-clear,
   .menu-remove,
   .menu-add,
+  .matchup-nojs,
+  .matchup-pickers,
+  .matchup-status,
+  .matchup-swap,
+  .matchup-actions,
   .suggest,
   .quick-card a[data-carry-scale] {
     display: none !important;
