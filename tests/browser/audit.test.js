@@ -29,15 +29,24 @@ test("representatives are discovered from the rendered files without production 
     "index.html",
     "recipe-test-wings.html",
     "component-test-sauce.html",
-    "menu-test-menu.html",
+    "menu-builder.html",
+    "menus-test-menu-1.html",
     "division-afc-east.html",
     "index-course.html",
     "versions.html",
   ]);
-  assert.equal(routes.length, 7);
+  assert.equal(routes.length, 8);
   assert.equal(
     routes.find((r) => r.kind === "recipe").file,
     "recipe-test-wings.html",
+  );
+  assert.equal(
+    routes.find((r) => r.kind === "menu").file,
+    "menus-test-menu-1.html",
+  );
+  assert.equal(
+    routes.find((r) => r.kind === "builder").file,
+    "menu-builder.html",
   );
 });
 
