@@ -17,6 +17,7 @@ from urllib.parse import urlencode
 import yaml
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
+from nfl_book.catalog import CATALOG_FILE, recipe_catalog, write_catalog
 from nfl_book.digital import prepare_pages, site_name
 from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.images import PhotoStats
@@ -24,9 +25,11 @@ from nfl_book.pipeline import load
 from nfl_book.project import Project
 from nfl_book.publishing import EPUB_FILENAME, RELEASES, REPOSITORY
 from nfl_book.quantities import Amount, find_yield_amounts
-from nfl_book.references import html_id
-from nfl_book.render.pages import ItemView, PageSpec
+from nfl_book.references import component_label, html_id, recipe_label, section_label
+from nfl_book.render.pages import ItemView, PageSpec, WebView, edition_root
 from nfl_book.resolve import BookModel
+from nfl_book.structured_data import head_html, recipe_json_ld
+from nfl_book.validation import component_graph
 
 # Quick issue form per suggestion kind: (template, title prefix, field used in the title).
 SUGGESTION_FORMS = {
@@ -125,6 +128,66 @@ def _add_scaling(model: BookModel, pages: list[PageSpec]) -> None:
         context["scaler"] = scaler
 
 
+def _add_structured_data(model: BookModel, pages: list[PageSpec]) -> None:
+    """schema.org Recipe JSON-LD, and the canonical address, in each recipe page's head.
+
+    The canonical address is the page at the website root, which always serves the
+    latest edition; ``url`` and ``image`` name this edition's own copies.
+    """
+    recipes = {recipe_label(r.id): r for r in model.recipes}
+    base = model.settings.book.website_url
+    for page in pages:
+        context = page.context
+        if page.template != "recipe.qmd.j2":
+            continue
+        web = context.get("web")
+        page_url = web.href if isinstance(web, WebView) else None
+        image = context.get("image")
+        image_url = f"{edition_root(base)}{image}" if base and image else None
+        canonical = f"{base.rstrip('/')}/{page.slug}.html" if base else None
+        data = recipe_json_ld(
+            recipes[context["label"]], model.settings, image_url=image_url, page_url=page_url
+        )
+        context["head"] = head_html(data, canonical)
+
+
+def _add_print_pages(model: BookModel, pages: list[PageSpec]) -> None:
+    """Pages print.js can print after a recipe or a menu card.
+
+    A recipe prints every component it uses, nested ones included, once each in order of
+    first appearance. A game-day menu or dish-off card prints its recipes in menu order,
+    then optionally every component those recipes print, once each."""
+    graph = component_graph(model.components)
+    published = {c.id for c in model.components}
+    component_pages = {
+        p.context["label"]: f"{p.slug}.html" for p in pages if p.template == "component.qmd.j2"
+    }
+    for page in pages:
+        if page.template != "recipe.qmd.j2":
+            continue
+        recipe = model.recipes_by_id[page.context["label"].removeprefix("recipe:")]
+        page.context["print_pages"] = [
+            component_pages[label]
+            for cid in graph.ordered_closure(recipe.component_refs)
+            if cid in published and (label := component_label(cid)) in component_pages
+        ]
+    recipe_pages = {
+        p.context["label"]: f"{p.slug}.html" for p in pages if p.template == "recipe.qmd.j2"
+    }
+    recipe_prints: dict[str, list[str]] = {
+        p.context["label"]: p.context["print_pages"] for p in pages if p.template == "recipe.qmd.j2"
+    }
+    for page in pages:
+        if page.template not in ("game-day-menu.qmd.j2", "division.qmd.j2"):
+            continue
+        for item in page.context.get("menus", []) + page.context.get("dishoffs", []):
+            labels = [ref.label for ref in item["recipes"] if ref.label in recipe_pages]
+            item["print_pages"] = [recipe_pages[label] for label in labels]
+            item["print_components"] = list(
+                dict.fromkeys(url for label in labels for url in recipe_prints[label])
+            )
+
+
 def _suggestion(kind: str, lead: str, **fields: str) -> dict[str, str]:
     """A prefilled GitHub issue link plus the same fields for the anonymous form."""
     template, prefix, title_field = SUGGESTION_FORMS[kind]
@@ -182,6 +245,7 @@ def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
     result: list[dict[str, Any]] = [
         {"text": "Start here", "href": "index.qmd"},
         {"text": "All recipes", "href": "contents.qmd"},
+        {"text": "Browse recipes", "href": "browse.qmd"},
     ]
     indexes = [
         {"text": p.context["title"], "href": _filename(p)}
@@ -203,24 +267,194 @@ def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
     result.extend(
         [
             {"text": "Game Day Menus", "href": "game-day-menus.qmd"},
+            {"text": "Build your own menu", "href": "menu-builder.qmd"},
+            {"text": "Matchup menu", "href": "matchup.qmd"},
             {"text": "Make It or Buy It", "href": "make-it-or-buy-it.qmd"},
         ]
     )
     return result
 
 
-def _prepare(project: Project, build_dir: Path) -> tuple[list[PageSpec], Diagnostics, PhotoStats]:
+def _add_browse(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
+    """The Browse recipes page (website only), right after All recipes."""
+    recipes = [
+        {**recipe, "facets_json": json.dumps(recipe["facets"], ensure_ascii=False)}
+        for recipe in catalog["recipes"]
+    ]
+    label = section_label("browse")
+    page = PageSpec(
+        "browse",
+        "browse.qmd.j2",
+        {
+            "title": "Browse recipes",
+            "label": label,
+            "facets": catalog["facets"],
+            "recipes": recipes,
+        },
+        anchors=(label,),
+    )
+    position = next((i + 1 for i, p in enumerate(pages) if p.slug == "contents"), len(pages))
+    pages.insert(position, page)
+
+
+def _recipe_prints(pages: list[PageSpec]) -> dict[str, list[str]]:
+    """The component pages each recipe page prints, keyed by the recipe page's file."""
+    return {
+        f"{p.slug}.html": p.context.get("print_pages", [])
+        for p in pages
+        if p.template == "recipe.qmd.j2"
+    }
+
+
+def _course_options(catalog: dict[str, Any]) -> list[dict[str, Any]]:
+    """The course facet's options, in data/indexes.yml order."""
+    course = next(f for f in catalog["facets"] if f["id"] == "course")
+    options: list[dict[str, Any]] = course["options"]
+    return options
+
+
+def _json_script(data: object) -> str:
+    """JSON for a one-line <script> element: no newlines, and no "</" to close it early."""
+    return json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+
+
+def _add_menu_builder(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
+    """The Build your own menu page (website only), right after Game Day Menus.
+
+    Dishes are grouped by course in data/indexes.yml order, empty courses left out, and
+    keep book order within a course. Each carries the component pages its recipe prints.
+    """
+    prints = _recipe_prints(pages)
+    courses = []
+    for option in _course_options(catalog):
+        dishes = [
+            {
+                **recipe,
+                "facets_json": json.dumps(recipe["facets"], ensure_ascii=False),
+                "print_pages": prints.get(recipe["url"], []),
+            }
+            for recipe in catalog["recipes"]
+            if recipe["course"] == option["id"]
+        ]
+        if dishes:
+            courses.append({"id": option["id"], "label": option["label"], "dishes": dishes})
+    label = section_label("menu-builder")
+    page = PageSpec(
+        "menu-builder",
+        "menu-builder.qmd.j2",
+        {
+            "title": "Build your own menu",
+            "label": label,
+            "facets": catalog["facets"],
+            "courses": courses,
+            "total": sum(len(c["dishes"]) for c in courses),
+            "multipliers": MULTIPLIERS,
+            # menu.js fills the idea field with the picked dishes and the menu address.
+            "suggest": _suggestion("menu", "Think your menu belongs in the book?"),
+        },
+        anchors=(label,),
+    )
+    position = next((i + 1 for i, p in enumerate(pages) if p.slug == "game-day-menus"), len(pages))
+    pages.insert(position, page)
+
+
+def _add_matchup(model: BookModel, pages: list[PageSpec], catalog: dict[str, Any]) -> None:
+    """The Matchup menu page (website only), right after Build your own menu.
+
+    Embeds every team grouped by division, and every published dish with its course,
+    team, division and the component pages it prints, for matchup.js to pick from.
+    Courses with no dishes are left out; the rest keep data/indexes.yml order.
+    """
+    prints = _recipe_prints(pages)
+    present = {recipe["course"] for recipe in catalog["recipes"]}
+    courses = []
+    for option in _course_options(catalog):
+        if option["id"] in present:
+            bucket = model.settings.course(option["id"])
+            singular = bucket.singular if bucket else option["label"]
+            courses.append({"id": option["id"], "label": option["label"], "singular": singular})
+    divisions = [
+        {"key": section.division.key, "name": section.division.name} for section in model.divisions
+    ]
+    teams = [
+        {
+            "slug": entry.team.slug,
+            "name": entry.team.name,
+            "short": entry.team.short_name,
+            "division": section.division.key,
+        }
+        for section in model.divisions
+        for entry in section.teams
+    ]
+    dishes = [
+        {
+            "id": recipe["id"],
+            "title": recipe["title"],
+            "url": recipe["url"],
+            "course": recipe["course"],
+            "team": recipe["team"]["slug"],
+            "division": recipe["division"],
+            "printPages": prints.get(recipe["url"], []),
+        }
+        for recipe in catalog["recipes"]
+    ]
+    with_dishes = {dish["team"] for dish in dishes}
+    pickers = [
+        {
+            "label": section.division.name,
+            "teams": [
+                {
+                    "slug": entry.team.slug,
+                    "name": entry.team.name,
+                    "empty": entry.team.slug not in with_dishes,
+                }
+                for entry in section.teams
+            ],
+        }
+        for section in model.divisions
+    ]
+    data = {"courses": courses, "divisions": divisions, "teams": teams, "dishes": dishes}
+    label = section_label("matchup")
+    page = PageSpec(
+        "matchup",
+        "matchup.qmd.j2",
+        {
+            "title": "Matchup menu",
+            "label": label,
+            "pickers": pickers,
+            "data_json": _json_script(data),
+            "suggest": _suggestion("menu", "Have an idea for a game-day menu?"),
+        },
+        anchors=(label,),
+    )
+    position = next((i + 1 for i, p in enumerate(pages) if p.slug == "menu-builder"), len(pages))
+    pages.insert(position, page)
+
+
+def _prepare(
+    project: Project, build_dir: Path, edition: str
+) -> tuple[list[PageSpec], Diagnostics, PhotoStats, dict[str, Any]]:
     pages, diags, photos, model = prepare_pages(project, build_dir, web=True)
     _add_suggestions(project, model, pages)
     _add_scaling(model, pages)
-    return pages, diags, photos
+    _add_print_pages(model, pages)
+    _add_structured_data(model, pages)
+    catalog = recipe_catalog(model, pages, diags, edition=edition)
+    _add_browse(pages, catalog)
+    _add_menu_builder(pages, catalog)
+    _add_matchup(model, pages, catalog)
+    return pages, diags, photos, catalog
 
 
 def build_website(project: Project, *, render: bool = True, preview: str = "") -> WebsiteResult:
     """Build the site; ``preview`` labels an unreleased build (a branch and commit) on
     every page, so it cannot pass for the published edition."""
     build_dir = project.generated_dir / "site"
-    pages, diags, photos = _prepare(project, build_dir)
+    metadata = tomllib.loads((project.root / "pyproject.toml").read_text())
+    version = metadata["project"]["version"]
+    pages, diags, photos, catalog = _prepare(project, build_dir, version)
+    if not diags.ok:
+        raise ValidationFailed(diags)
     routes = {label: f"{_filename(p)}#{html_id(label)}" for p in pages for label in p.anchors}
     for p in pages:
         for menu in p.context.get("dishoffs", []):
@@ -238,8 +472,6 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
     env.globals.update(
         route=lambda label: routes[label], suggestion_form_url=book.suggestion_form_url
     )
-    metadata = tomllib.loads((project.root / "pyproject.toml").read_text())
-    version = metadata["project"]["version"]
     pdf = book.output_filename
     download = f"{RELEASES}/latest/download/{pdf}"
     for page in pages:
@@ -250,7 +482,10 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
             "game-day-menus": "Game Day Menus",
             "make-it-or-buy-it": "Make It or Buy It",
         }.get(page.slug, page.slug)
-        front = yaml.safe_dump({"title": "", "pagetitle": title}, sort_keys=False)
+        matter: dict[str, Any] = {"title": "", "pagetitle": title}
+        if context.get("head"):
+            matter["include-in-header"] = {"text": context["head"]}
+        front = yaml.safe_dump(matter, sort_keys=False)
         body = env.get_template(page.template).render(**context, version=version, download=download)
         body = re.sub(r"(?m)^(:{3,}[^\n]*)$", r"\n\1\n", body)
         (build_dir / _filename(page)).write_text(f"---\n{front}---\n\n{body}")
@@ -261,13 +496,28 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
         f"PDF and downloadable website are also on [GitHub releases]({RELEASES}).\n\n"
         "```{=html}\n<!-- site-versions -->\n```\n"
     )
-    resources = ["assets/**", "scale.js", "print.js", "cook.js"]
+    resources = [
+        "assets/**",
+        "scale.js",
+        "print.js",
+        "shop.js",
+        CATALOG_FILE,
+        "browse.js",
+        "menu.js",
+        "matchup.js",
+        "cook.js",
+    ]
+    write_catalog(catalog, build_dir / CATALOG_FILE)
+    shutil.copyfile(project.styles_dir / "website-browse.js", build_dir / "browse.js")
     shutil.copyfile(project.styles_dir / "website-scale.js", build_dir / "scale.js")
     shutil.copyfile(project.styles_dir / "website-print.js", build_dir / "print.js")
+    shutil.copyfile(project.styles_dir / "website-shop.js", build_dir / "shop.js")
+    shutil.copyfile(project.styles_dir / "website-menu.js", build_dir / "menu.js")
+    shutil.copyfile(project.styles_dir / "website-matchup.js", build_dir / "matchup.js")
     shutil.copyfile(project.styles_dir / "website-cook.js", build_dir / "cook.js")
-    scripts = ["print.js", "cook.js"]
+    scripts = ["print.js", "shop.js", "cook.js"]
     html_format: dict[str, Any] = {
-        "theme": "cosmo",
+        "theme": ["cosmo", "website.scss"],
         "css": "website.css",
         "toc": False,
         "anchor-sections": False,
@@ -316,6 +566,7 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
     }
     (build_dir / "_quarto.yml").write_text(yaml.safe_dump(config, sort_keys=False))
     shutil.copyfile(project.styles_dir / "website.css", build_dir / "website.css")
+    shutil.copyfile(project.styles_dir / "website.scss", build_dir / "website.scss")
     if not render:
         return WebsiteResult(build_dir / "index.qmd", None, diags, photos)
     quarto = shutil.which("quarto")

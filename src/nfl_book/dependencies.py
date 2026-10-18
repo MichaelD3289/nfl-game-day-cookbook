@@ -13,7 +13,8 @@ from collections.abc import Iterable, Mapping, Sequence
 
 class DependencyGraph:
     def __init__(self, edges: Mapping[str, Sequence[str]]) -> None:
-        """``edges`` maps a component id to the component ids it references."""
+        """``edges`` maps a component id to the component ids it references, in the
+        order they are referenced (kept for ``ordered_closure``)."""
         self.edges = {k: tuple(v) for k, v in edges.items()}
 
     def find_cycles(self) -> list[list[str]]:
@@ -54,3 +55,19 @@ class DependencyGraph:
             result.add(node)
             pending.extend(self.edges.get(node, ()))
         return result
+
+    def ordered_closure(self, roots: Sequence[str]) -> tuple[str, ...]:
+        """``closure`` in depth-first preorder: each root, then what it references in
+        reference order, each id once at its first occurrence. Cycles are cut short."""
+        result: dict[str, None] = {}
+
+        def visit(node: str) -> None:
+            if node in result:
+                return
+            result[node] = None
+            for dep in self.edges.get(node, ()):
+                visit(dep)
+
+        for root in roots:
+            visit(root)
+        return tuple(result)

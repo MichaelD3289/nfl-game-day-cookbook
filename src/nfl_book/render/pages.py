@@ -138,7 +138,7 @@ def _source(item: Recipe | Component, model: BookModel) -> SourceView | None:
     )
 
 
-def _edition_root(base: str) -> str:
+def edition_root(base: str) -> str:
     """This edition's copy of the website, which every release keeps at ``/vX.Y.Z/``."""
     return f"{base.rstrip('/')}/v{__version__}/"
 
@@ -151,7 +151,7 @@ def web_href(item: Recipe | Component, kind: str, model: BookModel) -> str | Non
     base = model.settings.book.website_url
     if not base or not is_published(item.meta.status):
         return None
-    return f"{_edition_root(base)}{kind}-{item.id}.html"
+    return f"{edition_root(base)}{kind}-{item.id}.html"
 
 
 def _web(item: Recipe | Component, kind: str, model: BookModel) -> WebView | None:
@@ -238,7 +238,7 @@ def _website(model: BookModel) -> dict[str, str] | None:
     base = model.settings.book.website_url
     if not base:
         return None
-    href = _edition_root(base)
+    href = edition_root(base)
     return {"href": href, "display": href.removeprefix("https://"), "edition": __version__}
 
 
