@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- A design proposal for recording what each ingredient line is (`docs/ingredients-design.md`), comparing inline keys, structured front matter and inferred keys, for the maintainer to decide in [#44](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/44). Nothing in the book or tooling changes yet.
+
 ## [0.13.0] - 2026-09-26
 
 ### Added
