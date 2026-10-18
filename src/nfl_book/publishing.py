@@ -8,3 +8,11 @@ EPUB_FILENAME = "nfl-game-day-cookbook.epub"
 # The same for every edition, so reading apps treat a new edition as an update of the
 # book already in the library rather than a second copy.
 EPUB_IDENTIFIER = f"urn:uuid:{uuid5(NAMESPACE_URL, REPOSITORY)}"
+
+
+BOOKLET_FILENAME_PREFIX = "nfl-game-day-recipe-booklet"
+
+
+def booklet_filename(division_key: str) -> str:
+    """Stable release asset name for a configured division key."""
+    return f"{BOOKLET_FILENAME_PREFIX}-{division_key}.pdf"

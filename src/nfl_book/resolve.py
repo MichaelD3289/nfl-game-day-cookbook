@@ -86,6 +86,7 @@ class BookModel:
     shortlinks: dict[str, str]
     recipes_by_id: dict[str, Recipe] = field(default_factory=dict)
     components_by_id: dict[str, Component] = field(default_factory=dict)
+    division: Division | None = None
 
     @property
     def recipes(self) -> list[Recipe]:
@@ -133,9 +134,15 @@ def resolve(
     shortlinks: dict[str, str],
     *,
     include: Callable[[Status], bool] = lambda s: s is Status.PUBLISHED,
+    division: Division | None = None,
 ) -> BookModel:
     recipes = sorted(
-        (r for r in content.recipes if include(r.meta.status)), key=recipe_sort_key(settings)
+        (
+            r
+            for r in content.recipes
+            if include(r.meta.status) and (division is None or r.division.key == division.key)
+        ),
+        key=recipe_sort_key(settings),
     )
     all_components = {c.id: c for c in content.components}
     graph = component_graph(content.components)
@@ -148,7 +155,12 @@ def resolve(
             bucket = usage_direct if cid in direct else usage_indirect
             bucket.setdefault(cid, []).append(recipe)
 
-    reachable = graph.closure(publication_roots(recipes, content.components, include))
+    roots = (
+        publication_roots(recipes, content.components, include)
+        if division is None
+        else {ref for recipe in recipes for ref in recipe.component_refs}
+    )
+    reachable = graph.closure(roots)
     kind_order = [k.id for k in settings.component_kinds]
     components = sorted(
         (c for c in content.components if include(c.meta.status) and c.id in reachable),
@@ -160,27 +172,35 @@ def resolve(
     }
 
     divisions = []
-    for division in settings.league.divisions:
+    selected_divisions = [division] if division is not None else settings.league.divisions
+    for section_division in selected_divisions:
         teams = tuple(
             TeamSection(team, tuple(r for r in recipes if r.team.slug == team.slug))
-            for team in division.teams
+            for team in section_division.teams
         )
         dishoffs = tuple(
             sorted(
                 (
                     d
                     for d in content.dishoffs
-                    if d.division.key == division.key and include(d.meta.status)
+                    if d.division.key == section_division.key and include(d.meta.status)
                 ),
                 key=lambda d: _order_key(d.meta.order, d.meta.title, d.id),
             )
         )
-        divisions.append(DivisionSection(division, teams, dishoffs))
+        divisions.append(DivisionSection(section_division, teams, dishoffs))
 
+    recipe_ids = {r.id for r in recipes}
     menu_groups = []
     for menu_type in settings.menu_types:
         menus = sorted(
-            (m for m in content.menus if m.menu_type.id == menu_type.id and include(m.meta.status)),
+            (
+                m
+                for m in content.menus
+                if m.menu_type.id == menu_type.id
+                and include(m.meta.status)
+                and (division is None or set(m.meta.recipes) <= recipe_ids)
+            ),
             key=lambda m: _order_key(m.meta.order, m.meta.title, m.id),
         )
         if menus:
@@ -190,6 +210,9 @@ def resolve(
     for config in settings.indexes:
         definition = build_index(config)
         indexes.append(ResolvedIndex(definition, tuple(definition.sections(recipes))))
+
+    if division is not None:
+        all_components = {c.id: c for c in components}
 
     return BookModel(
         settings=settings,
@@ -201,8 +224,9 @@ def resolve(
         usage=usage,
         quick_options={r.id: quick_options_for(r, all_components) for r in recipes},
         shortlinks=shortlinks,
-        recipes_by_id={r.id: r for r in content.recipes},
+        recipes_by_id={r.id: r for r in (content.recipes if division is None else recipes)},
         components_by_id=all_components,
+        division=division,
     )
 
 

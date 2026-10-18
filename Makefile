@@ -1,5 +1,5 @@
 # Thin wrappers around the nfl-book CLI and dev tools. Everything runs via uv.
-.PHONY: book check links preview pdf cards website epub stats test lint format hooks clean browser-test website-audit website-performance
+.PHONY: book check links preview pdf cards booklets website epub stats test lint format hooks clean browser-test website-audit website-performance
 
 UV ?= uv
 BOOK = $(UV) run nfl-book
@@ -30,6 +30,9 @@ pdf:
 
 cards:
 	$(BOOK) cards
+
+booklets:
+	$(BOOK) booklets
 
 epub:
 	$(BOOK) epub

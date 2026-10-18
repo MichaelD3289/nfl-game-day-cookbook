@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - `make cards` builds a separate configurable 4×6-inch recipe-card PDF with ingredients followed by instructions and continuation sides for long recipes; releases include it as a download. Card builds report recipes exceeding the configured side limit by source file, and PR PDF checks enforce that limit with `--strict`.
+- Build a division booklet with `nfl-book build --division afc/east`, including its published recipes, required components, division dish-offs, and wholly contained game-day menus. `make booklets` builds all eight with division covers and separate PDFs, which releases attach and the website lists per edition.
 
 ### Fixed
 
