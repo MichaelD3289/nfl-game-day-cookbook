@@ -1,7 +1,7 @@
 """The recipe catalog (``recipes.json``): one JSON description of every published recipe.
 
 The website's Browse recipes page filters by its facets, and later site features
-(search, planners, shopping lists) can read the same file instead of scraping pages.
+(search, planners) can read the same file instead of scraping pages.
 Facets come from ``data/indexes.yml`` first, in file order, then the league facets
 (conference, division, team). Nothing here is hard-coded per index, so a new index
 becomes a new filter without code changes.

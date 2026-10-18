@@ -376,6 +376,42 @@ PRINT_WITH = (
     "Include homemade components</label>"
 )
 
+SHOP = (
+    '<span class="shop-actions" hidden><span class="shop-label">Shopping list</span>'
+    '<button type="button" class="shop-button" data-shop="txt">Download .txt</button>'
+    '<button type="button" class="shop-button" data-shop="csv">Download .csv</button>'
+    '<button type="button" class="shop-button" data-shop="copy">Copy</button>'
+    '<span class="shop-status" aria-live="polite"></span></span>'
+)
+
+
+def test_recipe_and_component_print_bars_offer_a_shopping_list(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    sliders = (site / "recipe-test-buffalo-sliders.qmd").read_text()
+    # Hidden until shop.js runs, after the component option inside the recipe's bar.
+    assert f"{PRINT_WITH}{SHOP}</div>" in sliders
+    sauce = (site / "component-test-wing-sauce.qmd").read_text()
+    assert f'<button type="button" class="print-button">Print</button>{SHOP}</div>' in sauce
+    # Page-level bars on menu and division pages print the page only.
+    for name in ("menus-fast-day-1.qmd", "division-afc-east.qmd"):
+        page = (site / name).read_text()
+        assert page.count('class="shop-actions"') == page.count("print-bar print-menu"), name
+
+
+def test_shop_script_ships_after_print_script(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    assert (site / "shop.js").read_text().startswith("// Shopping list on the website:")
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    assert "shop.js" in config["project"]["resources"]
+    scripts = config["format"]["html"]["include-after-body"]["text"]
+    assert scripts.index('<script src="print.js"></script>') < scripts.index(
+        '<script src="shop.js"></script>'
+    )
+
 
 def test_recipe_print_bar_lists_its_component_pages_in_order(fixture_book: Project) -> None:
     from nfl_book.website import build_website
@@ -468,7 +504,7 @@ MENU_BAR = (
     '"recipe-test-buffalo-sliders.html recipe-test-citrus-wings.html" data-print-components='
     '"component-test-blue-cheese-dip.html component-test-wing-sauce.html '
     'component-test-cajun-seasoning.html"><button type="button" class="print-button">'
-    f"Print menu + recipes</button>{PRINT_WITH}</div>"
+    f"Print menu + recipes</button>{PRINT_WITH}{SHOP}</div>"
 )
 
 

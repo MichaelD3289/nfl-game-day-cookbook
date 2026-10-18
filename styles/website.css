@@ -691,13 +691,15 @@ main.content {
 .print-scale,
 .print-url,
 .print-bundle,
-.print-with[hidden] {
+.print-with[hidden],
+.shop-actions[hidden] {
   display: none;
 }
 .print-bar {
   margin: 0.6rem 0 0;
 }
-.print-button {
+.print-button,
+.shop-button {
   border: 1px solid var(--book-navy);
   border-radius: 4px;
   background: var(--book-paper);
@@ -708,12 +710,29 @@ main.content {
   padding: 0.2rem 0.8rem;
   cursor: pointer;
 }
-.print-button:hover {
+.print-button:hover,
+.shop-button:hover {
   background: var(--book-pale);
 }
 /* "Include homemade components": prints each component page after the recipe. */
 .print-with {
   margin-left: 0.6rem;
+  font-size: 0.85rem;
+}
+/* Shopping list downloads and copy (website-shop.js), after the print controls. */
+.shop-actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: 0.6rem;
+}
+.shop-button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.shop-label,
+.shop-status {
   font-size: 0.85rem;
 }
 /* "Print menu + recipes" on a game-day menu or dish-off card. */
@@ -871,6 +890,7 @@ main.content {
   .print-bar,
   .finder-filters,
   .print-with,
+  .shop-actions,
   .scaler,
   .suggest,
   .quick-card a[data-carry-scale] {
