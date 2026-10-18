@@ -787,7 +787,7 @@ main.content {
   font-size: 0.82rem;
 }
 .finder-option.is-empty {
-  opacity: 0.45;
+  color: var(--book-muted);
 }
 .finder-clear {
   padding: 0.35rem 0.8rem;

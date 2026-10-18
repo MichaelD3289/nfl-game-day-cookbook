@@ -16,7 +16,8 @@ function representativeRoutes(files) {
     home: /^index\.html$/,
     recipe: /^recipe-.*\.html$/,
     component: /^component-.*\.html$/,
-    menu: /^menus?-.*\.html$/,
+    menu: /^menus-.*\.html$/,
+    builder: /^menu-builder\.html$/,
     dishoff: /^division-.*\.html$/,
     index: /^index-.*\.html$/,
     versions: /^versions\.html$/,
@@ -113,7 +114,12 @@ async function audit(directory) {
   }
   const server = await serve(directory);
   let browser;
-  const sources = { home: "cover", menu: "game-day-menu", dishoff: "division" };
+  const sources = {
+    home: "cover",
+    menu: "game-day-menu",
+    builder: "menu-builder",
+    dishoff: "division",
+  };
   const finding = (route, code, message, severity = "error", source) =>
     report.findings.push({
       source:
