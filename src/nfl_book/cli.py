@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from enum import StrEnum
 from pathlib import Path
 from typing import Annotated, NoReturn
 
@@ -197,6 +198,35 @@ def epub(
     out.print(f"EPUB sources: {result.document}")
     if result.epub:
         out.print(f"EPUB: {result.epub}")
+
+
+class StatsFormat(StrEnum):
+    TABLE = "table"
+    JSON = "json"
+    MARKDOWN = "markdown"
+
+
+@app.command()
+def stats(
+    output_format: Annotated[
+        StatsFormat, typer.Option("--format", help="Output format.")
+    ] = StatsFormat.TABLE,
+) -> None:
+    """Report where the cookbook is thin (offline, informational; gaps never fail)."""
+    from nfl_book.stats import build_report, render_json, render_markdown, render_table
+
+    project = None
+    try:
+        project = state.project()
+        result = build_report(project)
+    except BookError as exc:
+        fail(exc, project.root if project else None)
+    if output_format is StatsFormat.JSON:
+        typer.echo(render_json(result))
+    elif output_format is StatsFormat.MARKDOWN:
+        typer.echo(render_markdown(result), nl=False)
+    else:
+        render_table(result, out)
 
 
 @app.command()
