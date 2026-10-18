@@ -313,7 +313,7 @@ def test_printable_pages_offer_a_print_button(fixture_book: Project) -> None:
     for name in printable:
         page = (site / name).read_text()
         # Hidden until print.js runs, so readers without JavaScript never see a dead button.
-        assert '<div class="print-bar" hidden>' in page, name
+        assert '<div class="print-bar" hidden' in page, name
         assert '<button type="button" class="print-button">Print</button>' in page, name
     for name in ("index.qmd", "contents.qmd", "game-day-menus.qmd", "versions.qmd"):
         assert "print-bar" not in (site / name).read_text(), name
@@ -369,3 +369,92 @@ def test_source_is_one_named_link_with_the_short_address_for_paper(fixture_book:
     # The address shows once, in the print view only (styled by .source-url).
     assert source.count('<span class="source-url">') == 1
     assert "<small>" not in source
+
+
+PRINT_WITH = (
+    '<label class="print-with" hidden><input type="checkbox" name="print-with"> '
+    "Include homemade components</label>"
+)
+
+
+def test_recipe_print_bar_lists_its_component_pages_in_order(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
+    # The wing sauce uses the Cajun seasoning, so both print, in order of appearance.
+    assert (
+        '<div class="print-bar" hidden data-print-pages='
+        '"component-test-wing-sauce.html component-test-cajun-seasoning.html">'
+    ) in wings
+    assert f'<button type="button" class="print-button">Print</button>{PRINT_WITH}' in wings
+    # Component pages, and recipes without components, offer no extra pages.
+    for name in ("component-test-wing-sauce.qmd", "division-afc-east.qmd"):
+        page = (site / name).read_text()
+        assert "data-print-pages" not in page, name
+        assert "print-with" not in page, name
+
+
+def test_component_pages_print_once_after_first_use(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    recipe = fixture_book.recipes_dir / "afc/east/dolphins/test-citrus-wings.md"
+    recipe.write_text(
+        recipe.read_text().replace(
+            "{{component:test-wing-sauce}}\n",
+            "{{component:test-wing-sauce}}\n- 1 tsp seasoning {{component:test-cajun-seasoning}}\n",
+        )
+    )
+    site = build_website(fixture_book, render=False).document.parent
+    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
+    assert (
+        'data-print-pages="component-test-wing-sauce.html component-test-cajun-seasoning.html"'
+    ) in wings
+
+
+def test_recipe_without_components_has_no_print_pages(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    recipe = fixture_book.recipes_dir / "afc/east/dolphins/test-citrus-wings.md"
+    recipe.write_text(
+        recipe.read_text().replace(
+            "- 1 cup wing sauce {{component:test-wing-sauce}}", "- 1 cup wing sauce"
+        )
+    )
+    site = build_website(fixture_book, render=False).document.parent
+    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
+    assert '<div class="print-bar" hidden><button' in wings
+    assert "data-print-pages" not in wings
+    assert "print-with" not in wings
+
+
+def test_print_pages_skip_components_left_out_of_the_book(
+    fixture_book: Project, tmp_path: Path
+) -> None:
+    from nfl_book.digital import prepare_pages
+    from nfl_book.website import _add_print_pages
+
+    pages, _, _, model = prepare_pages(fixture_book, tmp_path / "site", web=True)
+    # Validation stops published content referencing drafts, so drop one by hand.
+    model.components = [c for c in model.components if c.id != "test-cajun-seasoning"]
+    _add_print_pages(model, pages)
+    wings = next(p for p in pages if p.slug == "recipe-test-citrus-wings")
+    assert wings.context["print_pages"] == ["component-test-wing-sauce.html"]
+
+
+def test_recipe_print_pages_exist_in_the_site_and_print_js_ships(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
+    match = re.search(r'data-print-pages="([^"]+)"', wings)
+    assert match is not None
+    pages = match.group(1).split()
+    assert pages
+    for page in pages:
+        # Every page print.js fetches is a page of the generated site.
+        assert (site / page.replace(".html", ".qmd")).is_file(), page
+    # Hidden until print.js decides the site is served over http(s).
+    assert '<label class="print-with" hidden>' in wings
+    script = (site / "print.js").read_text()
+    assert "pageList" in script and "printBundle" in script

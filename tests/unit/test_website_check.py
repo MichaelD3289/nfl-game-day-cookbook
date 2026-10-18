@@ -21,3 +21,14 @@ def test_local_links_and_fragments_are_checked(tmp_path: Path) -> None:
     check_site(tmp_path, diags)
     assert len(diags.errors) == 2
     assert all(d.path == tmp_path / "index.html" for d in diags.errors)
+
+
+def test_print_pages_are_checked_like_links(tmp_path: Path) -> None:
+    (tmp_path / "recipe.html").write_text(
+        '<div class="print-bar" data-print-pages="component-a.html component-b.html"></div>'
+    )
+    (tmp_path / "component-a.html").write_text("<h1>A</h1>")
+    diags = Diagnostics()
+    check_site(tmp_path, diags)
+    assert [d.message for d in diags.errors] == ["Missing local target: component-b.html"]
+    assert diags.errors[0].path == tmp_path / "recipe.html"
