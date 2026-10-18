@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.17.0] - 2026-10-18
+
 ### Added
 
 - `make cards` builds a separate configurable 4×6-inch recipe-card PDF with ingredients followed by instructions and continuation sides for long recipes; releases include it as a download. Card builds report recipes exceeding the configured side limit by source file, and PR PDF checks enforce that limit with `--strict`.
@@ -330,7 +332,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.16.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.17.0...HEAD
+[0.17.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.15.0...v0.16.0
 [0.15.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.14.0...v0.15.0
 [0.14.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.13.0...v0.14.0
