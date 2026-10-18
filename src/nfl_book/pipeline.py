@@ -1,7 +1,7 @@
 """Build stages: load -> validate -> resolve -> render -> compile -> postbuild.
 
-Everything here is offline. The only network stage is
-:func:`prepare_links` (``nfl-book prepare-links``).
+Everything here is offline. The only network stages are
+:func:`prepare_links` and :func:`check_links` (``nfl-book prepare-links [--check]``).
 """
 
 from __future__ import annotations
@@ -26,6 +26,7 @@ from nfl_book.render.pages import check_web_links, web_href
 from nfl_book.render.quarto import render_pdf, scan_log
 from nfl_book.resolve import BookModel, resolve
 from nfl_book.shortlinks import Shortener, ShortlinkCache, get_shortener
+from nfl_book.shortlinks.check import CheckResult, LinkChecker, check_sources
 from nfl_book.shortlinks.prepare import PrepareResult, prepare_shortlinks
 from nfl_book.validation import validate_content
 
@@ -100,6 +101,23 @@ def prepare_links(project: Project, shortener: Shortener | None = None) -> Prepa
     if not diags.ok:
         raise ValidationFailed(diags)
     return result
+
+
+def default_link_checker() -> LinkChecker:
+    return LinkChecker()
+
+
+def check_links(project: Project, checker: LinkChecker | None = None) -> CheckResult:
+    """Network stage, read only: report dead and moved source URLs.
+
+    Never shortens a URL, writes ``data/shortlinks.yml``, touches a source file or
+    makes QR codes. Invalid content fails before any request is made.
+    """
+    loaded = load(project, require_shortlinks=False)
+    if not loaded.diagnostics.ok:
+        raise ValidationFailed(loaded.diagnostics)
+    with checker or default_link_checker() as active:
+        return check_sources(loaded.content, active)
 
 
 def _relative(target: Path, start: Path) -> str:

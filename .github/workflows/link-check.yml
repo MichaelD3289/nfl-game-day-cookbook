@@ -1,0 +1,78 @@
+# Monthly source link check. Runs `nfl-book prepare-links --check` (part of the one
+# network command, AGENTS.md rule 6) and keeps ONE issue labelled `link-rot` listing
+# dead, moved and unverifiable source URLs. It closes that issue when every link works
+# again. It never edits content or data/shortlinks.yml, and it is not part of PR checks,
+# so a site being down never blocks a pull request.
+name: Source link check
+
+on:
+  schedule:
+    - cron: "17 6 1 * *" # 06:17 UTC on the 1st of each month
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: link-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Check source links
+    # Scheduled runs only in this repository, not in forks.
+    if: github.repository == 'MichaelD3289/nfl-game-day-cookbook' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      issues: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      LABEL: link-rot
+      TITLE: Source links need attention
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
+        with:
+          enable-cache: false
+      - name: Install locked dependencies
+        run: uv sync --locked
+      - name: Check links and update the tracking issue
+        run: |
+          set +e
+          uv run nfl-book prepare-links --check --report link-report.md
+          code=$?
+          set -e
+          # No report means the command itself failed (invalid content, crash): fail the job.
+          if [ ! -f link-report.md ]; then exit "$code"; fi
+          printf '\n---\n\nLast run: %s\n' "$RUN_URL" >> link-report.md
+          gh label create "$LABEL" --color B60205 \
+            --description "Dead or moved recipe/component source links" --force
+          # Reuse the single tracking issue, open or closed (newest first).
+          issue=$(gh issue list --label "$LABEL" --state all --limit 1 --json number --jq '.[0].number // empty')
+          state=""
+          if [ -n "$issue" ]; then state=$(gh issue view "$issue" --json state --jq .state); fi
+          if [ "$code" -eq 0 ]; then
+            if [ "$state" = "OPEN" ]; then
+              gh issue comment "$issue" --body "All source links responded OK. $RUN_URL"
+              gh issue close "$issue" --reason completed
+            fi
+          elif [ -z "$issue" ]; then
+            gh issue create --title "$TITLE" --label "$LABEL" --body-file link-report.md
+          else
+            if [ "$state" != "OPEN" ]; then gh issue reopen "$issue"; fi
+            gh issue edit "$issue" --body-file link-report.md
+            gh issue comment "$issue" --body "The link check updated the list above. $RUN_URL"
+          fi
+      - name: Upload the report
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: link-report
+          path: link-report.md
+          if-no-files-found: ignore
