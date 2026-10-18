@@ -13,6 +13,9 @@ from nfl_book.models.common import Status
 from nfl_book.models.content import Component, Content, Recipe
 from nfl_book.shortlinks import ShortlinkCache
 
+# Filter ids the website catalog adds after the indexes; an index may not reuse them.
+LEAGUE_FACETS = ("conference", "division", "team")
+
 
 def is_published(status: Status) -> bool:
     return status is Status.PUBLISHED
@@ -21,6 +24,15 @@ def is_published(status: Status) -> bool:
 def build_indexes(settings: Settings, diags: Diagnostics, path: Path) -> list[IndexDefinition]:
     result = []
     for config in settings.indexes:
+        if config.id in LEAGUE_FACETS:
+            reserved = ", ".join(LEAGUE_FACETS)
+            diags.error(
+                "config",
+                f"index id {config.id!r} is reserved for the website's league filters "
+                f"({reserved}); choose another id",
+                path,
+            )
+            continue
         try:
             result.append(build_index(config))
         except ValueError as exc:
@@ -148,10 +160,20 @@ def _validate_graph(content: Content, components: dict[str, Component], diags: D
 
 
 def _validate_menus(content: Content, recipes: dict[str, Recipe], diags: Diagnostics) -> None:
-    items = [(m.path, m.meta.status, m.meta.recipes, None) for m in content.menus] + [
-        (d.path, d.meta.status, d.meta.recipes, d.division) for d in content.dishoffs
+    items = [
+        (m.path, m.meta.status, m.meta.recipes, m.meta.timeline, None) for m in content.menus
+    ] + [
+        (d.path, d.meta.status, d.meta.recipes, d.meta.timeline, d.division)
+        for d in content.dishoffs
     ]
-    for path, status, recipe_ids, division in items:
+    for path, status, recipe_ids, timeline, division in items:
+        for n, step in enumerate(timeline or ()):
+            if step.recipe is not None and step.recipe not in recipe_ids:
+                diags.error(
+                    "reference",
+                    f"timeline.{n}.recipe: {step.recipe!r} is not one of this menu's recipes",
+                    path,
+                )
         seen: set[str] = set()
         for rid in recipe_ids:
             if rid in seen:

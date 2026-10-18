@@ -5,3 +5,18 @@ status: published
 recipes: [test-buffalo-sliders, test-citrus-wings]
 why_it_works: Two poultry dishes that share an oven.
 prep_plan: Make the dip the day before.
+timeline:
+  - at: -1d
+    recipe: test-buffalo-sliders
+    task: Make the dip.
+  - at: -1h30m
+    recipe: test-citrus-wings
+    task: Marinate the wings.
+  - at: -30m
+    task: Heat the oven.
+  - at: kickoff
+    recipe: test-buffalo-sliders
+    task: Assemble the sliders.
+  - at: halftime
+    recipe: test-citrus-wings
+    task: Bake a second batch of wings.
