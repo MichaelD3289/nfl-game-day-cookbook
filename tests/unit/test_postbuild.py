@@ -71,3 +71,45 @@ def test_scan_log_finds_wrapped_undefined_reference(tmp_path: Path) -> None:
     assert [d.message for d in diags.errors] == [
         "LaTeX reference to undefined label 'component:test-wing-sauce'"
     ]
+
+
+def test_card_span_threshold_and_source(tmp_path: Path) -> None:
+    path = manifest(tmp_path)
+    data = json.loads(path.read_text())
+    source = tmp_path / "recipes/test-card.md"
+    data["pages"][0]["source"] = str(source)
+    path.write_text(json.dumps(data))
+    for last in (5, 8):
+        diags = Diagnostics()
+        assert (
+            check_manifest(
+                path,
+                {"recipe:a": 5, "recipe:a:end": last},
+                diags,
+                strict=True,
+                max_pages=4,
+            )
+            == []
+        )
+        assert len(diags) == 0
+    for strict in (False, True):
+        diags = Diagnostics()
+        assert (
+            len(
+                check_manifest(
+                    path,
+                    {"recipe:a": 5, "recipe:a:end": 9},
+                    diags,
+                    strict=strict,
+                    max_pages=4,
+                )
+            )
+            == 1
+        )
+        assert diags.ok is not strict
+        assert diags.items[0].path == source
+        assert "4" in diags.items[0].message
+    diags = Diagnostics()
+    check_manifest(path, {"recipe:a": 5}, diags, strict=False, max_pages=4)
+    assert diags.errors[0].code == "anchor"
+    assert diags.errors[0].path == source

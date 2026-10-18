@@ -117,6 +117,14 @@ def test_production_skeleton_validates() -> None:
     assert diags.ok, [d.message for d in diags.errors]
 
 
+def test_cards_without_pdf(fixture_book: Project) -> None:
+    code, output = invoke(fixture_book, "cards", "--no-pdf", "--strict")
+    assert code == 0, output
+    assert "QMD:" in output
+    assert (fixture_book.generated_dir / "cards/cards.qmd").is_file()
+    assert not (fixture_book.generated_dir / "cards/pagemap.json").exists()
+
+
 LinkHandler = Callable[[httpx.Request], httpx.Response]
 
 

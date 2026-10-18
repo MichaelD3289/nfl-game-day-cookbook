@@ -54,26 +54,32 @@ class Overflow:
 
 
 def check_manifest(
-    manifest: Path, pagemap: dict[str, int], diags: Diagnostics, *, strict: bool
+    manifest: Path, pagemap: dict[str, int], diags: Diagnostics, *, strict: bool, max_pages: int = 1
 ) -> list[Overflow]:
-    """Every expected anchor must exist; spans that cross pages are overflows."""
+    """Check observed spans against the allowed physical sides per item."""
     data = json.loads(manifest.read_text(encoding="utf-8"))
     overflows = []
     for page in data["pages"]:
-        qmd = manifest.parent / page["file"]
+        source = Path(page["source"]) if "source" in page else manifest.parent / page["file"]
         for anchor in page["anchors"]:
             if anchor not in pagemap:
-                diags.error("anchor", f"label {anchor!r} is missing from the compiled PDF", qmd)
+                diags.error("anchor", f"label {anchor!r} is missing from the compiled PDF", source)
         for start, end in page["spans"]:
-            if start in pagemap and end in pagemap and pagemap[start] != pagemap[end]:
+            if (
+                start in pagemap
+                and end in pagemap
+                and pagemap[end] - pagemap[start] + 1 > max_pages
+            ):
                 overflow = Overflow(start, end, pagemap[start], pagemap[end])
                 overflows.append(overflow)
+                limit = "page" if max_pages == 1 else f"{max_pages}-page limit"
                 message = (
-                    f"{start} overflows its page (pages {overflow.first}-{overflow.last}); "
+                    f"{start} overflows its {limit} "
+                    f"(pages {overflow.first}-{overflow.last}); "
                     "shorten the content or split it"
                 )
                 if strict:
-                    diags.error("overflow", message, qmd)
+                    diags.error("overflow", message, source)
                 else:
-                    diags.warning("overflow", message, qmd)
+                    diags.warning("overflow", message, source)
     return overflows

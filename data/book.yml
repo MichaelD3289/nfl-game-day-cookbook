@@ -20,3 +20,10 @@ website_url: https://michaeld3289.github.io/nfl-game-day-cookbook/
 # published recipe or component whose last_reviewed_at is missing or older than
 # this. Remove the line or set it to null to turn the check off.
 review_max_age_days: 365
+
+# Separate portrait recipe cards; long recipes continue onto additional cards.
+cards:
+  width_inches: 4
+  height_inches: 6
+  output_filename: nfl-game-day-recipe-cards.pdf
+  max_pages: 4
