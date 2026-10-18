@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- A design proposal for recording what each ingredient line is (`docs/ingredients-design.md`), comparing inline keys, structured front matter and inferred keys, for the maintainer to decide in [#44](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/44). Nothing in the book or tooling changes yet.
+- Local browser audits check website accessibility, keyboard controls, mobile overflow and print content. Lighthouse CI reports image and JavaScript transfer budgets and largest contentful paint as warnings, with reports saved locally and uploaded by ready-for-review pull request checks.
 - Website recipe pages can print their homemade Make It or Buy It components too: tick **Include homemade components** next to Print and each component the recipe uses, including nested ones, prints on its own page after the recipe, at the recipe's scale. The option is hidden when the downloaded website is opened from files; the PDF is unchanged ([#40](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/40)).
 - Game-day menu and division dish-off cards on the website have a **Print menu + recipes** button that prints just that menu card, then every recipe on the menu on its own page, in menu order, as one print job. Tick **Include homemade components** to add each Make It or Buy It component the menu's recipes use, once each, after the recipes. The button needs the site served over http(s), so it is hidden when the downloaded website is opened from files; the page's own Print button and the PDF are unchanged ([#41](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/41)).
 - Website recipe and component pages and game-day menu and dish-off cards have a **Shopping list** next to Print: download it as a text or CSV file, or copy it, with the ingredients grouped by recipe and at the scale shown. Ticking **Include homemade components** adds each component's ingredients too. Menu and dish-off lists, and component ingredients, need the site served over http(s) ([#43](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/43)).
@@ -16,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The website has a **Build your own menu** page: filter recipes, add dishes from any team, scale the whole menu at once, then print the menu with its recipes or make one shopping list. The picks are kept in the page address so a menu can be bookmarked or shared ([#42](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/42)).
 - The **Build your own menu** page has a "Think your menu belongs in the book?" suggestion box, prefilled with the picked dishes and the menu's address ([#42](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/42)).
 - The website has a **Matchup menu** page: pick the two teams playing and get a game-day spread drawn from both cities, one dish per course with the home team and visitors taking turns, falling back to the rest of the division when a team has no dish for a course. Swap any dish, print the spread with its recipes, make one shopping list or open it in the menu builder; the matchup is kept in the page address so it can be shared ([#53](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/53)).
+
+### Fixed
+
+- Recipe photos retain descriptive alternative text after website rendering. The website uses local system fonts without requesting Google Fonts.
 
 ## [0.13.0] - 2026-09-26
 
