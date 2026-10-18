@@ -246,6 +246,12 @@ are grouped by recipe and component, never merged. A recipe's own list works whe
 downloaded website is opened from files; adding its ticked homemade components, and the
 menu and dish-off lists, need the site served over http(s).
 
+Recipe and component pages also have a **Cook mode** button
+(`styles/website-cook.js`, shown only when JavaScript runs). It enlarges the text, hides
+the site navigation, lets the cook tap ingredients and steps to check them off (saved per
+page in the browser, cleared with **Reset**) and keeps the screen on where the browser
+supports it. Printing, the PDF and the EPUB are unaffected.
+
 Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
 prompts. They open prefilled quick issue templates on GitHub and, once
 `suggestion_form_url` is set in `data/book.yml`, a form that needs no GitHub

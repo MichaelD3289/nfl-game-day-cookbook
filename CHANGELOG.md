@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Website recipe pages now carry schema.org Recipe structured data, so search engines and recipe apps such as Paprika or Mealie can read each recipe's name, photo, yield, course, city, ingredients, steps and source, with prep and cook times included only when they are an exact duration such as "20 minutes". A canonical link points search engines to the latest edition's page ([#45](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/45)).
+- Recipe and component pages on the website have a **Cook mode** button for cooking from a phone or tablet. It enlarges the text, hides site navigation and suggestion prompts, and lets you tap ingredients and steps to check them off. Checked-off lines are remembered per recipe, survive scaling, and clear with **Reset**. Where the browser supports it, the screen stays on. Printing, the PDF and the EPUB are unchanged ([#46](https://github.com/MichaelD3289/nfl-game-day-cookbook/issues/46)).
 
 ## [0.14.0] - 2026-10-17
 
