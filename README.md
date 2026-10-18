@@ -56,7 +56,7 @@ material retain their own rights; see [third-party notices](THIRD_PARTY.md).
 
 | Path                                              | What                                                              |
 | ------------------------------------------------- | ----------------------------------------------------------------- |
-| `data/book.yml`                                   | Book title, paper and output settings                             |
+| `data/book.yml`                                   | Book title, paper, output settings and review age limit           |
 | `data/nfl.yml`                                    | Conferences, divisions and 32 teams (drives the directory layout) |
 | `data/indexes.yml`                                | Search-index definitions (course, main ingredient, ...)           |
 | `data/menu-types.yml`, `data/component-kinds.yml` | Menu groups and "Make It or Buy It" kinds                         |
@@ -140,9 +140,10 @@ and `make clean`.
 draft content (not retired) and lists recipes per team by status (fewest first), teams
 missing a course, divisions with fewer than two dish-offs, recipes per index bucket
 (buckets under 10% of recipes are marked thin), how many recipes use each component
-and which components none use, and game-day menu types with fewer than three menus. It
-is informational: warnings and errors belong to `validate`, and it exits non-zero only
-when content fails to load.
+and which components none use, game-day menu types with fewer than three menus, and
+published recipes and components whose review is missing or out of date (stalest
+first). It is informational: warnings and errors belong to `validate`, and it exits
+non-zero only when content fails to load.
 
 ## How page numbers work
 
@@ -176,7 +177,7 @@ Default mode recommends corrections and records completed-review metadata;
 `--apply` also applies adjudicated fixes, while `--read-only` preserves metadata.
 Reports go under `docs/reviews/`. See `.claude/skills/review-recipes/SKILL.md`.
 
-Recipes support optional, non-printing metadata:
+Recipes and components support optional, non-printing metadata:
 
 ```yaml
 last_reviewed_at: null # or YYYY-MM-DD after a completed review
@@ -184,8 +185,15 @@ last_reviewed_notes: null # outcome, outstanding findings and report path
 ```
 
 A review date does not mean a recipe passed. Incomplete reviews do not replace
-prior completed-review metadata. Existing recipes begin with empty fields; no
-historical review dates are inferred. These fields do not affect booklet content.
+prior completed-review metadata. Existing recipes and components begin with empty
+fields; no historical review dates are inferred. These fields do not affect booklet
+content.
+
+`review_max_age_days` in `data/book.yml` (365) sets how old a review may get.
+`nfl-book validate` warns about each published recipe or component whose
+`last_reviewed_at` is missing or older than that, and about dates after today,
+naming the file. These are warnings only, so `make check` and `build --strict` stay
+green. Remove the setting or set it to `null` to turn the check off.
 
 ## Website output
 

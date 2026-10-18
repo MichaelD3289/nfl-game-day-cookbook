@@ -3,7 +3,9 @@
 Informational only: gaps never fail anything. The report counts published,
 testing and draft content (retired content is ignored), reuses discovery,
 validation and :func:`~nfl_book.resolve.resolve`, and never reads or writes
-``generated/`` or ``dist/``.
+``generated/`` or ``dist/``. The last section lists published recipes and
+components whose review is missing or older than ``review_max_age_days``
+(:mod:`nfl_book.reviews`), stalest first, as of :attr:`Thresholds.today`.
 """
 
 from __future__ import annotations
@@ -11,13 +13,14 @@ from __future__ import annotations
 import json
 from collections import Counter
 from collections.abc import Callable
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
+from datetime import date
 from typing import Any
 
 from rich.console import Console
 from rich.table import Table
 
-from nfl_book import pipeline
+from nfl_book import pipeline, reviews
 from nfl_book.errors import ValidationFailed
 from nfl_book.models.common import Status
 from nfl_book.project import Project
@@ -36,7 +39,7 @@ def counted(status: Status) -> bool:
     return status in COUNTED_STATUSES
 
 
-Cell = str | int | tuple[str, ...]
+Cell = str | int | tuple[str, ...] | None
 
 
 @dataclass(frozen=True)
@@ -62,6 +65,8 @@ class Thresholds:
     min_dishoffs: int = MIN_DISHOFFS_PER_DIVISION
     min_menus: int = MIN_MENUS_PER_TYPE
     thin_share: float = THIN_BUCKET_SHARE
+    today: date | None = None
+    """Date review ages are measured from; ``None`` means today."""
 
 
 @dataclass(frozen=True)
@@ -239,7 +244,53 @@ def menu_type_gaps(model: BookModel, thresholds: Thresholds) -> list[Section]:
     ]
 
 
-# Report order. Later sections (e.g. #52's stalest reviews) append a builder here.
+def stale_review_section(model: BookModel, thresholds: Thresholds) -> list[Section]:
+    columns = (
+        Column("item", "Item"),
+        Column("kind", "Kind"),
+        Column("id", "Id"),
+        Column("last_reviewed", "Last reviewed"),
+        Column("age_days", "Age (days)"),
+    )
+    limit = model.settings.book.review_max_age_days
+    if limit is None:
+        return [
+            Section(
+                "stale-reviews",
+                "Stale reviews",
+                columns,
+                (),
+                empty="Review age check is off: set review_max_age_days in data/book.yml.",
+            )
+        ]
+    stale = reviews.stale_reviews(
+        model.recipes_by_id.values(),
+        model.components_by_id.values(),
+        limit,
+        thresholds.today,
+    )
+    rows = tuple(
+        (
+            s.item.title,
+            s.kind,
+            s.item.id,
+            s.last_reviewed_at.isoformat() if s.last_reviewed_at else "never",
+            s.age_days,
+        )
+        for s in stale
+    )
+    return [
+        Section(
+            "stale-reviews",
+            f"Published items not reviewed in {limit} days (stalest first)",
+            columns,
+            rows,
+            empty=f"Every published recipe and component was reviewed in the last {limit} days.",
+        )
+    ]
+
+
+# Report order. A new section appends its builder here.
 SECTION_BUILDERS: tuple[SectionBuilder, ...] = (
     team_counts,
     course_gaps,
@@ -248,6 +299,7 @@ SECTION_BUILDERS: tuple[SectionBuilder, ...] = (
     component_usage,
     unreferenced_components,
     menu_type_gaps,
+    stale_review_section,
 )
 
 
@@ -260,6 +312,8 @@ def load_model(project: Project) -> BookModel:
 
 
 def report_for(model: BookModel, thresholds: Thresholds) -> Report:
+    # Through the module, so tests that pin reviews.current_date apply here too.
+    thresholds = replace(thresholds, today=thresholds.today or reviews.current_date())
     sections = tuple(s for build in SECTION_BUILDERS for s in build(model, thresholds))
     return Report(thresholds, sections)
 
@@ -275,6 +329,12 @@ def _json_cell(value: Cell) -> Any:
     return list(value) if isinstance(value, tuple) else value
 
 
+def _json_default(value: object) -> str:
+    if isinstance(value, date):
+        return value.isoformat()
+    raise TypeError(f"cannot write {type(value).__name__} as JSON")
+
+
 def render_json(report: Report) -> str:
     data = {
         "thresholds": asdict(report.thresholds),
@@ -287,10 +347,12 @@ def render_json(report: Report) -> str:
             for s in report.sections
         ],
     }
-    return json.dumps(data, indent=2)
+    return json.dumps(data, indent=2, default=_json_default)
 
 
 def _text(value: Cell) -> str:
+    if value is None:
+        return ""
     return ", ".join(value) if isinstance(value, tuple) else str(value)
 
 
@@ -320,7 +382,10 @@ def render_table(report: Report, console: Console) -> None:
             continue
         table = Table(title=section.title, title_justify="left", title_style="bold")
         for i, column in enumerate(section.columns):
-            numeric = all(isinstance(row[i], int) for row in section.rows)
+            values = [row[i] for row in section.rows]
+            numeric = any(isinstance(v, int) for v in values) and all(
+                v is None or isinstance(v, int) for v in values
+            )
             table.add_column(column.label, justify="right" if numeric else "left")
         for row in section.rows:
             table.add_row(*(_text(v) for v in row))
