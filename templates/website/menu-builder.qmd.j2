@@ -1,0 +1,55 @@
+{% import '_macros.qmd.j2' as m with context %}
+{{ m.anchor(label) }}
+[PLAN YOUR SPREAD]{.eyebrow}
+
+# Build your own menu
+
+Pick dishes from any team, then print them together or take one shopping list to the store. Your picks stay in the page address, so you can bookmark or share the menu.
+
+```{=html}
+<div class="menu-builder" data-total="{{ total }}">
+<form class="finder-filters" hidden aria-label="Filter recipes">
+{{ m.finder_filters(facets) }}<button type="button" class="finder-clear">Clear filters</button>
+</form>
+<div class="menu-dishes">
+<p class="finder-status" aria-live="polite">{{ total }} recipe{{ "" if total == 1 else "s" }}</p>
+{% for course in courses %}
+<section class="menu-course" data-course="{{ course.id|e }}">
+<h2 class="menu-course-title">{{ course.label|e }}</h2>
+<ul class="menu-dish-list">
+{% for dish in course.dishes %}
+<li class="menu-dish" data-id="{{ dish.id|e }}" data-course="{{ course.id|e }}" data-facets="{{ dish.facets_json|e }}" data-url="{{ dish.url|e }}"{% if dish.print_pages %} data-print-pages="{{ dish.print_pages|join(" ")|e }}"{% endif %}>
+<span class="menu-dish-text"><a class="menu-dish-name" href="{{ dish.url|e }}">{{ dish.title|e }}</a>
+<span class="menu-dish-team">{{ dish.team.name|e }}</span>
+{% if dish.description %}<span class="menu-dish-description">{{ dish.description|e }}</span>{% endif %}</span>
+<button type="button" class="menu-add" hidden aria-pressed="false" aria-label="Add {{ dish.title|e }} to your menu">Add</button>
+</li>
+{% endfor %}
+</ul>
+</section>
+{% endfor %}
+<p class="finder-empty" hidden>No recipes match these filters.</p>
+</div>
+<aside class="menu-summary" hidden aria-label="Your menu">
+<h2 class="menu-summary-title">Your menu</h2>
+<p class="menu-count" aria-live="polite">No dishes yet</p>
+<p class="menu-summary-scale" hidden></p>
+<ol class="menu-picked"></ol>
+<p class="menu-empty-note">Add dishes from the list to start your menu.</p>
+<div class="menu-scale">
+<span class="scaler-label">Make</span>
+{{ m.scale_buttons(multipliers, "Menu multiplier") }}
+</div>
+<div class="menu-actions" hidden>
+<button type="button" class="print-button">Print menu + recipes</button>
+<label class="print-with" hidden><input type="checkbox" name="print-with"> Include homemade components</label>
+{{ m.shop_actions() }}
+</div>
+<button type="button" class="menu-clear">Clear menu</button>
+</aside>
+</div>
+<script src="browse.js"></script>
+<script src="scale.js"></script>
+<script src="menu.js"></script>
+```
+{{ m.suggest(suggest) }}

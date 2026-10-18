@@ -11,13 +11,15 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
+from typing import Annotated
 
-from pydantic import Field, model_validator
+from pydantic import AfterValidator, Field, StringConstraints, model_validator
 
 from nfl_book.models.common import HttpUrlStr, NonEmpty, Slug, SourceLink, Status, StrictModel
 from nfl_book.models.config import ComponentKind, MenuType
 from nfl_book.models.nfl import Division, Team
 from nfl_book.quantities import Amount, parse_servings, servings_from_yield
+from nfl_book.timeline import MAX_STEPS, MAX_TASK_LENGTH, Offset, check_at, check_order, offset_of
 
 
 class RecipeMeta(StrictModel):
@@ -77,9 +79,42 @@ class ComponentMeta(StrictModel):
     status: Status
     yield_: str | None = Field(None, alias="yield")
     source: SourceLink | None = None
+    last_reviewed_at: date | None = Field(
+        None, description="Last completed source review date; never rendered in the booklet."
+    )
+    last_reviewed_notes: str | None = Field(
+        None, description="Editorial review outcome/report reference; never rendered."
+    )
     quick_buy: NonEmpty = Field(description="Store-bought shortcut shown in Quick Options.")
     always_include: bool = False
     order: int | None = None
+
+
+TimelineAt = Annotated[str, AfterValidator(check_at)]
+"""When a step happens: ``-1d``, ``-4h``, ``-30m``, ``-1h30m``, ``kickoff`` or ``halftime``."""
+
+TimelineTask = Annotated[
+    str, StringConstraints(strip_whitespace=True, min_length=1, max_length=MAX_TASK_LENGTH)
+]
+
+
+class TimelineStep(StrictModel):
+    at: TimelineAt
+    task: TimelineTask
+    recipe: Slug | None = Field(None, description="A recipe on this menu; omit for general tasks.")
+
+    @property
+    def offset(self) -> Offset:
+        return offset_of(self.at)
+
+
+Timeline = Annotated[
+    list[TimelineStep],
+    Field(min_length=1, max_length=MAX_STEPS),
+    AfterValidator(check_order),
+]
+
+TIMELINE_DESCRIPTION = "Optional kickoff timeline: steps in time order, counted back from kickoff."
 
 
 class GameDayMenuMeta(StrictModel):
@@ -90,6 +125,7 @@ class GameDayMenuMeta(StrictModel):
     recipes: list[Slug] = Field(min_length=1)
     why_it_works: str | None = None
     prep_plan: str | None = None
+    timeline: Timeline | None = Field(None, description=TIMELINE_DESCRIPTION)
     order: int | None = None
 
 
@@ -100,6 +136,7 @@ class DishOffMeta(StrictModel):
     recipes: list[Slug] = Field(min_length=1)
     description: str | None = None
     prep_note: str | None = None
+    timeline: Timeline | None = Field(None, description=TIMELINE_DESCRIPTION)
     order: int | None = None
 
 

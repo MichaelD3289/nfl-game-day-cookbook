@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from collections.abc import Callable, Iterator
 from pathlib import Path
 
@@ -49,6 +50,20 @@ def test_validate_ok(fixture_book: Project) -> None:
     code, output = invoke(fixture_book, "validate")
     assert code == 0, output
     assert "OK" in output
+
+
+def test_validate_warns_about_old_review(fixture_book: Project) -> None:
+    path = fixture_book.content_root / "recipes/afc/east/bills/test-buffalo-sliders.md"
+    text = path.read_text(encoding="utf-8")
+    path.write_text(
+        text.replace("last_reviewed_at: 2026-09-01", "last_reviewed_at: 2025-01-01"),
+        encoding="utf-8",
+    )
+    code, output = invoke(fixture_book, "validate")
+    assert code == 0, output
+    assert "test-buffalo-sliders.md" in output
+    assert "634 days ago" in output
+    assert "OK (1 warning(s))" in output
 
 
 def test_validate_failure_names_file(fixture_book: Project) -> None:
@@ -163,3 +178,40 @@ def test_report_needs_check(
     code, output = invoke(fixture_book, "prepare-links", "--report", str(tmp_path / "r.md"))
     assert code == 2, output
     assert not (tmp_path / "r.md").exists()
+
+
+def test_stats_table(fixture_book: Project) -> None:
+    code, output = invoke(fixture_book, "stats")
+    assert code == 0, output
+    assert "Recipes per team" in output
+    assert "New England Patriots" in output
+    assert not (fixture_book.content_root / "generated").exists()
+    assert not (fixture_book.content_root / "dist").exists()
+
+
+def test_stats_json(fixture_book: Project) -> None:
+    code, output = invoke(fixture_book, "stats", "--format", "json")
+    assert code == 0, output
+    ids = [s["id"] for s in json.loads(output)["sections"]]
+    assert ids[:3] == ["teams", "course-gaps", "dish-off-gaps"]
+    assert "menu-type-gaps" in ids
+
+
+def test_stats_markdown(fixture_book: Project) -> None:
+    code, output = invoke(fixture_book, "stats", "--format", "markdown")
+    assert code == 0, output
+    assert "## Recipes per team" in output
+    assert "| Team | Division | Published | Testing | Draft | Total |" in output
+
+
+def test_stats_bad_format(fixture_book: Project) -> None:
+    code, _ = invoke(fixture_book, "stats", "--format", "yaml")
+    assert code == 2
+
+
+def test_stats_invalid_content_names_file(fixture_book: Project) -> None:
+    path = fixture_book.content_root / "recipes/afc/east/bills/test-buffalo-sliders.md"
+    path.write_text(path.read_text().replace("course:", "course_typo:"), encoding="utf-8")
+    code, output = invoke(fixture_book, "stats")
+    assert code == 1
+    assert "test-buffalo-sliders.md" in output

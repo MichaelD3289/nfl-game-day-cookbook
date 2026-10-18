@@ -56,7 +56,7 @@ material retain their own rights; see [third-party notices](THIRD_PARTY.md).
 
 | Path                                              | What                                                              |
 | ------------------------------------------------- | ----------------------------------------------------------------- |
-| `data/book.yml`                                   | Book title, paper and output settings                             |
+| `data/book.yml`                                   | Book title, paper, output settings and review age limit           |
 | `data/nfl.yml`                                    | Conferences, divisions and 32 teams (drives the directory layout) |
 | `data/indexes.yml`                                | Search-index definitions (course, main ingredient, ...)           |
 | `data/menu-types.yml`, `data/component-kinds.yml` | Menu groups and "Make It or Buy It" kinds                         |
@@ -115,6 +115,7 @@ the book unless it sets `always_include: true`.
 uv sync                                   # install
 make book                                 # everything: make links, then make pdf
 uv run nfl-book validate [PATHS...]       # validate everything (optionally report only PATHS)
+uv run nfl-book stats [--format json|markdown]  # where the cookbook is thin (or `make stats`)
 uv run nfl-book prepare-links             # the ONLY network step (or `make links`): fill data/shortlinks.yml
 uv run nfl-book prepare-links --check [--report FILE]   # network: report dead/moved source URLs, change nothing
 uv run nfl-book preview PATH [--no-pdf]   # render one recipe/component (drafts allowed)
@@ -133,7 +134,17 @@ uv run nfl-book --content "$D" --generated "$D/generated" --dist "$D/dist" build
 ```
 
 Make targets: `make check` (lint, tests, validate), `make test`, `make lint`,
-`make preview FILE=...`, `make pdf` and `make clean`.
+`make preview FILE=...`, `make pdf`, `make stats` (`FORMAT=markdown` or `FORMAT=json`)
+and `make clean`.
+
+`nfl-book stats` shows where the cookbook is thin. It counts published, testing and
+draft content (not retired) and lists recipes per team by status (fewest first), teams
+missing a course, divisions with fewer than two dish-offs, recipes per index bucket
+(buckets under 10% of recipes are marked thin), how many recipes use each component
+and which components none use, game-day menu types with fewer than three menus, and
+published recipes and components whose review is missing or out of date (stalest
+first). It is informational: warnings and errors belong to `validate`, and it exits
+non-zero only when content fails to load.
 
 ## How page numbers work
 
@@ -181,7 +192,7 @@ Default mode recommends corrections and records completed-review metadata;
 `--apply` also applies adjudicated fixes, while `--read-only` preserves metadata.
 Reports go under `docs/reviews/`. See `.claude/skills/review-recipes/SKILL.md`.
 
-Recipes support optional, non-printing metadata:
+Recipes and components support optional, non-printing metadata:
 
 ```yaml
 last_reviewed_at: null # or YYYY-MM-DD after a completed review
@@ -189,8 +200,15 @@ last_reviewed_notes: null # outcome, outstanding findings and report path
 ```
 
 A review date does not mean a recipe passed. Incomplete reviews do not replace
-prior completed-review metadata. Existing recipes begin with empty fields; no
-historical review dates are inferred. These fields do not affect booklet content.
+prior completed-review metadata. Existing recipes and components begin with empty
+fields; no historical review dates are inferred. These fields do not affect booklet
+content.
+
+`review_max_age_days` in `data/book.yml` (365) sets how old a review may get.
+`nfl-book validate` warns about each published recipe or component whose
+`last_reviewed_at` is missing or older than that, and about dates after today,
+naming the file. These are warnings only, so `make check` and `build --strict` stay
+green. Remove the setting or set it to `null` to turn the check off.
 
 ## Website output
 
@@ -205,6 +223,32 @@ for the HTML build; TinyTeX is needed only for the PDF. Local builds never deplo
 The website uses the same published sources as the PDF, with separate web templates
 and styles, searchable recipes, division/team navigation, menus, indexes, photos,
 and linked Q quick-option cards. Editorial review metadata stays private.
+
+The **Browse recipes** page (`styles/website-browse.js`) narrows every published
+recipe by course, main ingredient, practical time, ingredient cost, conference,
+division and team. Choices within one filter widen the list, choices across filters
+narrow it, and each choice shows how many recipes it would give. The chosen filters
+are kept in the page address (`browse.html?course=appetizers&team=bills`) so a view
+can be shared. Without JavaScript the page lists every recipe. New indexes in
+`data/indexes.yml` become filters automatically.
+
+The **Build your own menu** page (`styles/website-menu.js`) uses the same filters and
+adds an **Add** button to every dish, grouped by course. The summary lists the picked
+dishes by course and scales the whole menu (½× to 4×) at once. Picks and scale are kept
+in the page address (`menu-builder.html?r=<id>,<id>&scale=2`), so a menu can be
+bookmarked or shared, and in the browser's local storage. **Print menu + recipes** and
+**Shopping list** work only when the site is served over http(s). Its suggestion
+box is prefilled with the picked dishes and the menu's address.
+
+The **Matchup menu** page (`styles/website-matchup.js`) builds a game-day spread for
+two teams: pick the away and home teams and it suggests one dish per course, the home
+team and the visitors taking turns. When a team has no dish for a course it falls back
+to the rest of its division, then to the other side. **Swap** cycles through the other
+dishes that side could offer. The matchup is kept in the page address
+(`matchup.html?home=chiefs&away=raiders`), and **Open in the menu builder** hands the
+spread to the menu builder. **Print spread + recipes** and **Shopping list** work only
+when the site is served over http(s). Without JavaScript the page links to Browse
+recipes.
 
 Recipe and component pages can be **scaled** (½× to 4×, or by the number of people
 when a recipe has servings). Amounts are converted to the most readable unit, so
@@ -222,6 +266,30 @@ Recipe, component, game-day menu and division pages have a **Print** button
 rules in `styles/website.css` hide the site chrome and lay a recipe out on one page
 where it fits. The browser prints the page as shown, so a scaled recipe prints its
 scaled amounts, with a "Scaled 2× · serves 12" note and the page address at the foot.
+A recipe that uses homemade components also offers **Include homemade components**,
+which prints each component page (nested ones too) on its own sheet after the recipe,
+at the same scale; it needs the site served over http(s), so it is hidden when the
+downloaded website is opened from files. Each game-day menu and dish-off card also has **Print menu + recipes**, which prints only that card followed by each of its recipes on its own sheet (and, if ticked, each homemade component once at the end); like the component option, it needs the site served over http(s) and is hidden when the downloaded website is opened from files.
+
+Next to Print, recipe and component pages and every menu and dish-off card offer a
+**Shopping list** (`styles/website-shop.js`, shown only when JavaScript runs): **Download
+.txt**, **Download .csv** (For, Section, Amount, Item) or **Copy**. The list is read
+from the ingredient lists as shown, so a scaled recipe lists scaled amounts, and lines
+are grouped by recipe and component, never merged. A recipe's own list works when the
+downloaded website is opened from files; adding its ticked homemade components, and the
+menu and dish-off lists, need the site served over http(s).
+
+Recipe and component pages also have a **Cook mode** button
+(`styles/website-cook.js`, shown only when JavaScript runs). It enlarges the text, hides
+the site navigation, lets the cook tap ingredients and steps to check them off (saved per
+page in the browser, cleared with **Reset**) and keeps the screen on where the browser
+supports it. Printing, the PDF and the EPUB are unaffected.
+
+Game-day menus and dish-offs with a kickoff timeline show a **kickoff time** picker
+(`styles/website-timeline.js`, shown only when JavaScript runs). Entering a time adds
+each step's clock time next to its relative time ("1 hr 30 min before"). The time is
+kept in the page URL (`?kickoff=16:25`), and a printed page keeps the clock times and
+names the kickoff.
 
 Recipe, component, division, menu and Make It or Buy It pages have **Suggest**
 prompts. They open prefilled quick issue templates on GitHub and, once
@@ -237,6 +305,18 @@ phone". Every release keeps its site at `/vX.Y.Z/`, so the
 links match the printing; they open only after that version is released. The links are
 built offline from that one URL; drafts are never
 linked, and the build fails if a link would open a page the website does not publish.
+
+### Recipe catalog (recipes.json)
+
+Each website build writes `recipes.json` at the site root: one entry per published
+recipe, in book order, for Browse recipes and later site features. It has a `version`
+(the schema, currently `1`), the `edition` (package version), the `facets` (each index
+from `data/indexes.yml`, then `conference`, `division` and `team`, with their options)
+and the `recipes`. Each recipe has its `id`, `title`, page `url`, web `photo` (or
+`null`), `description`, `course`, `team`, `conference`, `division`, `servings`,
+`yield`, `prep`, `cook`, the homemade `components` it uses (nested ones included) and
+its facet values. Drafts and review metadata are never included. `url` and `photo` are
+relative to the site root, and the website link check fails if either is missing.
 
 ### Publishing to GitHub Pages
 
@@ -347,3 +427,42 @@ before replacing an existing output. The release workflow publishes it alongside
 and HTML. For independent standards validation, install EPUBCheck separately and run
 `epubcheck dist/nfl-game-day-cookbook.epub`. Always preview layout in an EPUB reader
 after styling changes; package checks cannot certify visual appearance.
+
+### Website accessibility and performance checks
+
+Use Node.js 22, `npm ci`, and `npx playwright install chromium` to install the
+locked development tools and browser. These tools do not ship with the website.
+Playwright exercises real keyboard, mobile, scaling, suggestion-dialog and print
+behavior; axe checks accessibility, and Lighthouse CI measures page performance.
+Quarto is required for the synthetic browser tests and website build. Install
+Quarto yourself; these targets do not install system software.
+
+Run `make browser-test` for JavaScript checks and a rendered synthetic sample book.
+Then run `make website`, `make website-audit` and `make website-performance` to
+inspect the built book. Override `SITE=/path/to/site` to inspect an existing build
+and `REPORTS=/path/to/reports` to change the default `website-reports/` directory.
+An existing Chromium-based browser can be selected with
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/absolute/path/to/chrome` for both tools.
+
+The audits inspect home, recipe, component, menu, division dish-off, index and
+version pages. Accessibility runs at desktop and phone widths. Serious and critical
+axe findings, broken controls, external browser requests, and audit execution
+errors fail the check; lesser accessibility findings are warnings. Browser requests
+are restricted to the local site, suggestion forms are never submitted, and
+Lighthouse uses a local allowlist proxy. No report is uploaded to a public service.
+
+Lighthouse initially warns at 500 KiB of images, 500 KiB of JavaScript, and 2.5 seconds
+largest contentful paint per page. One mobile-emulated run per page gives a useful
+baseline, but timings vary by machine. Budget misses are warnings; missing or
+failed measurements fail. JSON diagnostics and Lighthouse HTML/JSON reports remain
+in the reports directory for inspection. These checks sample pages; they do not
+certify the entire site's accessibility or replace manual review.
+
+The read-only **Website accessibility and performance** CI job runs for manual
+workflow dispatch and ready, non-Dependabot pull requests, matching the PDF gate.
+It builds and audits the real site separately from fixture tests and uploads reports
+even after a failure, retaining them for 14 days. Draft PRs skip this job.
+
+The pinned Lighthouse CLI has development-only transitive npm security advisories;
+review `npm audit` when updating the lockfile. The audit serves local generated
+files, blocks remote browsing, and does not deploy these packages to readers.

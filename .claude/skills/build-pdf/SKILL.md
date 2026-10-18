@@ -47,6 +47,12 @@ git-ignored build output. Read it for debugging, but never edit or commit it.
 - `recipe:<id> overflows its page (pages N-M)`: the content is too long for one
   page. See `update-recipe` → "Fixing an overflow", or `layout-changes` if many
   recipes overflow.
+- `menu:<id> overflows its page (pages N-M)`: a game-day menu page runs onto another
+  page. The label is the page's first menu; the content that grew may be in either
+  card. Shorten the menu's text (see `menus-and-dish-offs`).
+- `division:<key> overflows its page (pages N-M)`: the division page (team recipe
+  lists plus dish-off cards) runs onto another page. Shorten the dish-off text, or
+  see `layout-changes` if the recipe lists alone no longer fit.
 - Missing anchor or label errors mean a template or macro stopped emitting
   `\BookAnchor{...}` / `\BookEnd{...}`. Look at the most recent template or style
   change.
