@@ -44,8 +44,16 @@ def division_label(division_key: str) -> str:
     return f"division:{division_key}"
 
 
+def division_end_label(division_key: str) -> str:
+    return f"division:{division_key}:end"
+
+
 def menu_label(menu_id: str) -> str:
     return f"menu:{menu_id}"
+
+
+def menu_end_label(menu_id: str) -> str:
+    return f"menu:{menu_id}:end"
 
 
 def team_label(team_slug: str) -> str:

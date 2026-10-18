@@ -31,6 +31,15 @@ recipes: # at least one; must be published recipe ids
   - detroit-style-pizza
 why_it_works: One sentence.
 prep_plan: One sentence.
+timeline: # optional; see "Kickoff timeline" below
+  - at: -1d
+    recipe: detroit-style-pizza
+    task: Make the dough.
+  - at: -30m
+    task: Heat the oven. # a general task needs no recipe
+  - at: kickoff
+    recipe: tavern-style-thin-crust-pizza
+    task: Bake the first pizza.
 ```
 
 ## Division dish-off
@@ -48,13 +57,37 @@ recipes:
   - boston-cream-pie
 description: One sentence.
 prep_note: One sentence.
+timeline: # optional; see "Kickoff timeline" below
+  - at: -1h
+    recipe: buffalo-wings
+    task: Fry the wings.
+  - at: halftime
+    recipe: boston-cream-pie
+    task: Slice the pie.
 ```
+
+## Kickoff timeline
+
+`timeline` is optional on both. Each step has `at`, `task` and an optional `recipe`.
+
+- `at` is counted back from kickoff, in one lowercase spelling per time:
+  `-1d` to `-7d` (a whole day before, no clock time), `-1h` to `-23h`, `-1m` to
+  `-59m`, hours and minutes together such as `-1h30m`, then `kickoff` and
+  `halftime`. So `-90m` must be written `-1h30m`, and `-24h` must be `-1d`; leading
+  zeros, `-1h0m`, `+`, uppercase and mixed days and hours are rejected.
+- List steps in time order (equal times are fine); validate does not sort them.
+- `recipe` must be one of this menu's `recipes`. Leave it out for general tasks such
+  as heating the oven.
+- At most 6 steps, and each `task` is one short sentence of at most 80 characters.
+- Do not invent times. Convert them from the `prep_plan`/`prep_note` prose or from the
+  recipes' own prep, cook and resting times.
 
 ## Rules and checks
 
 - Find recipe ids with `ls recipes/*/*/*/`. A dish-off should use recipes from
   its own division.
 - Published menus may only reference published recipes.
+- Timeline steps must be in time order and name only recipes on the same menu.
 - Keep text short: the cards share a page.
 - Run `uv run nfl-book validate`, then `make pdf`. Look at the division pages and
   the Game Day Menus pages.
