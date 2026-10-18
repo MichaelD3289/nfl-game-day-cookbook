@@ -2,10 +2,11 @@
 {{ m.anchor(label) }}
 ::: {.recipe-header}
 {% if image %}
-![{{ title|md }}]({{ image }}){.dish-photo width="{{ image_size }}" height="{{ image_size }}" loading="lazy" decoding="async"}
+![]({{ image }}){fig-alt="{{ title|e }}" .dish-photo width="{{ image_size }}" height="{{ image_size }}" loading="lazy" decoding="async"}
 {% endif %}
 {{ m.header(division ~ " · " ~ team, title, description, meta, location ~ " · " ~ course) }}
-{{ m.print_button(scaler) }}
+{{ m.print_button(scaler, print_pages, shop=true) }}
+{{ m.cook_bar(label) }}
 :::
 
 :::: {.recipe-columns}

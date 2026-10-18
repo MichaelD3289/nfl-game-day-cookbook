@@ -2,6 +2,7 @@
 id: test-citrus-wings
 title: Test Citrus Wings
 status: published
+last_reviewed_at: 2026-09-01
 course: meals
 yield: 4 servings
 index:
