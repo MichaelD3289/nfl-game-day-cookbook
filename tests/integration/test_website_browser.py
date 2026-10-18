@@ -55,6 +55,7 @@ def test_synthetic_website_browser_audit(fixture_book: Project, tmp_path: Path) 
         "recipe",
         "component",
         "menu",
+        "builder",
         "dishoff",
         "index",
         "versions",

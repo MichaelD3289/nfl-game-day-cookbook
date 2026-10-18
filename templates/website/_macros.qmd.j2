@@ -12,6 +12,31 @@
 {% endfor %}
 {% endfor %}
 {% endmacro %}
+{% macro scale_buttons(multipliers, label="Recipe multiplier") -%}
+<span class="scaler-buttons" role="group" aria-label="{{ label|e }}">{% for label, factor in multipliers %}<button type="button" data-factor="{{ factor }}" aria-pressed="false">{{ label }}</button>{% endfor %}</span>
+{%- endmacro %}
+{% macro finder_filters(facets) -%}
+{% for facet in facets %}
+{% if facet.id == "team" %}
+<fieldset data-facet="{{ facet.id|e }}">
+<legend>{{ facet.title|e }}</legend>
+<details>
+<summary>Choose teams</summary>
+{% for option in facet.options %}
+<label class="finder-option"><input type="checkbox" name="{{ facet.id|e }}" value="{{ option.id|e }}"> {{ option.label|e }} <span class="finder-count"></span></label>
+{% endfor %}
+</details>
+</fieldset>
+{% else %}
+<fieldset data-facet="{{ facet.id|e }}">
+<legend>{{ facet.title|e }}</legend>
+{% for option in facet.options %}
+<label class="finder-option"><input type="checkbox" name="{{ facet.id|e }}" value="{{ option.id|e }}"> {{ option.label|e }} <span class="finder-count"></span></label>
+{% endfor %}
+</fieldset>
+{% endif %}
+{% endfor %}
+{% endmacro %}
 {% macro scaler(s) %}
 {% if s %}
 
@@ -19,7 +44,7 @@
 <div class="scaler"{% if s.servings %} data-servings="{{ s.servings }}" data-servings-max="{{ s.servings_max }}"{% endif %} hidden>
 <div class="scaler-row">
 <span class="scaler-label">Make</span>
-<span class="scaler-buttons" role="group" aria-label="Recipe multiplier">{% for label, factor in s.multipliers %}<button type="button" data-factor="{{ factor }}" aria-pressed="false">{{ label }}</button>{% endfor %}</span>
+{{ scale_buttons(s.multipliers) }}
 {% if s.servings %}<label class="scaler-servings">or feed <input type="number" name="servings" min="1" max="500" step="1" inputmode="numeric" value="{{ s.servings }}"> people <small>(serves {{ s.serves|e }} as written)</small></label>
 {% endif %}<span class="scale-status" aria-live="polite"></span>
 </div>

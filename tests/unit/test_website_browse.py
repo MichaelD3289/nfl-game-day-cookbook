@@ -118,12 +118,15 @@ def test_requiring_the_script_does_not_touch_the_dom() -> None:
         [
             "countOptions",
             "filterRecipes",
+            "formState",
             "init",
             "matches",
             "parseState",
             "readCards",
             "readFacets",
             "serializeState",
+            "setForm",
+            "showCounts",
         ]
     )
 
@@ -234,6 +237,39 @@ def test_init_applies_the_address_and_updates_on_change() -> None:
         "clear": True,
     }
     assert popped == ["test-b"]
+
+
+def test_read_cards_takes_a_selector() -> None:
+    result = node(
+        """
+        const dish = el({"data-id": "test-a", "data-facets": '{"course": ["appetizers"]}'});
+        const bad = el({"data-id": "test-b", "data-facets": "{oops"});
+        const box = el({}, {".menu-dish": [dish, bad], ".finder-card": []});
+        return [b.readCards(box).length,
+                b.readCards(box, ".menu-dish").map((c) => [c.id, c.facets])];
+        """
+    )
+    assert result == [0, [["test-a", {"course": ["appetizers"]}], ["test-b", {}]]]
+
+
+def test_form_helpers_read_set_and_badge_the_boxes() -> None:
+    result = node(
+        """
+        const p = page("");
+        const fs = b.readFacets(p.form);
+        b.setForm(fs, {course: ["sides"], team: ["dolphins", "nobody"]});
+        const state = b.formState(fs);
+        b.showCounts(fs, b.countOptions(recipes, facets, state));
+        return [state, p.counts("course"), p.counts("team"), p.dimmed()];
+        """
+    )
+    assert result == [
+        {"course": ["sides"], "team": ["dolphins"]},
+        ["(1)", "(0)", "(1)"],
+        ["(1)", "(0)"],
+        # Ticked boxes stay bright even when they would give nothing.
+        ["main-ingredient:poultry", "main-ingredient:beef"],
+    ]
 
 
 def test_init_without_a_finder_does_nothing() -> None:

@@ -86,6 +86,7 @@ def test_requiring_the_script_does_not_touch_the_dom() -> None:
             "prefetch",
             "printBundle",
             "release",
+            "tidy",
         ]
     )
 

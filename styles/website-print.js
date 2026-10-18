@@ -472,5 +472,6 @@
     isolate: isolate,
     menuPages: menuPages,
     release: release,
+    tidy: tidy,
   };
 });

@@ -614,3 +614,97 @@ def test_browse_page_is_website_only(fixture_book: Project) -> None:
     )
     assert "Browse recipes" not in built
     assert "finder-card" not in built
+
+
+def _menu_dishes(page: str) -> list[dict[str, str]]:
+    """Each menu dish's data attributes, in page order."""
+    dishes = []
+    for tag in re.findall(r'<li class="menu-dish"[^>]*>', page):
+        attrs = dict(re.findall(r'(data-[\w-]+)="([^"]*)"', tag))
+        dishes.append({k: html.unescape(v) for k, v in attrs.items()})
+    return dishes
+
+
+def test_menu_builder_lists_published_recipes_grouped_by_course(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    site = build_website(fixture_book, render=False).document.parent
+    page = (site / "menu-builder.qmd").read_text()
+    assert "pagetitle: Build your own menu" in page
+    assert '<span id="section-menu-builder"></span>' in page
+    assert "# Build your own menu" in page
+    courses = re.findall(r'<section class="menu-course" data-course="([^"]+)">', page)
+    assert courses == ["appetizers", "meals"]
+    dishes = _menu_dishes(page)
+    assert [d["data-id"] for d in dishes] == ["test-buffalo-sliders", "test-citrus-wings"]
+    assert [d["data-course"] for d in dishes] == ["appetizers", "meals"]
+    assert json.loads(dishes[0]["data-facets"])["team"] == ["bills"]
+    # The same component pages the recipe's own print bar offers.
+    assert dishes[0]["data-print-pages"] == "component-test-blue-cheese-dip.html"
+    assert dishes[1]["data-print-pages"] == (
+        "component-test-wing-sauce.html component-test-cajun-seasoning.html"
+    )
+    assert '<a class="menu-dish-name" href="recipe-test-buffalo-sliders.html">' in page
+    assert '<span class="menu-dish-team">Buffalo Bills</span>' in page
+    assert "test-draft-nachos" not in page
+    assert all(json.loads(d["data-facets"])["team"] != ["jets"] for d in dishes)
+    # Filters, Add buttons, the summary and its actions wait for the script.
+    assert '<form class="finder-filters" hidden aria-label="Filter recipes">' in page
+    assert page.count('<fieldset data-facet="') == 7
+    assert page.count('<button type="button" class="menu-add" hidden aria-pressed="false"') == 2
+    assert '<aside class="menu-summary" hidden aria-label="Your menu">' in page
+    assert '<div class="menu-actions" hidden>' in page
+    assert '<span class="shop-actions" hidden>' in page
+    summary = page[page.index('<aside class="menu-summary"') : page.index("</aside>")]
+    # print.js stamps the first id inside the printed element as the address anchor.
+    assert " id=" not in summary
+    # "Suggest this menu": a menu suggestion box after the summary, filled in by menu.js.
+    suggest = page.index('<div class="suggest" data-kind="menu"')
+    assert suggest > page.index("</aside>")
+    assert "Think your menu belongs in the book?" in page
+    assert page.count('<button type="button" data-factor="') == 6
+    assert '<div class="menu-scale">' in page
+    # Classes other scripts wire themselves to stay off this page.
+    for other in ("print-bar", 'class="finder"', 'class="scaler"'):
+        assert other not in page
+    scripts = re.findall(r'<script src="([^"]+)"></script>', page)
+    assert scripts == ["browse.js", "scale.js", "menu.js"]
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    sidebar = config["website"]["sidebar"]["contents"]
+    menus = sidebar.index({"text": "Game Day Menus", "href": "game-day-menus.qmd"})
+    assert sidebar[menus + 1] == {"text": "Build your own menu", "href": "menu-builder.qmd"}
+    assert "menu.js" in config["project"]["resources"]
+    assert (site / "menu.js").read_text() == (
+        fixture_book.styles_dir / "website-menu.js"
+    ).read_text()
+
+
+def test_menu_builder_follows_course_order_in_indexes_yml(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    indexes = fixture_book.content_root / "data/indexes.yml"
+    text = indexes.read_text()
+    appetizers = "      - { id: appetizers, label: Appetizers, short_label: Appetizer }\n"
+    meals = "      - { id: meals, label: Meals, short_label: Meal }\n"
+    assert appetizers in text and meals in text
+    text = text.replace(appetizers, "@@").replace(meals, appetizers).replace("@@", meals)
+    indexes.write_text(text)
+    site = build_website(fixture_book, render=False).document.parent
+    page = (site / "menu-builder.qmd").read_text()
+    courses = re.findall(r'<section class="menu-course" data-course="([^"]+)">', page)
+    assert courses == ["meals", "appetizers"]
+    assert [d["data-id"] for d in _menu_dishes(page)] == [
+        "test-citrus-wings",
+        "test-buffalo-sliders",
+    ]
+
+
+def test_menu_builder_is_website_only(fixture_book: Project) -> None:
+    pipeline.build(fixture_book, pdf=False)
+    built = "\n".join(
+        p.read_text()
+        for p in fixture_book.book_build_dir.rglob("*")
+        if p.suffix in {".qmd", ".tex"}
+    )
+    assert "Build your own menu" not in built
+    assert "menu-dish" not in built

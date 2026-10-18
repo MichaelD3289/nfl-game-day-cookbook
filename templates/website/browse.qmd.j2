@@ -9,27 +9,7 @@ Narrow the whole cookbook by course, main ingredient, time, cost or team, then o
 ```{=html}
 <div class="finder" data-total="{{ recipes|length }}">
 <form class="finder-filters" hidden aria-label="Filter recipes">
-{% for facet in facets %}
-{% if facet.id == "team" %}
-<fieldset data-facet="{{ facet.id|e }}">
-<legend>{{ facet.title|e }}</legend>
-<details>
-<summary>Choose teams</summary>
-{% for option in facet.options %}
-<label class="finder-option"><input type="checkbox" name="{{ facet.id|e }}" value="{{ option.id|e }}"> {{ option.label|e }} <span class="finder-count"></span></label>
-{% endfor %}
-</details>
-</fieldset>
-{% else %}
-<fieldset data-facet="{{ facet.id|e }}">
-<legend>{{ facet.title|e }}</legend>
-{% for option in facet.options %}
-<label class="finder-option"><input type="checkbox" name="{{ facet.id|e }}" value="{{ option.id|e }}"> {{ option.label|e }} <span class="finder-count"></span></label>
-{% endfor %}
-</fieldset>
-{% endif %}
-{% endfor %}
-<button type="button" class="finder-clear">Clear filters</button>
+{{ m.finder_filters(facets) }}<button type="button" class="finder-clear">Clear filters</button>
 </form>
 <div class="finder-results">
 <p class="finder-status" aria-live="polite">{{ recipes|length }} recipe{{ "" if recipes|length == 1 else "s" }}</p>

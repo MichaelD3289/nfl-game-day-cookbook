@@ -316,6 +316,34 @@
     return Promise.resolve(copyFallback(text));
   }
 
+  // Copies ("copy") or downloads ("csv", else text) the list; resolves to the status to
+  // show beside the buttons.
+  function save(how, model) {
+    if (how === "copy") {
+      return copy(toText(model)).then(function (ok) {
+        return ok ? "Copied" : "Couldn't copy; use Download";
+      });
+    }
+    try {
+      if (how === "csv") {
+        download(
+          filename(model.url, "csv"),
+          toCsv(model),
+          "text/csv;charset=utf-8",
+        );
+      } else {
+        download(
+          filename(model.url, "txt"),
+          toText(model),
+          "text/plain;charset=utf-8",
+        );
+      }
+    } catch (e) {
+      return Promise.reject(e);
+    }
+    return Promise.resolve("Downloaded");
+  }
+
   // ------------------------------------------------------------------ page wiring
   function currentScale() {
     var s = sibling("NflScale");
@@ -384,25 +412,7 @@
         say("");
         (menu ? menuList(bar) : pageList(bar, served))
           .then(function (model) {
-            if (how === "copy") {
-              return copy(toText(model)).then(function (ok) {
-                say(ok ? "Copied" : "Couldn't copy; use Download");
-              });
-            }
-            if (how === "csv") {
-              download(
-                filename(model.url, "csv"),
-                toCsv(model),
-                "text/csv;charset=utf-8",
-              );
-            } else {
-              download(
-                filename(model.url, "txt"),
-                toText(model),
-                "text/plain;charset=utf-8",
-              );
-            }
-            say("Downloaded");
+            return save(how, model).then(say);
           })
           .catch(function () {
             say("Couldn't make the list");
@@ -440,6 +450,7 @@
     filename: filename,
     download: download,
     copy: copy,
+    save: save,
     init: init,
   };
 });

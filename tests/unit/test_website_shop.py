@@ -151,6 +151,7 @@ def test_requiring_the_script_does_not_touch_the_dom() -> None:
             "init",
             "lineText",
             "listFor",
+            "save",
             "sections",
             "splitLine",
             "toCsv",
@@ -344,3 +345,30 @@ def test_file_names_come_from_the_page_and_card() -> None:
         "shopping-list-menus-fast-day-1-menu-test-quick-kickoff.csv",
         "shopping-list-index.txt",
     ]
+
+
+def test_save_copies_the_text_list_and_reports_refusal() -> None:
+    result = node(
+        """
+        const model = {title: "Test", url: "https://x.org/menu-builder.html", scale: null,
+                       groups: []};
+        const copied = [];
+        const clip = (ok) => ({writeText: (text) => {
+          copied.push(text);
+          return ok ? Promise.resolve() : Promise.reject(new Error("denied"));
+        }});
+        // The refused path falls back to a hidden textarea, which also fails here.
+        const box = {style: {}, setAttribute() {}, select() {},
+                     parentNode: {removeChild() {}}};
+        global.document = {createElement: () => box, body: {appendChild() {}},
+                           execCommand: () => false};
+        Object.defineProperty(globalThis, "navigator",
+                              {value: {clipboard: clip(true)}, configurable: true});
+        const ok = await shop.save("copy", model);
+        Object.defineProperty(globalThis, "navigator",
+                              {value: {clipboard: clip(false)}, configurable: true});
+        const refused = await shop.save("copy", model);
+        return [ok, refused, copied.length, copied[0] === shop.toText(model)];
+        """
+    )
+    assert result == ["Copied", "Couldn't copy; use Download", 2, True]

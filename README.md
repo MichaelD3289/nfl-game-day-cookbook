@@ -199,6 +199,14 @@ are kept in the page address (`browse.html?course=appetizers&team=bills`) so a v
 can be shared. Without JavaScript the page lists every recipe. New indexes in
 `data/indexes.yml` become filters automatically.
 
+The **Build your own menu** page (`styles/website-menu.js`) uses the same filters and
+adds an **Add** button to every dish, grouped by course. The summary lists the picked
+dishes by course and scales the whole menu (½× to 4×) at once. Picks and scale are kept
+in the page address (`menu-builder.html?r=<id>,<id>&scale=2`), so a menu can be
+bookmarked or shared, and in the browser's local storage. **Print menu + recipes** and
+**Shopping list** work only when the site is served over http(s). Its suggestion
+box is prefilled with the picked dishes and the menu's address.
+
 Recipe and component pages can be **scaled** (½× to 4×, or by the number of people
 when a recipe has servings). Amounts are converted to the most readable unit, so
 tripling 4 teaspoons reads ¼ cup; counts stay whole and ranges stay ranges. The
