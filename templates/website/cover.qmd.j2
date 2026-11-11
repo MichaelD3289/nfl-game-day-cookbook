@@ -1,14 +1,27 @@
-::: {.cover-hero}
-[THE GAME-DAY COOKBOOK]{.eyebrow}
-
-# {{ title|md }}
-
-[{{ subtitle|md }}]{.cover-subtitle}
-
-{{ tagline|md }}
-
-<a class="hero-button" href="contents.qmd">Find your next game-day dish →</a>
-:::
+{% import '_macros.qmd.j2' as m with context %}
+```{=html}
+<section class="cover-hero{% if not hero_photos %} hero-copy-only{% endif %}" aria-labelledby="welcome-title">
+<div class="hero-copy">
+<p class="eyebrow">A city-by-city game-day cookbook</p>
+<h1 id="welcome-title">A little road trip.<br><span>A lot of good food.</span></h1>
+<p class="hero-intro">Discover regional favorites for one dish, a whole spread, or whatever football Sunday brings.</p>
+<div class="hero-actions"><a class="hero-button" href="browse.qmd">Explore the recipes →</a><a class="hero-button secondary" href="game-day-menus.qmd">Find a spread</a></div>
+</div>
+{% if hero_photos %}
+<div class="hero-photos{% if hero_photos|length == 1 %} single-photo{% endif %}">
+{% for recipe in hero_photos %}<a href="{{ recipe.url|e }}"><img src="{{ recipe.photo|e }}" width="{{ recipe.photo_size }}" height="{{ recipe.photo_size }}" alt="{{ recipe.title|e }}" loading="eager" decoding="async"{% if loop.first %} fetchpriority="high"{% endif %}></a>{% endfor %}
+</div>
+{% endif %}
+</section>
+<section class="course-shortcuts" aria-labelledby="course-title"><h2 id="course-title">What sounds good?</h2><div>{% for course in course_links %}<a href="browse.html?course={{ course.id|e }}">{{ course.label|e }}</a>{% endfor %}</div></section>
+{% if featured_recipes %}
+<section class="home-discovery" aria-labelledby="discovery-title"><div class="discovery-heading"><h2 id="discovery-title">Take your taste buds somewhere.</h2><a href="browse.qmd">Browse all dishes →</a></div>
+<ul class="discovery-cards">{% for recipe in featured_recipes %}<li class="finder-card">{{ m.recipe_card(recipe) }}</li>{% endfor %}</ul>
+</section>
+{% endif %}
+<section class="menu-invitation{% if not menu_photo %} without-photo{% endif %}" aria-labelledby="spread-title"><div><h2 id="spread-title">A whole spread.<br>Already thought through.</h2><p>Rivalry menus, shared prep, quick kickoffs, and dishes from across the league. Start with a card or build your own.</p><a class="hero-button" href="game-day-menus.qmd">Explore Game Day Menus →</a><a class="invitation-builder" href="menu-builder.qmd">Build your own menu →</a></div>{% if menu_photo %}<a class="invitation-photo" href="{{ menu_photo.url|e }}"><img src="{{ menu_photo.photo|e }}" width="{{ menu_photo.photo_size }}" height="{{ menu_photo.photo_size }}" alt="{{ menu_photo.title|e }}" loading="lazy" decoding="async"></a>{% endif %}</section>
+<nav class="home-more" aria-label="More ways to explore"><a href="contents.qmd">Browse all teams →</a><a href="matchup.qmd">Cook a matchup →</a><a href="make-it-or-buy-it.qmd">Make It or Buy It →</a></nav>
+```
 
 ::: {.book-stats}
 **{{ stats.recipes }} recipes** · **{{ stats.teams }} teams** · **{{ stats.menus }} menus** · **{{ stats.components }} scratch components**
@@ -17,25 +30,4 @@
 ::: {.cover-body}
 ## Good food. Every matchup.
 {{ body|web_body }}
-:::
-
-::: {.browse-cards}
-::: {.browse-card}
-## By team
-Build a hometown spread or cook your way through the league.
-
-[Browse teams →](contents.qmd)
-:::
-::: {.browse-card}
-## For the whole table
-Rivalry spreads, shared prep, and quick game-day combinations.
-
-[Explore menus →](game-day-menus.qmd)
-:::
-::: {.browse-card}
-## Make it your way
-From-scratch favorites with convenient ready-to-buy alternatives.
-
-[Make It or Buy It →](make-it-or-buy-it.qmd)
-:::
 :::

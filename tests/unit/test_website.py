@@ -172,10 +172,10 @@ def test_dish_entries_share_name_meta_and_description(fixture_book: Project) -> 
     division = (site / "division-afc-east.qmd").read_text()
     # Team cards drop the team they are about; dish-offs mixing teams keep it.
     assert f'{entry}<span class="dish-meta">Appetizer</span>' in division
-    assert f'{entry}<span class="dish-meta">Bills · Appetizer</span>' in division
+    assert f'{entry}<span class="dish-meta">Buffalo Bills · Appetizer</span>' in division
     assert "::: {.dish-list}" in division
     menus = (site / "game-day-menus.qmd").read_text()
-    assert '<span class="dish-meta">Bills · Appetizer</span>' in menus
+    assert '<span class="dish-meta">Buffalo Bills · Appetizer</span>' in menus
     assert ".dish-list-compact" in menus
     recipe = (site / "recipe-test-buffalo-sliders.qmd").read_text()
     assert '<p class="page-dek">Small rolls.</p>' in recipe
@@ -297,8 +297,8 @@ def test_versions_page_has_marker_for_published_versions(fixture_book: Project) 
     site = build_website(fixture_book, render=False).document.parent
     assert VERSIONS_MARKER in (site / "versions.qmd").read_text()
     config = yaml.safe_load((site / "_quarto.yml").read_text())
-    navbar = config["website"]["navbar"]["right"]
-    assert {"text": "All versions", "href": "versions.qmd"} in navbar
+    downloads = config["website"]["navbar"]["right"][0]["menu"]
+    assert {"text": "All versions", "href": "versions.qmd"} in downloads
 
 
 def test_printable_pages_offer_a_print_button(fixture_book: Project) -> None:
@@ -806,7 +806,7 @@ def test_browse_page_lists_every_card_and_hides_filters_until_scripted(
     facets = json.loads(html.unescape(cards[0][1]))
     assert facets["team"] == ["bills"] and facets["course"] == ["appetizers"]
     assert '<a href="recipe-test-buffalo-sliders.html">' in browse
-    assert '<span class="finder-team">Buffalo Bills · Appetizer</span>' in browse
+    assert '<span class="finder-team">Buffalo Bills</span>' in browse
     assert '<span class="finder-photo-empty" aria-hidden="true"></span>' in browse
     assert 'name="team" value="dolphins"> Miami Dolphins' in browse
     assert "jets" not in browse
@@ -815,11 +815,11 @@ def test_browse_page_lists_every_card_and_hides_filters_until_scripted(
     assert '<p class="finder-empty" hidden>' in browse
     assert '<script src="browse.js"></script>' in browse
     config = yaml.safe_load((site / "_quarto.yml").read_text())
-    sidebar = config["website"]["sidebar"]["contents"]
-    assert sidebar[:3] == [
-        {"text": "Start here", "href": "index.qmd"},
-        {"text": "All recipes", "href": "contents.qmd"},
+    navigation = config["website"]["navbar"]["left"]
+    assert navigation[:3] == [
         {"text": "Browse recipes", "href": "browse.qmd"},
+        {"text": "Game Day Menus", "href": "game-day-menus.qmd"},
+        {"text": "Build your own menu", "href": "menu-builder.qmd"},
     ]
 
 
@@ -888,9 +888,9 @@ def test_menu_builder_lists_published_recipes_grouped_by_course(fixture_book: Pr
     scripts = re.findall(r'<script src="([^"]+)"></script>', page)
     assert scripts == ["browse.js", "scale.js", "menu.js"]
     config = yaml.safe_load((site / "_quarto.yml").read_text())
-    sidebar = config["website"]["sidebar"]["contents"]
-    menus = sidebar.index({"text": "Game Day Menus", "href": "game-day-menus.qmd"})
-    assert sidebar[menus + 1] == {"text": "Build your own menu", "href": "menu-builder.qmd"}
+    navigation = config["website"]["navbar"]["left"]
+    menus = navigation.index({"text": "Game Day Menus", "href": "game-day-menus.qmd"})
+    assert navigation[menus + 1] == {"text": "Build your own menu", "href": "menu-builder.qmd"}
     assert "menu.js" in config["project"]["resources"]
     assert (site / "menu.js").read_text() == (
         fixture_book.styles_dir / "website-menu.js"
@@ -1023,9 +1023,9 @@ def test_matchup_page_avoids_other_widgets(fixture_book: Project) -> None:
     scripts = re.findall(r'<script src="([^"]+)"></script>', page)
     assert scripts == ["menu.js", "matchup.js"]
     config = yaml.safe_load((site / "_quarto.yml").read_text())
-    sidebar = config["website"]["sidebar"]["contents"]
-    builder = sidebar.index({"text": "Build your own menu", "href": "menu-builder.qmd"})
-    assert sidebar[builder + 1] == {"text": "Matchup menu", "href": "matchup.qmd"}
+    navigation = config["website"]["navbar"]["left"]
+    builder = navigation.index({"text": "Build your own menu", "href": "menu-builder.qmd"})
+    assert navigation[builder + 1] == {"text": "Matchup menu", "href": "matchup.qmd"}
     assert "matchup.js" in config["project"]["resources"]
     assert (site / "matchup.js").read_text() == (
         fixture_book.styles_dir / "website-matchup.js"

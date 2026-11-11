@@ -3,24 +3,36 @@
 [BUILD YOUR SPREAD]{.eyebrow}
 
 # Game Day Menus
-{{ m.suggest(suggest) }}{% for group in groups %}
+
+Pick a spread, follow the prep plan, or make it your own.
+
+```{=html}
+<nav class="menu-type-links" aria-label="Browse menu families">{% for group in groups %}<a href="#menu-type-{{ loop.index }}">{{ group.title|e }}</a>{% endfor %}</nav>
+```
+
+{% for group in groups %}
+<span id="menu-type-{{ loop.index }}"></span>
+
 ## {{ group.title|md }}
 {{ group.description }}
 ::: {.menu-preview-grid}
 {% for ref in group.menus %}
 ::: {.menu-preview-card}
+{{ m.menu_photos(menu_previews[ref.label].recipes) }}
 ### <a href="{{ route(ref.label)|e }}">{{ ref.title|e }}</a>
 {% set preview = menu_previews[ref.label] %}
 {% if ref.note %}
 [{{ ref.note|md }}]{.menu-matchup}
 {% endif %}
 {% if preview.why_it_works %}
-[{{ preview.why_it_works }}]{.menu-summary}
+[{{ preview.why_it_works }}]{.menu-preview-summary}
 {% endif %}
 {{ m.refs(preview.recipes, description=false, compact=true) }}
 
 <a class="menu-plan-link" href="{{ route(ref.label)|e }}">View menu &amp; prep plan →</a>
+<a class="menu-builder-link" href="menu-builder.html?r={{ preview.recipes|map(attribute='label')|map('replace', 'recipe:', '')|join(',')|e }}">Make it your own →</a>
 :::
 {% endfor %}
 :::
 {% endfor %}
+{{ m.suggest(suggest) }}

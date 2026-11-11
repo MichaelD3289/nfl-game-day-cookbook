@@ -1,0 +1,22 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "arial",
+        "files": ["styles/website.css"],
+        "createdAt": "2026-11-11T16:35:23.227Z",
+        "reason": "Agent: inherited offline system-font fallback and Q callout glyph; the screen redesign overrides body typography and uses a separate display stack."
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": ["styles/website.css"],
+        "createdAt": "2026-11-11T16:35:41.895Z",
+        "reason": "Agent: inherited menu-summary top border is replaced by the screen theme with a uniform 1px border; retain the existing print stylesheet."
+      }
+    ]
+  }
+}

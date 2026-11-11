@@ -1,0 +1,976 @@
+/* Sunday Roadtrip is the screen presentation. The shared website stylesheet still
+   owns feature states, progressive enhancement, cook mode, and paper output. */
+@media screen {
+  :root {
+    --book-navy: #173c2e;
+    --book-ink: #173c2e;
+    --book-muted: #596575;
+    --book-pale: #efe8d5;
+    --book-rule: #d9d2bf;
+    --book-paper: #fff9ec;
+    --book-card: #fffdf7;
+    --book-body: #4f5d50;
+    --book-accent: #af3d1e;
+    --book-accent-hover: #8e3017;
+    --book-radius: 1rem;
+    --book-display: "Arial Rounded MT Bold", "Trebuchet MS", sans-serif;
+    --bs-body-color: var(--book-ink);
+    --bs-body-bg: var(--book-paper);
+    --bs-link-color: var(--book-navy);
+    --bs-link-hover-color: var(--book-accent);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.65;
+  }
+
+  h1,
+  h2 {
+    font-family: var(--book-display);
+    letter-spacing: -0.035em;
+    font-weight: 800;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  a,
+  button,
+  input,
+  select,
+  summary {
+    touch-action: manipulation;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 3px solid var(--book-accent);
+    outline-offset: 4px;
+  }
+
+  input[type="checkbox"] {
+    accent-color: var(--book-navy);
+    flex-shrink: 0;
+  }
+
+  #quarto-content {
+    --bs-link-color: var(--book-navy);
+  }
+
+  main.content {
+    max-width: 1280px;
+    min-width: 0;
+    padding: 2rem 1rem 3rem;
+  }
+
+  /* Keep the compiler's search, collapse, keyboard, and active-link behavior. */
+  #quarto-header .navbar {
+    min-height: 76px;
+    padding: 0.75rem max(1rem, calc((100vw - 1280px) / 2));
+    background: var(--book-paper);
+    border-bottom: 1px solid var(--book-rule);
+  }
+
+  #quarto-header .navbar a,
+  #quarto-header .navbar .navbar-title,
+  #quarto-search .aa-DetachedSearchButton {
+    color: var(--book-ink);
+  }
+
+  #quarto-header .navbar-title {
+    font-family: var(--book-display);
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -0.06em;
+  }
+
+  #quarto-header .nav-link {
+    font-size: 0.82rem;
+    font-weight: 650;
+    white-space: nowrap;
+  }
+
+  #quarto-header .nav-link.active {
+    color: var(--book-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.4rem;
+  }
+
+  #quarto-header .navbar-toggler {
+    border: 1px solid var(--book-rule);
+    color: var(--book-ink);
+  }
+
+  #quarto-header .navbar-toggler-icon {
+    filter: none;
+  }
+
+  #quarto-header .dropdown-menu {
+    max-height: 65dvh;
+    overflow-y: auto;
+    background: var(--book-paper);
+    border-color: var(--book-rule);
+    border-radius: 0.5rem;
+  }
+
+  #quarto-header .dropdown-item {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+  }
+
+  #quarto-header .dropdown-item:hover,
+  #quarto-header .dropdown-item:focus {
+    background: var(--book-pale);
+    color: var(--book-ink);
+  }
+
+  .eyebrow {
+    color: var(--book-accent);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+  }
+
+  .cover-hero {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    align-items: center;
+    gap: 2.5rem;
+    border: 0;
+    padding: 0.5rem 0 2.5rem;
+  }
+
+  .cover-hero h1 {
+    font-size: clamp(2.25rem, 4.25vw, 3.75rem);
+    line-height: 1.06;
+    margin: 0.8rem 0 1.1rem;
+  }
+
+  .cover-hero h1 span {
+    color: var(--book-accent);
+  }
+
+  .hero-intro {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 26rem;
+    color: var(--book-body);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .hero-button {
+    margin: 0;
+    padding: 0.75rem 1.2rem;
+    border: 1px solid var(--book-accent);
+    border-radius: var(--book-radius);
+    background: var(--book-accent);
+    color: var(--book-paper);
+    font-size: 0.85rem;
+    font-weight: 750;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .hero-button:hover {
+    background: var(--book-accent-hover);
+    color: var(--book-paper);
+  }
+
+  .hero-button.secondary {
+    background: transparent;
+    border-color: var(--book-rule);
+    color: var(--book-ink);
+  }
+
+  .hero-button.secondary:hover {
+    border-color: var(--book-navy);
+  }
+
+  .hero-photos {
+    position: relative;
+    height: 340px;
+  }
+
+  .hero-photos a {
+    position: absolute;
+    display: block;
+    right: 0;
+    top: 0;
+    width: 70%;
+    height: 92%;
+    border-radius: var(--book-radius);
+  }
+
+  .hero-photos img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
+  .hero-photos a + a {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 44%;
+    height: 62%;
+    transform: rotate(-6deg);
+    border: 6px solid var(--book-paper);
+  }
+
+  .hero-photos.single-photo a {
+    width: 100%;
+    height: 100%;
+  }
+
+  .cover-hero.hero-copy-only {
+    grid-template-columns: 1fr;
+  }
+
+  .course-shortcuts {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.1rem 1.4rem;
+    background: var(--book-pale);
+    border-radius: var(--book-radius);
+    margin-bottom: 2.25rem;
+  }
+
+  .course-shortcuts h2 {
+    margin: 0;
+    font-family: inherit;
+    font-size: 1rem;
+    letter-spacing: 0;
+  }
+
+  .course-shortcuts div {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .course-shortcuts a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--book-rule);
+    border-radius: 2rem;
+    background: var(--book-paper);
+    font-size: 0.85rem;
+    text-decoration: none;
+  }
+
+  .course-shortcuts a:hover {
+    border-color: var(--book-accent);
+  }
+
+  .discovery-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .discovery-heading h2 {
+    font-size: 1.75rem;
+    margin: 0;
+  }
+
+  .discovery-heading > a {
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .discovery-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.4rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .finder-card a {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    overflow: visible;
+    gap: 0.25rem;
+    padding: 0 0 1rem;
+  }
+
+  .finder-card img,
+  .finder-photo-empty {
+    aspect-ratio: 1.3;
+    border-radius: var(--book-radius);
+    margin-bottom: 0.5rem;
+  }
+
+  .finder-photo-empty {
+    background: var(--book-pale);
+    min-height: 4rem;
+  }
+
+  .finder-card .finder-title,
+  .finder-card .finder-description,
+  .finder-card .finder-team {
+    padding: 0;
+  }
+
+  .finder-title {
+    font-family: inherit;
+    color: var(--book-ink);
+    font-size: 1.05rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 0.25rem 0;
+  }
+
+  .finder-location,
+  .menu-dish-location {
+    display: block;
+    font-size: 0.66rem;
+    font-weight: 750;
+    color: var(--book-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .finder-team,
+  .menu-dish-team {
+    color: var(--book-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .finder-facts {
+    color: var(--book-body);
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .finder-description {
+    color: var(--book-body);
+    font-size: 0.82rem;
+  }
+
+  .home-discovery .finder-description {
+    display: none;
+  }
+
+  .menu-invitation {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-radius: var(--book-radius);
+    overflow: hidden;
+    background: var(--book-navy);
+    color: var(--book-paper);
+    margin: 2.25rem 0 1.5rem;
+  }
+
+  .menu-invitation > div {
+    padding: 2rem;
+  }
+
+  .menu-invitation h2 {
+    color: inherit;
+    font-size: 1.9rem;
+    line-height: 1.15;
+    margin: 0 0 1rem;
+  }
+
+  .menu-invitation p {
+    font-size: 0.9rem;
+    max-width: 26rem;
+  }
+
+  .menu-invitation .hero-button {
+    background: var(--book-paper);
+    color: var(--book-navy);
+    border-color: var(--book-paper);
+  }
+
+  .invitation-builder {
+    display: block;
+    width: fit-content;
+    color: var(--book-paper);
+    margin-top: 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .invitation-builder:hover {
+    color: var(--book-paper);
+  }
+
+  .invitation-photo img {
+    width: 100%;
+    height: 100%;
+    max-height: 340px;
+    object-fit: cover;
+  }
+
+  .menu-invitation.without-photo {
+    grid-template-columns: 1fr;
+  }
+
+  .home-more {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    font-size: 0.85rem;
+  }
+
+  .menu-type-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .menu-type-links a {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--book-rule);
+    border-radius: 2rem;
+    background: var(--book-card);
+    color: var(--book-ink);
+    font-size: 0.85rem;
+    text-decoration: none;
+    min-height: 44px;
+  }
+
+  .menu-type-links a:hover {
+    border-color: var(--book-accent);
+  }
+
+  .book-stats {
+    color: var(--book-muted);
+    font-size: 0.8rem;
+    border: 0;
+    margin-top: 1.5rem;
+  }
+
+  .cover-body {
+    border-top: 1px solid var(--book-rule);
+    color: var(--book-body);
+    font-size: 0.9rem;
+  }
+
+  .cover-body h2 {
+    font-size: 1.25rem;
+  }
+
+  /* Keep multi-select facets and their counts; the sidebar is local to browsing. */
+  .finder {
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .finder-filters {
+    border: 1px solid var(--book-rule);
+    border-radius: var(--book-radius);
+    background: var(--book-pale);
+    padding: 1.2rem;
+    min-width: 0;
+  }
+
+  .finder-filters fieldset:last-of-type {
+    border-bottom: 0;
+  }
+
+  .finder-option {
+    font-size: 0.82rem;
+    min-height: 32px;
+    align-items: center;
+    padding: 0.2rem 0;
+  }
+
+  .finder-count {
+    margin-left: auto;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+  }
+
+  .finder-cards {
+    grid-template-columns: repeat(auto-fill, minmax(min(11rem, 100%), 1fr));
+    gap: 1.5rem;
+  }
+
+  .finder-results,
+  .menu-dishes,
+  .finder-card,
+  .menu-dish-text {
+    min-width: 0;
+  }
+
+  .menu-builder {
+    grid-template-columns: 12rem minmax(0, 1fr) 17rem;
+    gap: 1.5rem;
+  }
+
+  .menu-dish {
+    padding: 1rem 0;
+    align-items: center;
+  }
+
+  .menu-dish-photo {
+    flex: 0 0 4.5rem;
+  }
+
+  .menu-dish-photo img {
+    width: 4.5rem;
+    height: 4.5rem;
+    object-fit: cover;
+    border-radius: 0.5rem;
+  }
+
+  .menu-dish-text {
+    flex: 1;
+    gap: 0.25rem;
+  }
+
+  .menu-dish-name {
+    text-decoration: none;
+    line-height: 1.35;
+  }
+
+  .menu-dish-description {
+    font-size: 0.8rem;
+    color: var(--book-body);
+  }
+
+  .menu-summary {
+    background: var(--book-pale);
+    color: var(--book-ink);
+    border: 1px solid var(--book-rule);
+    border-radius: var(--book-radius);
+    padding: 1.25rem;
+  }
+
+  .menu-summary-title {
+    font-size: 1.4rem;
+  }
+
+  .menu-dish.is-picked {
+    border-radius: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .menu-preview-card {
+    border-radius: var(--book-radius);
+    padding: 1.5rem;
+    overflow: hidden;
+  }
+
+  .menu-preview-card h3 {
+    font-size: 1.5rem;
+    margin: 1.25rem 0 0.5rem;
+  }
+
+  .menu-preview-photos {
+    display: flex;
+    gap: 3px;
+    height: 160px;
+    margin: -1.5rem -1.5rem 0;
+  }
+
+  .menu-preview-photos a {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .menu-preview-photos img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .menu-plan-link,
+  .menu-builder-link {
+    display: inline-block;
+    margin: 0.75rem 1rem 0 0;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .menu-builder-link {
+    color: var(--book-accent);
+  }
+
+  .dish-meta {
+    white-space: normal;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .team-card,
+  .component-card,
+  .menu-card,
+  .quick-card {
+    border-radius: var(--book-radius);
+  }
+
+  /* The recipe keeps its original DOM: scaling, printing, shopping, and cooking
+     all read these ingredients and instructions, never a second presentation. */
+  .recipe-header {
+    border-top: 0;
+    padding-top: 0;
+    margin-bottom: 2rem;
+  }
+
+  .recipe-header h1 {
+    font-size: clamp(2rem, 3.75vw, 3rem);
+    max-width: 55rem;
+  }
+
+  .dish-photo {
+    width: 260px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: var(--book-radius);
+    margin-left: 2rem;
+  }
+
+  .page-dek {
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 55ch;
+  }
+
+  .recipe-facts {
+    gap: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .recipe-facts li {
+    background: transparent;
+    padding: 0;
+  }
+
+  .fact-name {
+    display: block;
+    font-size: 0.65rem;
+  }
+
+  .recipe-columns {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.2fr);
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .ingredients {
+    border: 0;
+    padding: 1.5rem;
+    background: var(--book-pale);
+    border-radius: var(--book-radius);
+  }
+
+  .recipe-columns h2 {
+    font-size: 1.5rem;
+  }
+
+  .scaler {
+    padding: 0 0 1rem;
+    border: 0;
+    background: transparent;
+  }
+
+  .print-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+  }
+
+  .shop-actions {
+    margin-left: 0;
+  }
+
+  .print-button,
+  .shop-button,
+  .cook-toggle,
+  .cook-reset,
+  .menu-add,
+  .menu-clear,
+  .matchup-swap,
+  .finder-clear,
+  .scaler-buttons button {
+    min-height: 40px;
+    padding: 0.4rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .cook-toggle {
+    background: var(--book-accent);
+    border-color: var(--book-accent);
+    color: var(--book-paper);
+  }
+
+  .cook-toggle:hover {
+    background: var(--book-accent-hover);
+    color: var(--book-paper);
+  }
+
+  .matchup {
+    max-width: 58rem;
+  }
+
+  .matchup-pickers {
+    background: var(--book-pale);
+    padding: 1.5rem;
+    border-radius: var(--book-radius);
+  }
+
+  .matchup-picker select {
+    min-height: 44px;
+    background: var(--book-paper);
+    color: var(--book-ink);
+    border-radius: 0.5rem;
+  }
+
+  .matchup-course {
+    padding: 1.1rem 0;
+  }
+
+  .nav-footer {
+    border-top: 1px solid var(--book-rule);
+    background: var(--book-paper);
+    color: var(--book-muted);
+    font-size: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .menu-builder {
+    grid-template-columns: 12rem minmax(0, 1fr);
+  }
+
+  .menu-builder .menu-summary {
+    position: static;
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .cover-hero h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+}
+
+@media screen and (max-width: 991px) {
+  #quarto-header .navbar {
+    min-height: 66px;
+  }
+
+  #quarto-header .nav-link {
+    font-size: 0.95rem;
+    padding: 0.65rem 0;
+  }
+
+  #quarto-header .dropdown-menu {
+    max-height: 45dvh;
+  }
+
+  .discovery-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .course-shortcuts {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .finder,
+  .menu-builder {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .finder-filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 1rem;
+  }
+
+  .finder-filters fieldset {
+    margin-bottom: 0;
+    min-width: 0;
+  }
+
+  .finder-filters .finder-clear {
+    align-self: end;
+  }
+
+  .cover-hero {
+    gap: 1.5rem;
+  }
+
+  .hero-photos {
+    height: 270px;
+  }
+
+  .recipe-columns {
+    gap: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  main.content {
+    padding: 1.25rem 0.25rem 2rem;
+  }
+
+  .cover-hero,
+  .menu-invitation,
+  .recipe-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cover-hero {
+    padding: 0.5rem 0 1.75rem;
+  }
+
+  .cover-hero h1 {
+    font-size: clamp(1.8rem, 7.8vw, 2.8rem);
+    letter-spacing: -0.045em;
+  }
+
+  .hero-intro {
+    font-size: 0.95rem;
+  }
+
+  .hero-photos {
+    height: 245px;
+  }
+
+  .course-shortcuts {
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .discovery-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .discovery-heading h2 {
+    font-size: 1.5rem;
+  }
+
+  .discovery-cards {
+    gap: 1.25rem 0.75rem;
+  }
+
+  .finder-title {
+    font-size: 0.95rem;
+  }
+
+  .finder-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem 0.75rem;
+  }
+
+  .finder-team {
+    font-size: 0.75rem;
+  }
+
+  .finder-description {
+    font-size: 0.78rem;
+  }
+
+  .menu-invitation > div {
+    padding: 1.5rem;
+  }
+
+  .menu-invitation h2 {
+    font-size: 1.75rem;
+  }
+
+  .invitation-photo img {
+    height: 190px;
+  }
+
+  .menu-dish-photo {
+    flex-basis: 3rem;
+  }
+
+  .menu-dish-photo img {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .menu-dish-description {
+    font-size: 0.8rem;
+  }
+
+  .dish-photo {
+    float: none;
+    width: 100%;
+    height: 220px;
+    margin: 0 0 1.25rem;
+  }
+
+  .recipe-facts {
+    gap: 1rem;
+  }
+
+  .recipe-header h1 {
+    font-size: 2rem;
+  }
+
+  .ingredients {
+    padding: 1.25rem;
+  }
+
+  .matchup-pickers {
+    padding: 1rem;
+  }
+
+  .print-with,
+  .shop-actions {
+    margin-left: 0;
+  }
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Added discovery photography is for browsing. Recipe photos and the original
+   recipe/component print bundles continue to use the shared paper rules. */
+@media print {
+  .hero-photos,
+  .invitation-photo,
+  .menu-dish-photo,
+  .menu-preview-photos {
+    display: none !important;
+  }
+
+  .menu-type-links {
+    display: none;
+  }
+}
