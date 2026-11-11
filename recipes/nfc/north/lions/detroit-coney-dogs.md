@@ -24,6 +24,8 @@ source:
 
 ## Ingredients
 
+### Coney sauce
+
 - 1 pound ground beef
 - 1 cup diced white onion
 - 2 garlic cloves, minced
@@ -40,6 +42,9 @@ source:
 - 1 (15-ounce) can tomato puree (not tomato sauce)
 - 3–4 tablespoons prepared yellow mustard, or to taste
 - 1/4 cup water
+
+### Hot dogs
+
 - 8 natural-casing all-beef hot dogs (National Coney Island style if available)
 - 8 hot dog buns
 

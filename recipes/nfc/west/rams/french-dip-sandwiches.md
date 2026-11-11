@@ -1,5 +1,5 @@
 ---
-id: french-dip-sandwiches-rams
+id: french-dip-sandwiches
 title: French dip sandwiches
 description: "Thinly sliced roasted tri-tip on French rolls, served with savory beef jus for dipping."
 status: published
@@ -13,7 +13,7 @@ yield: 4 sandwiches
 servings: 4
 prep: 20 minutes active; 1 hour seasoned rest (estimated)
 cook: 30 minutes roasting and jus; 15 minutes roast rest
-image: french-dip-sandwiches-rams.jpg
+image: french-dip-sandwiches.jpg
 photo_credit: Discover California Wines
 index:
   main_ingredient: beef
@@ -25,16 +25,24 @@ source:
 
 ## Ingredients
 
+### Tri-tip
+
 - 2½ pounds trimmed tri-tip roast
 - 1½ teaspoons kosher salt
 - 1 teaspoon granulated garlic
 - 1 teaspoon granulated onion
 - 1 teaspoon freshly ground black pepper
 - 1 tablespoon olive oil
-- 2 cups low-sodium beef stock, divided
+
+### Jus
+
+- 2 cups low-sodium beef stock
 - ½ cup dry red wine, such as Zinfandel or Syrah (optional; replace with ½ cup beef stock)
-- 4 French rolls, split (or 2 baguettes cut into 6-inch lengths)
 - Salt and pepper, to taste
+
+### Sandwiches
+
+- 4 French rolls, split (or 2 baguettes cut into 6-inch lengths)
 
 ## Instructions
 

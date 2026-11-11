@@ -26,9 +26,6 @@ quick_options:
 
 ## Ingredients
 
-- Pretzel or kosher salt for topping
-- Optional: homemade American yellow mustard, for dipping; or substitute store-bought yellow mustard {{component:american-yellow-mustard}}
-
 ### Dough
 
 - 1 tablespoon sugar
@@ -43,6 +40,11 @@ quick_options:
 
 - 6 cups water
 - 2 tablespoons baking soda
+
+### Topping and serving
+
+- Pretzel or kosher salt for topping
+- Optional: homemade American yellow mustard, for dipping; or substitute store-bought yellow mustard {{component:american-yellow-mustard}}
 
 ## Instructions
 

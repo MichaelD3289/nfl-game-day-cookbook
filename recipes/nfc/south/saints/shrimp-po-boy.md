@@ -26,6 +26,8 @@ quick_options:
 
 ## Ingredients
 
+### Seasoning blend
+
 - 2 1/2 teaspoons kosher salt
 - 1 teaspoon cayenne pepper
 - 1 teaspoon garlic powder
@@ -34,11 +36,17 @@ quick_options:
 - 1/2 teaspoon dried thyme
 - 1/2 teaspoon freshly ground black pepper
 - 1/2 teaspoon onion powder
-- Vegetable oil for frying
+
+### Fried shrimp
+
 - 1 1/2 pounds medium shrimp (about 36), peeled and deveined
 - 1 cup buttermilk
 - 1 1/2 cups all-purpose flour
 - 1 cup cornmeal
+- Vegetable oil for frying
+
+### Sandwiches
+
 - 4 eight-inch New Orleans-style French rolls, light and crisp (ordinary soft French rolls if unavailable)
 - Homemade Louisiana lemon rémoulade, 2–3 tablespoons per roll; or substitute store-bought rémoulade or plain mayonnaise {{component:louisiana-remoulade}}
 - Shredded iceberg lettuce
@@ -48,7 +56,7 @@ quick_options:
 
 ## Instructions
 
-1. Combine the first eight dry seasonings. Heat 2 inches of oil in a heavy pot to 350°F.
+1. Combine the seasoning blend. Heat 2 inches of oil in a heavy pot to 350°F.
 2. Toss shrimp with 2 tablespoons of the seasoning blend. Dip in buttermilk, then coat in a mixture of flour and cornmeal.
 3. Fry in batches, stirring occasionally, until golden and cooked through, about 4 minutes per batch. Drain on paper towels.
 4. Dress each split roll with rémoulade or mayonnaise, then lettuce, tomato, dill pickle and hot shrimp; add Crystal hot sauce to preference.

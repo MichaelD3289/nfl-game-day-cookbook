@@ -2,7 +2,7 @@
 id: new-york-style-pizza
 title: New York style pizza
 description: "A thin-crust pizza layered with tomato sauce, mozzarella, and Parmesan."
-status: published
+status: retired
 last_reviewed_at: 2026-09-26
 last_reviewed_notes: >-
   Fixes applied and validated: dough storage and 3/4-inch border from the source added.

@@ -24,6 +24,8 @@ source:
 
 ## Ingredients
 
+### Chili
+
 - 1 tablespoon extra-virgin olive oil
 - 1 cup chopped white onion, plus more for topping
 - 1 tablespoon minced garlic
@@ -37,6 +39,9 @@ source:
 - 1 tablespoon apple cider vinegar
 - 1 teaspoon Worcestershire sauce
 - 1 tablespoon chili powder
+
+### Coneys
+
 - 6 small all-beef hot dogs
 - 6 long potato rolls, such as Martin's (toast, or steam for a parlor-style coney)
 - Yellow mustard for serving

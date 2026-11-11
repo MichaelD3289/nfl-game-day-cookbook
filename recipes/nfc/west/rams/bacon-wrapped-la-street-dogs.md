@@ -1,5 +1,5 @@
 ---
-id: bacon-wrapped-la-street-dogs-rams
+id: bacon-wrapped-la-street-dogs
 title: Bacon-wrapped LA street dogs
 description: "Bacon-wrapped hot dogs with sautéed peppers and onions, jalapeños, and a trio of condiments."
 status: published
@@ -12,7 +12,7 @@ location: Los Angeles, CA
 yield: 4 people
 prep: 5 minutes
 cook: 22 minutes
-image: bacon-wrapped-la-street-dogs-rams.jpg
+image: bacon-wrapped-la-street-dogs.jpg
 photo_credit: Latinas Que Comen
 index:
   main_ingredient: mixed-meat
@@ -27,6 +27,7 @@ source:
 - 4 all-beef hot dogs (other franks work by preference)
 - 4 soft hot dog buns, warmed
 - 4 slices bacon
+- Sea salt or seasoning salt, to taste
 - 1 red bell pepper, sliced
 - 1/2 onion, sliced
 - 2 jalapeños, halved

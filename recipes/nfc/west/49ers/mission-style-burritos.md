@@ -64,6 +64,8 @@ quick_options:
 - 3–4 seeded, diced Roma tomatoes
 - 1/4 red onion, diced; juice of 1 lime; 1–2 tablespoons minced cilantro; 1 minced jalapeño or serrano; salt to taste
 
+### Assembly
+
 - 3–4 very large flour tortillas (about 12–13 inches)
 - Shredded Monterey Jack and cheddar, to taste
 - 1 avocado, sliced

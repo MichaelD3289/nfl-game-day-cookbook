@@ -33,6 +33,7 @@ source:
 - 3/4 cup honey
 - 1/4 cup light corn syrup
 - 1/4 cup water
+- Cornstarch, for dusting
 
 ### Caramel
 

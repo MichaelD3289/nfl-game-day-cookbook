@@ -26,9 +26,14 @@ quick_options:
 
 ## Ingredients
 
+### Taco meat
+
 - 1 pound ground chuck or sirloin
 - Suggested starting beef seasoning: 1 tablespoon mild ground chile, 1 teaspoon ground cumin, 1/2 teaspoon garlic powder, 1/2 teaspoon dried oregano and 1/2 teaspoon kosher salt; adjust to taste
 - 1 cup refried beans
+
+### Fry bread
+
 - 3 cups flour
 - 1 tablespoon baking powder
 - 1 teaspoon salt
@@ -37,6 +42,9 @@ quick_options:
 - 1 tablespoon lard or margarine
 - 1 1/2 cups warm water
 - Neutral vegetable or canola oil to 3/4-inch depth in skillet
+
+### Toppings
+
 - Optional toppings for six: 1 cup shredded cheddar or Monterey Jack, 1 diced tomato, 1/2 diced white onion, 1/2 cup roasted green chiles, 1/2 cup sour cream and sliced olives; choose to taste
 - Optional: 1/2 cup homemade roasted salsa verde; or substitute the same amount of store-bought salsa verde {{component:roasted-salsa-verde}}
 

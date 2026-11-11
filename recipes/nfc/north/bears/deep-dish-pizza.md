@@ -34,6 +34,7 @@ source:
 - 4 tablespoons (57 g) melted butter
 - 2 tablespoons (25 g) vegetable oil
 - 1 cup plus 2 tablespoons (255 g) lukewarm water
+- 3–4 tablespoons olive oil, for the pan
 
 ### Filling
 
@@ -43,13 +44,14 @@ source:
 - 2–4 garlic cloves, minced, optional
 - 1 tablespoon granulated sugar, optional
 - 1–2 teaspoons pizza seasoning or dried Italian herbs
+- Salt, to taste
 - 1 cup (113 g) freshly grated Parmesan or Asiago
 - 2 tablespoons (25 g) olive oil
 
 ## Instructions
 
 1. Mix the dough ingredients and knead until smooth, about 7 minutes in a stand mixer. Cover and let rise until very puffy, about 60 minutes.
-2. Oil a 14-inch deep-dish pan, including the bottom and partway up the sides, with 3–4 tablespoons additional olive oil (for the pan, as directed by source). Stretch the dough, place it in the pan, and rest covered for 15 minutes.
+2. Oil a 14-inch deep-dish pan, including the bottom and partway up the sides, with the 3–4 tablespoons olive oil for the pan. Stretch the dough, place it in the pan, and rest covered for 15 minutes.
 3. Heat the oven to 425°F. Stretch the dough over the bottom and up the sides of the pan; rest another 15 minutes. Bake the crust for 10 minutes.
 4. Drain the tomatoes well and combine them with seasoning or herbs, optional garlic and sugar, and salt to taste. Layer mozzarella, sausage or vegetables, and tomato mixture in the crust. Top with grated cheese and drizzle with olive oil.
 5. Bake about 25 minutes until bubbling and golden. Lift the pizza from the pan onto a rack and cool about 15 minutes before slicing.

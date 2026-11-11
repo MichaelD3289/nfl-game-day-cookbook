@@ -24,14 +24,25 @@ source:
 
 ## Ingredients
 
+### Chicken
+
 - 2 chickens (3½–4 pounds each), each cut into 10 pieces with breasts halved
 - 1 tablespoon freshly ground black pepper
 - 2 tablespoons plus 4 teaspoons Diamond Crystal kosher salt, divided (or 1 tablespoon plus 2 teaspoons Morton kosher salt)
+
+### Buttermilk dip
+
 - 4 large eggs
 - 2 cups buttermilk (preferred for tang) or whole milk
 - 2 tablespoons vinegar-based hot sauce, such as Louisiana-style Crystal or Frank’s RedHot; adjust brand to preference
+
+### Dredge and frying
+
 - 4 cups all-purpose flour
 - About 10 cups vegetable oil, or enough for 2 inches in a heavy pot {{no-scale}}
+
+### Hot paste
+
 - 6 tablespoons cayenne pepper (use 2 tablespoons for a milder coating)
 - 2 tablespoons dark brown sugar
 - 1 teaspoon chili powder
