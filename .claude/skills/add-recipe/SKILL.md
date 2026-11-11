@@ -1,79 +1,62 @@
 ---
 name: add-recipe
-description: Add a new recipe to the NFL game-day cookbook. Use when asked to add, create, import or write up a recipe for a team.
+description: Add a new recipe for a team to the NFL cookbook, written fresh or imported from a source.
 ---
 
 # Add a recipe
 
-> **Working from a GitHub issue?** Claim it first ([AGENTS.md](../../../AGENTS.md) rule
-> 15). If the issue already has the `in-progress` label, stop and ask a human; do not
-> work on it without their explicit permission. Otherwise add the label before you
-> change anything.
-
-Every recipe is one Markdown file. Its team comes **only** from its path, so never
-add a `team` or `teams` field.
-
-## 1. Pick the location
+## 1. Pick the team and the dish
 
 - Look up the team's conference, division and slug in `data/nfl.yml`, for example
   `afc` / `east` / `bills`.
-- Choose a kebab-case `id`. It must be unique across all recipes (check with
-  `ls recipes/*/*/*/`).
-- The path is `recipes/<conf>/<div>/<team>/<id>.md`, and the file name must equal
-  `id`.
+- Check the dish is new to the book. Search titles and sources
+  (`rg -n -i '^title:.*<dish>|url:.*<source-domain>' recipes`), and look hardest at
+  teams that share the `location` in `data/nfl.yml` (the Jets and Giants share New York;
+  the Chargers and Rams share Los Angeles). Each dish belongs to one team, so when
+  another team has it, pick a different local dish for this team. A distinct regional
+  version with its own source (Tampa's Cuban with salami, Miami's Cuban) is a different
+  dish. Done when no recipe covers this dish. Validate catches only published
+  duplicates, so while the recipe is a draft this search is the check.
+- Choose a kebab-case `id`.
 
-## 2. Scaffold (optional)
+## 2. Scaffold
 
 ```sh
 uv run nfl-book new recipe --team <team-slug> --slug <id>
 ```
 
-This writes a `status: draft` file in the right place. You can also copy an
-existing recipe from the same team.
+It writes a `status: draft` file at `recipes/<conf>/<div>/<team>/<id>.md` with every
+front-matter key, including one `index:` key per field index in `data/indexes.yml`,
+and refuses an id that is already used.
 
 ## 3. Front matter
 
-```yaml
----
-id: <id> # == file name
-title: Sentence-case title
-status: draft # draft | testing | published | retired
-course: meals # appetizers | sides | meals | desserts
-location: Buffalo, NY # optional, overrides the team's location
-yield: 4 servings # required, non-empty
-servings: 4 # optional: people fed (4 or 4-6) when yield is not "N servings"
-prep: 20 minutes # optional
-cook: 45 minutes # optional
-image:
-  <id>.jpg # optional, next to the .md; requires photo_credit; the build
-  #   makes square resized copies and never edits the original
-photo_credit: Who took it
-index: # one key per field index in data/indexes.yml (see add-index)
-  main_ingredient: beef # beef | pork-and-sausage | poultry | seafood | mixed-meat | meatless
-  practical_time: 31-to-60-minutes # up-to-30-minutes | 31-to-60-minutes | over-60-minutes | variable-or-make-ahead
-  cost: moderate # pantry-friendly | moderate | premium
-source:
-  url: https://full.canonical/url # never a short link
-quick_options: # optional: override a referenced component's quick_buy
-  <component-id>: Store-bought suggestion
----
-```
+Fill every `TODO` and `null` the scaffold left. The conventions it does not show:
 
-Unknown keys are errors (`extra="forbid"`).
+- `yield` is required and non-empty.
+- `description` is one plain sentence for the website card.
+- `source.url` is the full canonical URL of the original, never a short link.
+- `location: City, ST` overrides the team's location when the dish comes from
+  elsewhere.
+- A photo is `image: <id>.jpg` next to the `.md`, with `photo_credit:` naming who took
+  it.
+- `quick_options: {<component-id>: Store-bought suggestion}` overrides a referenced
+  component's `quick_buy`.
+- Index values are bucket ids from `data/indexes.yml`, decided from the ingredients and
+  instructions.
 
 ## 4. Body
 
-Only these sections are allowed, in this order:
+Only these sections, in this order:
 
 ```markdown
 ## Ingredients
 
-- ungrouped items only before the first group
+- ungrouped lines, before the first group
+
+### Part name
+
 - 1 cup homemade sauce; or substitute the same amount of store-bought sauce {{component:<component-id>}}
-
-### Group name
-
-- item
 
 ## Instructions
 
@@ -84,23 +67,9 @@ Only these sections are allowed, in this order:
 Optional short paragraph.
 ```
 
-- Put at most one `{{component:<id>}}` on an ingredient line, and use it only in
-  `## Ingredients`. The component must exist under `components/`, and a published
-  recipe may only reference published components. To create one, see the
-  `add-component` skill. Follow its [ingredient wording and scaling convention](../add-component/SKILL.md#ingredient-wording-homemade-or-store-bought):
-  homemade choice, then `; or substitute` with an explicit
-  store-bought choice, and the component marker at the end of the ingredient line. Preserve batch quantities and measured portions.
-- Start each ingredient line with its amount (`1 1/2 cups beef broth`, `3 garlic
-cloves`, `About ½ teaspoon salt`) and put a space before the unit (`500 g`, not
-  `500g`), so the website can scale it. Lines without amounts (`Salt, to taste`) are
-  fine. Add `{{no-scale}}` to a line whose amount should not grow with the batch, such
-  as frying oil measured by pot depth. Validation reports amounts it cannot read.
-- For a yield such as "4 sandwiches", add `servings:` so readers can scale by people.
-- Don't write single-item `###` groups. Use an inline bullet such as
-  `- Optional: ...` instead.
-- Every recipe must fit on **one page**. As a rough budget, keep to 20 ingredient
-  lines or fewer and 4–6 concise steps. Lists with more than 24 lines switch
-  automatically to compact run-in groups.
+Write the ingredient list by [recipe-body.md](references/recipe-body.md): ingredient
+lines, Make It or Buy It lines, groups by **part**, and the page budget. A component
+referenced from a published recipe must be published; create one with `add-component`.
 
 ## 5. Check it
 
@@ -109,15 +78,18 @@ uv run nfl-book validate recipes/<conf>/<div>/<team>/<id>.md
 make preview FILE=recipes/<conf>/<div>/<team>/<id>.md    # drafts allowed
 ```
 
+Done when validate reports no errors and no warnings for the file, and the preview
+shows each group beside the steps that use it.
+
 ## 6. Publish
 
 1. Set `status: published`.
-2. Run `make links` (= `uv run nfl-book prepare-links`) (see the `source-links` skill). A published
-   recipe whose source URL is not cached fails validation.
-3. Optionally add it to a menu or dish-off (see `menus-and-dish-offs`).
-4. Run `make pdf` and confirm there is **no** `overflows its page` warning for it.
-   If there is one, tighten the wording; do not change the layout for one recipe.
-5. Run `make check`.
-6. Add a `CHANGELOG.md` entry under `[Unreleased]` → `Added`.
-
-If the cover tagline counts recipes (`book/frontmatter/cover.md`), update it.
+2. Run `make links` to cache the short URL (see `source-links`). A published recipe
+   without one fails validation.
+3. Optionally add it to a menu or dish-off (`menus-and-dish-offs`).
+4. Update the recipe count in `book/frontmatter/cover.md` (tagline and intro) to the
+   output of `rg -l '^status: published' recipes | wc -l`.
+5. Build per `build-pdf`. Done when the build has no `overflows its page` warning for
+   this recipe; for one, tighten the wording per "Fixing an overflow" in
+   `update-recipe`.
+6. Add the CHANGELOG entry under `Added`.
