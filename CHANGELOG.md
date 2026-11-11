@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `nfl-book validate` warns about a recipe whose only ingredient group holds every ingredient, which usually means the main ingredients ended up under a sauce or salad heading. It is a warning, so `validate` and `make check` still pass.
 - `nfl-book validate` warns when two published recipes share a title or a source URL, naming the other file and its team, because each dish belongs to one team. It is a warning, so `validate` and `make check` still pass.
+- Five recipes replace the retired duplicates, bringing the book back to 90: Baja fish tacos and carne asada fries for the Chargers, disco fries for the Jets, potato knishes for the Giants and lady locks for the Steelers.
 
 ### Changed
 
