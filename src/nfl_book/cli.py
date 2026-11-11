@@ -9,6 +9,7 @@ from typing import Annotated, NoReturn
 
 import typer
 from rich.console import Console
+from rich.markup import escape
 
 from nfl_book import pipeline, scaffold
 from nfl_book.config import load_settings
@@ -60,7 +61,7 @@ def main(
 def report(diags: Diagnostics, root: Path) -> None:
     for d in diags:
         style = "red" if d.severity is Severity.ERROR else "yellow"
-        err.print(f"[{style}]{d.format(root)}[/{style}]", highlight=False, soft_wrap=True)
+        err.print(f"[{style}]{escape(d.format(root))}[/{style}]", highlight=False, soft_wrap=True)
 
 
 def fail(exc: BookError, root: Path | None) -> NoReturn:
@@ -68,7 +69,7 @@ def fail(exc: BookError, root: Path | None) -> NoReturn:
         report(exc.diagnostics, root or Path.cwd())
         err.print(f"[red]{len(exc.diagnostics.errors)} error(s)[/red]")
     else:
-        err.print(f"[red]error:[/red] {exc}", highlight=False, soft_wrap=True)
+        err.print(f"[red]error:[/red] {escape(str(exc))}", highlight=False, soft_wrap=True)
     raise typer.Exit(1)
 
 
@@ -146,7 +147,7 @@ def prepare(check: CheckOption = False, report_path: ReportOption = None) -> Non
 
 @app.command("prepare-links")
 def prepare_links(check: CheckOption = False, report_path: ReportOption = None) -> None:
-    """The ONLY network stage: shorten new source URLs into data/shortlinks.yml, make QRs.
+    """The ONLY network stage: shorten new source URLs into data/shortlinks.yml.
 
     With --check it shortens nothing and writes nothing but the optional report: it
     requests every source URL and lists dead links and permanent redirects.
