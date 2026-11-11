@@ -1,12 +1,20 @@
 ```{=latex}
 \DivisionPage{<< label >>}{<< name|tex >>}{<< conference|tex >>}
-<% for team in teams %>
+<% for row in teams|batch(2) %>
+\begin{DivisionTeamRow}
+<% for team in row %>
+<% if not loop.first %>\hfill
+<% endif %>
+\begin{DivisionTeamColumn}
 \DivisionTeam{<< team.label >>}{<< team.name|tex >>}{<< team.location|tex >>}
 <% for ref in team.recipes %>
-\DivisionRecipe{<< ref.label >>}{<< ref.title|tex >>}{<< ref.note|tex >>}
+\DivisionRecipe{<< ref.label >>}{<< ref.title|tex >>}{<< ref.course|tex >>}
 <% else %>
 \DivisionEmptyTeam
 <% endfor %>
+\end{DivisionTeamColumn}%
+<% endfor %>
+\end{DivisionTeamRow}
 <% endfor %>
 <% if dishoffs %>
 \begin{DivisionDishOffs}

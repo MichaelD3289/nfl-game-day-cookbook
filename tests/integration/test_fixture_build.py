@@ -66,6 +66,21 @@ def test_menus_and_dishoffs(built: Project) -> None:
     assert "Test Quick Kickoff" in page(built, "menus-fast-day-1")
 
 
+def test_division_lists_teams_in_two_columns_by_course(built: Project) -> None:
+    """Teams sit in a two-column grid; each recipe line shows its course, not its team."""
+    division = page(built, "division-afc-east")
+    teams = division.count(r"\DivisionTeam{")
+    assert teams == 4
+    assert division.count(r"\begin{DivisionTeamColumn}") == teams
+    assert division.count(r"\begin{DivisionTeamRow}") == 2
+    assert (
+        r"\DivisionRecipe{recipe:test-buffalo-sliders}{Test Buffalo Sliders}{Appetizer}" in division
+    )
+    assert r"\DivisionRecipe{recipe:test-citrus-wings}{Test Citrus Wings}{Meal}" in division
+    # Dish-off cards still name the team, since they mix teams.
+    assert r"\DishOffRecipe{recipe:test-buffalo-sliders}{Test Buffalo Sliders}{Bills," in division
+
+
 def test_no_page_numbers_in_source(built: Project) -> None:
     """Every cross-reference is a label; numbers are LaTeX's job."""
     everything = "\n".join(pages(built).values())
