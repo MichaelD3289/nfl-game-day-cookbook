@@ -1,42 +1,36 @@
 ---
 name: source-links
-description: Manage recipe/component source URLs, the data/shortlinks.yml cache and QR codes (nfl-book prepare-links). Use when validation reports a missing short URL.
+description: "Source URLs and short links: adding or changing a source.url, a 'no short URL cached' error, or dead or moved sources from prepare-links --check or the link-rot issue."
 ---
 
-# Source links, short links and QR codes
+# Source links and short links
 
-> **Working from a GitHub issue?** Claim it first ([AGENTS.md](../../../AGENTS.md) rule
-> 15). If the issue already has the `in-progress` label, stop and ask a human; do not
-> work on it without their explicit permission. Otherwise add the label before you
-> change anything.
-
-- Front matter always holds the **full canonical URL** in `source.url`. Never put
-  a short link there.
-- `make links` / `uv run nfl-book prepare-links` (alias `prepare`) is the **only** command that
-  uses the network. Without `--check` it:
-  - shortens every uncached URL of non-retired content (drafts included) with TinyURL
-  - appends the result to `data/shortlinks.yml`
-    It is never run automatically by `build`, `make pdf` or `preview`. With `--check` it
-    shortens nothing (see below).
-- It never rewrites existing entries or source files. Never edit or replace an
-  existing short URL automatically; ask the user first.
-- Commit `data/shortlinks.yml` together with the content that needed it.
-- Every other command is offline. A published item whose URL is not in the cache
-  fails `validate`/`build` (`preview` only warns) with an error naming the file. Run `prepare-links` to fix it.
-- QR codes are generated deterministically from the full source URL at build
-  time; the printed link text uses the short URL. Nothing about them is committed.
-- If the network is unavailable, tell the user. Don't invent short URLs.
+- `source.url` in front matter always holds the **full canonical URL**.
+- `make links` (`uv run nfl-book prepare-links`) shortens every uncached URL of
+  non-retired content, drafts included, with TinyURL and appends it to
+  `data/shortlinks.yml`. Commit that file together with the content that needed it.
+- Existing short URLs change only by hand, with the user's agreement;
+  `prepare-links` refuses to replace them. Stale entries are harmless.
+- A published item whose URL is not cached fails `validate` and `build`; `preview` only
+  warns.
+- The printed source text uses the short URL. QR codes are built at build time and
+  open the item's website page (or the full source URL for drafts); they do not depend
+  on `shortlinks.yml`.
+- If the network is unavailable, leave the URL uncached and tell the user; validate
+  keeps failing until `prepare-links` runs.
 
 ## Dead or moved sources
 
-- Run `uv run nfl-book prepare-links --check` (add `--report FILE` for a Markdown list),
-  or read the open `link-rot` issue. It lists dead links, permanent redirects and pages
-  it could not verify, with the files that use each URL. It changes nothing.
-- For each entry, open the listed file and pick a replacement source by hand: the
-  redirect target, a new page with the same recipe, or a Wayback Machine snapshot (the
-  report links them for dead pages).
-- Change `source.url` only with the user's agreement.
-- A new URL needs `prepare-links` to add a new short link. Never edit or replace an
-  existing entry in `data/shortlinks.yml`.
-- "Could not verify" (HTTP 401, 403 or 429) often means bot protection. Check the page
-  in a browser before treating it as dead.
+1. Run `uv run nfl-book prepare-links --check` (add `--report FILE` for a Markdown
+   list), or read the open `link-rot` issue. It lists dead links, permanent redirects
+   and pages it could not verify, with the files that use each URL, and changes nothing.
+2. "Could not verify" (HTTP 401, 403 or 429) often means bot protection. Check the page
+   in a browser before treating it as dead.
+3. For each dead or moved entry, open the listed file and pick a replacement source by
+   hand: the redirect target, a new page with the same recipe, or a Wayback Machine
+   snapshot (the report links them for dead pages).
+4. With the user's agreement, change `source.url` and run `make links` for the new
+   short link.
+
+Done when every reported URL is either replaced (with the user's agreement, its new
+short link added, validate clean) or confirmed live in a browser and reported back.

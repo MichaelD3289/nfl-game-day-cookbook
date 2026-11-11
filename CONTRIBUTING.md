@@ -37,7 +37,8 @@ and can also send a suggestion without a GitHub account
 1. Fork the repository and make a branch from current `main`.
 2. Keep one recipe, component, menu, or coherent change per PR. Read [AGENTS.md](AGENTS.md).
 3. Install [uv](https://docs.astral.sh/uv/) and run `uv sync --locked`, then `make hooks`
-   so Ruff and Prettier format your staged files at every commit.
+   so Ruff and Prettier format your staged files at every commit and `make check` runs
+   before every push.
 4. Use the appropriate starter and guide below. Paths determine the team, division,
    component kind, or menu type; use IDs from the project’s `data/` files.
 5. New content starts as a draft until editorial review. Do not invent metadata fields.

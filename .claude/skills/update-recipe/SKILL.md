@@ -1,69 +1,70 @@
 ---
 name: update-recipe
-description: Edit, fix, rename, move, retire or shorten an existing recipe in the NFL game-day cookbook. Use for any change to a file under recipes/.
+description: "Change an existing recipe in the NFL cookbook: edit, rename or move teams, retire, resolve a duplicate dish, or shorten an overflowing page."
 ---
 
 # Update a recipe
 
-> **Working from a GitHub issue?** Claim it first ([AGENTS.md](../../../AGENTS.md) rule
-> 15). If the issue already has the `in-progress` label, stop and ask a human; do not
-> work on it without their explicit permission. Otherwise add the label before you
-> change anything.
-
-Edit only the source `.md` file under `recipes/`. Never edit `generated/` or `dist/`.
-
 ## Common edits
 
-- **Wording, quantities or steps:** edit the body. Keep the page budget; see
-  "Fixing an overflow" below.
-- **Quick components:** follow the [shared ingredient wording convention](../add-component/SKILL.md#ingredient-wording-homemade-or-store-bought):
-  homemade choice, then `; or substitute` with an explicit
-  store-bought choice, and the component marker at the end of the ingredient line. Preserve batch quantities, approximate yields and measured
-  portions; check preparation instructions and verify scaling with synthetic examples.
-- **Scaling on the website:** keep each ingredient's amount at the start of the line.
-  Mark a line `{{no-scale}}` only when its amount must stay fixed (frying oil by pot
-  depth). Set `servings:` (a number or range such as `6-8`) when `yield` is not a
-  plain "N servings".
-- **Index values:** change `course` or the `index.*` fields. Allowed values are the
-  bucket ids in `data/indexes.yml`.
-- **Retiring or unpublishing:** set `status: retired` or `draft`. Then run
-  `grep -rn "<id>" menus/` and remove the id from any published menu or dish-off,
-  because published content may only reference published content.
-- **Source URL:** replace it with the full canonical URL, then run
-  `uv run nfl-book prepare-links`. That command never overwrites existing cache
-  entries; stale ones are harmless.
+- **Wording, quantities or steps:** edit the body and keep it within the page budget
+  (see "Fixing an overflow").
+- **Ingredient lines, component lines and groups:** follow
+  [recipe-body.md](../add-recipe/references/recipe-body.md). Done for groups when every
+  instruction step uses only its part's group.
+- **Index values:** change `course` or the `index.*` fields to bucket ids from
+  `data/indexes.yml`.
+- **Source URL:** set the full canonical URL, then follow `source-links`.
 - **Photo:** replace `<id>.jpg` next to the `.md`, and keep `photo_credit` accurate.
+
+## Retiring or unpublishing
+
+1. Set `status: retired` or `draft`.
+2. Find menus and dish-offs that list it (`rg -n "<id>" menus/`) and remove the id from
+   each published one.
+3. When it was published, update the recipe count in `book/frontmatter/cover.md`
+   (tagline and intro) to the output of `rg -l '^status: published' recipes | wc -l`.
+
+## Resolving a duplicate dish
+
+Validate warns "same title as" or "same source as" when two published recipes share a
+dish. Each dish belongs to one team.
+
+1. Choose the copy to keep: the one with the stronger regional tie to its team and the
+   better source. When both are defensible, present the choice to the user and wait.
+2. Retire the other copy (see "Retiring or unpublishing").
+3. When the kept id carries a team suffix (`-rams`, `-jets`), rename it (see below).
+4. Add a different local dish for the other team through `add-recipe`.
+
+Done when validate reports no "same title" or "same source" warning for either file.
 
 ## Renaming the id or moving teams
 
-The id is referenced by the file name, the image name and the menus.
-
-1. Rename the file with `git mv` so `<new-id>.md` matches the `id:` field.
-   Rename the image too and update `image:`.
+1. Rename with `git mv` so `<new-id>.md` matches the `id:` field. Rename the image too
+   and update `image:`.
 2. For a team change, move the file into `recipes/<conf>/<div>/<new-team>/`.
-   Don't add a team field.
-3. Run `grep -rln "<old-id>" menus/ components/ recipes/` and update every hit.
-4. Never hard-code page numbers anywhere; LaTeX resolves them from labels.
+3. Find references with `rg -ln "<old-id>" menus/ components/ recipes/` and update each
+   one in menus and component lines. `last_reviewed_notes` report links keep the old
+   id, because they point into a dated report.
 
 ## Fixing an overflow
 
 The build warns `recipe:<id> overflows its page (pages N-M)`.
 
-1. First remove content-level bloat:
+1. Remove content-level bloat:
    - editorial notes inside ingredient lines, such as "(source gives no quantity)"
    - repeated information
    - Kitchen Notes that only restate the timing
-2. Then merge short steps.
-3. Change the global layout only if many recipes overflow; see `layout-changes`.
+2. Merge short steps.
+3. Reach for the global layout (`layout-changes`) only when many recipes overflow.
 
-## Verify
+## Check it
 
 ```sh
 uv run nfl-book validate <path>
 make preview FILE=<path>
-make pdf 2>&1 | grep overflows    # expect no output
-make check
 ```
 
-Record user-visible changes in `CHANGELOG.md` under `[Unreleased]`, using
-`Changed`, `Fixed` or `Removed`.
+Done when validate reports no errors and no warnings for the files you touched, and,
+for a published recipe, the build per `build-pdf` has no overflow for it. The CHANGELOG
+entry is usually `Changed`, `Fixed` or `Removed`.

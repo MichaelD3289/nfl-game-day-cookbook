@@ -57,7 +57,8 @@ lint:
 format:
 	$(UV) run pre-commit run --all-files
 
-# Run the formatting hooks on staged files at every commit.
+# Run the formatting hooks on staged files at every commit, and `make check` before
+# every push.
 hooks:
 	$(UV) run pre-commit install
 

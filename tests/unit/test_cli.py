@@ -63,6 +63,7 @@ def test_validate_warns_about_old_review(fixture_book: Project) -> None:
     assert code == 0, output
     assert "test-buffalo-sliders.md" in output
     assert "634 days ago" in output
+    assert "warning [review]" in output
     assert "OK (1 warning(s))" in output
 
 

@@ -27,8 +27,9 @@ Rules for any human or AI agent editing this repository.
    write production content.
 9. **Do not add dependencies or install system software silently.** Justify any new
    package in the PR. Quarto and TinyTeX are installed by the user, not by scripts.
-10. **Keep it green.** Before finishing, run `make check` (formatting hooks, strict mypy,
-    pytest, `nfl-book validate`). Formatting is not a matter of taste here: Ruff formats
+10. **Keep it green.** `make check` (formatting hooks, strict mypy, pytest,
+    `nfl-book validate`) runs before every push through the pre-push hook; run it
+    yourself before you finish. Formatting is not a matter of taste here: Ruff formats
     and lints Python, Prettier formats Markdown, YAML, JSON, JS and CSS with its defaults,
     and `.pre-commit-config.yaml` defines both. Run `make hooks` once per checkout so they
     fix staged files at every commit, and `make format` to fix everything.
@@ -48,11 +49,7 @@ Rules for any human or AI agent editing this repository.
 
 13. **Release tags belong to automation.** Follow `creating-release`: prepare the
     version and dated changelog, then merge/push to `main`. Never create, push, move,
-    or delete release tags manually. `auto-tag.yml` compares the pushed version with
-    the highest stable tag and calls `release.yml` when eligible. This applies to both
-    merged branches and direct pushes. Existing tags are reused only for the highest
-    stable version at that exact pushed commit; tags on other commits are not moved
-    or automatically published. See the release skill for retry and merge behavior.
+    or delete release tags manually. See the release skill for retry and merge behavior.
 
 14. **Work in a worktree.** Do each task on its own branch in a git worktree under
     `.worktrees/<name>/` (`git worktree add .worktrees/<name> -b <branch> main`), not in
@@ -72,22 +69,7 @@ Rules for any human or AI agent editing this repository.
 
 ## Task skills
 
-Step-by-step playbooks for common work live in `.claude/skills/*/SKILL.md`:
-
-| Skill                 | Use it for                                                                    |
-| --------------------- | ----------------------------------------------------------------------------- |
-| `add-recipe`          | Adding a recipe for a team                                                    |
-| `review-recipes`      | Authenticity/source-quality audit of one recipe, a list, all or stale recipes |
-| `update-recipe`       | Editing, renaming, moving, retiring or shortening a recipe                    |
-| `add-component`       | "Make It or Buy It" components and `{{component:id}}` markers                 |
-| `menus-and-dish-offs` | Game-day menus and division dish-offs                                         |
-| `add-index`           | New or changed search indexes and recipe backfill                             |
-| `source-links`        | Source URLs, `data/shortlinks.yml`, QR codes                                  |
-| `build-pdf`           | Building, previewing and debugging the PDF                                    |
-| `layout-changes`      | Anything in `styles/` or `templates/`                                         |
-| `changelog`           | Writing CHANGELOG entries                                                     |
-| `creating-release`    | Preparing versions for automated tagging and publication on main              |
-| `logical-commits`     | Planning and creating every commit                                            |
+Step-by-step playbooks for common work live in `.claude/skills/*/SKILL.md`.
 
 Recipe content is imported. Adding or editing individual recipes is normal work;
 follow the skill for it.

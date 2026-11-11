@@ -1,19 +1,13 @@
 ---
 name: add-index
-description: Add, change or remove a search index in the NFL cookbook (e.g. "Index by Region", "Index by Cooking Method"), including new buckets and backfilling recipe front matter. Use for any edit to data/indexes.yml or src/nfl_book/indexes/.
+description: Add, change or remove a search index or website Browse filter (e.g. "Index by Region", "Index by Cooking Method"), including new buckets and backfilling recipe front matter. Use for any edit to data/indexes.yml or src/nfl_book/indexes/.
 ---
 
 # Add a search index
 
-> **Working from a GitHub issue?** Claim it first ([AGENTS.md](../../../AGENTS.md) rule
-> 15). If the issue already has the `in-progress` label, stop and ask a human; do not
-> work on it without their explicit permission. Otherwise add the label before you
-> change anything.
-
 Indexes are configured, not hard-coded. Each entry in `data/indexes.yml` produces
 one index page. That page lists recipe title, team and page reference, grouped
-by bucket in the order the buckets are listed. The page number comes from
-LaTeX, so no page numbers go anywhere.
+by bucket in the order the buckets are listed.
 
 Every index also becomes a filter on the website's **Browse recipes** page and a facet
 in `recipes.json`, in `indexes.yml` order, with no code changes. The ids `conference`,
@@ -50,11 +44,10 @@ in `recipes.json`, in `indexes.yml` order, with no code changes. The ids `confer
    so add a catch-all such as `other` or `variable` if needed.
 2. **Backfill every recipe.** With `required: true`, every published recipe
    without the key fails validation. Any recipe with an unknown key also fails.
-   - List the recipes: `ls recipes/*/*/*/*.md` (90+ files).
+   - List the recipes: `ls recipes/*/*/*/*.md`.
    - Add `cooking_method: <bucket>` under each recipe's `index:` mapping,
      after the existing keys.
-   - Decide from the recipe's Ingredients and Instructions; don't guess from the
-     title.
+   - Decide from the recipe's Ingredients and Instructions.
    - If a recipe is ambiguous, pick the dominant method and list those recipes
      for the user to review.
    - For a large backfill, you can stage it: land the index with
@@ -63,27 +56,27 @@ in `recipes.json`, in `indexes.yml` order, with no code changes. The ids `confer
    `indexes.yml` into the synthetic book, so the fixture recipes under
    `tests/fixtures/sample-book/recipes/` also need the new key.
 4. The `new recipe` scaffold adds the key automatically, because it reads
-   `front_matter_keys()`. Update the field list in the `add-recipe` skill.
+   `front_matter_keys()`.
 
 ## Option B: a computed index (derived, not authored)
 
 Use this when the bucket can be derived from existing data, for example
 "Index by Conference", which comes from the path.
 
-1. Add `src/nfl_book/indexes/<kind>.py`:
+1. Write the unit tests under `tests/unit/`, using the fixture book:
+   - bucket assignment
+   - validation of unknown buckets
+2. Add `src/nfl_book/indexes/<kind>.py`:
    ```python
    @register_index_kind("<kind>")
    class MyIndex(IndexDefinition):
        def buckets_for(self, recipe: Recipe) -> list[str]:
            ...  # return bucket ids; use self.config.options for settings
    ```
-2. Import it in `src/nfl_book/indexes/__init__.py`, as is done for `field`.
-3. Reference it from `data/indexes.yml` with `kind: <kind>`. Leave out `field`.
+3. Import it in `src/nfl_book/indexes/__init__.py`, as is done for `field`.
+4. Reference it from `data/indexes.yml` with `kind: <kind>`. Leave out `field`.
    Put any settings under `options:`.
-4. `front_matter_keys()` stays empty, so no recipe changes are needed.
-5. Write the unit tests **first**, under `tests/unit/`, using the fixture book:
-   - bucket assignment
-   - validation of unknown buckets
+5. `front_matter_keys()` stays empty, so no recipe changes are needed.
 
 ## Changing or removing an index
 
@@ -97,15 +90,13 @@ Use this when the bucket can be derived from existing data, for example
 
 ## Verify
 
-```sh
-uv run nfl-book validate           # every missing or unknown value is reported with its file
-make check
-make pdf 2>&1 | grep -E "overflows|error"
-```
+1. `uv run nfl-book validate` reports every missing or unknown value with its file.
+2. Build per `build-pdf`, and check the new index page in the PDF following its
+   page-rendering steps.
+3. Run `make website` and check the new filter on Browse recipes: order, labels and
+   counts.
+4. Empty buckets are skipped on the PDF page but still appear as zero-count filters on
+   the website's Browse page, so drop or merge buckets nobody uses.
 
-- Check the new index page in the PDF, following the page-rendering steps in the
-  `build-pdf` skill.
-- Every published recipe should appear in the index. Empty buckets still print a
-  heading, so drop or merge buckets nobody uses.
-- Add a CHANGELOG `[Unreleased]` → `Added` entry, for example
-  "Index by Cooking Method."
+Done when validate reports no `index` errors, and the PDF and the website both show the
+index. The CHANGELOG entry goes under `Added`, for example "Index by Cooking Method."
