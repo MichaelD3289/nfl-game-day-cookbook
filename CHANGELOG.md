@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The website has a warm, food-led game-day design with top navigation, regional recipe cards, and shortcuts to browse dishes or plan a spread. Cards show the city, full NFL team name, course, and practical time, with team names visually distinct from recipe titles; quick-option cards use a uniform subtle border, and existing cooking, menu, shopping, print, and search tools remain available.
 - Design checks recognize the inherited Arial fallback and the menu-summary border overridden by the website theme, with exceptions scoped to the legacy stylesheet.
 
+### Fixed
+
+- Release integration tests isolate their temporary Git repositories from inherited hook settings, so pre-push checks cannot change the checkout's Git configuration or create release-test refs in it.
+
 ## [0.18.0] - 2026-11-11
 
 ### Added
