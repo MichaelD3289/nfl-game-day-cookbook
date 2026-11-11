@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.19.0] - 2026-11-11
+
 ### Changed
 
 - The website has a warm, food-led game-day design with top navigation, regional recipe cards, and shortcuts to browse dishes or plan a spread. Cards show the city, full NFL team name, course, and practical time, with team names visually distinct from recipe titles; quick-option cards use a uniform subtle border, and existing cooking, menu, shopping, print, and search tools remain available.
@@ -370,7 +372,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.18.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.19.0...HEAD
+[0.19.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.16.0...v0.17.0
 [0.16.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.15.0...v0.16.0
