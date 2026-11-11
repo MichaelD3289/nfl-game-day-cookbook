@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- PDF division pages list the four teams two to a row, and each recipe line shows only its course, since the team heading sits above it. A division now fits about twice as many recipes on its one page.
+
 ## [0.19.1] - 2026-11-11
 
 ### Fixed

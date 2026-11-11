@@ -136,6 +136,11 @@
 \newcommand{\DivisionTeam}[3]{% label, team, location
   \par\vspace{8pt}\noindent\BookAnchor{#1}{\bfseries\color{BookNavy}#2}\hfill{\small\color{BookMuted}#3}\BookRule\vspace{3pt}}
 \newcommand{\DivisionRecipe}[3]{{\hspace*{1em}\BookRefLink{#1}{#2}\ {\footnotesize\color{BookMuted}#3}\dotfill\BookPageRef{#1}\par}}
+% Teams sit two to a row; each column holds one team heading and its recipes.
+\newenvironment{DivisionTeamRow}{\par\noindent}{\par\vspace{\BookDivisionRowGap}}
+\newenvironment{DivisionTeamColumn}
+  {\begin{minipage}[t]{\dimexpr(\linewidth-\BookDivisionColumnSep)/2\relax}}
+  {\end{minipage}}
 \newcommand{\DivisionEmptyTeam}{{\small\itshape\color{BookMuted}\hspace*{1em}Recipes coming soon.\par}}
 \newenvironment{DivisionDishOffs}
   {\par\vfill\begin{tcbraster}[raster columns=2, raster equal height=rows, raster column skip=10pt]}
