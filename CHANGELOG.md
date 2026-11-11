@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The Dolphins' Cuban black beans and rice is now listed as a side instead of a meal.
 - PDF division pages list the four teams two to a row, and each recipe line shows only its course, since the team heading sits above it. A division now fits about twice as many recipes on its one page.
 
+### Fixed
+
+- A long recipe title on a PDF division page now wraps under itself, keeping its course, dot leaders and page number together on its last line.
+
 ## [0.19.1] - 2026-11-11
 
 ### Fixed
