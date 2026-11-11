@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `nfl-book validate` warns about a recipe whose only ingredient group holds every ingredient, which usually means the main ingredients ended up under a sauce or salad heading. It is a warning, so `validate` and `make check` still pass.
+- `nfl-book validate` warns when two published recipes share a title or a source URL, naming the other file and its team, because each dish belongs to one team. It is a warning, so `validate` and `make check` still pass.
+
+### Changed
+
+- The `add-recipe` and `update-recipe` skills explain how to group ingredients: one `###` group for each part of the dish, matching the steps that use it. The `review-recipes` skill now checks groups against the instructions and lowers the readability grade for misgrouped ingredients.
+- The `add-recipe` skill checks the book for the same dish before adding one, especially for teams that share a city, and gives the second team a different local dish. `review-recipes` flags duplicates across the whole book, and `update-recipe` explains how to resolve one.
+- `make hooks` now also installs a pre-push hook that runs `make check`, so the full check runs before every push instead of being expected after every commit. Commit-time hooks still format staged files.
+- The agent skills are shorter and each ends on a clear done check: `build-pdf` covers recipe cards and division booklets, `layout-changes` moves website and EPUB guidance into their own pages, `creating-release` releases through a squash-merged pull request and owns the release commit, and `logical-commits` covers pull request titles. AGENTS.md rules 10–13 match.
+
+### Fixed
+
+- `nfl-book validate` and other commands show the `[code]` in each error and warning (for example `warning [review]`) and no longer drop bracketed text from messages.
+- `nfl-book prepare-links --help` no longer says it makes QR codes; QR codes are made at build time.
+
 ## [0.17.0] - 2026-10-18
 
 ### Added
