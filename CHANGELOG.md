@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- A `merge-train` skill merges a batch of open pull requests in dependency order and cuts releases between them. It starts with a read-only plan you approve, rebases stacked PRs safely, and checks that each release published all its files.
+
 ## [0.20.0] - 2026-11-11
 
 ### Added
