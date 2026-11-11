@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Fifteen recipes fill missing courses for the AFC East and North teams, bringing the book to 105: kummelweck rolls (Bills); conch fritters and Joe's Stone Crab Key lime pie (Dolphins); fried whole-belly clams (Patriots); half-sour pickles and New York cheesecake (Jets); hot Baltimore crab dip and sauerkraut with apples (Ravens); Cincinnati chili dip, Izzy's-style potato pancakes and buckeyes (Bengals); sauerkraut balls, Balaton spaetzle and Cleveland cassata cake (Browns); and stuffed banana peppers (Steelers).
+
 ### Changed
 
 - The Dolphins' Cuban black beans and rice is now listed as a side instead of a meal.
