@@ -27,32 +27,22 @@ Rules for any human or AI agent editing this repository.
    write production content.
 9. **Do not add dependencies or install system software silently.** Justify any new
    package in the PR. Quarto and TinyTeX are installed by the user, not by scripts.
-10. **Keep it green.** Before finishing, run `make check` (formatting hooks, strict mypy,
-    pytest, `nfl-book validate`). Formatting is not a matter of taste here: Ruff formats
+10. **Keep it green.** `make check` (formatting hooks, strict mypy, pytest,
+    `nfl-book validate`) runs before every push through the pre-push hook; run it
+    yourself before you finish. Formatting is not a matter of taste here: Ruff formats
     and lints Python, Prettier formats Markdown, YAML, JSON, JS and CSS with its defaults,
-    and `.pre-commit-config.yaml` defines both. Run `make hooks` once per checkout so they
-    fix staged files at every commit, and `make format` to fix everything.
-11. **Log every change in the changelog.** Any change you make that a reader of the
-    book or a user of the tooling would notice (content, layout, CLI, Make targets,
-    config, agent rules and skills) gets an entry under `## [Unreleased]` in
-    `CHANGELOG.md`, in the matching Keep a Changelog section (Added, Changed,
-    Deprecated, Removed, Fixed, Security). Add it in the same change, not later.
-    Describe the effect in one or two plain sentences, and do not repeat entries that
-    already cover your change. Only the `creating-release` skill turns `[Unreleased]` into a
-    version.
-12. **Commit through the `logical-commits` skill.** Every commit is one coherent,
-    Conventional Commit change that passes `make check` by itself, carries its own
-    CHANGELOG entry and has no AI attribution. Pull request titles and descriptions carry
-    no AI attribution either; `.claude/settings.json` turns Claude Code's off. Present the
-    commit plan and get approval before staging.
-
-13. **Release tags belong to automation.** Follow `creating-release`: prepare the
-    version and dated changelog, then merge/push to `main`. Never create, push, move,
-    or delete release tags manually. `auto-tag.yml` compares the pushed version with
-    the highest stable tag and calls `release.yml` when eligible. This applies to both
-    merged branches and direct pushes. Existing tags are reused only for the highest
-    stable version at that exact pushed commit; tags on other commits are not moved
-    or automatically published. See the release skill for retry and merge behavior.
+    and `.pre-commit-config.yaml` defines both. Run `make hooks` once per checkout so
+    they format staged files at every commit and run `make check` at every push, and
+    `make format` to fix everything.
+11. **Log every change in the changelog.** Any change that a reader of the book or a
+    user of the tooling would notice (content, layout, CLI, Make targets, config, hooks,
+    agent rules and skills) gets an entry under `## [Unreleased]` in `CHANGELOG.md`, in
+    the same change, through the `changelog` skill.
+12. **Commit through the `logical-commits` skill.** Every commit is one coherent
+    Conventional Commit change with its own CHANGELOG entry and no AI attribution, and
+    so are pull request titles and descriptions; `.claude/settings.json` turns Claude
+    Code's off. Present the commit plan and get approval before staging.
+13. **Release tags belong to automation.** Release through `creating-release`.
 
 14. **Work in a worktree.** Do each task on its own branch in a git worktree under
     `.worktrees/<name>/` (`git worktree add .worktrees/<name> -b <branch> main`), not in
@@ -82,12 +72,12 @@ Step-by-step playbooks for common work live in `.claude/skills/*/SKILL.md`:
 | `add-component`       | "Make It or Buy It" components and `{{component:id}}` markers                 |
 | `menus-and-dish-offs` | Game-day menus and division dish-offs                                         |
 | `add-index`           | New or changed search indexes and recipe backfill                             |
-| `source-links`        | Source URLs, `data/shortlinks.yml`, QR codes                                  |
-| `build-pdf`           | Building, previewing and debugging the PDF                                    |
-| `layout-changes`      | Anything in `styles/` or `templates/`                                         |
+| `source-links`        | Source URLs, `data/shortlinks.yml`, dead or moved sources                     |
+| `build-pdf`           | Building, previewing and debugging the book, cards and booklets               |
+| `layout-changes`      | Anything in `styles/` or `templates/` (print, website, EPUB)                  |
 | `changelog`           | Writing CHANGELOG entries                                                     |
-| `creating-release`    | Preparing versions for automated tagging and publication on main              |
-| `logical-commits`     | Planning and creating every commit                                            |
+| `creating-release`    | Releasing a version; failed or skipped publication                            |
+| `logical-commits`     | Planning and creating every commit, and PR titles                             |
 
 Recipe content is imported. Adding or editing individual recipes is normal work;
 follow the skill for it.
