@@ -12,6 +12,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `nfl-book validate` warns about a recipe whose only ingredient group holds every ingredient, which usually means the main ingredients ended up under a sauce or salad heading. It is a warning, so `validate` and `make check` still pass.
 - `nfl-book validate` warns when two published recipes share a title or a source URL, naming the other file and its team, because each dish belongs to one team. It is a warning, so `validate` and `make check` still pass.
 
+### Changed
+
+- `make hooks` now also installs a pre-push hook that runs `make check`, so the full check runs before every push instead of being expected after every commit. Commit-time hooks still format staged files.
+
+### Fixed
+
+- `nfl-book validate` and other commands show the `[code]` in each error and warning (for example `warning [review]`) and no longer drop bracketed text from messages.
+- `nfl-book prepare-links --help` no longer says it makes QR codes; QR codes are made at build time.
+
+### Added
+
+- `nfl-book validate` warns about a recipe whose only ingredient group holds every ingredient, which usually means the main ingredients ended up under a sauce or salad heading. It is a warning, so `validate` and `make check` still pass.
+- `nfl-book validate` warns when two published recipes share a title or a source URL, naming the other file and its team, because each dish belongs to one team. It is a warning, so `validate` and `make check` still pass.
+
 ### Fixed
 
 - `nfl-book validate` and other commands show the `[code]` in each error and warning (for example `warning [review]`) and no longer drop bracketed text from messages.
