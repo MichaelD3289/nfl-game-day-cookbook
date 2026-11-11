@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- `AGENTS.md` is shorter: the task-skills table and the description of how `auto-tag.yml` works are gone, since agents already see each skill's description and the `creating-release` skill documents tagging. The rules themselves are unchanged.
+
 ## [0.17.0] - 2026-10-18
 
 ### Added
