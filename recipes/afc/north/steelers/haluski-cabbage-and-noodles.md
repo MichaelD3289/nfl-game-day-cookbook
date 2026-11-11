@@ -7,7 +7,7 @@ last_reviewed_at: 2026-09-26
 last_reviewed_notes: >-
   Kept: Pittsburgh fit; faithful with minor wording gaps. Readability B.
   Report: docs/reviews/2026-09-26-recipe-review-all/report.md#haluski-cabbage-and-noodles
-course: meals
+course: sides
 location: Pittsburgh, PA
 yield: 8 servings
 prep: 20 minutes
@@ -30,11 +30,11 @@ source:
 - 1–1 1/2 teaspoons sea salt, divided
 - 1–1 1/2 teaspoons black pepper, divided
 - 8 ounces wide egg noodles
-- 2 green onions, chopped
 - Optional: 1 (14-ounce) package kielbasa, sliced into 1/2-inch rings
 
 ### For serving
 
+- 2 green onions, chopped
 - Sour cream, optional
 
 ## Instructions

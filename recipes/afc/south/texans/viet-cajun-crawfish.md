@@ -24,6 +24,8 @@ source:
 
 ## Ingredients
 
+### Boil
+
 - 15 pounds live crawfish
 - 1/2 to 1 1/2 cups powdered crawfish boil spice, plus more to taste for the second batch
 - 1/2 cup unfiltered apple cider vinegar
@@ -35,6 +37,9 @@ source:
 - 2 citrus (makrut lime) leaves
 - 3 jalapeños, halved
 - 4 oranges, 1 lemon and 3 limes, halved
+
+### Vegetables
+
 - 1 pound small new potatoes
 - 1/2 pound carrots
 - 12 boiling onions
@@ -47,6 +52,9 @@ source:
 - 1/2 pound (2 sticks) butter
 - 4–6 cloves garlic, minced
 - Crawfish boil spice, to taste
+
+### For serving
+
 - 3 limes, cut into wedges
 
 ## Instructions

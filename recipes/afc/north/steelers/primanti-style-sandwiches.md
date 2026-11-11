@@ -24,14 +24,22 @@ source:
 
 ## Ingredients
 
+### Slaw
+
 - 3 cups finely shredded Savoy cabbage
 - 1 tablespoon cider vinegar
 - 2 teaspoons extra-virgin olive oil
 - 1/4 teaspoon crushed celery seed
 - 1/4 teaspoon kosher salt, plus more to season
 - 1/4 teaspoon sugar
+
+### Fries
+
 - 2 small russet potatoes
 - Vegetable oil, for frying
+
+### Sandwiches
+
 - 4 ounces sliced capicola (hot or sweet, to preference)
 - 4 ounces sliced provolone
 - 4 thick slices thick-cut, soft Italian sandwich bread, about 6 by 4 inches and not too crusty

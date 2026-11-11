@@ -32,16 +32,24 @@ source:
 - 2 tablespoons vegetable oil
 - Kosher salt, to taste
 
+### Hot dogs
+
 - 8 jumbo all-beef hot dogs (beef is Tucson-style recommendation; source says jumbo dogs)
 - 8 regular-cut bacon slices
+
+### Beans and onions
+
 - 1 (15.5-ounce) can pinto beans, rinsed and drained
+- Kosher salt and black pepper, to taste
 - 2 tablespoons vegetable oil for onions
 - 2 medium white onions, thinly sliced
+
+### For serving
+
 - 8 soft bolillo-style Sonoran hot-dog rolls, or soft bolillos
 - 2 medium tomatoes, finely chopped
 - 2 avocados, peeled, pitted and chopped
 - Mayonnaise and yellow mustard, for drizzling
-- Kosher salt and black pepper, to taste
 
 ## Instructions
 

@@ -24,12 +24,6 @@ source:
 
 ## Ingredients
 
-- Semolina or cornmeal for dusting
-- 1 cup prepared sauce, divided
-- 7 ounces shredded whole-milk, low-moisture mozzarella
-- 1/4 cup grated Parmigiano-Reggiano
-- Red pepper flakes and dried oregano, optional
-
 ### Dough
 
 - 3 cups bread flour
@@ -44,6 +38,13 @@ source:
 - 1 can (28 ounces) whole peeled canned tomatoes, preferably plum
 - 1 teaspoon salt
 - 1 teaspoon sugar
+
+### Assembly
+
+- Semolina or cornmeal for dusting
+- 7 ounces shredded whole-milk, low-moisture mozzarella
+- 1/4 cup grated Parmigiano-Reggiano
+- Red pepper flakes and dried oregano, optional
 
 ## Instructions
 

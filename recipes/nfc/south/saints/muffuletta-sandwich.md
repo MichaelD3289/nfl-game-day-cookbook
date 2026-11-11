@@ -41,6 +41,9 @@ source:
 - 2 tablespoons red wine vinegar
 
 - Kosher salt and black pepper, to taste
+
+### Sandwich
+
 - 1 round 8–10-inch Italian sesame-seed loaf (muffuletta loaf if available)
 - 6 ounces thinly sliced deli ham
 - 6 ounces thinly sliced Genoa salami

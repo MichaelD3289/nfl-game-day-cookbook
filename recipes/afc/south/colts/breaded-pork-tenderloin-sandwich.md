@@ -28,7 +28,7 @@ source:
 - 2 cups all-purpose flour
 - 2 sleeves Ritz crackers, finely crushed
 - 2 tablespoons garlic powder
-- 1 tablespoon black pepper, plus a second 1-tablespoon “pepper” entry printed by source (likely duplicate; see note)
+- 1 tablespoon black pepper, plus 1 tablespoon more for extra heat (optional; see step 2)
 - 2 tablespoons salt
 - 4 eggs
 - 1 cup milk

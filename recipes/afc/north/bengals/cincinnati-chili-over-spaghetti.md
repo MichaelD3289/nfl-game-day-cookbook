@@ -24,6 +24,8 @@ source:
 
 ## Ingredients
 
+### Chili
+
 - 4 tablespoons extra-virgin olive oil
 - 2 sweet onions (such as Vidalia), finely chopped, plus more for topping
 - 2 pounds ground beef chuck
@@ -31,6 +33,7 @@ source:
 - 4 cloves garlic, minced
 - 1 (15-ounce) can tomato sauce
 - 2 medium tomatoes, diced
+- 1 cup water
 - 1/4 cup apple cider vinegar
 - 1/4 cup chili powder
 - 2 tablespoons paprika
@@ -39,6 +42,9 @@ source:
 - 1/2 teaspoon ground allspice
 - 1/4 teaspoon ground cloves
 - 1/4 teaspoon cayenne pepper
+
+### For serving
+
 - 1 pound spaghetti, cooked
 - For topping 8 servings: about 2 cups warm red kidney beans (optional four-way style; the source uses pinto beans) and 4 cups finely shredded mild yellow cheddar; add to preference
 - Oyster crackers, optional
@@ -46,5 +52,5 @@ source:
 ## Instructions
 
 1. Heat oil in a heavy pot. Cook onions until translucent and set aside. Brown beef with 1/2 teaspoon each salt and pepper, breaking it up; remove from heat, return onions, and stir in garlic.
-2. Mix tomato sauce, diced tomatoes, vinegar, chili powder, paprika, cinnamon, cumin, allspice, cloves, and cayenne with 1 cup water. Add to pot and simmer until slightly thickened, about 1 hour 30 minutes.
+2. Mix tomato sauce, diced tomatoes, vinegar, chili powder, paprika, cinnamon, cumin, allspice, cloves, cayenne and water. Add to pot and simmer until slightly thickened, about 1 hour 30 minutes.
 3. For a 3-way, ladle chili over hot spaghetti and cover with finely shredded cheddar. Add chopped raw onion or warm kidney beans for a 4-way; add both for a 5-way. Offer oyster crackers on the side.
