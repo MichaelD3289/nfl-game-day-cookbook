@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Fifteen recipes fill missing courses for the AFC East and North teams, bringing the book to 105: kummelweck rolls (Bills); conch fritters and Joe's Stone Crab Key lime pie (Dolphins); fried whole-belly clams (Patriots); half-sour pickles and New York cheesecake (Jets); hot Baltimore crab dip and sauerkraut with apples (Ravens); Cincinnati chili dip, Izzy's-style potato pancakes and buckeyes (Bengals); sauerkraut balls, Balaton spaetzle and Cleveland cassata cake (Browns); and stuffed banana peppers (Steelers).
+- Eighteen recipes fill missing courses for the AFC South and West teams, bringing the book to 123: Brown County fried biscuits with apple butter (Colts); smoked mullet dip, Gullah red rice and Minorcan fromajardis (Jaguars); Ninfa's green sauce, charro beans and Texas sheet cake (Texans); country ham and cheese biscuits and fried green tomatoes with pimiento cheese (Titans); Rocky Mountain oysters, Pueblo chile cornbread and Palisade peach cobbler (Broncos); Mexican red rice and tres leches cake (Chargers); candied bacon and baby sweet potato pies (Chiefs); and Delmonico creamed spinach and Golden Nugget bread pudding (Raiders).
 
 ### Changed
 
