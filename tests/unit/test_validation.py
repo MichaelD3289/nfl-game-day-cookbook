@@ -118,6 +118,53 @@ def test_always_include_silences_unused_warning(fixture_book: Project) -> None:
     assert not [d for d in warnings if d.code == "unused"]
 
 
+def ingredient_warnings(project: Project, path: Path) -> list[str]:
+    warnings = load(project).diagnostics.warnings
+    return [d.message for d in warnings if d.code == "ingredients" and d.path == path]
+
+
+def test_lone_ingredient_group_holding_every_item_warns(fixture_book: Project) -> None:
+    path = edit(fixture_book, SLIDERS, "\n### To serve\n", "")
+    messages = ingredient_warnings(fixture_book, path)
+    assert len(messages) == 1
+    assert "'Sliders'" in messages[0]
+
+
+def test_ungrouped_items_before_a_lone_group_do_not_warn(fixture_book: Project) -> None:
+    path = edit(fixture_book, SLIDERS, "### Sliders\n", "")
+    assert ingredient_warnings(fixture_book, path) == []
+
+
+def duplicate_warnings(project: Project) -> dict[str, str]:
+    warnings = load(project).diagnostics.warnings
+    return {d.path.stem: d.message for d in warnings if d.code == "duplicate" and d.path}
+
+
+def test_published_recipes_with_the_same_title_warn(fixture_book: Project) -> None:
+    edit(fixture_book, WINGS, "title: Test Citrus Wings", "title: Test buffalo-sliders!")
+    found = duplicate_warnings(fixture_book)
+    assert set(found) == {"test-buffalo-sliders", "test-citrus-wings"}
+    assert "test-citrus-wings.md" in found["test-buffalo-sliders"]
+    assert "title" in found["test-buffalo-sliders"]
+
+
+def test_published_recipes_with_the_same_source_warn(fixture_book: Project) -> None:
+    edit(
+        fixture_book,
+        WINGS,
+        "https://example.com/recipes/test-citrus-wings",
+        "https://example.com/recipes/test-buffalo-sliders?ref=fixture&x=1",
+    )
+    found = duplicate_warnings(fixture_book)
+    assert set(found) == {"test-buffalo-sliders", "test-citrus-wings"}
+    assert "source" in found["test-citrus-wings"]
+
+
+def test_draft_duplicate_does_not_warn(fixture_book: Project) -> None:
+    edit(fixture_book, NACHOS, "title: Test Draft Nachos", "title: Test Buffalo Sliders")
+    assert duplicate_warnings(fixture_book) == {}
+
+
 def test_menu_unknown_recipe(fixture_book: Project) -> None:
     path = edit(fixture_book, MENU, "test-citrus-wings]", "test-ghost]")
     assert "reference: unknown recipe 'test-ghost'" in errors_for(fixture_book, path)

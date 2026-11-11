@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Callable, Iterable, Sequence
 from datetime import date
 from pathlib import Path
@@ -79,6 +80,7 @@ def validate_content(
         _validate_recipe(recipe, indexes, components, diags)
     for component in content.components:
         _validate_component(component, components, diags)
+    _validate_duplicates(content.recipes, diags)
     _validate_graph(content, components, diags)
     _validate_menus(content, recipes, diags)
     _validate_shortlinks(content, shortlinks, diags, require_shortlinks)
@@ -111,6 +113,53 @@ def _validate_recipe(
             )
     if recipe.meta.image and not (path.parent / recipe.meta.image).is_file():
         diags.error("asset", f"image not found: {recipe.meta.image}", path)
+    _check_ingredient_groups(recipe, diags)
+
+
+def _check_ingredient_groups(recipe: Recipe, diags: Diagnostics) -> None:
+    """Warn when one ``###`` group holds every ingredient.
+
+    That usually means the main ingredients were left under a sub-recipe heading
+    (a sauce or salad listed first), because a group runs until the next heading.
+    """
+    groups = recipe.ingredients
+    if len(groups) == 1 and groups[0].heading is not None:
+        diags.warning(
+            "ingredients",
+            f"ingredient group {groups[0].heading!r} holds every ingredient; give each "
+            "part of the dish its own '###' group, or remove the heading",
+            recipe.path,
+        )
+
+
+def _title_key(title: str) -> str:
+    return " ".join(re.findall(r"[a-z0-9]+", title.casefold()))
+
+
+def _validate_duplicates(recipes: Sequence[Recipe], diags: Diagnostics) -> None:
+    """Warn when published recipes share a title or a source URL.
+
+    Teams that share a city each get their own local dishes, so the same dish on
+    two teams is a duplicate to resolve (see the update-recipe skill).
+    """
+    seen: dict[tuple[str, str], Recipe] = {}
+    for recipe in recipes:
+        if not is_published(recipe.meta.status):
+            continue
+        keys = [("title", _title_key(recipe.title))]
+        if recipe.meta.source:
+            keys.append(("source", recipe.meta.source.url.strip().rstrip("/")))
+        for kind, value in keys:
+            other = seen.setdefault((kind, value), recipe)
+            if other is recipe:
+                continue
+            for here, there in ((recipe, other), (other, recipe)):
+                diags.warning(
+                    "duplicate",
+                    f"same {kind} as {there.path.name} ({there.team.name}); keep one "
+                    "and give the other team a different local dish",
+                    here.path,
+                )
 
 
 def _check_refs(
