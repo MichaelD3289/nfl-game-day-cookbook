@@ -668,9 +668,17 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
         check=False,
     )
     staged = build_dir / "_site"
-    if compiled.returncode or not (staged / "index.html").is_file():
+    if compiled.returncode:
         tail = "\n".join((compiled.stdout + compiled.stderr).splitlines()[-35:])
         diags.error("website", f"Quarto HTML build failed:\n{tail}", build_dir / "_quarto.yml")
+        raise ValidationFailed(diags)
+    if not (staged / "index.html").is_file():
+        diags.error(
+            "website",
+            "Quarto finished but rendered no pages (no _site/index.html); check that "
+            "project.render in _quarto.yml lists the site's pages.",
+            build_dir / "_quarto.yml",
+        )
         raise ValidationFailed(diags)
     from nfl_book.website_check import check_site
 
