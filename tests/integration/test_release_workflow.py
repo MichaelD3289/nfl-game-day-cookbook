@@ -24,9 +24,24 @@ WORKFLOW = Path(__file__).resolve().parents[2] / ".github/workflows/release.yml"
         ("wrong-checkout", False),
     ],
 )
-def test_release_requires_tag_on_main(tmp_path: Path, case: str, allowed: bool) -> None:
+def test_release_requires_tag_on_main(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, case: str, allowed: bool
+) -> None:
+    clean_env = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+    parent = tmp_path / "parent.git"
+    subprocess.run(
+        ["git", "init", "--bare", str(parent)], env=clean_env, check=True, capture_output=True
+    )
+    parent_config = (parent / "config").read_bytes()
+    monkeypatch.setenv("GIT_DIR", str(parent))
+    monkeypatch.setenv("GIT_COMMON_DIR", str(parent))
+    monkeypatch.setenv("GIT_WORK_TREE", str(tmp_path))
+    monkeypatch.setenv("GIT_INDEX_FILE", str(parent / "index"))
+
     def git(*args: str) -> str:
-        return subprocess.check_output(["git", *args], cwd=tmp_path, text=True).strip()
+        return subprocess.check_output(
+            ["git", *args], cwd=tmp_path, env=clean_env, text=True
+        ).strip()
 
     git("init", "-b", "main")
     git("config", "user.email", "test@example.com")
@@ -58,11 +73,14 @@ def test_release_requires_tag_on_main(tmp_path: Path, case: str, allowed: bool) 
     result = subprocess.run(
         ["bash", "-e", "-o", "pipefail", "-c", guard],
         cwd=tmp_path,
-        env={**os.environ, "TAG": tag},
+        env={**clean_env, "TAG": tag},
         capture_output=True,
         text=True,
     )
     assert (result.returncode == 0) is allowed, result.stdout + result.stderr
+    assert (parent / "config").read_bytes() == parent_config
+    assert not list((parent / "refs" / "tags").iterdir())
+    assert not list((parent / "refs" / "heads").iterdir())
 
 
 def test_release_builds_and_publishes_recipe_cards(fixture_book: Project) -> None:

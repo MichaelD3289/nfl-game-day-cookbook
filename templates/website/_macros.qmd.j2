@@ -1,7 +1,23 @@
 {% macro anchor(label) %}<span id="{{ label|anchor|e }}"></span>
 
 {% endmacro %}
-{% macro link(ref, description=true, team=true) %}{% set meta = [ref.team if team else "", ref.course]|select|list %}<a class="dish-name" href="{{ route(ref.label)|e }}">{{ ref.title|e }}</a>{% if meta %} <span class="dish-meta">{{ meta|join(" · ")|e }}</span>{% elif ref.note %} <span class="ref-note">{{ ref.note|e }}</span>{% endif %}{% if description and descriptions.get(ref.label) %} <span class="dish-description">{{ descriptions[ref.label]|e }}</span>{% endif %}{% endmacro %}
+{% macro link(ref, description=true, team=true) %}{% set card = recipe_cards.get(ref.label) %}{% set team_name = card.team.name if card else ref.team %}{% set meta = [team_name if team else "", ref.course]|select|list %}<a class="dish-name" href="{{ route(ref.label)|e }}">{{ ref.title|e }}</a>{% if meta %} <span class="dish-meta">{{ meta|join(" · ")|e }}</span>{% elif ref.note %} <span class="ref-note">{{ ref.note|e }}</span>{% endif %}{% if description and descriptions.get(ref.label) %} <span class="dish-description">{{ descriptions[ref.label]|e }}</span>{% endif %}{% endmacro %}
+{% macro recipe_card(recipe) -%}
+{% set card = recipe_cards["recipe:" ~ recipe.id] %}
+<a href="{{ card.url|e }}">
+{% if card.photo %}<img src="{{ card.photo|e }}" width="{{ card.photo_size }}" height="{{ card.photo_size }}" loading="lazy" decoding="async" alt="">{% else %}<span class="finder-photo-empty" aria-hidden="true"></span>{% endif %}
+<span class="finder-location">{{ card.location|e }}</span>
+<span class="finder-team">{{ card.team.name|e }}</span>
+<span class="finder-title">{{ card.title|e }}</span>
+<span class="finder-facts">{{ card.course_label|e }}{% if card.time_label %} · {{ card.time_label|e }}{% endif %}</span>
+{% if card.description %}<span class="finder-description">{{ card.description|e }}</span>{% endif %}
+</a>
+{%- endmacro %}
+{% macro menu_photos(refs) -%}
+{% set photos = [] %}
+{% for ref in refs %}{% set card = recipe_cards.get(ref.label) %}{% if card and card.photo %}{% set _ = photos.append(card) %}{% endif %}{% endfor %}
+{% if photos %}<div class="menu-preview-photos">{% for card in photos[:3] %}<a href="{{ card.url|e }}"><img src="{{ card.photo|e }}" width="{{ card.photo_size }}" height="{{ card.photo_size }}" loading="lazy" decoding="async" alt="{{ card.title|e }}"></a>{% endfor %}</div>{% endif %}
+{%- endmacro %}
 {% macro ingredients(groups) %}
 {% for group in groups %}
 {% if group.heading %}

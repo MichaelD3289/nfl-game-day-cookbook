@@ -19,8 +19,10 @@ Pick dishes from any team, then print them together or take one shopping list to
 <ul class="menu-dish-list">
 {% for dish in course.dishes %}
 <li class="menu-dish" data-id="{{ dish.id|e }}" data-course="{{ course.id|e }}" data-facets="{{ dish.facets_json|e }}" data-url="{{ dish.url|e }}"{% if dish.print_pages %} data-print-pages="{{ dish.print_pages|join(" ")|e }}"{% endif %}>
-<span class="menu-dish-text"><a class="menu-dish-name" href="{{ dish.url|e }}">{{ dish.title|e }}</a>
+{% if dish.photo %}<a class="menu-dish-photo" href="{{ dish.url|e }}"><img src="{{ dish.photo|e }}" width="{{ dish.photo_size }}" height="{{ dish.photo_size }}" loading="lazy" decoding="async" alt="{{ dish.title|e }}"></a>{% endif %}
+<span class="menu-dish-text"><span class="menu-dish-location">{{ dish.location|e }}</span>
 <span class="menu-dish-team">{{ dish.team.name|e }}</span>
+<a class="menu-dish-name" href="{{ dish.url|e }}">{{ dish.title|e }}</a>
 {% if dish.description %}<span class="menu-dish-description">{{ dish.description|e }}</span>{% endif %}</span>
 <button type="button" class="menu-add" hidden aria-pressed="false" aria-label="Add {{ dish.title|e }} to your menu">Add</button>
 </li>

@@ -180,7 +180,8 @@ def test_release_workflow_and_website_use_the_one_epub_name(fixture_book: Projec
     assert f"EPUB: dist/{EPUB_FILENAME}\n" in workflow
     site = build_website(fixture_book, render=False).document.parent
     navbar = yaml.safe_load((site / "_quarto.yml").read_text())["website"]["navbar"]["right"]
-    links = {item["text"]: item["href"] for item in navbar}
+    downloads = next(item["menu"] for item in navbar if item["text"] == "Downloads")
+    links = {item["text"]: item["href"] for item in downloads}
     assert links["Download EPUB"].startswith(f"{RELEASES}/download/v")
     assert links["Download EPUB"].endswith(f"/{EPUB_FILENAME}")
 

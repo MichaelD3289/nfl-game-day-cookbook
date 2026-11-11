@@ -21,14 +21,29 @@ SCRIPT = Path(__file__).resolve().parents[2] / ".github/scripts/tag_release.py"
     ],
 )
 def test_auto_tag_and_retry(
-    tmp_path: Path, version: str, previous: str | None, expected: str
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    version: str,
+    previous: str | None,
+    expected: str,
 ) -> None:
+    clean_env = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+    parent = tmp_path / "parent.git"
+    subprocess.run(
+        ["git", "init", "--bare", str(parent)], env=clean_env, check=True, capture_output=True
+    )
+    parent_config = (parent / "config").read_bytes()
+    # Simulate the repository environment inherited when pytest runs in a Git hook.
+    monkeypatch.setenv("GIT_DIR", str(parent))
+    monkeypatch.setenv("GIT_COMMON_DIR", str(parent))
+    monkeypatch.setenv("GIT_WORK_TREE", str(tmp_path))
+    monkeypatch.setenv("GIT_INDEX_FILE", str(parent / "index"))
     repo = tmp_path / "repo"
     repo.mkdir()
     remote = tmp_path / "remote.git"
 
     def git(*args: str) -> str:
-        return subprocess.check_output(["git", *args], cwd=repo, text=True).strip()
+        return subprocess.check_output(["git", *args], cwd=repo, env=clean_env, text=True).strip()
 
     git("init", "--bare", str(remote))
     git("init", "-b", "main")
@@ -46,7 +61,7 @@ def test_auto_tag_and_retry(
     sha = git("rev-parse", "HEAD")
     output = tmp_path / "output"
     env = {
-        **os.environ,
+        **clean_env,
         "GITHUB_REF": "refs/heads/main",
         "GITHUB_SHA": sha,
         "GITHUB_OUTPUT": str(output),
@@ -73,3 +88,6 @@ def test_auto_tag_and_retry(
     env["GITHUB_REF"] = "refs/heads/feature"
     assert run().returncode != 0
     assert output.read_text() == ""
+    assert (parent / "config").read_bytes() == parent_config
+    assert not list((parent / "refs" / "tags").iterdir())
+    assert not list((parent / "refs" / "heads").iterdir())

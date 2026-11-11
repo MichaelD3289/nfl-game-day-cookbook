@@ -446,6 +446,44 @@ def _prepare(
     return pages, diags, photos, catalog
 
 
+def _discovery(catalog: dict[str, Any]) -> dict[str, Any]:
+    """Website-only card data and a small, diverse introduction to the published book."""
+    times = {
+        option["id"]: option["label"]
+        for facet in catalog["facets"]
+        if facet["id"] == "practical-time"
+        for option in facet["options"]
+    }
+    cards = {}
+    for recipe in catalog["recipes"]:
+        labels = [times[value] for value in recipe["facets"].get("practical-time", [])]
+        cards[f"recipe:{recipe['id']}"] = {**recipe, "time_label": " · ".join(labels)}
+    recipes = list(cards.values())
+    featured: list[dict[str, Any]] = []
+    divisions: set[str] = set()
+    for course in ("meals", "appetizers", "sides", "desserts", None, None, None, None):
+        candidates = [
+            r for r in recipes if r not in featured and (course is None or r["course"] == course)
+        ]
+        if candidates and len(featured) < 4:
+            chosen = max(
+                candidates, key=lambda r: (bool(r["photo"]), r["division"] not in divisions)
+            )
+            featured.append(chosen)
+            divisions.add(chosen["division"])
+    photos = [r for r in featured if r["photo"]]
+    courses: list[dict[str, Any]] = next(
+        (f["options"] for f in catalog["facets"] if f["id"] == "course"), []
+    )
+    return {
+        "recipe_cards": cards,
+        "featured_recipes": featured,
+        "hero_photos": photos[:2],
+        "menu_photo": photos[-1] if photos else None,
+        "course_links": courses,
+    }
+
+
 def build_website(project: Project, *, render: bool = True, preview: str = "") -> WebsiteResult:
     """Build the site; ``preview`` labels an unreleased build (a branch and commit) on
     every page, so it cannot pass for the published edition."""
@@ -470,7 +508,9 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
     )
     book = load(project).settings.book
     env.globals.update(
-        route=lambda label: routes[label], suggestion_form_url=book.suggestion_form_url
+        route=lambda label: routes[label],
+        suggestion_form_url=book.suggestion_form_url,
+        **_discovery(catalog),
     )
     pdf = book.output_filename
     download = f"{RELEASES}/latest/download/{pdf}"
@@ -520,7 +560,8 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
     scripts = ["print.js", "shop.js", "cook.js", "timeline.js"]
     html_format: dict[str, Any] = {
         "theme": ["cosmo", "website.scss"],
-        "css": "website.css",
+        "css": ["website.css", "roadtrip.css"],
+        "grid": {"body-width": "1280px", "margin-width": "0px", "gutter-width": "1.5rem"},
         "toc": False,
         "anchor-sections": False,
         "smooth-scroll": True,
@@ -540,22 +581,61 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
         "text": "\n".join(f'<script src="{name}"></script>' for name in scripts)
     }
     config = {
-        "project": {"type": "website", "output-dir": "_site", "resources": resources},
+        "project": {
+            "type": "website",
+            "output-dir": "_site",
+            "render": ["*.qmd"],
+            "resources": resources,
+        },
         "website": {
             "title": pages[0].context["title"],
-            "search": {"location": "sidebar", "type": "textbox"},
-            "sidebar": {"style": "docked", "collapse-level": 1, "contents": _navigation(pages)},
+            "search": {"location": "navbar", "type": "overlay"},
             "navbar": {
-                "right": [
-                    {"text": f"v{version}", "href": f"{RELEASES}/tag/v{version}"},
-                    {"text": "Download PDF", "href": download},
+                "collapse-below": "lg",
+                "left": [
+                    {"text": "Browse recipes", "href": "browse.qmd"},
+                    {"text": "Game Day Menus", "href": "game-day-menus.qmd"},
+                    {"text": "Build your own menu", "href": "menu-builder.qmd"},
+                    {"text": "Matchup menu", "href": "matchup.qmd"},
                     {
-                        "text": "Download EPUB",
-                        "href": f"{RELEASES}/download/v{version}/{EPUB_FILENAME}",
+                        "text": "Explore",
+                        "menu": [
+                            {"text": "Make It or Buy It", "href": "make-it-or-buy-it.qmd"},
+                            {"text": "All recipes by team", "href": "contents.qmd"},
+                            *[
+                                {
+                                    "text": item.get("text", item.get("section", "")),
+                                    "href": item["href"],
+                                }
+                                for group in _navigation(pages)
+                                for item in (
+                                    group.get("contents", [])
+                                    if group.get("section") == "Find a recipe"
+                                    else [group]
+                                    if group.get("section")
+                                    else []
+                                )
+                                if "href" in item
+                            ],
+                        ],
                     },
-                    {"text": "All versions", "href": "versions.qmd"},
-                    {"text": "Earlier releases", "href": RELEASES},
-                ]
+                ],
+                "right": [
+                    {
+                        "text": "Downloads",
+                        "menu": [
+                            {"text": "Download PDF", "href": download},
+                            {
+                                "text": "Download EPUB",
+                                "href": f"{RELEASES}/download/v{version}/{EPUB_FILENAME}",
+                            },
+                            {"text": "All formats & recipe cards", "href": RELEASES + "/latest"},
+                            {"text": "All versions", "href": "versions.qmd"},
+                            {"text": "Earlier releases", "href": RELEASES},
+                            {"text": f"v{version}", "href": f"{RELEASES}/tag/v{version}"},
+                        ],
+                    },
+                ],
             },
             "page-footer": {
                 "left": "NFL Meals · A city-by-city game-day cookbook",
@@ -568,6 +648,7 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
     }
     (build_dir / "_quarto.yml").write_text(yaml.safe_dump(config, sort_keys=False))
     shutil.copyfile(project.styles_dir / "website.css", build_dir / "website.css")
+    shutil.copyfile(project.styles_dir / "website-roadtrip.css", build_dir / "roadtrip.css")
     shutil.copyfile(project.styles_dir / "website.scss", build_dir / "website.scss")
     if not render:
         return WebsiteResult(build_dir / "index.qmd", None, diags, photos)
