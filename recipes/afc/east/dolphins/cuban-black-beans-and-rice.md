@@ -7,7 +7,7 @@ last_reviewed_at: 2026-09-26
 last_reviewed_notes: >-
   Kept: Miami Cuban staple; Instant Pot source matches. Readability A.
   Report: docs/reviews/2026-09-26-recipe-review-all/report.md#cuban-black-beans-and-rice
-course: meals
+course: sides
 location: Miami, FL
 yield: 6 to 8 servings
 prep: 15 minutes active (source listed)
