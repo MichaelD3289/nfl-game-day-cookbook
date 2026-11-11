@@ -2,10 +2,10 @@
 # Cover page copy. Title/subtitle fall back to data/book.yml when omitted.
 title: NFL Meals
 subtitle: Game Day Recipe Booklet
-tagline: 105 recipes | 32 teams | 8 divisions
+tagline: 123 recipes | 32 teams | 8 divisions
 ---
 
-Plan a game-day spread with 105 recipes inspired by all 32 NFL teams. Choose a
+Plan a game-day spread with 123 recipes inspired by all 32 NFL teams. Choose a
 favorite team, build a menu around a matchup, or browse for a dish that fits
 your time, budget, or crowd.
 

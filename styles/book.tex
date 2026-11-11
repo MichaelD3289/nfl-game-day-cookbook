@@ -135,7 +135,9 @@
   \BookPageTitle{#2}\vspace{10pt}}
 \newcommand{\DivisionTeam}[3]{% label, team, location
   \par\vspace{8pt}\noindent\BookAnchor{#1}{\bfseries\color{BookNavy}#2}\hfill{\small\color{BookMuted}#3}\BookRule\vspace{3pt}}
-\newcommand{\DivisionRecipe}[3]{{\hspace*{1em}\BookRefLink{#1}{#2}\ {\footnotesize\color{BookMuted}#3}\dotfill\BookPageRef{#1}\par}}
+% A contents-style entry: a long title wraps under itself with a hanging indent, and the
+% course label, leaders and page number stay together on its last line.
+\newcommand{\DivisionRecipe}[3]{{\parindent=0pt\leftskip=\BookDivisionRecipeIndent\rightskip=\dimexpr\BookDivisionPageNumWidth\relax plus 1fil\parfillskip=-\rightskip\hangindent=\BookDivisionRecipeIndent\hangafter=1\relax\BookRefLink{#1}{#2}\nobreak\ {\footnotesize\color{BookMuted}#3}\nobreak\dotfill\nobreak\makebox[\BookDivisionPageNumWidth][r]{\BookPageRef{#1}}\par}}
 % Teams sit two to a row; each column holds one team heading and its recipes.
 \newenvironment{DivisionTeamRow}{\par\noindent}{\par\vspace{\BookDivisionRowGap}}
 \newenvironment{DivisionTeamColumn}
