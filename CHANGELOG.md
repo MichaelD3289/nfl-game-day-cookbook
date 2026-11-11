@@ -19,6 +19,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `make hooks` now also installs a pre-push hook that runs `make check`, so the full check runs before every push instead of being expected after every commit. Commit-time hooks still format staged files.
 - The agent skills are shorter and each ends on a clear done check: `build-pdf` covers recipe cards and division booklets, `layout-changes` moves website and EPUB guidance into their own pages, `creating-release` releases through a squash-merged pull request and owns the release commit, and `logical-commits` covers pull request titles. AGENTS.md rules 10–13 match.
 - `AGENTS.md` is shorter: the task-skills table and the description of how `auto-tag.yml` works are gone, since agents already see each skill's description and the `creating-release` skill documents tagging. The rules themselves are unchanged.
+- Kept recipes from resolved duplicates drop their team suffix: Bacon-wrapped LA street dogs and French dip sandwiches (Rams) and Pastrami on rye (Giants). The Mumbo & Manhattan dish-off serves pastrami instead of pizza, Sandwich Showdown serves lobster rolls instead of the Jets' pastrami, and the AFC West Mile High to LA dish-off becomes Mile High to Vegas with casino-style prime rib.
+
+### Removed
+
+- Retired five duplicate recipes, leaving the book at 85: the Chargers' Bacon-wrapped LA street dogs and French dip sandwiches (kept for the Rams), the Jets' Pastrami on rye (kept for the Giants), the Giants' New York style pizza (kept for the Jets) and the Steelers' Pierogi (kept for the Browns).
 
 ### Fixed
 

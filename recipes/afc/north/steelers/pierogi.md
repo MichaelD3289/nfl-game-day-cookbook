@@ -2,7 +2,7 @@
 id: pierogi
 title: Pierogi
 description: "Potato-and-cheddar dumplings finished with butter and onions, with sour cream for serving."
-status: published
+status: retired
 last_reviewed_at: 2026-09-26
 last_reviewed_notes: >-
   Kept: Food Network pierogi; faithful. Readability B.
