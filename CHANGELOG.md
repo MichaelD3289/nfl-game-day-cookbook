@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.19.1] - 2026-11-11
+
 ### Fixed
 
 - When Quarto finishes without rendering any pages, `nfl-book website` now says so and points at `project.render` in `_quarto.yml`, instead of an empty "Quarto HTML build failed" error.
@@ -376,7 +378,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.19.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.19.1...HEAD
+[0.19.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.19.0...v0.19.1
 [0.19.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.18.0...v0.19.0
 [0.18.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.17.0...v0.18.0
 [0.17.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.16.0...v0.17.0
