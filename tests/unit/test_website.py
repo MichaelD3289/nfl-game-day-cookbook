@@ -105,6 +105,40 @@ def test_missing_quarto_preserves_previous_site(
     )
 
 
+def test_quarto_project_lists_its_pages(fixture_book: Project) -> None:
+    from nfl_book.website import build_website
+
+    # Without an explicit list, Quarto skips every page when the checkout sits under a
+    # hidden folder such as .worktrees/, and renders nothing.
+    site = build_website(fixture_book, render=False).document.parent
+    config = yaml.safe_load((site / "_quarto.yml").read_text())
+    assert config["project"]["render"] == ["*.qmd"]
+
+
+def test_quarto_rendering_no_pages_is_reported(
+    fixture_book: Project, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    import subprocess
+
+    from nfl_book.errors import ValidationFailed
+    from nfl_book.website import build_website
+
+    site = fixture_book.dist_dir / "site"
+    site.mkdir(parents=True)
+    (site / "index.html").write_text("previous successful build")
+    monkeypatch.setattr("nfl_book.website.shutil.which", lambda _: "quarto")
+    monkeypatch.setattr(
+        "nfl_book.website.subprocess.run",
+        lambda args, **_: subprocess.CompletedProcess(args, 0, stdout="", stderr=""),
+    )
+    with pytest.raises(ValidationFailed) as raised:
+        build_website(fixture_book)
+    error = raised.value.diagnostics.errors[0]
+    assert "rendered no pages" in error.message
+    assert error.path == fixture_book.generated_dir / "site/_quarto.yml"
+    assert (site / "index.html").read_text() == "previous successful build"
+
+
 def test_recipe_descriptions_and_compact_menu_previews(fixture_book: Project) -> None:
     from nfl_book.website import build_website
 
