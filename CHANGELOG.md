@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Twenty-one recipes fill missing courses for the NFC South and West teams, bringing the book to 162: Cuban bread and strawberry shortcake (Buccaneers); Brunswick stew and Coca-Cola braised collard greens (Falcons); hushpuppies, Lexington red slaw and Moravian sugar cake (Panthers); barbecue shrimp and maque choux (Saints); garlic fries, sourdough bread and It's-It ice cream sandwiches (49ers); cheese crisp, calabacitas and coyotas (Cardinals); taquitos, elotes and churros (Rams); and smoked salmon dip, onion rings and Rainier cherry crisp (Seahawks).
+
 ### Fixed
 
 - Beef on weck now lists the roast and jus ingredients separately, matching their preparation steps.
