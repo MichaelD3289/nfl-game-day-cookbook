@@ -25,19 +25,24 @@ source:
 
 ## Ingredients
 
-### Beef and jus
+### Beef
 
-- 2 teaspoons kosher salt, plus more to taste
-- 2 teaspoons black pepper, plus more to taste
+- 2 teaspoons kosher salt
+- 2 teaspoons black pepper
 - 1 teaspoon garlic powder
 - 1 teaspoon onion powder
 - 3/4 teaspoon celery seeds
 - 3/4 teaspoon caraway seeds
 - 1 beef eye-of-round roast (2 pounds)
-- 4 tablespoons canola or other neutral oil, divided
+- 3 tablespoons canola or other neutral oil, divided
+
+### Jus
+
+- 1 tablespoon canola or other neutral oil
 - 1 medium yellow onion
 - 3 large garlic cloves
 - 1 1/2 cups beef broth
+- Salt and black pepper, to taste
 
 ### Horseradish cream
 
