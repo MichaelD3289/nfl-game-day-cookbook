@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - A `merge-train` skill merges a batch of open pull requests in dependency order and cuts releases between them. It starts with a read-only plan you approve, rebases stacked PRs safely, and checks that each release published all its files.
+- Eighteen recipes fill missing courses for the NFC East and North teams, bringing the book to 141: chile con queso, Texas caviar and Texas pecan pie (Cowboys); sautéed broccoli rabe (Eagles); Waldorf salad (Giants); Maryland corn pudding and Smith Island 10-layer cake (Commanders); flaming saganaki, Vesuvio potatoes and Palmer House brownies (Bears); Detroit botana, Detroit Greek salad and bumpy cake (Lions); German potato salad and Racine kringle (Packers); Minnesota sushi, almond and apple wild rice salad, and Special K bars (Vikings).
 
 ## [0.20.0] - 2026-11-11
 
