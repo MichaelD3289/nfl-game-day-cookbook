@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.21.0] - 2026-11-11
+
 ### Added
 
 - A `merge-train` skill merges a batch of open pull requests in dependency order and cuts releases between them. It starts with a read-only plan you approve, rebases stacked PRs safely, and checks that each release published all its files.
@@ -399,7 +401,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.20.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.21.0...HEAD
+[0.21.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.20.0...v0.21.0
 [0.20.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.19.1...v0.20.0
 [0.19.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.19.0...v0.19.1
 [0.19.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.18.0...v0.19.0
