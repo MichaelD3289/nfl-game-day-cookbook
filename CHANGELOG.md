@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.22.0] - 2026-11-11
+
 ### Added
 
 - Twenty-one recipes fill missing courses for the NFC South and West teams, bringing the book to 162: Cuban bread and strawberry shortcake (Buccaneers); Brunswick stew and Coca-Cola braised collard greens (Falcons); hushpuppies, Lexington red slaw and Moravian sugar cake (Panthers); barbecue shrimp and maque choux (Saints); garlic fries, sourdough bread and It's-It ice cream sandwiches (49ers); cheese crisp, calabacitas and coyotas (Cardinals); taquitos, elotes and churros (Rams); and smoked salmon dip, onion rings and Rainier cherry crisp (Seahawks).
@@ -409,7 +411,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.21.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.22.0...HEAD
+[0.22.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.20.0...v0.21.0
 [0.20.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.19.1...v0.20.0
 [0.19.1]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.19.0...v0.19.1
