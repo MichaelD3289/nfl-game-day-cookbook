@@ -14,6 +14,7 @@ from jinja2 import Environment
 
 from nfl_book.errors import BookError
 from nfl_book.render.pages import PageSpec
+from nfl_book.render.views import view_fields
 
 MANIFEST = "manifest.json"
 
@@ -99,7 +100,7 @@ def assemble(
     names = []
     for number, spec in enumerate(specs, start=1):
         name = f"pages/{number:03d}-{spec.slug}.qmd"
-        text = env.get_template(spec.template).render(**spec.context)
+        text = env.get_template(spec.template).render(**view_fields(spec.view))
         write_if_changed(build_dir / name, text)
         names.append(name)
 

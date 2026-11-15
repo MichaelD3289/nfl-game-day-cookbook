@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
+from pathlib import Path
 
 from nfl_book.config import Settings
 from nfl_book.indexes import IndexDefinition, IndexSection, build_index
@@ -87,6 +88,7 @@ class BookModel:
     recipes_by_id: dict[str, Recipe] = field(default_factory=dict)
     components_by_id: dict[str, Component] = field(default_factory=dict)
     division: Division | None = None
+    content_root: Path | None = None  # where the sources live, for "edit this page" links
     _component_closures: dict[str, tuple[Component, ...]] = field(default_factory=dict)
 
     def components_for(self, recipe: Recipe) -> tuple[Component, ...]:
@@ -140,6 +142,7 @@ def resolve(
     *,
     include: Callable[[Status], bool] = lambda s: s is Status.PUBLISHED,
     division: Division | None = None,
+    content_root: Path | None = None,
 ) -> BookModel:
     recipes = sorted(
         (
@@ -238,6 +241,7 @@ def resolve(
         recipes_by_id={r.id: r for r in recipes},
         components_by_id=components_by_id,
         division=division,
+        content_root=content_root,
         _component_closures=closures,
     )
 

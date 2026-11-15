@@ -13,8 +13,9 @@ from nfl_book.references import address, component_label
 from nfl_book.render import make_env
 from nfl_book.render.assemble import front_matter, write_if_changed
 from nfl_book.render.env import tex
-from nfl_book.render.pages import recipe_context
+from nfl_book.render.pages import recipe_view
 from nfl_book.render.quarto import render_pdf, scan_log
+from nfl_book.render.views import CardView, ComponentLink, view_fields
 from nfl_book.resolve import resolve
 
 
@@ -58,25 +59,26 @@ def build_cards(project: Project, *, pdf: bool = True, strict: bool = False) -> 
     names = []
     manifest = []
     for recipe in model.recipes:
-        context = recipe_context(model, recipe, media)
-        context["component_links"] = {
-            component_label(c.id): {
-                "title": c.title,
-                "href": address(c, website_url=model.settings.book.website_url).edition_url,
-            }
-            for c in model.components
-        }
+        card = CardView(
+            **view_fields(recipe_view(model, recipe, media)),
+            component_links={
+                component_label(c.id): ComponentLink(
+                    c.title, address(c, website_url=model.settings.book.website_url).edition_url
+                )
+                for c in model.components
+            },
+        )
         name = f"pages/recipe-{recipe.id}.qmd"
         write_if_changed(
-            build_dir / name, env.get_template("cards/recipe.qmd.j2").render(**context)
+            build_dir / name, env.get_template("cards/recipe.qmd.j2").render(**view_fields(card))
         )
         names.append(name)
         manifest.append(
             {
                 "file": name,
                 "source": str(recipe.path),
-                "anchors": [context["label"], context["end_label"]],
-                "spans": [[context["label"], context["end_label"]]],
+                "anchors": [card.label, card.end_label],
+                "spans": [[card.label, card.end_label]],
             }
         )
     document = build_dir / "cards.qmd"
