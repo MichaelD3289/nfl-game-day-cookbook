@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.23.0] - 2026-11-14
+
 ### Added
 
 - Validation warns when a published recipe has no photo, and the recipe-adding guide now asks contributors to find and document a reusable photo.
@@ -423,7 +425,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.22.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.23.0...HEAD
+[0.23.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.22.0...v0.23.0
 [0.22.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.20.0...v0.21.0
 [0.20.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.19.1...v0.20.0
