@@ -17,8 +17,8 @@ from nfl_book.epub_check import check_epub
 from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.project import Project
 from nfl_book.publishing import EPUB_FILENAME, EPUB_IDENTIFIER
-from nfl_book.references import html_id
-from nfl_book.render.pages import PageSpec, check_web_links
+from nfl_book.references import component_label, html_id, kind_label, recipe_label
+from nfl_book.render.pages import PageSpec
 from nfl_book.resolve import BookModel
 
 __all__ = ["EPUB_FILENAME", "EpubResult", "build_epub"]
@@ -99,7 +99,6 @@ def _order(pages: list[PageSpec]) -> list[PageSpec]:
 def build_epub(project: Project, *, render: bool = True) -> EpubResult:
     directory = project.generated_dir / "epub"
     pages, diags, _photos, model = prepare_pages(project, directory, qr=False)
-    check_web_links(model, pages, diags)
     if not diags.ok:
         raise ValidationFailed(diags)
     pages = _order(pages)
@@ -113,17 +112,11 @@ def build_epub(project: Project, *, render: bool = True) -> EpubResult:
         trim_blocks=True,
         lstrip_blocks=True,
     )
-    labels = {
-        label for page in pages for label in page.anchors if label != page.context.get("end_label")
-    }
-    labels.difference_update(
-        t["label"] for p in pages for t in p.context.get("teams", []) if not t["recipes"]
-    )
-    labels.update(m["label"] for page in pages for m in page.context.get("dishoffs", []))
+    labels = {label for page in pages for label in page.anchors}
     kinds = _component_kinds(model)
     labels.update(kinds.values())
-    paths = {f"recipe:{r.id}": r.path for r in model.recipes_by_id.values()}
-    paths.update({f"component:{c.id}": c.path for c in model.components_by_id.values()})
+    paths = {recipe_label(r.id): r.path for r in model.recipes_by_id.values()}
+    paths.update({component_label(c.id): c.path for c in model.components_by_id.values()})
 
     def route(label: str, source: str = "") -> str:
         if label not in labels:
@@ -203,7 +196,7 @@ def build_epub(project: Project, *, render: bool = True) -> EpubResult:
 def _component_kinds(model: BookModel) -> dict[str, str]:
     """Section label (``kind:<id>``) of each component kind that has published components."""
     used = {c.kind.id for c in model.components}
-    return {k.id: f"kind:{k.id}" for k in model.settings.component_kinds if k.id in used}
+    return {k.id: kind_label(k.id) for k in model.settings.component_kinds if k.id in used}
 
 
 def _description(body: str) -> str:
@@ -225,6 +218,7 @@ def _render(
     """
     teams = {t["name"]: t for p in pages for t in p.context.get("teams", [])}
     kind_titles = {k.id: k.label for k in model.settings.component_kinds}
+    components_by_label = {component_label(c.id): c for c in model.components_by_id.values()}
     parts: list[str] = []
     last_team = last_kind = last_menu_type = None
     for page in pages:
@@ -238,7 +232,7 @@ def _render(
                 f"[{_md(team['location'])}]{{.eyebrow}}\n"
             )
         if page.template == "component.qmd.j2":
-            kind = model.components_by_id[context["label"].split(":", 1)[1]].kind.id
+            kind = components_by_label[context["label"]].kind.id
             if kind != last_kind:
                 last_kind = kind
                 parts.append(f"## {_md(kind_titles[kind])} {{#{html_id(kinds[kind])}}}\n")

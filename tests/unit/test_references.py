@@ -1,4 +1,23 @@
-from nfl_book.references import find_markers, parse_ingredient, parse_ingredients
+import pytest
+
+from nfl_book import __version__
+from nfl_book.pipeline import load
+from nfl_book.project import Project
+from nfl_book.references import (
+    LABEL_PREFIXES,
+    Address,
+    IndexPage,
+    Item,
+    KindSection,
+    Placed,
+    SectionPage,
+    address,
+    find_markers,
+    menu_page_slug,
+    parse_ingredient,
+    parse_ingredients,
+)
+from nfl_book.resolve import BookModel, resolve
 
 
 def test_plain_ingredient() -> None:
@@ -103,3 +122,95 @@ def test_unreadable_amount_suggests_no_scale() -> None:
     assert "{{no-scale}}" in problems[0]
     item, problems = parse_ingredient("500g flour {{no-scale}}")
     assert problems == []
+
+
+# ---------------------------------------------------------------------------- addresses
+BASE = "https://example.com/cookbook"
+EDITION = f"{BASE}/v{__version__}/"
+
+
+@pytest.fixture
+def model(fixture_book: Project) -> BookModel:
+    loaded = load(fixture_book)
+    return resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
+
+
+def _consistent(where: Address) -> None:
+    """The page fields name one page, and the HTML id is the label as a fragment."""
+    assert where.page_source == f"{where.slug}.qmd"
+    assert where.page_url == f"{where.slug}.html"
+    assert where.html_id == where.label.replace(":", "-")
+    assert ":" not in where.html_id
+    assert where.label.startswith(LABEL_PREFIXES)
+    if where.end_label:
+        assert where.end_label == f"{where.label}:end"
+
+
+def test_every_kind_has_a_consistent_address(model: BookModel) -> None:
+    section = model.divisions[0]
+    team = section.teams[0].team
+    group = model.menu_groups[0]
+    menu = group.menus[0]
+    page = menu_page_slug(group.menu_type.id, 1)
+    items: dict[str, Item] = {
+        "recipe": model.recipes[0],
+        "component": model.components[0],
+        "division": section.division,
+        "dish-off": section.dishoffs[0],
+        "team": Placed(team, address(section.division).slug),
+        "menu": Placed(menu, page),
+        "section": SectionPage("contents"),
+        "index": IndexPage(model.indexes[0].definition.id),
+        "kind": KindSection(model.components[0].kind.id),
+    }
+    assert not {"recipe", "component", "division", "menu", "dish-off", "team", "section"} - set(
+        items
+    )
+    for kind, item in items.items():
+        where = address(item, website_url=BASE)
+        assert where.kind == kind
+        _consistent(where)
+
+    recipe = address(items["recipe"])
+    assert (recipe.label, recipe.slug) == (
+        f"recipe:{model.recipes[0].id}",
+        f"recipe-{model.recipes[0].id}",
+    )
+    assert recipe.end_label == f"{recipe.label}:end"
+    assert address(items["component"]).end_label is None
+    assert address(items["division"]).slug == f"division-{section.division.key}"
+
+
+def test_anchors_live_on_the_page_that_holds_them(model: BookModel) -> None:
+    section = model.divisions[0]
+    division = address(section.division, website_url=BASE)
+    team = address(Placed(section.teams[0].team, division.slug), website_url=BASE)
+    dish_off = address(section.dishoffs[0], website_url=BASE)
+    for anchored in (team, dish_off):
+        assert (anchored.slug, anchored.page_source, anchored.page_url) == (
+            division.slug,
+            division.page_source,
+            division.page_url,
+        )
+        assert anchored.edition_url == f"{EDITION}{division.page_url}#{anchored.html_id}"
+    assert division.edition_url == f"{EDITION}{division.page_url}"
+    assert team.label != division.label
+
+
+def test_draft_recipe_has_no_edition_url(fixture_book: Project) -> None:
+    loaded = load(fixture_book)
+    recipes = {r.id: r for r in loaded.content.recipes}
+    draft = recipes["test-draft-nachos"]
+    published = recipes["test-citrus-wings"]
+    assert address(draft, website_url=BASE).edition_url is None
+    assert (
+        address(published, website_url=BASE).edition_url == f"{EDITION}recipe-{published.id}.html"
+    )
+    assert address(published).edition_url is None  # no website_url configured
+
+
+def test_component_kind_sections_are_not_on_the_website() -> None:
+    where = address(KindSection("sauces"), website_url=BASE)
+    assert where.label == "kind:sauces"
+    assert where.html_id == "kind-sauces"
+    assert where.edition_url is None

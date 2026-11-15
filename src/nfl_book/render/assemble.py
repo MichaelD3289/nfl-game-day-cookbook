@@ -116,7 +116,12 @@ def assemble(
         json.dumps(
             {
                 "pages": [
-                    {"file": n, "anchors": list(s.anchors), "spans": [list(p) for p in s.spans]}
+                    {
+                        "file": n,
+                        # Labels LaTeX must define: the anchors, then where each span ends.
+                        "anchors": [*s.anchors, *(end for _, end in s.spans)],
+                        "spans": [list(p) for p in s.spans],
+                    }
                     for n, s in zip(names, specs, strict=True)
                 ]
             },

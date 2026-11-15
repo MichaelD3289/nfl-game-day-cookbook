@@ -20,6 +20,7 @@
 \begin{DivisionDishOffs}
 <% for card in dishoffs %>
 \begin{DivisionDishOffCard}{<< card.title|tex >>}
+\BookAnchor{<< card.label >>}
 <% for ref in card.recipes %>
 \DishOffRecipe{<< ref.label >>}{<< ref.title|tex >>}{<< ref.note|tex >>}
 <% endfor %>

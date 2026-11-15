@@ -16,7 +16,7 @@ from typing import Any
 from nfl_book.errors import Diagnostics
 from nfl_book.indexes import LEAGUE_FACETS
 from nfl_book.models.content import Recipe
-from nfl_book.references import recipe_label
+from nfl_book.references import page_url, recipe_label
 from nfl_book.render.pages import PageSpec
 from nfl_book.resolve import BookModel
 
@@ -88,7 +88,7 @@ def _recipe_entry(
     return {
         "id": recipe.id,
         "title": recipe.title,
-        "url": f"{page.slug}.html",
+        "url": page_url(page.slug),
         "photo": page.context.get("image") or None,
         "photo_size": page.context.get("image_size", 0),
         "description": meta.description or "",
