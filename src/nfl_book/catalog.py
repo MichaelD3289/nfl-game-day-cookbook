@@ -9,14 +9,13 @@ becomes a new filter without code changes.
 
 from __future__ import annotations
 
-import json
 from collections.abc import Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
 
 from nfl_book.indexes import LEAGUE_FACETS
 from nfl_book.models.content import Recipe
+from nfl_book.payloads import attribute_json, omit_none, write_json
 from nfl_book.references import address, recipe_label
 from nfl_book.render.pages import Media
 from nfl_book.resolve import BookModel
@@ -43,13 +42,7 @@ INDEX_TITLE_PREFIX = "Index by "
 class CatalogOption:
     id: str
     label: str
-    group: str | None = None  # team options: the division they are listed under
-
-    def as_dict(self) -> dict[str, str]:
-        found = {"id": self.id, "label": self.label}
-        if self.group is not None:
-            found["group"] = self.group
-        return found
+    group: str | None = omit_none()  # team options: the division they are listed under
 
 
 @dataclass(frozen=True)
@@ -59,14 +52,6 @@ class CatalogFacet:
     source: str  # "index" or "league"
     options: tuple[CatalogOption, ...]
 
-    def as_dict(self) -> dict[str, Any]:
-        return {
-            "id": self.id,
-            "title": self.title,
-            "source": self.source,
-            "options": [o.as_dict() for o in self.options],
-        }
-
 
 @dataclass(frozen=True)
 class CatalogTeam:
@@ -74,14 +59,6 @@ class CatalogTeam:
     name: str
     short_name: str
     abbreviation: str
-
-    def as_dict(self) -> dict[str, str]:
-        return {
-            "slug": self.slug,
-            "name": self.name,
-            "short_name": self.short_name,
-            "abbreviation": self.abbreviation,
-        }
 
 
 @dataclass(frozen=True)
@@ -109,48 +86,18 @@ class CatalogRecipe:
     @property
     def facets_json(self) -> str:
         """The facets as the JSON the finder pages put in a ``data-facets`` attribute."""
-        return json.dumps(self.facets, ensure_ascii=False)
-
-    def as_dict(self) -> dict[str, Any]:
-        return {
-            "id": self.id,
-            "title": self.title,
-            "url": self.url,
-            "photo": self.photo,
-            "photo_size": self.photo_size,
-            "description": self.description,
-            "course": self.course,
-            "course_label": self.course_label,
-            "team": self.team.as_dict(),
-            "location": self.location,
-            "conference": self.conference,
-            "division": self.division,
-            "division_name": self.division_name,
-            "servings": list(self.servings) if self.servings else None,
-            "yield": self.yield_,
-            "prep": self.prep,
-            "cook": self.cook,
-            "components": list(self.components),
-            "facets": {k: list(v) for k, v in self.facets.items()},
-        }
+        return attribute_json(self.facets)
 
 
 @dataclass(frozen=True)
 class Catalog:
+    version: int = field(default=CATALOG_VERSION, kw_only=True)
     edition: str
     facets: tuple[CatalogFacet, ...]
     recipes: tuple[CatalogRecipe, ...]
 
     def facet(self, facet_id: str) -> CatalogFacet:
         return next(f for f in self.facets if f.id == facet_id)
-
-    def as_dict(self) -> dict[str, Any]:
-        return {
-            "version": CATALOG_VERSION,
-            "edition": self.edition,
-            "facets": [f.as_dict() for f in self.facets],
-            "recipes": [r.as_dict() for r in self.recipes],
-        }
 
 
 def _facet_title(title: str) -> str:
@@ -243,6 +190,4 @@ def recipe_catalog(model: BookModel, media: Media, *, edition: str) -> Catalog:
 
 def write_catalog(catalog: Catalog, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(catalog.as_dict(), ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
+    path.write_text(write_json(catalog), encoding="utf-8")

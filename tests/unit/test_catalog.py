@@ -14,6 +14,7 @@ from PIL import Image
 from nfl_book import pipeline
 from nfl_book.catalog import CATALOG_FILE, LEAGUE_FACETS, recipe_catalog, write_catalog
 from nfl_book.errors import ValidationFailed
+from nfl_book.payloads import to_payload
 from nfl_book.project import Project
 from nfl_book.website import build_website
 
@@ -184,4 +185,4 @@ def test_catalog_can_be_built_and_written_directly(fixture_book: Project, tmp_pa
     write_catalog(catalog, target)
     text = target.read_text(encoding="utf-8")
     assert text.endswith("}\n")
-    assert json.loads(text) == catalog.as_dict()
+    assert json.loads(text) == to_payload(catalog)

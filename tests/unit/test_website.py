@@ -1007,9 +1007,9 @@ def test_matchup_page_embeds_teams_and_dishes(fixture_book: Project, tmp_path: P
         "course": "meals",
         "team": "dolphins",
         "division": "afc-east",
-        "printPages": ["component-test-wing-sauce.html", "component-test-cajun-seasoning.html"],
+        "print_pages": ["component-test-wing-sauce.html", "component-test-cajun-seasoning.html"],
     }
-    assert dishes["test-buffalo-sliders"]["printPages"] == ["component-test-blue-cheese-dip.html"]
+    assert dishes["test-buffalo-sliders"]["print_pages"] == ["component-test-blue-cheese-dip.html"]
     assert len(data["teams"]) == 32
     assert len(data["divisions"]) == 8
     assert data["divisions"][0] == {"key": "afc-east", "name": "AFC East"}
@@ -1067,10 +1067,10 @@ def test_matchup_page_avoids_other_widgets(fixture_book: Project) -> None:
     ).read_text()
 
 
-def test_json_script_escapes_closing_tags() -> None:
-    from nfl_book.digital_text import json_script
+def test_script_json_escapes_closing_tags() -> None:
+    from nfl_book.payloads import script_json
 
-    text = json_script({"a": "</script>", "b": "é"})
+    text = script_json({"a": "</script>", "b": "é"})
     assert "</" not in text
     assert "\n" not in text
     assert json.loads(text) == {"a": "</script>", "b": "é"}

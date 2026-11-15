@@ -332,7 +332,7 @@
           return {
             id: entry.dish.id,
             url: entry.dish.url,
-            printPages: entry.dish.printPages || [],
+            print_pages: entry.dish.print_pages || [],
           };
         });
     }

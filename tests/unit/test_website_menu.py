@@ -28,12 +28,12 @@ DISHES = """
 const dishes = [
   {id: "test-buffalo-sliders", course: "appetizers", url: "recipe-test-buffalo-sliders.html",
    title: "Buffalo Sliders", team: "Buffalo Bills",
-   printPages: ["component-test-blue-cheese-dip.html"]},
+   print_pages: ["component-test-blue-cheese-dip.html"]},
   {id: "test-citrus-wings", course: "meals", url: "recipe-test-citrus-wings.html",
    title: "Citrus Wings", team: "Miami Dolphins",
-   printPages: ["component-test-wing-sauce.html", "component-test-blue-cheese-dip.html"]},
+   print_pages: ["component-test-wing-sauce.html", "component-test-blue-cheese-dip.html"]},
   {id: "test-lemon-bars", course: "desserts", url: "recipe-test-lemon-bars.html",
-   title: "Lemon Bars", team: "", printPages: []},
+   title: "Lemon Bars", team: "", print_pages: []},
 ];
 const courses = [
   {id: "appetizers", label: "Appetizers"},
