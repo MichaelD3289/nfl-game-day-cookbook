@@ -14,7 +14,11 @@ from nfl_book.indexes.base import (
     register_index_kind,
 )
 
+# Filter ids the website catalog adds after the indexes; an index may not reuse them.
+LEAGUE_FACETS = ("conference", "division", "team")
+
 __all__ = [
+    "LEAGUE_FACETS",
     "IndexDefinition",
     "IndexSection",
     "build_index",

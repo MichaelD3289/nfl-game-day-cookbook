@@ -4,17 +4,15 @@ from __future__ import annotations
 
 import hashlib
 import re
-from collections.abc import Callable, Iterable, Sequence
+from collections.abc import Sequence
 from datetime import date
 from pathlib import Path
 
 from PIL import Image
 
 from nfl_book.config import Settings
-from nfl_book.dependencies import DependencyGraph
 from nfl_book.errors import Diagnostics
-from nfl_book.indexes import IndexDefinition, build_index
-from nfl_book.models.common import Status
+from nfl_book.indexes import LEAGUE_FACETS, IndexDefinition, build_index
 from nfl_book.models.content import Component, Content, Recipe
 from nfl_book.photo_prepare import (
     MAX_BYTES,
@@ -23,15 +21,9 @@ from nfl_book.photo_prepare import (
     PhotoPreparationError,
     parse_photo_manifest,
 )
+from nfl_book.publication import component_graph, is_published, publication_roots
 from nfl_book.reviews import check_review_ages
 from nfl_book.shortlinks import ShortlinkCache
-
-# Filter ids the website catalog adds after the indexes; an index may not reuse them.
-LEAGUE_FACETS = ("conference", "division", "team")
-
-
-def is_published(status: Status) -> bool:
-    return status is Status.PUBLISHED
 
 
 def build_indexes(settings: Settings, diags: Diagnostics, path: Path) -> list[IndexDefinition]:
@@ -51,25 +43,6 @@ def build_indexes(settings: Settings, diags: Diagnostics, path: Path) -> list[In
         except ValueError as exc:
             diags.error("config", str(exc), path)
     return result
-
-
-def component_graph(components: Sequence[Component]) -> DependencyGraph:
-    return DependencyGraph({c.id: c.component_refs for c in components})
-
-
-def publication_roots(
-    recipes: Iterable[Recipe],
-    components: Iterable[Component],
-    include: Callable[[Status], bool],
-) -> set[str]:
-    """Components a book must contain before following dependencies.
-
-    Those referenced by included recipes, plus included ``always_include``
-    components (whose own dependencies must be printed too).
-    """
-    roots = {ref for r in recipes if include(r.meta.status) for ref in r.component_refs}
-    roots |= {c.id for c in components if include(c.meta.status) and c.meta.always_include}
-    return roots
 
 
 def validate_content(

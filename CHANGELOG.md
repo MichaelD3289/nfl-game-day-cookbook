@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Production builds no longer generate QR codes or photos for draft or retired recipes and components, so an unreadable photo on a draft can no longer fail a build.
+
 ## [0.23.0] - 2026-11-14
 
 ### Added

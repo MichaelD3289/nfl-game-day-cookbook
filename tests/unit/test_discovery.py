@@ -44,7 +44,12 @@ def messages_for(diags: Diagnostics, path: Path) -> list[str]:
 def test_fixture_book_discovers_cleanly(fixture_book: Project) -> None:
     diags, recipes = run(fixture_book)
     assert diags.errors == []
-    assert recipes == ["test-buffalo-sliders", "test-citrus-wings", "test-draft-nachos"]
+    assert recipes == [
+        "test-buffalo-sliders",
+        "test-citrus-wings",
+        "test-draft-nachos",
+        "test-retired-nachos",
+    ]
 
 
 def test_team_comes_from_path(fixture_book: Project) -> None:

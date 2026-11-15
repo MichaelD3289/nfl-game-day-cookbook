@@ -14,6 +14,7 @@ from typing import Any
 from nfl_book import __version__
 from nfl_book.errors import Diagnostics
 from nfl_book.models.content import Component, IngredientGroup, Recipe
+from nfl_book.publication import is_published
 from nfl_book.quantities import Amount
 from nfl_book.references import (
     component_label,
@@ -28,7 +29,6 @@ from nfl_book.references import (
     team_label,
 )
 from nfl_book.resolve import BookModel, QuickOption, menu_recipes, quick_options_for
-from nfl_book.validation import is_published
 
 CONTENTS = section_label("contents")
 GAME_DAY = section_label("game-day-menus")

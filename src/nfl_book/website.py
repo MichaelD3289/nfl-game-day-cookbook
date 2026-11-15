@@ -29,7 +29,6 @@ from nfl_book.references import component_label, html_id, recipe_label, section_
 from nfl_book.render.pages import ItemView, PageSpec, WebView, edition_root
 from nfl_book.resolve import BookModel
 from nfl_book.structured_data import head_html, recipe_json_ld
-from nfl_book.validation import component_graph
 
 # Quick issue form per suggestion kind: (template, title prefix, field used in the title).
 SUGGESTION_FORMS = {
@@ -157,8 +156,6 @@ def _add_print_pages(model: BookModel, pages: list[PageSpec]) -> None:
     A recipe prints every component it uses, nested ones included, once each in order of
     first appearance. A game-day menu or dish-off card prints its recipes in menu order,
     then optionally every component those recipes print, once each."""
-    graph = component_graph(model.components)
-    published = {c.id for c in model.components}
     component_pages = {
         p.context["label"]: f"{p.slug}.html" for p in pages if p.template == "component.qmd.j2"
     }
@@ -168,8 +165,8 @@ def _add_print_pages(model: BookModel, pages: list[PageSpec]) -> None:
         recipe = model.recipes_by_id[page.context["label"].removeprefix("recipe:")]
         page.context["print_pages"] = [
             component_pages[label]
-            for cid in graph.ordered_closure(recipe.component_refs)
-            if cid in published and (label := component_label(cid)) in component_pages
+            for c in model.components_for(recipe)
+            if (label := component_label(c.id)) in component_pages
         ]
     recipe_pages = {
         p.context["label"]: f"{p.slug}.html" for p in pages if p.template == "recipe.qmd.j2"
