@@ -3,6 +3,8 @@ id: potato-knishes
 title: Potato knishes
 description: "Baked Lower East Side knishes: potato and caramelized onion wrapped in a thin, rolled dough."
 status: published
+image: potato-knishes.webp
+photo_credit: "UeArtemis, CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers

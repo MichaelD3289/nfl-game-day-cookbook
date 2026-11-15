@@ -23,6 +23,12 @@ photos:
   recipes/afc/east/dolphins/cuban-sandwich.webp:
     sha256: e963a6a4e4a1444b0fc81dd968024819f33850b37822950bcbd978ad7e16a42a
     policy: 1
+  recipes/afc/east/jets/disco-fries.webp:
+    sha256: 776868d4d07c0c15c716851500381b526a796d638141f1b233d74a4c75bca3b7
+    policy: 1
+  recipes/afc/east/jets/half-sour-pickles.webp:
+    sha256: dd2012d017b2879e1484cbab985755ebe2f39c72bf7c709e5ae7f1899681df22
+    policy: 1
   recipes/afc/east/jets/new-york-bagels.webp:
     sha256: 903e769666ca0b5cfbea52e91f7247a6965032085823f0725a1073787ee5e02f
     policy: 1
@@ -61,6 +67,9 @@ photos:
     policy: 1
   recipes/afc/north/browns/potato-and-cheese-pierogi.webp:
     sha256: 3e36d4269a66766b98fd772e6567bc2591451cc5422a84233fb2e85d6c98f080
+    policy: 1
+  recipes/afc/north/browns/sauerkraut-balls.webp:
+    sha256: 2dece18f623ed3d2657f66888a78c1e92aec7be4def19527db9620c20e53b5c4
     policy: 1
   recipes/afc/north/ravens/baltimore-crab-cakes.webp:
     sha256: 7176ffadf9d022b7d95e590aab044667a6dac3c103cfa92eaf76275d341a42e7
@@ -173,6 +182,9 @@ photos:
   recipes/nfc/east/commanders/smith-island-cake.webp:
     sha256: a08331e5630026191e679529450740163d50f24428da4f4ced30fd5241f69d69
     policy: 1
+  recipes/nfc/east/cowboys/chile-con-queso.webp:
+    sha256: 626f00db43f5e683d66ad842b00e66e695c3eb336379777e2de9c4ff40fe70c9
+    policy: 1
   recipes/nfc/east/cowboys/tex-mex-cheese-enchiladas.webp:
     sha256: 70765388443732d054b47ea4d387caf818e45bf53dbb7fc6c44878dd745c4331
     policy: 1
@@ -205,6 +217,9 @@ photos:
     policy: 1
   recipes/nfc/east/giants/pastrami-on-rye.webp:
     sha256: ccf0977c1e55d0ead066a0d91f0e08171de4a5c1fdeb4aacc65f814ae95c5e43
+    policy: 1
+  recipes/nfc/east/giants/potato-knishes.webp:
+    sha256: 468a79103f5fcc2fb4340065e4bbf739c78fd59757896e957bb284838abe4a27
     policy: 1
   recipes/nfc/north/bears/chicago-style-hot-dogs.webp:
     sha256: ef35e206132dfdba5c37f0e5e57db4c40b627261dd000f3d80643b8dd75f17ee

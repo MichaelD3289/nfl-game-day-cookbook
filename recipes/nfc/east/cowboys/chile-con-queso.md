@@ -3,6 +3,8 @@ id: chile-con-queso
 title: Chile con queso
 description: "A big bowl of Texas chile con queso: processed cheese melted with poblano, jalapeño, tomatoes and chiles."
 status: published
+image: chile-con-queso.webp
+photo_credit: "Wackyrussell (English Wikipedia), author-released public domain; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers

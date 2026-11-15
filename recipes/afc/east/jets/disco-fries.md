@@ -3,6 +3,8 @@ id: disco-fries
 title: Disco fries
 description: "Crisp twice-fried fries smothered in brown gravy and broiled mozzarella, a New Jersey diner classic."
 status: published
+image: disco-fries.webp
+photo_credit: "BanjoZebra, CC BY 4.0, https://creativecommons.org/licenses/by/4.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers
