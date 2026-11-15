@@ -8,7 +8,7 @@ from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.images import PhotoStats
 from nfl_book.pipeline import build_media, load
 from nfl_book.project import Project
-from nfl_book.references import html_id
+from nfl_book.references import component_label, html_id, recipe_label
 from nfl_book.render.pages import Media, PageSpec, build_pages
 from nfl_book.resolve import BookModel, resolve
 
@@ -57,8 +57,8 @@ def prepare_pages(
             copied[label] = f"assets/{name}"
         maps.append(copied)
     pages = build_pages(model, Media(qr=maps[0], images=maps[1], image_sizes=media.image_sizes))
-    descriptions = {f"recipe:{r.id}": r.meta.description for r in model.recipes}
-    descriptions.update({f"component:{c.id}": c.meta.description for c in model.components})
+    descriptions = {recipe_label(r.id): r.meta.description for r in model.recipes}
+    descriptions.update({component_label(c.id): c.meta.description for c in model.components})
     menu_previews = {m["label"]: m for page in pages for m in page.context.get("menus", [])}
     for page in pages:
         page.context["descriptions"] = descriptions

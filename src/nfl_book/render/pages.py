@@ -12,27 +12,25 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from nfl_book import __version__
-from nfl_book.errors import Diagnostics
 from nfl_book.models.content import Component, IngredientGroup, Recipe
-from nfl_book.publication import is_published
 from nfl_book.quantities import Amount
 from nfl_book.references import (
+    Address,
+    IndexPage,
+    Placed,
+    SectionPage,
+    address,
     component_label,
-    division_end_label,
-    division_label,
-    index_label,
-    menu_end_label,
+    edition_root,
     menu_label,
-    recipe_end_label,
+    menu_page_slug,
     recipe_label,
-    section_label,
-    team_label,
 )
 from nfl_book.resolve import BookModel, QuickOption, menu_recipes, quick_options_for
 
-CONTENTS = section_label("contents")
-GAME_DAY = section_label("game-day-menus")
-MAKE_BUY = section_label("make-it-or-buy-it")
+CONTENTS = address(SectionPage("contents"))
+GAME_DAY = address(SectionPage("game-day-menus"))
+MAKE_BUY = address(SectionPage("make-it-or-buy-it"))
 MENUS_PER_PAGE = 2
 
 
@@ -50,6 +48,8 @@ class PageSpec:
     slug: str
     template: str
     context: dict[str, Any]
+    # Every anchor the page renders in the website and EPUB, as labels. Route tables are
+    # built from this alone. End labels are the ends of ``spans``, not anchors.
     anchors: tuple[str, ...] = ()
     spans: tuple[tuple[str, str], ...] = ()  # (start label, end label) expected on one page
 
@@ -89,7 +89,6 @@ class SourceView:
 
 @dataclass(frozen=True)
 class WebView:
-    target: str  # slug of the website page it opens, e.g. "recipe-<id>"
     href: str
     edition: str
 
@@ -160,25 +159,10 @@ def _source(item: Recipe | Component, model: BookModel) -> SourceView | None:
     )
 
 
-def edition_root(base: str) -> str:
-    """This edition's copy of the website, which every release keeps at ``/vX.Y.Z/``."""
-    return f"{base.rstrip('/')}/v{__version__}/"
-
-
-def web_href(item: Recipe | Component, kind: str, model: BookModel) -> str | None:
-    """The item's page in this edition of the website, built from ``website_url``.
-
-    Drafts have none: the website publishes only published content.
-    """
-    base = model.settings.book.website_url
-    if not base or not is_published(item.meta.status):
-        return None
-    return f"{edition_root(base)}{kind}-{item.id}.html"
-
-
-def _web(item: Recipe | Component, kind: str, model: BookModel) -> WebView | None:
-    href = web_href(item, kind, model)
-    return None if href is None else WebView(f"{kind}-{item.id}", href, __version__)
+def _web(item: Recipe | Component, model: BookModel) -> WebView | None:
+    """The item's page in this edition of the website; drafts have none."""
+    href = address(item, website_url=model.settings.book.website_url).edition_url
+    return None if href is None else WebView(href, __version__)
 
 
 def _meta(*parts: tuple[str, str | None]) -> list[tuple[str, str]]:
@@ -206,9 +190,10 @@ def recipe_context(model: BookModel, recipe: Recipe, media: Media) -> dict[str, 
     options = model.quick_options.get(recipe.id)
     if options is None:  # preview of unpublished content
         options = quick_options_for(recipe, model.components_by_id)
+    where = address(recipe)
     return {
-        "label": recipe_label(recipe.id),
-        "end_label": recipe_end_label(recipe.id),
+        "label": where.label,
+        "end_label": where.end_label,
         "title": recipe.title,
         "team": recipe.team.name,
         "location": recipe.location,
@@ -221,8 +206,8 @@ def recipe_context(model: BookModel, recipe: Recipe, media: Media) -> dict[str, 
             ("Yield", recipe.meta.yield_), ("Prep", recipe.meta.prep), ("Cook", recipe.meta.cook)
         ),
         "description": recipe.meta.description or "",
-        "image": media.images.get(f"recipe:{recipe.id}", ""),
-        "image_size": media.image_sizes.get(f"recipe:{recipe.id}", 0),
+        "image": media.images.get(recipe_label(recipe.id), ""),
+        "image_size": media.image_sizes.get(recipe_label(recipe.id), 0),
         "photo_credit": recipe.meta.photo_credit or "",
         "quick_options": _options(options),
         "groups": _groups(recipe.ingredients),
@@ -230,8 +215,8 @@ def recipe_context(model: BookModel, recipe: Recipe, media: Media) -> dict[str, 
         "instructions": recipe.instructions,
         "kitchen_notes": recipe.kitchen_notes or "",
         "source": _source(recipe, model),
-        "web": _web(recipe, "recipe", model),
-        "qr": media.qr.get(f"recipe:{recipe.id}", ""),
+        "web": _web(recipe, model),
+        "qr": media.qr.get(recipe_label(recipe.id), ""),
     }
 
 
@@ -251,8 +236,8 @@ def component_context(model: BookModel, component: Component, media: Media) -> d
         "quick_buy": component.meta.quick_buy,
         "used_in": used_in,
         "source": _source(component, model),
-        "web": _web(component, "component", model),
-        "qr": media.qr.get(f"component:{component.id}", ""),
+        "web": _web(component, model),
+        "qr": media.qr.get(component_label(component.id), ""),
     }
 
 
@@ -262,25 +247,6 @@ def _website(model: BookModel) -> dict[str, str] | None:
         return None
     href = edition_root(base)
     return {"href": href, "display": href.removeprefix("https://"), "edition": __version__}
-
-
-def check_web_links(model: BookModel, pages: Sequence[PageSpec], diags: Diagnostics) -> None:
-    """Every website link printed in the book must open a page the website publishes.
-
-    The website is built from these same page specs, so a link is valid exactly
-    when its target is one of them.
-    """
-    slugs = {page.slug for page in pages}
-    paths = {f"recipe-{r.id}": r.path for r in model.recipes_by_id.values()}
-    paths.update({f"component-{c.id}": c.path for c in model.components_by_id.values()})
-    for page in pages:
-        web = page.context.get("web")
-        if isinstance(web, WebView) and web.target not in slugs:
-            diags.error(
-                "web-link",
-                f"links to {web.href}, but the website does not publish {web.target}",
-                paths.get(page.slug),
-            )
 
 
 def _menu_view(model: BookModel, menu: Any) -> dict[str, Any]:
@@ -295,6 +261,12 @@ def _menu_view(model: BookModel, menu: Any) -> dict[str, Any]:
         "prep_note": getattr(menu.meta, "prep_note", None) or "",
         "timeline": _timeline(model, menu),
     }
+
+
+def _span(where: Address) -> tuple[str, str]:
+    """(start label, end label) of an item that must fit on one page."""
+    assert where.end_label is not None, f"{where.label} has no end label"
+    return where.label, where.end_label
 
 
 def _chunks(items: Sequence[Any], size: int) -> list[Sequence[Any]]:
@@ -344,16 +316,17 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
 
     specs.append(
         PageSpec(
-            "contents",
+            CONTENTS.slug,
             "contents.qmd.j2",
             {
-                "label": CONTENTS,
+                "label": CONTENTS.label,
                 "indexes": [
-                    Ref(index_label(i.definition.id), i.definition.title) for i in model.indexes
+                    Ref(address(IndexPage(i.definition.id)).label, i.definition.title)
+                    for i in model.indexes
                 ],
                 "divisions": [
                     {
-                        "ref": Ref(division_label(d.division.key), d.division.name),
+                        "ref": Ref(address(d.division).label, d.division.name),
                         "teams": [
                             {
                                 "name": t.team.name,
@@ -365,21 +338,22 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
                     }
                     for d in model.divisions
                 ],
-                "game_day": Ref(GAME_DAY, "Game Day Menus"),
-                "make_buy": Ref(MAKE_BUY, "Make It or Buy It"),
+                "game_day": Ref(GAME_DAY.label, "Game Day Menus"),
+                "make_buy": Ref(MAKE_BUY.label, "Make It or Buy It"),
             },
-            anchors=(CONTENTS,),
+            anchors=(CONTENTS.label,),
         )
     )
 
     for resolved in model.indexes:
         definition = resolved.definition
+        where = address(IndexPage(definition.id))
         specs.append(
             PageSpec(
-                f"index-{definition.id}",
+                where.slug,
                 "index.qmd.j2",
                 {
-                    "label": index_label(definition.id),
+                    "label": where.label,
                     "title": definition.title,
                     "intro": definition.config.intro or "",
                     "sections": [
@@ -390,24 +364,28 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
                         for s in resolved.sections
                     ],
                 },
-                anchors=(index_label(definition.id),),
+                anchors=(where.label,),
             )
         )
 
     for section in model.divisions:
         division = section.division
+        where = address(division)
+        team_addresses = {t.team.slug: address(Placed(t.team, where.slug)) for t in section.teams}
+        # Teams without recipes are listed in print only: the website and EPUB skip them.
+        anchored_teams = [team_addresses[t.team.slug] for t in section.teams if t.recipes]
         specs.append(
             PageSpec(
-                f"division-{division.key}",
+                where.slug,
                 "division.qmd.j2",
                 {
-                    "label": division_label(division.key),
-                    "end_label": division_end_label(division.key),
+                    "label": where.label,
+                    "end_label": where.end_label,
                     "name": division.name,
                     "conference": division.conference_name,
                     "teams": [
                         {
-                            "label": team_label(t.team.slug),
+                            "label": team_addresses[t.team.slug].label,
                             "name": t.team.name,
                             "location": t.team.location,
                             "recipes": [_recipe_ref(model, r, course=True) for r in t.recipes],
@@ -417,11 +395,11 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
                     "dishoffs": [_menu_view(model, d) for d in section.dishoffs],
                 },
                 anchors=(
-                    division_label(division.key),
-                    *(team_label(t.team.slug) for t in section.teams),
-                    division_end_label(division.key),
+                    where.label,
+                    *(a.label for a in anchored_teams),
+                    *(address(d).label for d in section.dishoffs),
                 ),
-                spans=((division_label(division.key), division_end_label(division.key)),),
+                spans=(_span(where),),
             )
         )
         for recipe in section.recipes:
@@ -429,10 +407,10 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
 
     specs.append(
         PageSpec(
-            "game-day-menus",
+            GAME_DAY.slug,
             "game-day-index.qmd.j2",
             {
-                "label": GAME_DAY,
+                "label": GAME_DAY.label,
                 "groups": [
                     {
                         "title": g.menu_type.title,
@@ -445,23 +423,26 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
                     for g in model.menu_groups
                 ],
             },
-            anchors=(GAME_DAY,),
+            anchors=(GAME_DAY.label,),
         )
     )
     for group in model.menu_groups:
         for n, chunk in enumerate(_chunks(group.menus, MENUS_PER_PAGE), start=1):
-            end = menu_end_label(chunk[-1].id)
+            slug = menu_page_slug(group.menu_type.id, n)
+            placed = [address(Placed(m, slug)) for m in chunk]
+            end = placed[-1].end_label
+            assert end is not None
             specs.append(
                 PageSpec(
-                    f"menus-{group.menu_type.id}-{n}",
+                    slug,
                     "game-day-menu.qmd.j2",
                     {
                         "type_title": group.menu_type.title,
                         "end_label": end,
                         "menus": [_menu_view(model, m) for m in chunk],
                     },
-                    anchors=(*(menu_label(m.id) for m in chunk), end),
-                    spans=((menu_label(chunk[0].id), end),),
+                    anchors=tuple(a.label for a in placed),
+                    spans=((placed[0].label, end),),
                 )
             )
 
@@ -484,10 +465,10 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
             )
     specs.append(
         PageSpec(
-            "make-it-or-buy-it",
+            MAKE_BUY.slug,
             "make-buy-index.qmd.j2",
-            {"label": MAKE_BUY, "kinds": kinds},
-            anchors=(MAKE_BUY,),
+            {"label": MAKE_BUY.label, "kinds": kinds},
+            anchors=(MAKE_BUY.label,),
         )
     )
     for component in model.components:
@@ -497,19 +478,21 @@ def build_pages(model: BookModel, media: Media) -> list[PageSpec]:
 
 
 def recipe_page(model: BookModel, recipe: Recipe, media: Media) -> PageSpec:
+    where = address(recipe)
     return PageSpec(
-        f"recipe-{recipe.id}",
+        where.slug,
         "recipe.qmd.j2",
         recipe_context(model, recipe, media),
-        anchors=(recipe_label(recipe.id), recipe_end_label(recipe.id)),
-        spans=((recipe_label(recipe.id), recipe_end_label(recipe.id)),),
+        anchors=(where.label,),
+        spans=(_span(where),),
     )
 
 
 def component_page(model: BookModel, component: Component, media: Media) -> PageSpec:
+    where = address(component)
     return PageSpec(
-        f"component-{component.id}",
+        where.slug,
         "component.qmd.j2",
         component_context(model, component, media),
-        anchors=(component_label(component.id),),
+        anchors=(where.label,),
     )

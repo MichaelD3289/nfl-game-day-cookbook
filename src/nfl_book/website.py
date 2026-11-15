@@ -25,8 +25,17 @@ from nfl_book.pipeline import load
 from nfl_book.project import Project
 from nfl_book.publishing import EPUB_FILENAME, RELEASES, REPOSITORY
 from nfl_book.quantities import Amount, find_yield_amounts
-from nfl_book.references import component_label, html_id, recipe_label, section_label
-from nfl_book.render.pages import ItemView, PageSpec, WebView, edition_root
+from nfl_book.references import (
+    SectionPage,
+    address,
+    component_label,
+    edition_root,
+    html_id,
+    page_source,
+    page_url,
+    recipe_label,
+)
+from nfl_book.render.pages import ItemView, PageSpec, WebView
 from nfl_book.resolve import BookModel
 from nfl_book.structured_data import head_html, recipe_json_ld
 
@@ -52,7 +61,7 @@ class WebsiteResult:
 
 
 def _filename(page: PageSpec) -> str:
-    return "index.qmd" if page.slug == "cover" else f"{page.slug}.qmd"
+    return page_source(page.slug)
 
 
 def _markdown(text: str) -> str:
@@ -94,9 +103,9 @@ def _scalable(item: ItemView) -> str:
 
 def _add_scaling(model: BookModel, pages: list[PageSpec]) -> None:
     """Scaling controls for recipe and component pages that have amounts to scale."""
-    servings = {f"recipe:{r.id}": r.servings for r in model.recipes}
-    yields: dict[str, str | None] = {f"recipe:{r.id}": r.meta.yield_ for r in model.recipes}
-    yields.update({f"component:{c.id}": c.meta.yield_ for c in model.components})
+    servings = {recipe_label(r.id): r.servings for r in model.recipes}
+    yields: dict[str, str | None] = {recipe_label(r.id): r.meta.yield_ for r in model.recipes}
+    yields.update({component_label(c.id): c.meta.yield_ for c in model.components})
     for page in pages:
         context = page.context
         if page.template not in ("recipe.qmd.j2", "component.qmd.j2"):
@@ -140,12 +149,12 @@ def _add_structured_data(model: BookModel, pages: list[PageSpec]) -> None:
         if page.template != "recipe.qmd.j2":
             continue
         web = context.get("web")
-        page_url = web.href if isinstance(web, WebView) else None
+        edition_url = web.href if isinstance(web, WebView) else None
         image = context.get("image")
         image_url = f"{edition_root(base)}{image}" if base and image else None
-        canonical = f"{base.rstrip('/')}/{page.slug}.html" if base else None
+        canonical = f"{base.rstrip('/')}/{page_url(page.slug)}" if base else None
         data = recipe_json_ld(
-            recipes[context["label"]], model.settings, image_url=image_url, page_url=page_url
+            recipes[context["label"]], model.settings, image_url=image_url, page_url=edition_url
         )
         context["head"] = head_html(data, canonical)
 
@@ -156,20 +165,21 @@ def _add_print_pages(model: BookModel, pages: list[PageSpec]) -> None:
     A recipe prints every component it uses, nested ones included, once each in order of
     first appearance. A game-day menu or dish-off card prints its recipes in menu order,
     then optionally every component those recipes print, once each."""
+    recipes_by_label = {recipe_label(r.id): r for r in model.recipes_by_id.values()}
     component_pages = {
-        p.context["label"]: f"{p.slug}.html" for p in pages if p.template == "component.qmd.j2"
+        p.context["label"]: page_url(p.slug) for p in pages if p.template == "component.qmd.j2"
     }
     for page in pages:
         if page.template != "recipe.qmd.j2":
             continue
-        recipe = model.recipes_by_id[page.context["label"].removeprefix("recipe:")]
+        recipe = recipes_by_label[page.context["label"]]
         page.context["print_pages"] = [
             component_pages[label]
             for c in model.components_for(recipe)
             if (label := component_label(c.id)) in component_pages
         ]
     recipe_pages = {
-        p.context["label"]: f"{p.slug}.html" for p in pages if p.template == "recipe.qmd.j2"
+        p.context["label"]: page_url(p.slug) for p in pages if p.template == "recipe.qmd.j2"
     }
     recipe_prints: dict[str, list[str]] = {
         p.context["label"]: p.context["print_pages"] for p in pages if p.template == "recipe.qmd.j2"
@@ -202,8 +212,8 @@ def _add_suggestions(project: Project, model: BookModel, pages: list[PageSpec]) 
     def source(path: Path) -> str:
         return path.relative_to(project.content_root).as_posix()
 
-    items = {f"recipe:{r.id}": (r.path, f"{r.title} ({r.team.name})") for r in model.recipes}
-    items.update({f"component:{c.id}": (c.path, c.title) for c in model.components})
+    items = {recipe_label(r.id): (r.path, f"{r.title} ({r.team.name})") for r in model.recipes}
+    items.update({component_label(c.id): (c.path, c.title) for c in model.components})
     for page in pages:
         context = page.context
         if page.template in ("recipe.qmd.j2", "component.qmd.j2"):
@@ -278,9 +288,10 @@ def _add_browse(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
         {**recipe, "facets_json": json.dumps(recipe["facets"], ensure_ascii=False)}
         for recipe in catalog["recipes"]
     ]
-    label = section_label("browse")
+    where = address(SectionPage("browse"))
+    label = where.label
     page = PageSpec(
-        "browse",
+        where.slug,
         "browse.qmd.j2",
         {
             "title": "Browse recipes",
@@ -297,7 +308,7 @@ def _add_browse(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
 def _recipe_prints(pages: list[PageSpec]) -> dict[str, list[str]]:
     """The component pages each recipe page prints, keyed by the recipe page's file."""
     return {
-        f"{p.slug}.html": p.context.get("print_pages", [])
+        page_url(p.slug): p.context.get("print_pages", [])
         for p in pages
         if p.template == "recipe.qmd.j2"
     }
@@ -335,9 +346,10 @@ def _add_menu_builder(pages: list[PageSpec], catalog: dict[str, Any]) -> None:
         ]
         if dishes:
             courses.append({"id": option["id"], "label": option["label"], "dishes": dishes})
-    label = section_label("menu-builder")
+    where = address(SectionPage("menu-builder"))
+    label = where.label
     page = PageSpec(
-        "menu-builder",
+        where.slug,
         "menu-builder.qmd.j2",
         {
             "title": "Build your own menu",
@@ -411,9 +423,10 @@ def _add_matchup(model: BookModel, pages: list[PageSpec], catalog: dict[str, Any
         for section in model.divisions
     ]
     data = {"courses": courses, "divisions": divisions, "teams": teams, "dishes": dishes}
-    label = section_label("matchup")
+    where = address(SectionPage("matchup"))
+    label = where.label
     page = PageSpec(
-        "matchup",
+        where.slug,
         "matchup.qmd.j2",
         {
             "title": "Matchup menu",
@@ -454,7 +467,7 @@ def _discovery(catalog: dict[str, Any]) -> dict[str, Any]:
     cards = {}
     for recipe in catalog["recipes"]:
         labels = [times[value] for value in recipe["facets"].get("practical-time", [])]
-        cards[f"recipe:{recipe['id']}"] = {**recipe, "time_label": " · ".join(labels)}
+        cards[recipe_label(recipe["id"])] = {**recipe, "time_label": " · ".join(labels)}
     recipes = list(cards.values())
     featured: list[dict[str, Any]] = []
     divisions: set[str] = set()
@@ -491,9 +504,6 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
     if not diags.ok:
         raise ValidationFailed(diags)
     routes = {label: f"{_filename(p)}#{html_id(label)}" for p in pages for label in p.anchors}
-    for p in pages:
-        for menu in p.context.get("dishoffs", []):
-            routes[menu["label"]] = f"{_filename(p)}#{html_id(menu['label'])}"
     env = Environment(
         loader=FileSystemLoader(project.templates_dir / "website"),
         undefined=StrictUndefined,

@@ -9,10 +9,11 @@ from nfl_book.errors import ValidationFailed
 from nfl_book.pipeline import BuildResult, build_media, load
 from nfl_book.postbuild import check_manifest, read_pagemap, write_pagemap
 from nfl_book.project import Project
+from nfl_book.references import address, component_label
 from nfl_book.render import make_env
 from nfl_book.render.assemble import front_matter, write_if_changed
 from nfl_book.render.env import tex
-from nfl_book.render.pages import recipe_context, web_href
+from nfl_book.render.pages import recipe_context
 from nfl_book.render.quarto import render_pdf, scan_log
 from nfl_book.resolve import resolve
 
@@ -59,7 +60,10 @@ def build_cards(project: Project, *, pdf: bool = True, strict: bool = False) -> 
     for recipe in model.recipes:
         context = recipe_context(model, recipe, media)
         context["component_links"] = {
-            f"component:{c.id}": {"title": c.title, "href": web_href(c, "component", model)}
+            component_label(c.id): {
+                "title": c.title,
+                "href": address(c, website_url=model.settings.book.website_url).edition_url,
+            }
             for c in model.components
         }
         name = f"pages/recipe-{recipe.id}.qmd"

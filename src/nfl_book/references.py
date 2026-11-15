@@ -6,14 +6,28 @@ text and replaced by the Q marker plus a page reference when rendered.
 
 Every page-addressable item gets a LaTeX label derived from its stable ID;
 LaTeX resolves page numbers from these labels at compile time.
+
+:func:`address` is the one place that turns an item into everything that names it:
+its label, page slug, page file, HTML id and website URL. Nothing else builds these.
 """
 
 from __future__ import annotations
 
 import re
+from dataclasses import dataclass
 
+from nfl_book import __version__
 from nfl_book.models.common import SLUG_PATTERN
-from nfl_book.models.content import Ingredient, IngredientGroup
+from nfl_book.models.content import (
+    Component,
+    DishOff,
+    GameDayMenu,
+    Ingredient,
+    IngredientGroup,
+    Recipe,
+)
+from nfl_book.models.nfl import Division, Team
+from nfl_book.publication import is_published
 from nfl_book.quantities import NO_SCALE_RE, find_amounts
 
 MARKER_RE = re.compile(r"\{\{\s*component\s*:\s*(?P<id>[^{}\s]*)\s*\}\}")
@@ -66,6 +80,147 @@ def section_label(section_id: str) -> str:
 
 def index_label(index_id: str) -> str:
     return f"index:{index_id}"
+
+
+def kind_label(kind_id: str) -> str:
+    """Label of a component-kind section (EPUB only): ``kind:<id>``."""
+    return f"kind:{kind_id}"
+
+
+LABEL_PREFIXES = (
+    "recipe:",
+    "component:",
+    "division:",
+    "menu:",
+    "team:",
+    "section:",
+    "index:",
+    "kind:",
+)
+"""Every label starts with one of these; the page map reads them back from the PDF."""
+
+
+def edition_root(base: str) -> str:
+    """This edition's copy of the website, which every release keeps at ``/vX.Y.Z/``."""
+    return f"{base.rstrip('/')}/v{__version__}/"
+
+
+def page_source(slug: str) -> str:
+    """The Quarto page file for a slug. Cross-links inside Quarto use this form; Quarto
+    rewrites it to ``.html``. The cover is the site's ``index``."""
+    return f"{'index' if slug == 'cover' else slug}.qmd"
+
+
+def page_url(slug: str) -> str:
+    """The rendered page for a slug, for JS, QR codes, the catalog and print links."""
+    return f"{'index' if slug == 'cover' else slug}.html"
+
+
+def menu_page_slug(menu_type_id: str, number: int) -> str:
+    """Page ``number`` (from 1) of the game-day menus of one type."""
+    return f"menus-{menu_type_id}-{number}"
+
+
+@dataclass(frozen=True)
+class SectionPage:
+    """A book section with its own page: contents, game-day menus, browse, ..."""
+
+    id: str
+
+
+@dataclass(frozen=True)
+class IndexPage:
+    """A search index page."""
+
+    id: str
+
+
+@dataclass(frozen=True)
+class KindSection:
+    """The EPUB section that opens a run of components of one kind."""
+
+    id: str
+
+
+@dataclass(frozen=True)
+class Placed:
+    """An item that is an anchor on a page it does not own: a team on its division's
+    page, or a game-day menu on one of its type's pages (``page`` is that page's slug)."""
+
+    item: Team | GameDayMenu
+    page: str
+
+
+Item = Recipe | Component | Division | DishOff | Placed | SectionPage | IndexPage | KindSection
+
+
+@dataclass(frozen=True)
+class Address:
+    """Everything that names one labelled item.
+
+    ``slug``, ``page_source`` and ``page_url`` name the page the item is on: its own
+    page for a recipe, component, division, section or index, otherwise the page that
+    holds it (a team or dish-off on its division's page, a menu on a menu page).
+    ``html_id`` is the item's anchor on that page. ``edition_url`` is the item in this
+    edition of the website, ``None`` when it is not published there: a draft, an item
+    the website has no anchor for, or no ``website_url``.
+    """
+
+    kind: str
+    label: str
+    end_label: str | None
+    slug: str
+    page_source: str
+    page_url: str
+    html_id: str
+    edition_url: str | None
+
+
+def address(item: Item, *, website_url: str | None = None) -> Address:
+    """The address of ``item``; ``website_url`` is ``book.website_url``, if set.
+
+    This is the only status check outside ``resolve``: a draft has no ``edition_url``,
+    because the website publishes published content only.
+    """
+    published = True
+    anchored = True  # an anchor on the page, not the page itself
+    on_website = True
+    end: str | None = None
+    match item:
+        case Recipe():
+            kind, label, slug = "recipe", recipe_label(item.id), f"recipe-{item.id}"
+            end, anchored = recipe_end_label(item.id), False
+            published = is_published(item.meta.status)
+        case Component():
+            kind, label, slug = "component", component_label(item.id), f"component-{item.id}"
+            anchored, published = False, is_published(item.meta.status)
+        case Division():
+            kind, label, slug = "division", division_label(item.key), f"division-{item.key}"
+            end, anchored = division_end_label(item.key), False
+        case DishOff():
+            kind, label, slug = "dish-off", menu_label(item.id), f"division-{item.division.key}"
+            published = is_published(item.meta.status)
+        case Placed(item=Team() as team, page=slug):
+            kind, label = "team", team_label(team.slug)
+        case Placed(item=GameDayMenu() as menu, page=slug):
+            kind, label, end = "menu", menu_label(menu.id), menu_end_label(menu.id)
+            published = is_published(menu.meta.status)
+        case SectionPage():
+            kind, label, slug = "section", section_label(item.id), item.id
+            anchored = False
+        case IndexPage():
+            kind, label, slug = "index", index_label(item.id), f"index-{item.id}"
+            anchored = False
+        case KindSection():
+            # A heading inside the EPUB's component run; the website has no such anchor.
+            kind, label, slug = "kind", kind_label(item.id), "make-it-or-buy-it"
+            on_website = False
+    anchor = html_id(label)
+    url = None
+    if website_url and published and on_website:
+        url = f"{edition_root(website_url)}{page_url(slug)}"
+        url += f"#{anchor}" if anchored else ""
+    return Address(kind, label, end, slug, page_source(slug), page_url(slug), anchor, url)
 
 
 def find_markers(text: str) -> list[str]:

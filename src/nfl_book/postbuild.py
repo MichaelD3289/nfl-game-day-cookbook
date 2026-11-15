@@ -14,8 +14,7 @@ from pathlib import Path
 from pypdf import PdfReader
 
 from nfl_book.errors import Diagnostics
-
-LABEL_PREFIXES = ("recipe:", "component:", "division:", "menu:", "team:", "section:", "index:")
+from nfl_book.references import LABEL_PREFIXES
 
 
 def read_pagemap(pdf: Path) -> dict[str, int]:

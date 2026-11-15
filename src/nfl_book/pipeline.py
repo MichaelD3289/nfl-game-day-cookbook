@@ -22,9 +22,9 @@ from nfl_book.postbuild import Overflow, check_manifest, read_pagemap, write_pag
 from nfl_book.project import Project
 from nfl_book.publishing import booklet_filename
 from nfl_book.qr import generate_qr_codes
+from nfl_book.references import address, recipe_label
 from nfl_book.render import Media, assemble, build_pages, make_env
 from nfl_book.render.env import tex
-from nfl_book.render.pages import check_web_links, web_href
 from nfl_book.render.quarto import render_pdf, scan_log
 from nfl_book.resolve import BookModel, resolve
 from nfl_book.shortlinks import Shortener, ShortlinkCache, get_shortener
@@ -141,6 +141,7 @@ def build_media(
     ``website_url``, and for drafts, it falls back to the full source URL.
     Unreadable photos are reported to ``diagnostics``; source photos are never written.
     """
+    base = model.settings.book.website_url
     all_items: list[tuple[str, Recipe | Component]] = [
         *(("recipe", r) for r in model.recipes_by_id.values()),
         *(("component", c) for c in model.components_by_id.values()),
@@ -148,12 +149,15 @@ def build_media(
     items = [
         (kind, item.id, url)
         for kind, item in all_items
-        if (url := web_href(item, kind, model) or (item.meta.source and item.meta.source.url))
+        if (
+            url := address(item, website_url=base).edition_url
+            or (item.meta.source and item.meta.source.url)
+        )
     ]
     qr = generate_qr_codes(items, project.qr_dir, _relative(project.qr_dir, build_dir))
 
     sources = {
-        f"recipe:{recipe.id}": recipe.path.parent / recipe.meta.image
+        recipe_label(recipe.id): recipe.path.parent / recipe.meta.image
         for recipe in model.recipes_by_id.values()
         if recipe.meta.image and (recipe.path.parent / recipe.meta.image).is_file()
     }
@@ -204,7 +208,6 @@ def build(
     build_dir = project.book_build_dir
     media, photos = build_media(project, model, build_dir, diags, loaded.settings.book.photos.print)
     pages = build_pages(model, media)
-    check_web_links(model, pages, diags)
     if not diags.ok:
         raise ValidationFailed(diags)
     assembled = assemble(

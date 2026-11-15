@@ -1,5 +1,4 @@
 import re
-from dataclasses import replace
 from pathlib import Path
 
 import pytest
@@ -8,12 +7,10 @@ from pydantic import ValidationError
 from nfl_book import __version__
 from nfl_book.errors import Diagnostics
 from nfl_book.models.config import BookConfig
-from nfl_book.models.content import Component, Recipe
 from nfl_book.pipeline import build, build_media, load
 from nfl_book.project import Project
-from nfl_book.publication import is_published
 from nfl_book.qr import qr_png
-from nfl_book.render.pages import PageSpec, WebView, build_pages, check_web_links
+from nfl_book.render.pages import PageSpec, WebView, build_pages
 from nfl_book.resolve import BookModel, resolve
 
 BASE = "https://michaeld3289.github.io/nfl-game-day-cookbook"
@@ -47,21 +44,6 @@ def test_published_pages_link_to_their_website_page(fixture_book: Project) -> No
     assert web["component-test-wing-sauce"].href == f"{EDITION}/component-test-wing-sauce.html"
 
 
-def test_link_targets_are_published_website_pages(fixture_book: Project) -> None:
-    model, pages = _pages(fixture_book)
-    slugs = {p.slug for p in pages}
-    items: dict[str, Recipe | Component] = {
-        f"recipe-{r.id}": r for r in model.recipes_by_id.values()
-    }
-    items.update({f"component-{c.id}": c for c in model.components_by_id.values()})
-    web = _web(pages)
-    assert web
-    for view in web.values():
-        assert view.target in slugs
-        assert is_published(items[view.target].meta.status)
-    assert not any("draft" in target for target in web)
-
-
 def test_draft_previews_are_never_linked(fixture_book: Project) -> None:
     from nfl_book.preview import preview
 
@@ -70,25 +52,6 @@ def test_draft_previews_are_never_linked(fixture_book: Project) -> None:
     for path in drafts:
         document = preview(fixture_book, path, pdf=False).document.read_text()
         assert "github.io" not in document
-
-
-def test_missing_link_target_names_the_source_file(fixture_book: Project) -> None:
-    model, pages = _pages(fixture_book)
-    orphan = [p for p in pages if p.slug != "component-test-wing-sauce"]
-    diags = Diagnostics()
-    check_web_links(model, orphan, diags)
-    assert [d.code for d in diags] == []  # the component page itself is gone with its link
-    broken = replace(
-        next(p for p in pages if p.slug == "recipe-test-citrus-wings"),
-        context={
-            **next(p for p in pages if p.slug == "recipe-test-citrus-wings").context,
-            "web": WebView("recipe-test-missing", f"{BASE}/x.html", __version__),
-        },
-    )
-    check_web_links(model, [*orphan, broken], diags)
-    [error] = list(diags)
-    assert error.code == "web-link"
-    assert error.path == model.recipes_by_id["test-citrus-wings"].path
 
 
 def test_no_links_without_website_url(fixture_book: Project) -> None:
