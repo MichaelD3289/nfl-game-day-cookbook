@@ -11,8 +11,28 @@ import yaml
 from typer.testing import CliRunner
 
 from nfl_book import pipeline
+from nfl_book.catalog import recipe_catalog
 from nfl_book.cli import app
+from nfl_book.digital import prepare_book
 from nfl_book.project import Project
+from nfl_book.render.pages import PageSpec, build_pages
+from nfl_book.website_pages import (
+    MatchupView,
+    MenuBuilderView,
+    WebComponentView,
+    WebDivisionView,
+    WebMenuPageView,
+    WebRecipeView,
+    site_builders,
+)
+
+
+def _site(project: Project, tmp_path: Path) -> dict[str, PageSpec]:
+    """Every website page view of the fixture book, by slug."""
+    prepared = prepare_book(project, tmp_path / "site", web=True)
+    catalog = recipe_catalog(prepared.model, prepared.media, edition="1.0.0")
+    builders = site_builders(prepared.model, prepared.media, catalog)
+    return {p.slug: p for p in build_pages(prepared.model, prepared.media, builders)}
 
 
 def test_website_cli_generates_independent_sources(fixture_book: Project) -> None:
@@ -682,9 +702,7 @@ def test_recipe_print_bar_lists_its_component_pages_in_order(fixture_book: Proje
     assert "print-with" not in sauce
 
 
-def test_component_pages_print_once_after_first_use(fixture_book: Project) -> None:
-    from nfl_book.website import build_website
-
+def test_component_pages_print_once_after_first_use(fixture_book: Project, tmp_path: Path) -> None:
     recipe = fixture_book.recipes_dir / "afc/east/dolphins/test-citrus-wings.md"
     recipe.write_text(
         recipe.read_text().replace(
@@ -692,38 +710,41 @@ def test_component_pages_print_once_after_first_use(fixture_book: Project) -> No
             "{{component:test-wing-sauce}}\n- 1 tsp seasoning {{component:test-cajun-seasoning}}\n",
         )
     )
-    site = build_website(fixture_book, render=False).document.parent
-    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
-    assert (
-        'data-print-pages="component-test-wing-sauce.html component-test-cajun-seasoning.html"'
-    ) in wings
+    view = _site(fixture_book, tmp_path)["recipe-test-citrus-wings"].view
+    assert isinstance(view, WebRecipeView)
+    assert view.print_pages == (
+        "component-test-wing-sauce.html",
+        "component-test-cajun-seasoning.html",
+    )
 
 
-def test_recipe_without_components_has_no_print_pages(fixture_book: Project) -> None:
-    from nfl_book.website import build_website
-
+def test_recipe_without_components_has_no_print_pages(
+    fixture_book: Project, tmp_path: Path
+) -> None:
     recipe = fixture_book.recipes_dir / "afc/east/dolphins/test-citrus-wings.md"
     recipe.write_text(
         recipe.read_text().replace(
             "- 1 cup wing sauce {{component:test-wing-sauce}}", "- 1 cup wing sauce"
         )
     )
-    site = build_website(fixture_book, render=False).document.parent
-    wings = (site / "recipe-test-citrus-wings.qmd").read_text()
-    assert '<div class="print-bar" hidden><button' in wings
-    assert "data-print-pages" not in wings
-    assert "print-with" not in wings
+    view = _site(fixture_book, tmp_path)["recipe-test-citrus-wings"].view
+    assert isinstance(view, WebRecipeView)
+    assert view.print_pages == ()
 
 
-def test_print_pages_skip_components_without_a_page(fixture_book: Project, tmp_path: Path) -> None:
-    from nfl_book.digital import prepare_pages
-    from nfl_book.website import _add_print_pages
-
-    pages, _, _, model = prepare_pages(fixture_book, tmp_path / "site", web=True)
-    pages = [p for p in pages if p.slug != "component-test-cajun-seasoning"]
-    _add_print_pages(model, pages)
-    wings = next(p for p in pages if p.slug == "recipe-test-citrus-wings")
-    assert wings.context["print_pages"] == ["component-test-wing-sauce.html"]
+def test_recipe_and_component_views_list_print_pages(fixture_book: Project, tmp_path: Path) -> None:
+    site = _site(fixture_book, tmp_path)
+    wings = site["recipe-test-citrus-wings"].view
+    assert isinstance(wings, WebRecipeView)
+    # The wing sauce uses the Cajun seasoning, so both print, in order of appearance.
+    assert wings.print_pages == (
+        "component-test-wing-sauce.html",
+        "component-test-cajun-seasoning.html",
+    )
+    # Component pages offer no extra pages, and every listed page is a page of the site.
+    assert isinstance(site["component-test-wing-sauce"].view, WebComponentView)
+    assert not hasattr(site["component-test-wing-sauce"].view, "print_pages")
+    assert all(url.removesuffix(".html") in site for url in wings.print_pages)
 
 
 def test_recipe_print_pages_exist_in_the_site_and_print_js_ships(fixture_book: Project) -> None:
@@ -774,22 +795,31 @@ def test_menu_cards_carry_their_recipe_and_component_pages(fixture_book: Project
         ) in page, name
 
 
-def test_menu_print_pages_exist_in_the_site(fixture_book: Project) -> None:
-    from nfl_book.website import build_website
+def test_menu_print_pages_exist_in_the_site(fixture_book: Project, tmp_path: Path) -> None:
+    site = _site(fixture_book, tmp_path)
+    menus = site["menus-fast-day-1"].view
+    division = site["division-afc-east"].view
+    assert isinstance(menus, WebMenuPageView) and isinstance(division, WebDivisionView)
+    cards = [*menus.menus, *division.dishoffs]
+    assert len(cards) == 2
+    for card in cards:
+        # Recipes in menu order, then each component they use once, in order of first use.
+        assert card.print_pages == (
+            "recipe-test-buffalo-sliders.html",
+            "recipe-test-citrus-wings.html",
+        )
+        assert card.print_components == (
+            "component-test-blue-cheese-dip.html",
+            "component-test-wing-sauce.html",
+            "component-test-cajun-seasoning.html",
+        )
+        for target in (*card.print_pages, *card.print_components):
+            assert target.removesuffix(".html") in site, target
 
-    site = build_website(fixture_book, render=False).document.parent
-    for name in MENU_PAGES:
-        page = (site / name).read_text()
-        found = re.findall(r'data-print-(?:pages|components)="([^"]+)"', page)
-        assert len(found) == 2, name
-        for listed in found:
-            for target in listed.split():
-                assert (site / target.replace(".html", ".qmd")).is_file(), (name, target)
 
-
-def test_menu_without_components_offers_no_component_option(fixture_book: Project) -> None:
-    from nfl_book.website import build_website
-
+def test_menu_without_components_offers_no_component_option(
+    fixture_book: Project, tmp_path: Path
+) -> None:
     for relative, line in (
         (
             "afc/east/bills/test-buffalo-sliders.md",
@@ -810,14 +840,11 @@ def test_menu_without_components_offers_no_component_option(fixture_book: Projec
             "",
         )
         recipe.write_text(text.replace(line, line.split(" {{")[0]))
-    site = build_website(fixture_book, render=False).document.parent
-    division = (site / "division-afc-east.qmd").read_text()
-    assert (
-        '<div class="print-bar print-menu" hidden data-print-pages='
-        '"recipe-test-buffalo-sliders.html recipe-test-citrus-wings.html"><button'
-    ) in division
-    assert "data-print-components" not in division
-    assert "print-with" not in division
+    division = _site(fixture_book, tmp_path)["division-afc-east"].view
+    assert isinstance(division, WebDivisionView)
+    card = division.dishoffs[0]
+    assert card.print_pages == ("recipe-test-buffalo-sliders.html", "recipe-test-citrus-wings.html")
+    assert card.print_components == ()
 
 
 def test_browse_page_lists_every_card_and_hides_filters_until_scripted(
@@ -928,24 +955,28 @@ def test_menu_builder_lists_published_recipes_grouped_by_course(fixture_book: Pr
     ).read_text()
 
 
-def test_menu_builder_follows_course_order_in_indexes_yml(fixture_book: Project) -> None:
-    from nfl_book.website import build_website
-
-    indexes = fixture_book.content_root / "data/indexes.yml"
+def _swap_course_order(project: Project) -> None:
+    indexes = project.content_root / "data/indexes.yml"
     text = indexes.read_text()
     appetizers = "      - { id: appetizers, label: Appetizers, short_label: Appetizer }\n"
     meals = "      - { id: meals, label: Meals, short_label: Meal }\n"
     assert appetizers in text and meals in text
     text = text.replace(appetizers, "@@").replace(meals, appetizers).replace("@@", meals)
     indexes.write_text(text)
-    site = build_website(fixture_book, render=False).document.parent
-    page = (site / "menu-builder.qmd").read_text()
-    courses = re.findall(r'<section class="menu-course" data-course="([^"]+)">', page)
-    assert courses == ["meals", "appetizers"]
-    assert [d["data-id"] for d in _menu_dishes(page)] == [
+
+
+def test_menu_builder_follows_course_order_in_indexes_yml(
+    fixture_book: Project, tmp_path: Path
+) -> None:
+    _swap_course_order(fixture_book)
+    view = _site(fixture_book, tmp_path)["menu-builder"].view
+    assert isinstance(view, MenuBuilderView)
+    assert [c.id for c in view.courses] == ["meals", "appetizers"]
+    assert [d.id for c in view.courses for d in c.dishes] == [
         "test-citrus-wings",
         "test-buffalo-sliders",
     ]
+    assert view.total == 2
 
 
 def test_menu_builder_is_website_only(fixture_book: Project) -> None:
@@ -968,22 +999,18 @@ def _matchup_data(page: str) -> dict[str, object]:
     return data
 
 
-def test_matchup_page_embeds_teams_and_dishes(fixture_book: Project) -> None:
-    from nfl_book.website import build_website
-
-    site = build_website(fixture_book, render=False).document.parent
-    page = (site / "matchup.qmd").read_text()
-    assert "pagetitle: Matchup menu" in page
-    assert '<span id="section-matchup"></span>' in page
-    assert "# Matchup menu" in page
-    data: dict[str, Any] = _matchup_data(page)
+def test_matchup_page_embeds_teams_and_dishes(fixture_book: Project, tmp_path: Path) -> None:
+    view = _site(fixture_book, tmp_path)["matchup"].view
+    assert isinstance(view, MatchupView)
+    assert view.page_title == "Matchup menu"
+    page = view.data_json
+    data: dict[str, Any] = json.loads(page)
     assert data["courses"] == [
         {"id": "appetizers", "label": "Appetizers", "singular": "Appetizer"},
         {"id": "meals", "label": "Meals", "singular": "Meal"},
     ]
     dishes = {d["id"]: d for d in data["dishes"]}
     assert set(dishes) == {"test-buffalo-sliders", "test-citrus-wings"}
-    assert "test-draft-nachos" not in page
     assert dishes["test-citrus-wings"] == {
         "id": "test-citrus-wings",
         "title": dishes["test-citrus-wings"]["title"],
@@ -1003,31 +1030,19 @@ def test_matchup_page_embeds_teams_and_dishes(fixture_book: Project) -> None:
         "short": "Bills",
         "division": "afc-east",
     }
-    # One line, so the ::: post-processing never sees it, and no closing tags inside.
-    line = next(line for line in page.splitlines() if 'class="matchup-data"' in line)
-    assert line.endswith("</script>")
+    # One line with no closing tags inside, so the ::: post-processing never sees it.
+    assert "\n" not in page and "</" not in page
 
 
-def test_matchup_pickers_group_teams_by_division(fixture_book: Project) -> None:
-    from nfl_book.website import build_website
-
-    site = build_website(fixture_book, render=False).document.parent
-    page = (site / "matchup.qmd").read_text()
-    for side in ("away", "home"):
-        start = page.index(f'<select name="{side}">')
-        select = page[start : page.index("</select>", start)]
-        groups = re.findall(r'<optgroup label="([^"]+)">', select)
-        assert len(groups) == 8
-        assert groups[0] == "AFC East"
-        options = re.findall(r'<option value="([^"]*)">([^<]*)</option>', select)
-        assert options[0] == ("", "Pick a team")
-        assert len(options) == 33
-        labels = dict(options)
-        assert labels["jets"] == "New York Jets (no recipes yet)"
-        assert labels["bills"] == "Buffalo Bills"
-    assert '<form class="matchup-pickers" hidden aria-label="Pick the teams">' in page
-    assert '<p class="matchup-nojs">' in page
-    assert '<section class="matchup-spread" hidden' in page
+def test_matchup_pickers_group_teams_by_division(fixture_book: Project, tmp_path: Path) -> None:
+    view = _site(fixture_book, tmp_path)["matchup"].view
+    assert isinstance(view, MatchupView)
+    assert len(view.pickers) == 8
+    assert view.pickers[0].label == "AFC East"
+    teams = {t.slug: t for picker in view.pickers for t in picker.teams}
+    assert len(teams) == 32
+    assert teams["jets"].empty and teams["jets"].name == "New York Jets"
+    assert not teams["bills"].empty
 
 
 def test_matchup_page_avoids_other_widgets(fixture_book: Project) -> None:
@@ -1064,26 +1079,19 @@ def test_matchup_page_avoids_other_widgets(fixture_book: Project) -> None:
 
 
 def test_json_script_escapes_closing_tags() -> None:
-    from nfl_book.website import _json_script
+    from nfl_book.digital_text import json_script
 
-    text = _json_script({"a": "</script>", "b": "é"})
+    text = json_script({"a": "</script>", "b": "é"})
     assert "</" not in text
     assert "\n" not in text
     assert json.loads(text) == {"a": "</script>", "b": "é"}
 
 
-def test_matchup_follows_course_order_in_indexes_yml(fixture_book: Project) -> None:
-    from nfl_book.website import build_website
-
-    indexes = fixture_book.content_root / "data/indexes.yml"
-    text = indexes.read_text()
-    appetizers = "      - { id: appetizers, label: Appetizers, short_label: Appetizer }\n"
-    meals = "      - { id: meals, label: Meals, short_label: Meal }\n"
-    text = text.replace(appetizers, "@@").replace(meals, appetizers).replace("@@", meals)
-    indexes.write_text(text)
-    site = build_website(fixture_book, render=False).document.parent
-    data: dict[str, Any] = _matchup_data((site / "matchup.qmd").read_text())
-    assert [c["id"] for c in data["courses"]] == ["meals", "appetizers"]
+def test_matchup_follows_course_order_in_indexes_yml(fixture_book: Project, tmp_path: Path) -> None:
+    _swap_course_order(fixture_book)
+    view = _site(fixture_book, tmp_path)["matchup"].view
+    assert isinstance(view, MatchupView)
+    assert [c["id"] for c in json.loads(view.data_json)["courses"]] == ["meals", "appetizers"]
 
 
 def test_matchup_is_website_only(fixture_book: Project) -> None:

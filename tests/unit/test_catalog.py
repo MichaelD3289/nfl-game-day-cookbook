@@ -13,7 +13,7 @@ from PIL import Image
 
 from nfl_book import pipeline
 from nfl_book.catalog import CATALOG_FILE, LEAGUE_FACETS, recipe_catalog, write_catalog
-from nfl_book.errors import Diagnostics, ValidationFailed
+from nfl_book.errors import ValidationFailed
 from nfl_book.project import Project
 from nfl_book.website import build_website
 
@@ -174,15 +174,14 @@ def test_reserved_facet_ids_fail_validation(fixture_book: Project) -> None:
 
 
 def test_catalog_can_be_built_and_written_directly(fixture_book: Project, tmp_path: Path) -> None:
-    from nfl_book.digital import prepare_pages
+    from nfl_book.digital import prepare_book
 
-    pages, _, _, model = prepare_pages(fixture_book, tmp_path / "build", web=True)
-    diags = Diagnostics()
-    catalog = recipe_catalog(model, pages, diags, edition="9.9.9")
-    assert diags.ok
-    assert catalog["edition"] == "9.9.9"
+    prepared = prepare_book(fixture_book, tmp_path / "build", web=True)
+    catalog = recipe_catalog(prepared.model, prepared.media, edition="9.9.9")
+    assert prepared.diagnostics.ok
+    assert catalog.edition == "9.9.9"
     target = tmp_path / "recipes.json"
     write_catalog(catalog, target)
     text = target.read_text(encoding="utf-8")
     assert text.endswith("}\n")
-    assert json.loads(text) == catalog
+    assert json.loads(text) == catalog.as_dict()

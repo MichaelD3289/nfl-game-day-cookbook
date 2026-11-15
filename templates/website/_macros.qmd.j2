@@ -122,10 +122,10 @@ Photo: {{ credit }}
 {%- endmacro %}
 
 {% macro print_menu(item) %}
-{% if item.get("print_pages") %}
+{% if item.print_pages %}
 
 ```{=html}
-<div class="print-bar print-menu" hidden data-print-pages="{{ item.print_pages|join(" ")|e }}"{% if item.get("print_components") %} data-print-components="{{ item.print_components|join(" ")|e }}"{% endif %}><button type="button" class="print-button">Print menu + recipes</button>{% if item.get("print_components") %}<label class="print-with" hidden><input type="checkbox" name="print-with"> Include homemade components</label>{% endif %}{{ shop_actions() }}</div>
+<div class="print-bar print-menu" hidden data-print-pages="{{ item.print_pages|join(" ")|e }}"{% if item.print_components %} data-print-components="{{ item.print_components|join(" ")|e }}"{% endif %}><button type="button" class="print-button">Print menu + recipes</button>{% if item.print_components %}<label class="print-with" hidden><input type="checkbox" name="print-with"> Include homemade components</label>{% endif %}{{ shop_actions() }}</div>
 ```
 
 {% endif %}

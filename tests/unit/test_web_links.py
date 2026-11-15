@@ -10,7 +10,8 @@ from nfl_book.models.config import BookConfig
 from nfl_book.pipeline import build, build_media, load
 from nfl_book.project import Project
 from nfl_book.qr import qr_png
-from nfl_book.render.pages import PageSpec, WebView, build_pages
+from nfl_book.render.pages import PageSpec, build_pages
+from nfl_book.render.views import ComponentView, RecipeView, WebView
 from nfl_book.resolve import BookModel, resolve
 
 BASE = "https://michaeld3289.github.io/nfl-game-day-cookbook"
@@ -32,7 +33,11 @@ def _pages(project: Project) -> tuple[BookModel, list[PageSpec]]:
 
 
 def _web(pages: list[PageSpec]) -> dict[str, WebView]:
-    return {p.slug: p.context["web"] for p in pages if p.context.get("web") is not None}
+    found: dict[str, WebView] = {}
+    for p in pages:
+        if isinstance(p.view, (RecipeView, ComponentView)) and p.view.web is not None:
+            found[p.slug] = p.view.web
+    return found
 
 
 def test_published_pages_link_to_their_website_page(fixture_book: Project) -> None:
@@ -58,7 +63,7 @@ def test_no_links_without_website_url(fixture_book: Project) -> None:
     _unset_website_url(fixture_book)
     _, pages = _pages(fixture_book)
     assert not _web(pages)
-    assert all(p.context.get("website") is None for p in pages)
+    assert all(getattr(p.view, "website", None) is None for p in pages)
 
 
 def _qr(project: Project, name: str) -> bytes:
@@ -72,7 +77,8 @@ def test_qr_codes_open_the_edition_page(fixture_book: Project) -> None:
     )
     # Items without a source still get a QR code for their website page.
     wing_sauce = next(p for p in pages if p.slug == "component-test-wing-sauce")
-    assert wing_sauce.context["qr"]
+    assert isinstance(wing_sauce.view, ComponentView)
+    assert wing_sauce.view.qr
     assert _qr(fixture_book, "component-test-wing-sauce") == qr_png(
         f"{EDITION}/component-test-wing-sauce.html"
     )
@@ -85,7 +91,8 @@ def test_qr_codes_fall_back_to_the_source_without_website_url(fixture_book: Proj
         "https://example.com/recipes/test-citrus-wings"
     )
     wing_sauce = next(p for p in pages if p.slug == "component-test-wing-sauce")
-    assert wing_sauce.context["qr"] == ""
+    assert isinstance(wing_sauce.view, ComponentView)
+    assert wing_sauce.view.qr == ""
 
 
 def test_drafts_get_no_website_qr_code(fixture_book: Project) -> None:

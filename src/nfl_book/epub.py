@@ -1,6 +1,5 @@
 """Independent reflowable EPUB generation from the published book model."""
 
-import re
 import shutil
 import subprocess
 import tomllib
@@ -12,13 +11,30 @@ import yaml
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from PIL import Image, ImageDraw, ImageFont
 
-from nfl_book.digital import prepare_pages, site_name
+from nfl_book.digital import descriptions, prepare_book
+from nfl_book.digital_text import (
+    EPUB_Q_MARK,
+    digital_prose,
+    escape_markdown,
+    separate_fences,
+    site_name,
+)
 from nfl_book.epub_check import check_epub
 from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.project import Project
 from nfl_book.publishing import EPUB_FILENAME, EPUB_IDENTIFIER
 from nfl_book.references import component_label, html_id, kind_label, recipe_label
-from nfl_book.render.pages import PageSpec
+from nfl_book.render.pages import PageSpec, build_pages
+from nfl_book.render.views import (
+    ComponentView,
+    CoverView,
+    DivisionView,
+    IndexView,
+    MakeBuyView,
+    MenuPageView,
+    RecipeView,
+    view_fields,
+)
 from nfl_book.resolve import BookModel
 
 __all__ = ["EPUB_FILENAME", "EpubResult", "build_epub"]
@@ -40,33 +56,22 @@ class EpubResult:
     diagnostics: Diagnostics
 
 
-def _md(value: str) -> str:
-    """Escape plain text used in Markdown (rich authored body text passes through)."""
-    return re.sub(r"([\\`*_{}\[\]<>#|])", r"\\\1", value)
-
-
-def _prose(value: str) -> str:
-    """Authored cover text without its print-only LaTeX."""
-    value = value.replace(r"`\QMark{}\ `{=latex}", "**Q** ")
-    return re.sub(r"```\{=latex\}\n.*?\n```", "", value, flags=re.DOTALL)
-
-
 def _author(project: Project) -> str:
     metadata = tomllib.loads((project.root / "pyproject.toml").read_text())["project"]
     names = [a["name"] for a in metadata.get("authors", []) if a.get("name")]
     return " and ".join(names) or "NFL Game Day Cookbook contributors"
 
 
-def _cover(path: Path, context: dict[str, Any], photos: list[Path]) -> None:
+def _cover(path: Path, cover: CoverView, photos: list[Path]) -> None:
     """A text-and-photo cover: the title block above a grid of dish photos."""
     width, height = COVER_SIZE
     image = Image.new("RGB", COVER_SIZE, COVER_NAVY)
     draw = ImageDraw.Draw(image)
     y: float = 190
     for text, size in (
-        (context["title"], 190),
-        (context["subtitle"], 84),
-        (context["tagline"], 58),
+        (cover.title, 190),
+        (cover.subtitle, 84),
+        (cover.tagline, 58),
     ):
         if not text:
             continue
@@ -92,16 +97,15 @@ def _cover(path: Path, context: dict[str, Any], photos: list[Path]) -> None:
 
 def _order(pages: list[PageSpec]) -> list[PageSpec]:
     """Book order for reading on a screen: the browsing indexes go at the back."""
-    indexes = [p for p in pages if p.template == "index.qmd.j2"]
-    return [p for p in pages if p.template != "index.qmd.j2"] + indexes
+    indexes = [p for p in pages if isinstance(p.view, IndexView)]
+    return [p for p in pages if not isinstance(p.view, IndexView)] + indexes
 
 
 def build_epub(project: Project, *, render: bool = True) -> EpubResult:
     directory = project.generated_dir / "epub"
-    pages, diags, _photos, model = prepare_pages(project, directory, qr=False)
-    if not diags.ok:
-        raise ValidationFailed(diags)
-    pages = _order(pages)
+    prepared = prepare_book(project, directory, qr=False)
+    model, diags = prepared.model, prepared.diagnostics
+    pages = _order(build_pages(model, prepared.media))
     env = Environment(
         loader=FileSystemLoader(project.templates_dir / "epub"),
         undefined=StrictUndefined,
@@ -128,22 +132,31 @@ def build_epub(project: Project, *, render: bool = True) -> EpubResult:
             raise ValidationFailed(diags)
         return "#" + html_id(label)
 
-    env.filters.update(md=_md, anchor=html_id, web_body=_prose, site_name=site_name)
+    env.filters.update(
+        md=escape_markdown,
+        anchor=html_id,
+        web_body=lambda text: digital_prose(text, EPUB_Q_MARK),
+        site_name=site_name,
+    )
     env.globals["route"] = route
+    env.globals["descriptions"] = descriptions(model)
     metadata = tomllib.loads((project.root / "pyproject.toml").read_text())
     version = metadata["project"]["version"]
     parts = _render(env, pages, model, kinds, version)
 
-    cover = pages[0].context
-    photos = [directory / p.context["image"] for p in pages if p.context.get("image")]
+    cover = pages[0].view
+    assert isinstance(cover, CoverView)
+    photos = [
+        directory / p.view.image for p in pages if isinstance(p.view, RecipeView) and p.view.image
+    ]
     _cover(directory / "cover.jpg", cover, photos)
     header = {
-        "title": cover["title"],
-        "subtitle": cover["subtitle"],
+        "title": cover.title,
+        "subtitle": cover.subtitle,
         "author": _author(project),
         "lang": "en",
         "identifier": EPUB_IDENTIFIER,
-        "description": _description(cover["body"]) or cover["subtitle"] or cover["title"],
+        "description": _description(cover.body) or cover.subtitle or cover.title,
         "rights": RIGHTS,
         "cover-image": "cover.jpg",
         "format": {
@@ -159,7 +172,7 @@ def build_epub(project: Project, *, render: bool = True) -> EpubResult:
     }
     document = directory / "book.qmd"
     body = "\n\n".join(parts)
-    body = re.sub(r"(?m)^(:{3,}[^\n]*)$", r"\n\1\n", body)
+    body = separate_fences(body)
     document.write_text("---\n" + yaml.safe_dump(header, sort_keys=False) + "---\n\n" + body)
     shutil.copy2(project.styles_dir / "epub.css", directory / "epub.css")
     if not render:
@@ -201,10 +214,10 @@ def _component_kinds(model: BookModel) -> dict[str, str]:
 
 def _description(body: str) -> str:
     """The cover's first paragraph as plain text, for the reading app's book details."""
-    for paragraph in _prose(body).split("\n\n"):
+    for paragraph in digital_prose(body, EPUB_Q_MARK).split("\n\n"):
         text = " ".join(paragraph.split())
         if text and not text.startswith(("#", "<", "`")):
-            return re.sub(r"[*_`]", "", text)
+            return "".join(ch for ch in text if ch not in "*_`")
     return ""
 
 
@@ -216,30 +229,31 @@ def _render(
     The print book repeats a menu type's title on each page of menus; the EPUB
     prints it once, before the first menu of that type.
     """
-    teams = {t["name"]: t for p in pages for t in p.context.get("teams", [])}
+    teams = {t.name: t for p in pages if isinstance(p.view, DivisionView) for t in p.view.teams}
     kind_titles = {k.id: k.label for k in model.settings.component_kinds}
-    components_by_label = {component_label(c.id): c for c in model.components_by_id.values()}
     parts: list[str] = []
     last_team = last_kind = last_menu_type = None
     for page in pages:
-        context = page.context
+        view = page.view
         extra: dict[str, Any] = {}
-        if page.template == "recipe.qmd.j2" and context["team"] != last_team:
-            last_team = context["team"]
+        if isinstance(view, RecipeView) and view.team != last_team:
+            last_team = view.team
             team = teams[last_team]
             parts.append(
-                f"## {_md(team['name'])} {{#{html_id(team['label'])}}}\n\n"
-                f"[{_md(team['location'])}]{{.eyebrow}}\n"
+                f"## {escape_markdown(team.name)} {{#{html_id(team.label)}}}\n\n"
+                f"[{escape_markdown(team.location)}]{{.eyebrow}}\n"
             )
-        if page.template == "component.qmd.j2":
-            kind = components_by_label[context["label"]].kind.id
-            if kind != last_kind:
-                last_kind = kind
-                parts.append(f"## {_md(kind_titles[kind])} {{#{html_id(kinds[kind])}}}\n")
-        if page.template == "game-day-menu.qmd.j2":
-            extra["continued"] = context["type_title"] == last_menu_type
-            last_menu_type = context["type_title"]
-        if page.template == "make-buy-index.qmd.j2":
+        if isinstance(view, ComponentView) and view.kind_id != last_kind:
+            last_kind = view.kind_id
+            parts.append(
+                f"## {escape_markdown(kind_titles[last_kind])} {{#{html_id(kinds[last_kind])}}}\n"
+            )
+        if isinstance(view, MenuPageView):
+            extra["continued"] = view.type_title == last_menu_type
+            last_menu_type = view.type_title
+        if isinstance(view, MakeBuyView):
             extra["kind_links"] = {kind_titles[k]: label for k, label in kinds.items()}
-        parts.append(env.get_template(page.template).render(**context, **extra, version=version))
+        parts.append(
+            env.get_template(page.template).render(**view_fields(view), **extra, version=version)
+        )
     return parts

@@ -1,28 +1,32 @@
-"""Shared presentation contexts and portable media for digital formats."""
+"""The resolved book and portable media shared by the digital formats."""
 
 import shutil
+from dataclasses import dataclass
 from pathlib import Path
-from urllib.parse import urlsplit
 
 from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.images import PhotoStats
 from nfl_book.pipeline import build_media, load
 from nfl_book.project import Project
 from nfl_book.references import component_label, html_id, recipe_label
-from nfl_book.render.pages import Media, PageSpec, build_pages
+from nfl_book.render.pages import Media
 from nfl_book.resolve import BookModel, resolve
 
 
-def site_name(url: str) -> str:
-    """``https://www.example.com/a/b`` -> ``example.com``: link text for an untitled source."""
-    host = urlsplit(url).hostname or url
-    return host.removeprefix("www.")
+@dataclass(frozen=True)
+class Prepared:
+    """The published book and its media, ready for a format to build its page views."""
+
+    model: BookModel
+    media: Media
+    diagnostics: Diagnostics
+    photos: PhotoStats
 
 
-def prepare_pages(
+def prepare_book(
     project: Project, build_dir: Path, *, web: bool = False, qr: bool = True
-) -> tuple[list[PageSpec], Diagnostics, PhotoStats, BookModel]:
-    """Resolve the published book into page specs with portable ``assets/`` media.
+) -> Prepared:
+    """Resolve the published book and copy its media to portable ``assets/`` paths.
 
     ``web`` picks the website photo variant instead of the print one. ``qr=False``
     leaves QR codes out, for formats read on the device that would scan them.
@@ -30,7 +34,12 @@ def prepare_pages(
     loaded = load(project)
     if not loaded.diagnostics.ok:
         raise ValidationFailed(loaded.diagnostics)
-    model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
+    model = resolve(
+        loaded.settings,
+        loaded.content,
+        loaded.shortlinks.links,
+        content_root=project.content_root,
+    )
     if build_dir.exists():
         shutil.rmtree(build_dir)
     build_dir.mkdir(parents=True)
@@ -56,11 +65,12 @@ def prepare_pages(
             shutil.copyfile(source, assets / name)
             copied[label] = f"assets/{name}"
         maps.append(copied)
-    pages = build_pages(model, Media(qr=maps[0], images=maps[1], image_sizes=media.image_sizes))
-    descriptions = {recipe_label(r.id): r.meta.description for r in model.recipes}
-    descriptions.update({component_label(c.id): c.meta.description for c in model.components})
-    menu_previews = {m["label"]: m for page in pages for m in page.context.get("menus", [])}
-    for page in pages:
-        page.context["descriptions"] = descriptions
-        page.context["menu_previews"] = menu_previews
-    return pages, loaded.diagnostics, photos, model
+    portable = Media(qr=maps[0], images=maps[1], image_sizes=media.image_sizes)
+    return Prepared(model, portable, loaded.diagnostics, photos)
+
+
+def descriptions(model: BookModel) -> dict[str, str | None]:
+    """Each published recipe's and component's description, by label."""
+    found: dict[str, str | None] = {recipe_label(r.id): r.meta.description for r in model.recipes}
+    found.update({component_label(c.id): c.meta.description for c in model.components})
+    return found

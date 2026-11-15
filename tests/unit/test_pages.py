@@ -2,7 +2,8 @@ from types import SimpleNamespace
 from typing import Any
 
 from nfl_book.models.content import Ingredient, IngredientGroup, TimelineStep
-from nfl_book.render.pages import COMPACT_INGREDIENTS_OVER, TimelineStepView, _compact, _timeline
+from nfl_book.render.pages import COMPACT_INGREDIENTS_OVER, _compact, _timeline
+from nfl_book.render.views import TimelineStepView
 
 
 def _groups(*sizes: int) -> tuple[IngredientGroup, ...]:
