@@ -13,7 +13,7 @@ yield: 1 sandwich
 servings: 1
 prep: 3–5 min (estimated)
 cook: About 6 min frying
-image: livermush-sandwiches.jpg
+image: livermush-sandwiches.webp
 photo_credit: The Atlanta Journal-Constitution
 index:
   main_ingredient: pork-and-sausage

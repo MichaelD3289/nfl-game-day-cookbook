@@ -13,7 +13,7 @@ yield: 4 omelets
 servings: 4
 prep: 15 minutes (source listed)
 cook: 15 minutes
-image: denver-omelet.jpg
+image: denver-omelet.webp
 photo_credit: Bless this Mess
 index:
   main_ingredient: pork-and-sausage

@@ -9,6 +9,8 @@ course: appetizers
 yield: 4 servings
 prep: 20 minutes (estimated)
 cook: 18 to 24 minutes
+image: new-orleans-barbecue-shrimp.webp
+photo_credit: "Ed Bierman, CC BY 2.0, https://creativecommons.org/licenses/by/2.0; converted to WebP, center-cropped and resized in book/site"
 index:
   main_ingredient: seafood
   practical_time: 31-to-60-minutes

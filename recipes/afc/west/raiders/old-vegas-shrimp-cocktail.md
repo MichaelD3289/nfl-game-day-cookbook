@@ -11,7 +11,7 @@ course: appetizers
 location: Las Vegas, NV
 yield: See recipe
 cook: No cooking with purchased cooked shrimp
-image: old-vegas-shrimp-cocktail.jpg
+image: old-vegas-shrimp-cocktail.webp
 photo_credit: www.lasdiscounts.com
 index:
   main_ingredient: seafood

@@ -10,6 +10,8 @@ yield: 2 large loaves, 3 smaller loaves, or many rolls
 servings: 16
 prep: 6 to 8 hours for starter, plus overnight fermentation and 2 to 4 hours proofing
 cook: 27 to 47 minutes
+image: san-francisco-sourdough.webp
+photo_credit: "Nhall0901 (CC0 1.0, https://creativecommons.org/publicdomain/zero/1.0/deed.en); center-cropped and resized in book/site"
 index:
   main_ingredient: meatless
   practical_time: variable-or-make-ahead

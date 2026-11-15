@@ -1,5 +1,5 @@
 # Thin wrappers around the nfl-book CLI and dev tools. Everything runs via uv.
-.PHONY: book check links preview pdf cards booklets website epub stats test lint format hooks clean browser-test website-audit website-performance
+.PHONY: book check links photos preview pdf cards booklets website epub stats test lint format hooks clean browser-test website-audit website-performance
 
 UV ?= uv
 BOOK = $(UV) run nfl-book
@@ -19,6 +19,10 @@ check: lint test
 # source not yet in data/shortlinks.yml. Commit that file afterwards.
 links:
 	$(BOOK) prepare-links
+
+# Convert referenced source photos to WebP and update photo references/manifest (offline).
+photos:
+	$(BOOK) prepare-photos
 
 # make preview FILE=recipes/afc/east/bills/<id>.md
 preview:

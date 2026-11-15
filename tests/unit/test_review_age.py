@@ -128,4 +128,7 @@ def test_path_filter_reports_only_matching_files(fixture_book: Project) -> None:
     edit(fixture_book, SAUCE, FIXTURE_DATE, "")
     assert len(review_warnings(fixture_book)) == 2
     diags = validate(fixture_book, [sliders])
-    assert [(d.code, d.path) for d in diags.warnings] == [("review", sliders)]
+    assert {(d.code, d.path) for d in diags.warnings} == {
+        ("photo", sliders),
+        ("review", sliders),
+    }

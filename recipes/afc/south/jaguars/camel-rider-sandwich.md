@@ -13,7 +13,7 @@ yield: 4 sandwiches
 servings: 4
 prep: About 10 minutes (estimated)
 cook: 0 minutes
-image: camel-rider-sandwich.jpg
+image: camel-rider-sandwich.webp
 photo_credit: fwtmagazine.com
 index:
   main_ingredient: pork-and-sausage

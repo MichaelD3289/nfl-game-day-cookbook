@@ -13,7 +13,7 @@ yield: 5 to 6 sandwiches
 servings: 5-6
 prep: 20 minutes
 cook: 50 minutes
-image: beef-on-weck.jpg
+image: beef-on-weck.webp
 photo_credit: The Kitchn
 index:
   main_ingredient: beef

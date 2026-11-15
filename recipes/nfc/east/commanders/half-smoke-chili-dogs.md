@@ -12,7 +12,7 @@ location: Washington, DC
 yield: 6 chili half-smokes
 prep: 20 minutes (estimated)
 cook: 3 hours 30 minutes
-image: half-smoke-chili-dogs.jpg
+image: half-smoke-chili-dogs.webp
 photo_credit: RecipeTin Eats
 index:
   main_ingredient: mixed-meat

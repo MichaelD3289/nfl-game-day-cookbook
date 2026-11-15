@@ -12,7 +12,7 @@ location: Boston, MA
 yield: 8–10 servings
 prep: 15 minutes active, plus 8–12 hours soaking (estimated)
 cook: About 6 hours, plus 10 minutes resting
-image: boston-baked-beans.jpg
+image: boston-baked-beans.webp
 photo_credit: Kitchen Dreaming
 index:
   main_ingredient: pork-and-sausage

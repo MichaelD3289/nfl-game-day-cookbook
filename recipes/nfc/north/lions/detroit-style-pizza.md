@@ -12,7 +12,7 @@ location: Detroit, MI
 yield: One 13-by-9-inch pizza
 prep: 40 minutes
 cook: 22–26 minutes
-image: detroit-style-pizza.jpg
+image: detroit-style-pizza.webp
 photo_credit: King Arthur Baking
 index:
   main_ingredient: meatless

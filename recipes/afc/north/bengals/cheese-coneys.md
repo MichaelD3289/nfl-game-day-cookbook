@@ -12,7 +12,7 @@ location: Cincinnati, OH
 yield: 6 cheese coneys
 prep: 10–15 min (estimated)
 cook: 40 min chili plus 6–8 min dogs
-image: cheese-coneys.jpg
+image: cheese-coneys.webp
 photo_credit: oryana.coop
 index:
   main_ingredient: beef

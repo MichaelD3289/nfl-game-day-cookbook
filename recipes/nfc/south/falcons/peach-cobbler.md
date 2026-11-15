@@ -12,7 +12,7 @@ location: Atlanta, GA
 yield: 12 servings
 prep: 15 minutes
 cook: 45–50 minutes bake plus 20–30 minutes resting
-image: peach-cobbler.jpg
+image: peach-cobbler.webp
 photo_credit: King Arthur Baking
 index:
   main_ingredient: meatless

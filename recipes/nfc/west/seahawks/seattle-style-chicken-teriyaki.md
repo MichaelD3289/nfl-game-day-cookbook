@@ -12,7 +12,7 @@ location: Seattle, WA
 yield: 4 servings
 prep: 1 hour
 cook: 25 minutes
-image: seattle-style-chicken-teriyaki.jpg
+image: seattle-style-chicken-teriyaki.webp
 photo_credit: feedthepudge.com
 index:
   main_ingredient: poultry

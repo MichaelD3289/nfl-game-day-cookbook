@@ -9,6 +9,8 @@ course: appetizers
 yield: About 30 servings (estimated)
 prep: 45 minutes
 cook: 3 minutes per batch
+image: hushpuppies.webp
+photo_credit: "Jeremy Keith, CC BY 2.0, https://creativecommons.org/licenses/by/2.0; converted to WebP, center-cropped and resized in book/site"
 index:
   main_ingredient: meatless
   practical_time: 31-to-60-minutes

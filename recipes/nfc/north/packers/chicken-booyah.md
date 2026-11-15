@@ -12,7 +12,7 @@ location: Green Bay, WI
 yield: 10–12 servings
 prep: 30–60 min active (estimated)
 cook: 30 min beef + 1–2 hr chicken + at least 2 hr final simmer
-image: chicken-booyah.jpg
+image: chicken-booyah.webp
 photo_credit: Recipe Goldmine
 index:
   main_ingredient: mixed-meat

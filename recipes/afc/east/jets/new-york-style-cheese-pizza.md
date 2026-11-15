@@ -12,7 +12,7 @@ location: New York City metro
 yield: Two 13-inch pizzas
 prep: 30 min active (source listed)
 cook: 7–10 min bake per pizza
-image: new-york-style-cheese-pizza.jpg
+image: new-york-style-cheese-pizza.webp
 photo_credit: King Arthur Baking
 index:
   main_ingredient: meatless

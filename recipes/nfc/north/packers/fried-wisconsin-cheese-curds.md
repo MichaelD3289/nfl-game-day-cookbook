@@ -12,7 +12,7 @@ location: Green Bay, WI
 yield: 4 servings
 prep: 15 min active (source listed)
 cook: About 1 min fry per batch
-image: fried-wisconsin-cheese-curds.jpg
+image: fried-wisconsin-cheese-curds.webp
 photo_credit: Cooking Professionally
 index:
   main_ingredient: meatless

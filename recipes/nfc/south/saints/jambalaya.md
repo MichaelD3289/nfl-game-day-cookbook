@@ -12,7 +12,7 @@ location: New Orleans, LA
 yield: 6 servings
 prep: 20 min (source listed)
 cook: 1 hr simmer + 30 min bake
-image: jambalaya.jpg
+image: jambalaya.webp
 photo_credit: neworleans.com
 index:
   main_ingredient: mixed-meat

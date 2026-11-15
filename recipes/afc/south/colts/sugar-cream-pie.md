@@ -12,7 +12,7 @@ location: Indianapolis, IN
 yield: 8–10 servings
 prep: 2 hours 5 minutes including chilling
 cook: 1 hour 5 minutes; source total 3 hours 10 minutes plus cooling
-image: sugar-cream-pie.jpg
+image: sugar-cream-pie.webp
 photo_credit: Visit Indiana
 index:
   main_ingredient: meatless

@@ -12,7 +12,7 @@ location: San Francisco Bay Area, CA
 yield: 8 servings
 prep: 35–45 minutes estimated hands-on
 cook: About 2 hours 30 minutes
-image: cioppino.jpg
+image: cioppino.webp
 photo_credit: Saveur
 index:
   main_ingredient: seafood

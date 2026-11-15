@@ -62,6 +62,7 @@ material retain their own rights; see [third-party notices](THIRD_PARTY.md).
 | `data/indexes.yml`                                | Search-index definitions (course, main ingredient, ...)           |
 | `data/menu-types.yml`, `data/component-kinds.yml` | Menu groups and "Make It or Buy It" kinds                         |
 | `data/shortlinks.yml`                             | Cached source URL → short URL (written only by `prepare-links`)   |
+| `data/photo-manifest.yml`                         | Prepared WebP output hashes (written by `prepare-photos`)         |
 | `recipes/<conf>/<div>/<team>/<id>.md`             | One recipe. Its team comes from the path                          |
 | `components/<kind>/<id>.md`                       | Shared sauces, dips, seasonings, ...                              |
 | `menus/game-day/<type>/<id>.yml`                  | Game-day menus                                                    |
@@ -119,6 +120,7 @@ uv run nfl-book validate [PATHS...]       # validate everything (optionally repo
 uv run nfl-book stats [--format json|markdown]  # where the cookbook is thin (or `make stats`)
 uv run nfl-book prepare-links             # the ONLY network step (or `make links`): fill data/shortlinks.yml
 uv run nfl-book prepare-links --check [--report FILE]   # network: report dead/moved source URLs, change nothing
+uv run nfl-book prepare-photos            # convert referenced source photos to WebP, update refs and manifest (or `make photos`)
 uv run nfl-book preview PATH [--no-pdf]   # render one recipe/component (drafts allowed)
 uv run nfl-book build [--no-pdf] [--strict]   # published-only book -> dist/
 uv run nfl-book cards [--no-pdf] [--strict]   # published-only recipe cards -> dist/
@@ -136,8 +138,17 @@ uv run nfl-book --content "$D" --generated "$D/generated" --dist "$D/dist" build
 ```
 
 Make targets: `make check` (lint, tests, validate), `make test`, `make lint`,
-`make preview FILE=...`, `make pdf`, `make cards`, `make stats` (`FORMAT=markdown` or `FORMAT=json`)
-and `make clean`.
+`make preview FILE=...`, `make pdf`, `make cards`, `make photos`, `make stats`
+(`FORMAT=markdown` or `FORMAT=json`) and `make clean`.
+
+`prepare-photos` is offline and book-wide: it converts every referenced `.jpg`, `.jpeg`,
+`.png`, or `.webp` source photo to an adjacent same-stem WebP, updates recipe `image:`
+fields, records the prepared output hash in `data/photo-manifest.yml`, and removes an
+original only after successful preparation.
+Review all changed photo and recipe paths, then run `nfl-book validate` for full content
+validation. New photo assets must have reuse rights that cover their standalone
+distribution in the repository as well as use in the book and website; conversion to
+WebP, cropping, or resizing does not cure a license restriction on standalone use.
 
 `nfl-book stats` shows where the cookbook is thin. It counts published, testing and
 draft content (not retired) and lists recipes per team by status (fewest first), teams

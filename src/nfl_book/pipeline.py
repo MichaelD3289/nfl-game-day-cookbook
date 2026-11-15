@@ -62,6 +62,8 @@ def load(project: Project, *, require_shortlinks: bool = True) -> Loaded:
         shortlinks,
         diags,
         indexes_path=project.data_dir / "indexes.yml",
+        content_root=project.content_root,
+        photo_manifest_path=project.data_dir / "photo-manifest.yml",
         require_shortlinks=require_shortlinks,
     )
     return Loaded(settings, content, shortlinks, diags)

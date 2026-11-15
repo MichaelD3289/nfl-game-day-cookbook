@@ -13,7 +13,7 @@ yield: 4 sandwiches
 servings: 4
 prep: 20 minutes (estimated)
 cook: About 10 minutes
-image: philly-cheesesteak.jpg
+image: philly-cheesesteak.webp
 photo_credit: Food Republic
 index:
   main_ingredient: beef

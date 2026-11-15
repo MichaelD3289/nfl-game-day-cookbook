@@ -12,7 +12,7 @@ location: Miami, FL
 yield: 6 to 8 servings
 prep: 15 minutes active (source listed)
 cook: 1 hour 30 minutes beans; rice cooks concurrently
-image: cuban-black-beans-and-rice.jpg
+image: cuban-black-beans-and-rice.webp
 photo_credit: Milk Street
 index:
   main_ingredient: meatless

@@ -14,6 +14,7 @@ from rich.markup import escape
 from nfl_book import pipeline, scaffold
 from nfl_book.config import load_settings
 from nfl_book.errors import BookError, Diagnostics, Severity, ValidationFailed
+from nfl_book.photo_prepare import prepare_photos as run_prepare_photos
 from nfl_book.preview import preview as run_preview
 from nfl_book.project import Project
 
@@ -153,6 +154,18 @@ def prepare_links(check: CheckOption = False, report_path: ReportOption = None) 
     requests every source URL and lists dead links and permanent redirects.
     """
     _prepare(check, report_path)
+
+
+@app.command("prepare-photos")
+def prepare_photos() -> None:
+    """Convert recipe source photos to manifest-tracked WebP files (offline)."""
+    project = None
+    try:
+        project = state.project()
+        result = run_prepare_photos(project.content_root, project.data_dir / "photo-manifest.yml")
+    except BookError as exc:
+        fail(exc, project.root if project else None)
+    out.print(f"{result.converted} prepared, {result.skipped} already prepared")
 
 
 @app.command()

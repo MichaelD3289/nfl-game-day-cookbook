@@ -12,8 +12,8 @@ location: Washington, DC
 yield: 2 pounds wings, about 4 appetizer portions
 prep: 20 minutes active (estimated) plus at least 2 hours marinating
 cook: About 35 minutes, frying in batches (estimated)
-image: chicken-wings-with-mumbo-sauce.jpg
-photo_credit: tanyaboza on Flickr, CC BY 2.0, via Wikimedia Commons (cropped and resized)
+image: chicken-wings-with-mumbo-sauce.webp
+photo_credit: "tanyaboza on Flickr, CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; via Wikimedia Commons; converted to WebP, cropped and resized for book/site"
 index:
   main_ingredient: poultry
   practical_time: over-60-minutes

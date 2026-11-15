@@ -12,7 +12,7 @@ location: Chicago, IL
 yield: 4 hot dogs
 prep: 10 minutes
 cook: 5 minutes
-image: chicago-style-hot-dogs.jpg
+image: chicago-style-hot-dogs.webp
 photo_credit: Food.com
 index:
   main_ingredient: beef

@@ -12,7 +12,7 @@ location: Houston, TX
 yield: 4–6 servings
 prep: 35 minutes, plus 30 minutes to 2 hours marinating
 cook: 15–20 minutes
-image: fajitas.jpg
+image: fajitas.webp
 photo_credit: Sunset & Sewanee
 index:
   main_ingredient: beef

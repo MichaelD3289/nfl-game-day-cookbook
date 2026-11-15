@@ -13,8 +13,8 @@ yield: 4 sandwiches
 servings: 4
 prep: 35 minutes active
 cook: about 20 minutes pressing
-image: cuban-sandwich.jpg
-photo_credit: Todd Van Hoosear, CC BY-SA 2.0, via Wikimedia Commons (cropped and resized)
+image: cuban-sandwich.webp
+photo_credit: "Todd Van Hoosear, CC BY-SA 2.0, https://creativecommons.org/licenses/by-sa/2.0/; via Wikimedia Commons; resized to 1600 px and converted to WebP, cropped and resized for book/site"
 index:
   main_ingredient: pork-and-sausage
   practical_time: 31-to-60-minutes

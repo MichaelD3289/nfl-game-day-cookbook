@@ -12,7 +12,7 @@ location: New York City metro
 yield: One 12- to 13-inch pizza, plus extra dough
 prep: 40 min active (source listed)
 cook: 10–15 min bake
-image: new-york-style-pizza.jpg
+image: new-york-style-pizza.webp
 photo_credit: King Arthur Baking
 index:
   main_ingredient: meatless

@@ -12,7 +12,7 @@ location: Chicago, IL
 yield: 332 g dough, enough for two 12-inch pizzas
 prep: 30–45 min active (estimated)
 cook: 7–10 min bake per pizza
-image: tavern-style-thin-crust-pizza.jpg
+image: tavern-style-thin-crust-pizza.webp
 photo_credit: Kim Kovacik / The Infatuation
 index:
   main_ingredient: pork-and-sausage

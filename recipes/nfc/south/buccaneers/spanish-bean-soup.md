@@ -12,7 +12,7 @@ location: Tampa, FL
 yield: 4 servings
 prep: 15–25 min active (estimated)
 cook: 45 min initial simmer plus potatoes until tender
-image: spanish-bean-soup.jpg
+image: spanish-bean-soup.webp
 photo_credit: TravelGumbo
 index:
   main_ingredient: pork-and-sausage

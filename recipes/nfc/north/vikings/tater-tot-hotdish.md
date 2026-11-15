@@ -12,7 +12,7 @@ location: Minneapolis, MN
 yield: 1 casserole; serves 6–10
 prep: 15–20 minutes; add about 10 minutes for homemade sauce (estimated)
 cook: 45–60 minutes
-image: tater-tot-hotdish.jpg
+image: tater-tot-hotdish.webp
 photo_credit: Bill St. John
 index:
   main_ingredient: beef

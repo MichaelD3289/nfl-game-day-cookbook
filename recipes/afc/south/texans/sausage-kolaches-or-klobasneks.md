@@ -12,7 +12,7 @@ location: Houston, TX
 yield: About 20 sausage kolaches
 prep: 25 min active (source listed)
 cook: 15–20 min bake
-image: sausage-kolaches-or-klobasneks.jpg
+image: sausage-kolaches-or-klobasneks.webp
 photo_credit: King Arthur Baking
 index:
   main_ingredient: pork-and-sausage

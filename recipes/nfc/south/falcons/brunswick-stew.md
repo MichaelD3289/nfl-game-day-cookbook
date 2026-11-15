@@ -10,6 +10,8 @@ yield: 1 gallon
 servings: 16
 prep: 30 minutes (estimated)
 cook: Several hours, plus 1 hour and time to thicken
+image: brunswick-stew.webp
+photo_credit: "j_lai, CC BY 2.0, https://creativecommons.org/licenses/by/2.0; converted to WebP, center-cropped and resized in book/site"
 index:
   main_ingredient: mixed-meat
   practical_time: over-60-minutes

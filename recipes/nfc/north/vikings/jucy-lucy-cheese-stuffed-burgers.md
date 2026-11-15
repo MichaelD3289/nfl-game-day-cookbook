@@ -13,7 +13,7 @@ yield: 6 burgers
 servings: 6
 prep: 10 minutes
 cook: 25 minutes
-image: jucy-lucy-cheese-stuffed-burgers.jpg
+image: jucy-lucy-cheese-stuffed-burgers.webp
 photo_credit: Mom's Best Recipes
 index:
   main_ingredient: beef

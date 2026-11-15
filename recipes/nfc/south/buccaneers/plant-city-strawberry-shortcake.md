@@ -9,6 +9,8 @@ course: desserts
 yield: 6 servings
 prep: 30 minutes
 cook: 15 minutes
+image: plant-city-strawberry-shortcake.webp
+photo_credit: "T. Tseng, CC BY 2.0, https://creativecommons.org/licenses/by/2.0; converted to WebP, center-cropped and resized in book/site"
 index:
   main_ingredient: meatless
   practical_time: 31-to-60-minutes

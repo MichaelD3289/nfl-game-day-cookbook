@@ -13,7 +13,7 @@ yield: 10 sandwiches
 servings: 10
 prep: 30 minutes (source listed)
 cook: 3 hours, plus several hours chilling
-image: italian-beef-sandwiches.jpg
+image: italian-beef-sandwiches.webp
 photo_credit: Serious Eats
 index:
   main_ingredient: beef

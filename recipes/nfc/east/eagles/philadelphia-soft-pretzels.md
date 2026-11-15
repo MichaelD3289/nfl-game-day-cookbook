@@ -12,7 +12,7 @@ location: Philadelphia, PA
 yield: 16 pretzels
 prep: 20 min (source listed)
 cook: 12–15 min bake
-image: philadelphia-soft-pretzels.jpg
+image: philadelphia-soft-pretzels.webp
 photo_credit: King Arthur Baking
 index:
   main_ingredient: meatless

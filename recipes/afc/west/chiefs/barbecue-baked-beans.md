@@ -11,7 +11,7 @@ course: sides
 location: Kansas City, MO
 yield: 8 servings
 cook: 5–6 hours baking; about 6–7½ hours total
-image: barbecue-baked-beans.jpg
+image: barbecue-baked-beans.webp
 photo_credit: KC Masterpiece
 index:
   main_ingredient: beef

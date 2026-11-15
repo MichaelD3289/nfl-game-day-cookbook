@@ -12,7 +12,7 @@ location: Nashville, TN
 yield: 12 small clusters
 prep: 30 minutes (estimated)
 cook: 30 minutes listed; additional multi-hour cooling and setting
-image: goo-goo-clusters.jpg
+image: goo-goo-clusters.webp
 photo_credit: globalbakes.com
 index:
   main_ingredient: meatless

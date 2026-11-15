@@ -12,7 +12,7 @@ location: Houston, TX
 yield: 5 generous servings (15 pounds crawfish; half the source's 30-pound batch)
 prep: 45 minutes, including rinsing and cutting aromatics
 cook: About 1 hour in two crawfish batches, including steeping
-image: viet-cajun-crawfish.jpg
+image: viet-cajun-crawfish.webp
 photo_credit: Houston Chronicle / Chron
 index:
   main_ingredient: seafood

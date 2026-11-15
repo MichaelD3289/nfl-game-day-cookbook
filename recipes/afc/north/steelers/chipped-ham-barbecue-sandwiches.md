@@ -12,7 +12,7 @@ location: Pittsburgh, PA
 yield: 4 servings
 prep: 10 minutes
 cook: 20 minutes
-image: chipped-ham-barbecue-sandwiches.jpg
+image: chipped-ham-barbecue-sandwiches.webp
 photo_credit: hearthandvine.com
 index:
   main_ingredient: pork-and-sausage

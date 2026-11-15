@@ -12,7 +12,7 @@ location: New Orleans, LA
 yield: About 22 beignets
 prep: 2 to 2 1/2 hours
 cook: 20 minutes
-image: beignets.jpg
+image: beignets.webp
 photo_credit: King Arthur Baking
 index:
   main_ingredient: meatless

@@ -12,7 +12,7 @@ location: Chicago, IL
 yield: See recipe
 prep: 30 minutes
 cook: 35 minutes
-image: deep-dish-pizza.jpg
+image: deep-dish-pizza.webp
 photo_credit: King Arthur Baking
 index:
   main_ingredient: pork-and-sausage

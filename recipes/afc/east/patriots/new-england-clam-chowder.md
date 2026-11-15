@@ -12,7 +12,7 @@ location: Boston, MA
 yield: 8 to 10 servings
 prep: 45 minutes hands-on
 cook: about 30 minutes (1 hour 15 minutes total with prep)
-image: new-england-clam-chowder.jpg
+image: new-england-clam-chowder.webp
 photo_credit: Yankee / New England
 index:
   main_ingredient: seafood

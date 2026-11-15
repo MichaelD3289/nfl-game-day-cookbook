@@ -3,6 +3,8 @@ id: tres-leches-cake
 title: Tres leches cake
 description: "Warm sponge cake soaked in three milks and orange liqueur, topped with whipped cream and cinnamon."
 status: published
+image: tres-leches-cake.webp
+photo_credit: "Lorelei Norman (CC0 1.0, https://creativecommons.org/publicdomain/zero/1.0/deed.en; file color-adjusted by Totovicent; center-cropped and resized in book/site)"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: desserts

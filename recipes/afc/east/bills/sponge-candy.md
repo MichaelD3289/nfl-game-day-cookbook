@@ -12,7 +12,7 @@ location: Buffalo, NY
 yield: 16 servings
 prep: 45 minutes
 cook: 15 minutes
-image: sponge-candy.jpg
+image: sponge-candy.webp
 photo_credit: An Edible Mosaic
 index:
   main_ingredient: meatless

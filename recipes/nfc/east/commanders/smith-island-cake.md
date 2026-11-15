@@ -11,6 +11,8 @@ yield: 1 ten-layer cake
 servings: 16
 prep: 1 hour 30 minutes (estimated)
 cook: 45 minutes
+image: smith-island-cake.webp
+photo_credit: "Jane Thomas on Flickr, CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; via Wikimedia Commons; converted to WebP"
 index:
   main_ingredient: meatless
   practical_time: over-60-minutes

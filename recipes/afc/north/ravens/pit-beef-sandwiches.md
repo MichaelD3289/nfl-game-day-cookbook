@@ -12,7 +12,7 @@ location: Baltimore, MD
 yield: 10–12 servings
 prep: 15 minutes active plus 1 hour to overnight seasoning rest
 cook: About 1 hour grill time plus 10 minutes resting
-image: pit-beef-sandwiches.jpg
+image: pit-beef-sandwiches.webp
 photo_credit: Pellets and Pits
 index:
   main_ingredient: beef

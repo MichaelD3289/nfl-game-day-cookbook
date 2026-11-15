@@ -12,7 +12,7 @@ location: New Orleans, LA
 yield: 6–8 servings
 prep: 15–20 minutes hands-on; optional soak is additional
 cook: About 2–3 hours (source lists 3 hours)
-image: red-beans-and-rice.jpg
+image: red-beans-and-rice.webp
 photo_credit: Camellia Brand
 index:
   main_ingredient: pork-and-sausage

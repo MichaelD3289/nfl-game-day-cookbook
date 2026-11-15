@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Validation warns when a published recipe has no photo, and the recipe-adding guide now asks contributors to find and document a reusable photo.
+- Add offline `nfl-book prepare-photos` (`make photos`) to convert referenced JPEG, PNG, and WebP photos into size-limited WebP assets, update recipe references, and record prepared-output hashes in a manifest.
+- Record source, license, and transformation provenance for 24 recipe photos.
+
+### Changed
+
+- Validation checks every referenced recipe photo, including drafts, against the preparation manifest and reports unprepared or stale assets. The separate missing-photo warning remains limited to published recipes. The conversion library normalizes orientation and color, resizes and recompresses photos, and only removes source files after the prepared assets and metadata are written successfully.
+- Recipe photos are stored as compressed WebP files, cutting the photo library from 61.6 MB to 18.9 MB. Credits for photos with documented licenses note the conversion.
+- New photos accompany conch fritters, buckeyes, Racine kringle, Palisade peach cobbler, Baja fish tacos, carne asada fries, tres leches cake, Golden Nugget bread pudding, Smith Island cake, Texas caviar, Texas pecan pie, strawberry shortcake, Brunswick stew, hushpuppies, New Orleans barbecue shrimp, San Francisco sourdough, churros and elotes. The water ice recipe has a replacement photo of lime Italian ice.
+
 ## [0.22.0] - 2026-11-11
 
 ### Added

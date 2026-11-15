@@ -13,7 +13,7 @@ yield: 4 rolls
 servings: 4
 prep: 15 minutes with pre-cooked lobster
 cook: About 6 minutes to toast buns
-image: lobster-rolls.jpg
+image: lobster-rolls.webp
 photo_credit: Boston.com
 index:
   main_ingredient: seafood

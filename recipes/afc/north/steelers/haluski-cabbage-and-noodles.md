@@ -12,7 +12,7 @@ location: Pittsburgh, PA
 yield: 8 servings
 prep: 20 minutes
 cook: 20 minutes
-image: haluski-cabbage-and-noodles.jpg
+image: haluski-cabbage-and-noodles.webp
 photo_credit: thekitchenwhisperer.net
 index:
   main_ingredient: meatless

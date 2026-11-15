@@ -3,6 +3,8 @@ id: texas-pecan-pie
 title: Texas pecan pie
 description: "A 10-inch pecan pie with a brown sugar, corn syrup and molasses filling, baked until deeply set."
 status: published
+image: texas-pecan-pie.webp
+photo_credit: "Steve Snodgrass, CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: desserts

@@ -86,12 +86,28 @@ recipe ingredient lines with `{{component:id}}`.
 
 ## Text, photos, and attribution
 
-Submit original writing/photos or material you have permission to redistribute.
-Link to reference recipes instead of copying their prose or images without permission.
-In your PR, record each image's creator, source URL, license or written permission,
-and required credit. Use the supported `photo_credit` field for the displayed credit;
-put permission evidence in the PR, not a new unrecognized front-matter field.
+Recipe photos are optional. Submit original writing/photos or material you have
+permission to redistribute. Link to reference recipes instead of copying their prose or
+images without permission. For a third-party photo, verify that the license covers the
+source image distributed as a repository asset and the prepared image in the book and
+website. A license that prohibits standalone digital distribution does not permit
+bundling the photo as a separate recipe asset; cropping or resizing alone may not change
+that restriction. Do not use a license that forbids the required conversion or edits.
+For CC BY-SA images, preserve the required attribution and share-alike terms for the
+converted image; do not imply that third-party images are relicensed under the project's
+CC BY 4.0 license.
+
+Run `uv run nfl-book prepare-photos` to convert all referenced source photos to WebP,
+update recipe image paths, write `data/photo-manifest.yml`, and check the prepared files
+and references. It is offline and book-wide; review every changed path. Follow it with
+`uv run nfl-book validate` for full content validation. In your PR, record each image's
+creator, exact source URL, license name and URL or written permission evidence, and every
+transformation such as WebP conversion, resizing, or cropping. Use the supported
+`photo_credit` field for the displayed credit, including the creator and required license
+notice; put permission evidence in the PR, not a new unrecognized front-matter field.
 Never submit private permission correspondence publicly without the sender's consent.
+If no suitable photo with the required reuse rights is available, omit it and report the
+gap.
 Existing source credits do not certify that reuse permissions have been audited.
 
 ## Contribution licensing

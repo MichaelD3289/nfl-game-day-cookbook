@@ -12,7 +12,7 @@ location: Baltimore, MD
 yield: 4 crab cakes
 prep: 10 minutes
 cook: 10 minutes
-image: baltimore-crab-cakes.jpg
+image: baltimore-crab-cakes.webp
 photo_credit: McCormick
 index:
   main_ingredient: seafood

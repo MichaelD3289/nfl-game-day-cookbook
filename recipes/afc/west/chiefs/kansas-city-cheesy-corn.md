@@ -12,7 +12,7 @@ location: Kansas City, MO
 yield: 6 to 8 servings
 prep: 15 minutes
 cook: 15 minutes
-image: kansas-city-cheesy-corn.jpg
+image: kansas-city-cheesy-corn.webp
 photo_credit: Serious Eats
 index:
   main_ingredient: pork-and-sausage

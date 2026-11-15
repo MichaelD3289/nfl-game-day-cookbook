@@ -12,7 +12,7 @@ location: Los Angeles, CA
 yield: 4 servings
 prep: 5 minutes
 cook: 22 minutes
-image: bacon-wrapped-la-street-dogs-chargers.jpg
+image: bacon-wrapped-la-street-dogs-chargers.webp
 photo_credit: Latinas Que Comen
 index:
   main_ingredient: mixed-meat

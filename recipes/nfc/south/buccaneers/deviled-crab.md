@@ -12,7 +12,7 @@ location: Tampa, FL
 yield: About 20 croquettes
 prep: 45 minutes active plus about 4–6 hours chilling (dough and filling chill in parallel)
 cook: About 30 minutes active cooking
-image: deviled-crab.jpg
+image: deviled-crab.webp
 photo_credit: recipesfoodandcooking.com
 index:
   main_ingredient: seafood

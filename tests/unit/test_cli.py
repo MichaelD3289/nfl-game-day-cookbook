@@ -64,7 +64,7 @@ def test_validate_warns_about_old_review(fixture_book: Project) -> None:
     assert "test-buffalo-sliders.md" in output
     assert "634 days ago" in output
     assert "warning [review]" in output
-    assert "OK (1 warning(s))" in output
+    assert "OK (3 warning(s))" in output
 
 
 def test_validate_failure_names_file(fixture_book: Project) -> None:

@@ -12,7 +12,7 @@ location: Indianapolis, IN
 yield: 4 servings
 prep: 20–30 min active (estimated)
 cook: Deep-fry until golden, time unstated
-image: breaded-pork-tenderloin-sandwich.jpg
+image: breaded-pork-tenderloin-sandwich.webp
 photo_credit: Visit Indiana
 index:
   main_ingredient: pork-and-sausage
