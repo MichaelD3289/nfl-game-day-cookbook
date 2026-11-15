@@ -23,7 +23,7 @@ from nfl_book.models.content import (
     Recipe,
 )
 from nfl_book.models.nfl import Division, Team
-from nfl_book.validation import component_graph, publication_roots
+from nfl_book.publication import component_graph, publication_roots
 
 UNORDERED = 1_000_000
 
@@ -87,6 +87,11 @@ class BookModel:
     recipes_by_id: dict[str, Recipe] = field(default_factory=dict)
     components_by_id: dict[str, Component] = field(default_factory=dict)
     division: Division | None = None
+    _component_closures: dict[str, tuple[Component, ...]] = field(default_factory=dict)
+
+    def components_for(self, recipe: Recipe) -> tuple[Component, ...]:
+        """Components ``recipe`` uses, nested ones included, once each in order of first use."""
+        return self._component_closures.get(recipe.id, ())
 
     @property
     def recipes(self) -> list[Recipe]:
@@ -144,7 +149,6 @@ def resolve(
         ),
         key=recipe_sort_key(settings),
     )
-    all_components = {c.id: c for c in content.components}
     graph = component_graph(content.components)
 
     usage_direct: dict[str, list[Recipe]] = {}
@@ -211,8 +215,15 @@ def resolve(
         definition = build_index(config)
         indexes.append(ResolvedIndex(definition, tuple(definition.sections(recipes))))
 
-    if division is not None:
-        all_components = {c.id: c for c in components}
+    components_by_id = {c.id: c for c in components}
+    closures = {
+        r.id: tuple(
+            components_by_id[cid]
+            for cid in graph.ordered_closure(r.component_refs)
+            if cid in components_by_id
+        )
+        for r in recipes
+    }
 
     return BookModel(
         settings=settings,
@@ -222,11 +233,12 @@ def resolve(
         menu_groups=menu_groups,
         indexes=indexes,
         usage=usage,
-        quick_options={r.id: quick_options_for(r, all_components) for r in recipes},
+        quick_options={r.id: quick_options_for(r, components_by_id) for r in recipes},
         shortlinks=shortlinks,
-        recipes_by_id={r.id: r for r in (content.recipes if division is None else recipes)},
-        components_by_id=all_components,
+        recipes_by_id={r.id: r for r in recipes},
+        components_by_id=components_by_id,
         division=division,
+        _component_closures=closures,
     )
 
 

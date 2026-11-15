@@ -23,6 +23,7 @@ from rich.table import Table
 from nfl_book import pipeline, reviews
 from nfl_book.errors import ValidationFailed
 from nfl_book.models.common import Status
+from nfl_book.models.content import Content
 from nfl_book.project import Project
 from nfl_book.resolve import BookModel, resolve
 
@@ -78,10 +79,10 @@ class Report:
         return next(s for s in self.sections if s.id == section_id)
 
 
-SectionBuilder = Callable[[BookModel, Thresholds], list[Section]]
+SectionBuilder = Callable[[BookModel, Content, Thresholds], list[Section]]
 
 
-def team_counts(model: BookModel, thresholds: Thresholds) -> list[Section]:
+def team_counts(model: BookModel, content: Content, thresholds: Thresholds) -> list[Section]:
     order = model.settings.league.team_order()
     rows = []
     for division in model.divisions:
@@ -111,7 +112,7 @@ def team_counts(model: BookModel, thresholds: Thresholds) -> list[Section]:
     return [Section("teams", "Recipes per team", columns, tuple(r[:6] for r in rows))]
 
 
-def course_gaps(model: BookModel, thresholds: Thresholds) -> list[Section]:
+def course_gaps(model: BookModel, content: Content, thresholds: Thresholds) -> list[Section]:
     buckets = model.settings.course_index.buckets
     rows = []
     for division in model.divisions:
@@ -132,7 +133,7 @@ def course_gaps(model: BookModel, thresholds: Thresholds) -> list[Section]:
     ]
 
 
-def dishoff_gaps(model: BookModel, thresholds: Thresholds) -> list[Section]:
+def dishoff_gaps(model: BookModel, content: Content, thresholds: Thresholds) -> list[Section]:
     rows = tuple(
         (d.division.name, len(d.dishoffs))
         for d in model.divisions
@@ -149,7 +150,7 @@ def dishoff_gaps(model: BookModel, thresholds: Thresholds) -> list[Section]:
     ]
 
 
-def index_spread(model: BookModel, thresholds: Thresholds) -> list[Section]:
+def index_spread(model: BookModel, content: Content, thresholds: Thresholds) -> list[Section]:
     recipes = model.recipes
     total = len(recipes)
     columns = (Column("bucket", "Bucket"), Column("recipes", "Recipes"), Column("note", "Note"))
@@ -169,10 +170,10 @@ def index_spread(model: BookModel, thresholds: Thresholds) -> list[Section]:
     return sections
 
 
-def _component_rows(model: BookModel) -> list[tuple[Cell, ...]]:
+def _component_rows(model: BookModel, content: Content) -> list[tuple[Cell, ...]]:
     kinds = [k.id for k in model.settings.component_kinds]
     rows = []
-    for component in model.components_by_id.values():
+    for component in content.components:
         if not counted(component.meta.status):
             continue
         usage = model.usage.get(component.id)
@@ -202,19 +203,21 @@ COMPONENT_COLUMNS = (
 )
 
 
-def component_usage(model: BookModel, thresholds: Thresholds) -> list[Section]:
+def component_usage(model: BookModel, content: Content, thresholds: Thresholds) -> list[Section]:
     return [
         Section(
             "components",
             "Recipes using each component",
             COMPONENT_COLUMNS,
-            tuple(_component_rows(model)),
+            tuple(_component_rows(model, content)),
         )
     ]
 
 
-def unreferenced_components(model: BookModel, thresholds: Thresholds) -> list[Section]:
-    rows = tuple(r for r in _component_rows(model) if r[-1] == 0)
+def unreferenced_components(
+    model: BookModel, content: Content, thresholds: Thresholds
+) -> list[Section]:
+    rows = tuple(r for r in _component_rows(model, content) if r[-1] == 0)
     return [
         Section(
             "unreferenced-components",
@@ -226,7 +229,7 @@ def unreferenced_components(model: BookModel, thresholds: Thresholds) -> list[Se
     ]
 
 
-def menu_type_gaps(model: BookModel, thresholds: Thresholds) -> list[Section]:
+def menu_type_gaps(model: BookModel, content: Content, thresholds: Thresholds) -> list[Section]:
     counts = Counter(m.menu_type.id for m in model.menus)
     rows = tuple(
         (t.title, counts[t.id])
@@ -244,7 +247,9 @@ def menu_type_gaps(model: BookModel, thresholds: Thresholds) -> list[Section]:
     ]
 
 
-def stale_review_section(model: BookModel, thresholds: Thresholds) -> list[Section]:
+def stale_review_section(
+    model: BookModel, content: Content, thresholds: Thresholds
+) -> list[Section]:
     columns = (
         Column("item", "Item"),
         Column("kind", "Kind"),
@@ -264,8 +269,8 @@ def stale_review_section(model: BookModel, thresholds: Thresholds) -> list[Secti
             )
         ]
     stale = reviews.stale_reviews(
-        model.recipes_by_id.values(),
-        model.components_by_id.values(),
+        content.recipes,
+        content.components,
         limit,
         thresholds.today,
     )
@@ -303,23 +308,28 @@ SECTION_BUILDERS: tuple[SectionBuilder, ...] = (
 )
 
 
-def load_model(project: Project) -> BookModel:
-    """Validated content resolved with every counted status; errors name their files."""
+def load_model(project: Project) -> tuple[BookModel, Content]:
+    """Validated content and its model resolved with every counted status.
+
+    Errors name their files. The content is returned too, because the report counts
+    components that the model leaves out for being unreferenced."""
     loaded = pipeline.load(project, require_shortlinks=False)
     if not loaded.diagnostics.ok:
         raise ValidationFailed(loaded.diagnostics)
-    return resolve(loaded.settings, loaded.content, loaded.shortlinks.links, include=counted)
+    model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links, include=counted)
+    return model, loaded.content
 
 
-def report_for(model: BookModel, thresholds: Thresholds) -> Report:
+def report_for(model: BookModel, content: Content, thresholds: Thresholds) -> Report:
     # Through the module, so tests that pin reviews.current_date apply here too.
     thresholds = replace(thresholds, today=thresholds.today or reviews.current_date())
-    sections = tuple(s for build in SECTION_BUILDERS for s in build(model, thresholds))
+    sections = tuple(s for build in SECTION_BUILDERS for s in build(model, content, thresholds))
     return Report(thresholds, sections)
 
 
 def build_report(project: Project, thresholds: Thresholds | None = None) -> Report:
-    return report_for(load_model(project), thresholds or Thresholds())
+    model, content = load_model(project)
+    return report_for(model, content, thresholds or Thresholds())
 
 
 # Rendering --------------------------------------------------------------------

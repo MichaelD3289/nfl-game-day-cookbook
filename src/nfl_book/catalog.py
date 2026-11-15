@@ -14,11 +14,11 @@ from pathlib import Path
 from typing import Any
 
 from nfl_book.errors import Diagnostics
+from nfl_book.indexes import LEAGUE_FACETS
 from nfl_book.models.content import Recipe
 from nfl_book.references import recipe_label
 from nfl_book.render.pages import PageSpec
 from nfl_book.resolve import BookModel
-from nfl_book.validation import LEAGUE_FACETS, component_graph
 
 __all__ = ["CATALOG_FILE", "CATALOG_VERSION", "LEAGUE_FACETS", "recipe_catalog", "write_catalog"]
 
@@ -122,16 +122,13 @@ def recipe_catalog(
     is reported against its source file and left out.
     """
     by_label = {label: page for page in pages for label in page.anchors}
-    graph = component_graph(model.components)
-    published = {c.id for c in model.components}
     recipes = []
     for recipe in model.recipes:
         page = by_label.get(recipe_label(recipe.id))
         if page is None:
             diags.error("catalog", "recipe has no website page for the catalog", recipe.path)
             continue
-        closure = graph.ordered_closure(recipe.component_refs)
-        components = tuple(cid for cid in closure if cid in published)
+        components = tuple(c.id for c in model.components_for(recipe))
         recipes.append(_recipe_entry(model, recipe, page, components))
     return {
         "version": CATALOG_VERSION,

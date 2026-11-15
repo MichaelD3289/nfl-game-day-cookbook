@@ -715,15 +715,12 @@ def test_recipe_without_components_has_no_print_pages(fixture_book: Project) -> 
     assert "print-with" not in wings
 
 
-def test_print_pages_skip_components_left_out_of_the_book(
-    fixture_book: Project, tmp_path: Path
-) -> None:
+def test_print_pages_skip_components_without_a_page(fixture_book: Project, tmp_path: Path) -> None:
     from nfl_book.digital import prepare_pages
     from nfl_book.website import _add_print_pages
 
     pages, _, _, model = prepare_pages(fixture_book, tmp_path / "site", web=True)
-    # Validation stops published content referencing drafts, so drop one by hand.
-    model.components = [c for c in model.components if c.id != "test-cajun-seasoning"]
+    pages = [p for p in pages if p.slug != "component-test-cajun-seasoning"]
     _add_print_pages(model, pages)
     wings = next(p for p in pages if p.slug == "recipe-test-citrus-wings")
     assert wings.context["print_pages"] == ["component-test-wing-sauce.html"]

@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from nfl_book.errors import BookError, Diagnostics, ValidationFailed
+from nfl_book.models.common import Status
 from nfl_book.pipeline import build_media, load
 from nfl_book.postbuild import load_pagemap
 from nfl_book.project import Project
@@ -43,7 +44,12 @@ def preview(project: Project, path: Path, *, pdf: bool = True) -> PreviewResult:
     if not own.ok:
         raise ValidationFailed(own)
 
-    model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
+    model = resolve(
+        loaded.settings,
+        loaded.content,
+        loaded.shortlinks.links,
+        include=lambda status: status is not Status.RETIRED,
+    )
     recipe = next((r for r in loaded.content.recipes if r.path.resolve() == target), None)
     component = next((c for c in loaded.content.components if c.path.resolve() == target), None)
     item = recipe or component

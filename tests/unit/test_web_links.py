@@ -11,10 +11,10 @@ from nfl_book.models.config import BookConfig
 from nfl_book.models.content import Component, Recipe
 from nfl_book.pipeline import build, build_media, load
 from nfl_book.project import Project
+from nfl_book.publication import is_published
 from nfl_book.qr import qr_png
 from nfl_book.render.pages import PageSpec, WebView, build_pages, check_web_links
 from nfl_book.resolve import BookModel, resolve
-from nfl_book.validation import is_published
 
 BASE = "https://michaeld3289.github.io/nfl-game-day-cookbook"
 EDITION = f"{BASE}/v{__version__}"

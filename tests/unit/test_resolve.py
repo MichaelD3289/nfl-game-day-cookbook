@@ -2,7 +2,13 @@
 
 from __future__ import annotations
 
-from nfl_book.pipeline import load
+from pathlib import Path
+
+from PIL import Image
+
+from nfl_book.errors import Diagnostics
+from nfl_book.models.common import Status
+from nfl_book.pipeline import build_media, load
 from nfl_book.project import Project
 from nfl_book.resolve import BookModel, resolve
 
@@ -130,6 +136,7 @@ def test_division_subset_rebuilds_references(fixture_book: Project) -> None:
         "test-blue-cheese-dip",
         "test-cajun-seasoning",
     }
+    assert set(model.components_by_id) == {c.id for c in model.components}
     assert {r.id for r in model.usage["test-cajun-seasoning"].indirect} == {"test-citrus-wings"}
     assert all({r.id for r in u.all} <= selected for u in model.usage.values())
     assert all({r.id for r in s.recipes} <= selected for i in model.indexes for s in i.sections)
@@ -139,6 +146,105 @@ def test_division_subset_rebuilds_references(fixture_book: Project) -> None:
     assert full.division is None
     assert len(full.divisions) == 8
     assert "test-unrelated-side" in {c.id for c in full.components}
-    assert "test-draft-nachos" in full.recipes_by_id
-    assert "test-draft-side" in full.components_by_id
+    assert "test-draft-nachos" not in full.recipes_by_id
+    assert "test-draft-side" not in full.components_by_id
     assert "test-other-wings" in {r.id for r in full.recipes}
+
+
+EXCLUDED_RECIPES = {"test-draft-nachos", "test-retired-nachos"}
+EXCLUDED_COMPONENTS = {"test-draft-side", "test-retired-side"}
+
+
+def test_published_model_holds_no_draft_or_retired_item(fixture_book: Project) -> None:
+    model = model_for(fixture_book)
+    assert not EXCLUDED_RECIPES & {r.id for r in model.recipes}
+    assert not EXCLUDED_RECIPES & set(model.recipes_by_id)
+    assert not EXCLUDED_COMPONENTS & {c.id for c in model.components}
+    assert not EXCLUDED_COMPONENTS & set(model.components_by_id)
+    assert not EXCLUDED_COMPONENTS & set(model.usage)
+    for recipe in model.recipes:
+        assert not EXCLUDED_COMPONENTS & {c.id for c in model.components_for(recipe)}
+    for recipe in (r for r in load(fixture_book).content.recipes if r.id in EXCLUDED_RECIPES):
+        assert model.components_for(recipe) == ()
+
+
+def test_components_for_lists_nested_components_once_in_order(fixture_book: Project) -> None:
+    model = model_for(fixture_book)
+    wings = model.recipes_by_id["test-citrus-wings"]
+    assert [c.id for c in model.components_for(wings)] == [
+        "test-wing-sauce",
+        "test-cajun-seasoning",
+    ]
+
+
+def test_preview_include_admits_drafts_but_not_retired(fixture_book: Project) -> None:
+    loaded = load(fixture_book)
+    model = resolve(
+        loaded.settings,
+        loaded.content,
+        loaded.shortlinks.links,
+        include=lambda status: status is not Status.RETIRED,
+    )
+    assert "test-draft-nachos" in {r.id for r in model.recipes}
+    assert "test-draft-nachos" in model.recipes_by_id
+    assert "test-draft-side" in {c.id for c in model.components}
+    assert "test-draft-side" in model.components_by_id
+    assert "test-draft-side" in model.usage
+    nachos = model.recipes_by_id["test-draft-nachos"]
+    assert [c.id for c in model.components_for(nachos)] == ["test-draft-side"]
+    assert not EXCLUDED_RECIPES - {"test-draft-nachos"} & set(model.recipes_by_id)
+    assert "test-retired-side" not in model.components_by_id
+    assert "test-retired-side" not in model.usage
+
+
+def test_division_model_holds_only_components_its_recipes_reach(fixture_book: Project) -> None:
+    loaded = load(fixture_book)
+    division = loaded.settings.league.division("afc", "east")
+    assert division is not None
+    model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links, division=division)
+    reached = {c.id for r in model.recipes for c in model.components_for(r)}
+    assert set(model.components_by_id) == reached == {c.id for c in model.components}
+    assert not EXCLUDED_COMPONENTS & reached
+
+
+def _add_media_sources(root: Path, rel: str, *, image: bool) -> None:
+    """Give an item a source URL and, for a recipe, a small real photo."""
+    path = root / rel
+    extra = f"source:\n  url: https://example.com/{path.stem}\n"
+    if image:
+        Image.new("RGB", (40, 30), "red").save(path.parent / f"{path.stem}.jpg")
+        extra += f"image: {path.stem}.jpg\nphoto_credit: Test\n"
+    path.write_text(path.read_text().replace("\n---\n", "\n" + extra + "---\n", 1))
+
+
+def test_build_media_skips_drafts_and_retired_items(fixture_book: Project, tmp_path: Path) -> None:
+    root = fixture_book.content_root
+    excluded = {
+        "recipes/afc/east/jets/test-draft-nachos.md": True,
+        "recipes/afc/east/jets/test-retired-nachos.md": True,
+        "components/sides/test-draft-side.md": False,
+        "components/sides/test-retired-side.md": False,
+    }
+    for rel, image in excluded.items():
+        _add_media_sources(root, rel, image=image)
+    # The same setup on published items proves the test can see media when there is any.
+    _add_media_sources(root, "recipes/afc/east/bills/test-buffalo-sliders.md", image=True)
+    _add_media_sources(root, "components/sauces/test-wing-sauce.md", image=False)
+
+    loaded = load(fixture_book)
+    model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
+    diags = Diagnostics()
+    media, _ = build_media(
+        fixture_book, model, tmp_path / "build", diags, loaded.settings.book.photos.print
+    )
+    assert diags.ok, list(diags)
+    assert "recipe:test-buffalo-sliders" in media.qr
+    assert "component:test-wing-sauce" in media.qr
+    assert "recipe:test-buffalo-sliders" in media.images
+    keys = set(media.qr) | set(media.images)
+    assert not any(i in key for key in keys for i in EXCLUDED_RECIPES | EXCLUDED_COMPONENTS)
+    assert not any(
+        i in p.name
+        for p in fixture_book.qr_dir.glob("*.png")
+        for i in EXCLUDED_RECIPES | EXCLUDED_COMPONENTS
+    )
