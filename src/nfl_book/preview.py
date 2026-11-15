@@ -9,15 +9,16 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from nfl_book.edition import build_media
 from nfl_book.errors import BookError, Diagnostics, ValidationFailed
 from nfl_book.models.common import Status
-from nfl_book.pipeline import build_media, load
+from nfl_book.pipeline import load
 from nfl_book.postbuild import load_pagemap
 from nfl_book.project import Project
 from nfl_book.render import assemble, component_page, make_env, recipe_page
 from nfl_book.render.env import tex
 from nfl_book.render.pages import PageSpec
-from nfl_book.render.quarto import render_pdf
+from nfl_book.render.quarto import Quarto, QuartoCli, render_pdf
 from nfl_book.resolve import resolve
 
 
@@ -35,7 +36,9 @@ def preview_preamble(pagemap: dict[str, int]) -> str:
     return "\n".join(lines)
 
 
-def preview(project: Project, path: Path, *, pdf: bool = True) -> PreviewResult:
+def preview(
+    project: Project, path: Path, *, pdf: bool = True, quarto: Quarto | None = None
+) -> PreviewResult:
     target = path.resolve()
     if not target.is_file():
         raise BookError(f"{path}: file not found")
@@ -78,9 +81,10 @@ def preview(project: Project, path: Path, *, pdf: bool = True) -> PreviewResult:
         title=tex(item.title),
         paper=loaded.settings.book.paper,
         styles_dir=project.styles_dir,
+        diagnostics=own,
         preamble=preview_preamble(load_pagemap(project.pagemap_file)),
     )
     result = PreviewResult(item.id, assembled.document, diagnostics=own)
     if pdf:
-        result.pdf = render_pdf(assembled.document)
+        result.pdf = render_pdf(quarto or QuartoCli(), assembled.document, own)
     return result

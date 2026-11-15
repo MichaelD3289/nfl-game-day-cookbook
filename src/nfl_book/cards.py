@@ -2,106 +2,86 @@
 
 from __future__ import annotations
 
-import json
 import shutil
 
+from nfl_book.edition import published_edition
 from nfl_book.errors import ValidationFailed
-from nfl_book.pipeline import BuildResult, build_media, load
+from nfl_book.pipeline import BuildResult
 from nfl_book.postbuild import check_manifest, read_pagemap, write_pagemap
 from nfl_book.project import Project
 from nfl_book.references import address, component_label
-from nfl_book.render import make_env
-from nfl_book.render.assemble import front_matter, write_if_changed
+from nfl_book.render import PageSpec, assemble, make_env
+from nfl_book.render.assemble import Layout
 from nfl_book.render.env import tex
 from nfl_book.render.pages import recipe_view
-from nfl_book.render.quarto import render_pdf, scan_log
+from nfl_book.render.quarto import Quarto, QuartoCli, render_pdf, scan_log
 from nfl_book.render.views import CardView, ComponentLink, view_fields
-from nfl_book.resolve import resolve
 
 
-def build_cards(project: Project, *, pdf: bool = True, strict: bool = False) -> BuildResult:
+def build_cards(
+    project: Project,
+    *,
+    pdf: bool = True,
+    strict: bool = False,
+    quarto: Quarto | None = None,
+) -> BuildResult:
     """Render published recipes to flowing cards, with no booklet page references."""
-    loaded = load(project)
-    diags = loaded.diagnostics
-    if not diags.ok:
-        raise ValidationFailed(diags)
-    model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links)
-    settings = loaded.settings.book.cards
     build_dir = project.generated_dir / "cards"
-    media, photos = build_media(project, model, build_dir, diags, loaded.settings.book.photos.print)
-    if not diags.ok:
-        raise ValidationFailed(diags)
-    pages_dir = build_dir / "pages"
-    if pages_dir.exists():
-        shutil.rmtree(pages_dir)
-    pages_dir.mkdir(parents=True)
-    includes = []
-    for name in ("theme.tex", "cards.tex"):
-        target = build_dir / "styles" / name
-        source = project.styles_dir / name
-        try:
-            style = source.read_text(encoding="utf-8")
-        except OSError as exc:
-            diags.error("cards-style", f"cannot read card style: {exc}", source)
-            continue
-        write_if_changed(target, style)
-        includes.append(f"styles/{name}")
-    if not diags.ok:
-        raise ValidationFailed(diags)
+    edition = published_edition(project, build_dir)
+    model, diags = edition.model, edition.diagnostics
+    settings = edition.settings.book.cards
+    links = {
+        component_label(c.id): ComponentLink(
+            c.title, address(c, edition=edition.settings.edition_root).edition_url
+        )
+        for c in model.components
+    }
+    specs = []
+    for recipe in model.recipes:
+        card = CardView(
+            **view_fields(recipe_view(model, recipe, edition.media)),
+            component_links=links,
+            recipe_file=str(recipe.path),
+        )
+        assert card.end_label is not None
+        specs.append(
+            PageSpec(
+                f"recipe-{recipe.id}",
+                "cards/recipe.qmd.j2",
+                card,
+                anchors=(card.label,),
+                spans=((card.label, card.end_label),),
+            )
+        )
     geometry = (
         f"\\geometry{{paperwidth={float(settings.width_inches)}in,"
         f"paperheight={float(settings.height_inches)}in,"
         r"margin=\CardMargin,headheight=\CardHeadHeight,headsep=\CardHeadSep}"
     )
-    write_if_changed(build_dir / "styles" / "card-geometry.tex", geometry + "\n")
-    includes.append("styles/card-geometry.tex")
-    env = make_env(project.templates_dir)
-    names = []
-    manifest = []
-    for recipe in model.recipes:
-        card = CardView(
-            **view_fields(recipe_view(model, recipe, media)),
-            component_links={
-                component_label(c.id): ComponentLink(
-                    c.title, address(c, website_url=model.settings.book.website_url).edition_url
-                )
-                for c in model.components
-            },
-        )
-        name = f"pages/recipe-{recipe.id}.qmd"
-        write_if_changed(
-            build_dir / name, env.get_template("cards/recipe.qmd.j2").render(**view_fields(card))
-        )
-        names.append(name)
-        manifest.append(
-            {
-                "file": name,
-                "source": str(recipe.path),
-                "anchors": [card.label, card.end_label],
-                "spans": [[card.label, card.end_label]],
-            }
-        )
-    document = build_dir / "cards.qmd"
-    write_if_changed(
-        document,
-        env.get_template("book.qmd.j2").render(
-            front_matter=front_matter(
-                tex(loaded.settings.book.title), "letter", includes, "", latex_auto_install=False
-            ),
-            pages=names,
+    assembled = assemble(
+        make_env(project.templates_dir),
+        specs,
+        build_dir,
+        title=tex(edition.settings.book.title),
+        paper="letter",
+        styles_dir=project.styles_dir,
+        diagnostics=diags,
+        layout=Layout(
+            document="cards.qmd",
+            styles=("theme.tex", "cards.tex"),
+            numbered=False,
+            latex_auto_install=False,
+            extra_styles={"card-geometry.tex": geometry + "\n"},
         ),
     )
-    write_if_changed(build_dir / "manifest.json", json.dumps({"pages": manifest}, indent=2) + "\n")
-    result = BuildResult(document, diagnostics=diags, photos=photos)
+    result = BuildResult(assembled.document, diagnostics=diags, photos=edition.photos)
     if not pdf:
         return result
-    compiled = render_pdf(document)
-    scan_log(document.with_suffix(".log"), diags)
+    compiled = render_pdf(quarto or QuartoCli(), assembled.document, diags)
+    scan_log(assembled.document.with_suffix(".log"), diags)
     pagemap = read_pagemap(compiled)
     write_pagemap(pagemap, build_dir / "pagemap.json")
-    check_manifest(
-        build_dir / "manifest.json", pagemap, diags, strict=strict, max_pages=settings.max_pages
-    )
+    check_manifest(assembled.manifest, pagemap, diags, strict=strict, max_pages=settings.max_pages)
     if not diags.ok:
         raise ValidationFailed(diags)
     project.dist_dir.mkdir(parents=True, exist_ok=True)

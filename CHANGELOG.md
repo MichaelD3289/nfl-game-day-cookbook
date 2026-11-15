@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Production builds no longer generate QR codes or photos for draft or retired recipes and components, so an unreadable photo on a draft can no longer fail a build.
+- Quarto errors for the book, booklets, cards, website and EPUB now name the document and end with the tail of Quarto's log, and the edition links and the footer use the same version.
+
+### Changed
+
+- Division booklets share the book's photo and QR cache under `generated/`, so a second booklet reuses the photos the first one made.
 
 ## [0.23.0] - 2026-11-14
 

@@ -21,7 +21,7 @@ from nfl_book.digital_text import json_script
 from nfl_book.models.content import Component, DishOff, GameDayMenu, Recipe
 from nfl_book.publishing import REPOSITORY
 from nfl_book.quantities import Amount, find_yield_amounts
-from nfl_book.references import SectionPage, address, edition_root
+from nfl_book.references import SectionPage, address
 from nfl_book.render.pages import (
     CONTENTS,
     GAME_DAY,
@@ -184,9 +184,10 @@ def recipe_page(recipe: Recipe, model: BookModel, media: Media, catalog: Catalog
     base = recipe_view(model, recipe, media)
     where = address(recipe)
     site = model.settings.book.website_url
+    edition = model.settings.edition_root
     # The canonical address is the page at the website root, which always serves the
     # latest edition; ``url`` and ``image`` name this edition's own copies.
-    image_url = f"{edition_root(site)}{base.image}" if site and base.image else None
+    image_url = f"{edition}{base.image}" if edition and base.image else None
     canonical = f"{site.rstrip('/')}/{where.page_url}" if site else None
     data = recipe_json_ld(
         recipe,

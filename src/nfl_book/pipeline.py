@@ -6,39 +6,27 @@ Everything here is offline. The only network stages are
 
 from __future__ import annotations
 
-import os
 import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from nfl_book.config import Settings, load_settings
-from nfl_book.discovery import discover
+from nfl_book.config import load_settings
+from nfl_book.edition import Loaded, build_media, load, published_edition
 from nfl_book.errors import Diagnostics, ValidationFailed
-from nfl_book.images import PhotoStats, build_photos
-from nfl_book.models.config import PhotoVariant
-from nfl_book.models.content import Component, Content, Recipe
+from nfl_book.images import PhotoStats
 from nfl_book.models.nfl import Division
 from nfl_book.postbuild import Overflow, check_manifest, read_pagemap, write_pagemap
 from nfl_book.project import Project
 from nfl_book.publishing import booklet_filename
-from nfl_book.qr import generate_qr_codes
-from nfl_book.references import address, recipe_label
-from nfl_book.render import Media, assemble, build_pages, make_env
+from nfl_book.render import assemble, build_pages, make_env
 from nfl_book.render.env import tex
-from nfl_book.render.quarto import render_pdf, scan_log
-from nfl_book.resolve import BookModel, resolve
-from nfl_book.shortlinks import Shortener, ShortlinkCache, get_shortener
+from nfl_book.render.quarto import Quarto, QuartoCli, render_pdf, scan_log
+from nfl_book.resolve import resolve
+from nfl_book.shortlinks import Shortener, get_shortener
 from nfl_book.shortlinks.check import CheckResult, LinkChecker, check_sources
 from nfl_book.shortlinks.prepare import PrepareResult, prepare_shortlinks
-from nfl_book.validation import validate_content
 
-
-@dataclass
-class Loaded:
-    settings: Settings
-    content: Content
-    shortlinks: ShortlinkCache
-    diagnostics: Diagnostics
+__all__ = ["BuildResult", "Loaded", "build_media", "load"]
 
 
 @dataclass
@@ -48,25 +36,6 @@ class BuildResult:
     diagnostics: Diagnostics = field(default_factory=Diagnostics)
     overflows: list[Overflow] = field(default_factory=list)
     photos: PhotoStats = field(default_factory=PhotoStats)
-
-
-def load(project: Project, *, require_shortlinks: bool = True) -> Loaded:
-    """Load settings and content and run all validation (diagnostics are collected)."""
-    settings = load_settings(project)
-    diags = Diagnostics()
-    content = discover(project, settings, diags)
-    shortlinks = ShortlinkCache.load(project.shortlinks_file)
-    validate_content(
-        settings,
-        content,
-        shortlinks,
-        diags,
-        indexes_path=project.data_dir / "indexes.yml",
-        content_root=project.content_root,
-        photo_manifest_path=project.data_dir / "photo-manifest.yml",
-        require_shortlinks=require_shortlinks,
-    )
-    return Loaded(settings, content, shortlinks, diags)
 
 
 def filter_paths(diags: Diagnostics, paths: list[Path]) -> Diagnostics:
@@ -124,112 +93,48 @@ def check_links(project: Project, checker: LinkChecker | None = None) -> CheckRe
         return check_sources(loaded.content, active)
 
 
-def _relative(target: Path, start: Path) -> str:
-    return Path(os.path.relpath(target, start)).as_posix()
-
-
-def build_media(
-    project: Project,
-    model: BookModel,
-    build_dir: Path,
-    diagnostics: Diagnostics,
-    variant: PhotoVariant,
-) -> tuple[Media, PhotoStats]:
-    """QR codes and recipe photo variants, relative to ``build_dir``.
-
-    A QR code opens the item's page in this edition of the website. Without
-    ``website_url``, and for drafts, it falls back to the full source URL.
-    Unreadable photos are reported to ``diagnostics``; source photos are never written.
-    """
-    base = model.settings.book.website_url
-    all_items: list[tuple[str, Recipe | Component]] = [
-        *(("recipe", r) for r in model.recipes_by_id.values()),
-        *(("component", c) for c in model.components_by_id.values()),
-    ]
-    items = [
-        (kind, item.id, url)
-        for kind, item in all_items
-        if (
-            url := address(item, website_url=base).edition_url
-            or (item.meta.source and item.meta.source.url)
-        )
-    ]
-    qr = generate_qr_codes(items, project.qr_dir, _relative(project.qr_dir, build_dir))
-
-    sources = {
-        recipe_label(recipe.id): recipe.path.parent / recipe.meta.image
-        for recipe in model.recipes_by_id.values()
-        if recipe.meta.image and (recipe.path.parent / recipe.meta.image).is_file()
-    }
-    stats = PhotoStats()
-    photos = build_photos(sources, variant, project.photo_cache_dir, diagnostics, stats)
-    media = Media(
-        qr=qr,
-        images={key: _relative(p.path, build_dir) for key, p in photos.items()},
-        image_sizes={key: p.size for key, p in photos.items()},
-    )
-    return media, stats
-
-
-def select_division(settings: Settings, selector: str, project: Project) -> Division:
-    """Accept only a configured conference/division pair, before any output writes."""
-    selected = next(
-        (d for d in settings.league.divisions if selector == f"{d.conference_id}/{d.id}"),
-        None,
-    )
-    if selected is None:
-        diags = Diagnostics()
-        choices = ", ".join(f"{d.conference_id}/{d.id}" for d in settings.league.divisions)
-        diags.error(
-            "division",
-            f"Unknown division {selector!r}; choose one of: {choices}",
-            project.data_dir / "nfl.yml",
-        )
-        raise ValidationFailed(diags)
-    return selected
-
-
 def build(
-    project: Project, *, pdf: bool = True, strict: bool = False, division: str | None = None
+    project: Project,
+    *,
+    pdf: bool = True,
+    strict: bool = False,
+    division: str | None = None,
+    quarto: Quarto | None = None,
 ) -> BuildResult:
-    loaded = load(project)
-    diags = loaded.diagnostics
-    if not diags.ok:
-        raise ValidationFailed(diags)
-    selected = select_division(loaded.settings, division, project) if division is not None else None
-    model = resolve(loaded.settings, loaded.content, loaded.shortlinks.links, division=selected)
-    if selected is not None:
-        project = Project.create(
-            project.root,
-            project.content_root,
-            project.generated_dir / "booklets" / selected.key,
-            project.dist_dir,
-        )
-    build_dir = project.book_build_dir
-    media, photos = build_media(project, model, build_dir, diags, loaded.settings.book.photos.print)
-    pages = build_pages(model, media)
-    if not diags.ok:
-        raise ValidationFailed(diags)
+    """Build the book, or one division's booklet, through the shared PDF pipeline."""
+
+    def build_dir(selected: Division | None) -> Path:
+        if selected is None:
+            return project.book_build_dir
+        return project.generated_dir / "booklets" / selected.key / "book"
+
+    edition = published_edition(project, build_dir, division)
+    selected = edition.model.division
+    directory = build_dir(selected)
+    diags = edition.diagnostics
+    pages = build_pages(edition.model, edition.media)
     assembled = assemble(
         make_env(project.templates_dir),
         pages,
-        build_dir,
+        directory,
         title=tex(
-            f"{loaded.settings.book.title}: {selected.name}"
+            f"{edition.settings.book.title}: {selected.name}"
             if selected is not None
-            else loaded.settings.book.title
+            else edition.settings.book.title
         ),
-        paper=loaded.settings.book.paper,
+        paper=edition.settings.book.paper,
         styles_dir=project.styles_dir,
+        diagnostics=diags,
     )
-    result = BuildResult(assembled.document, diagnostics=diags, photos=photos)
+    result = BuildResult(assembled.document, diagnostics=diags, photos=edition.photos)
     if not pdf:
         return result
 
-    compiled = render_pdf(assembled.document)
+    compiled = render_pdf(quarto or QuartoCli(), assembled.document, diags)
     scan_log(assembled.document.with_suffix(".log"), diags)
     pagemap = read_pagemap(compiled)
-    write_pagemap(pagemap, project.pagemap_file)
+    pagemap_file = project.pagemap_file if selected is None else directory.parent / "pagemap.json"
+    write_pagemap(pagemap, pagemap_file)
     result.overflows = check_manifest(assembled.manifest, pagemap, diags, strict=strict)
     if not diags.ok:
         raise ValidationFailed(diags)
@@ -237,18 +142,24 @@ def build(
     result.pdf = project.dist_dir / (
         booklet_filename(selected.key)
         if selected is not None
-        else loaded.settings.book.output_filename
+        else edition.settings.book.output_filename
     )
     shutil.copyfile(compiled, result.pdf)
     return result
 
 
 def build_booklets(
-    project: Project, *, pdf: bool = True, strict: bool = False
+    project: Project, *, pdf: bool = True, strict: bool = False, quarto: Quarto | None = None
 ) -> list[BuildResult]:
     """Build every configured division sequentially through the shared PDF pipeline."""
     return [
-        build(project, pdf=pdf, strict=strict, division=f"{d.conference_id}/{d.id}")
+        build(
+            project,
+            pdf=pdf,
+            strict=strict,
+            division=f"{d.conference_id}/{d.id}",
+            **({"quarto": quarto} if quarto is not None else {}),
+        )
         for d in load_settings(project).league.divisions
     ]
 

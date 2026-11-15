@@ -22,6 +22,7 @@ from nfl_book.models.config import (
 )
 from nfl_book.models.nfl import League
 from nfl_book.project import Project
+from nfl_book.references import edition_root
 
 M = TypeVar("M", bound=BaseModel)
 
@@ -75,6 +76,13 @@ class Settings:
     indexes: tuple[IndexConfig, ...]
     menu_types: tuple[MenuType, ...]
     component_kinds: tuple[ComponentKind, ...]
+    version: str
+
+    @property
+    def edition_root(self) -> str | None:
+        """This edition's copy of the website, if the book has a ``website_url``."""
+        base = self.book.website_url
+        return edition_root(base, self.version) if base else None
 
     @property
     def course_index(self) -> IndexConfig:
@@ -107,4 +115,5 @@ def load_settings(project: Project) -> Settings:
         indexes=tuple(indexes.indexes),
         menu_types=tuple(menu_types.menu_types),
         component_kinds=tuple(kinds.component_kinds),
+        version=project.version,
     )

@@ -16,7 +16,6 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from nfl_book import __version__
 from nfl_book.models.common import SLUG_PATTERN
 from nfl_book.models.content import (
     Component,
@@ -100,9 +99,9 @@ LABEL_PREFIXES = (
 """Every label starts with one of these; the page map reads them back from the PDF."""
 
 
-def edition_root(base: str) -> str:
+def edition_root(base: str, version: str) -> str:
     """This edition's copy of the website, which every release keeps at ``/vX.Y.Z/``."""
-    return f"{base.rstrip('/')}/v{__version__}/"
+    return f"{base.rstrip('/')}/v{version}/"
 
 
 def page_source(slug: str) -> str:
@@ -176,8 +175,9 @@ class Address:
     edition_url: str | None
 
 
-def address(item: Item, *, website_url: str | None = None) -> Address:
-    """The address of ``item``; ``website_url`` is ``book.website_url``, if set.
+def address(item: Item, *, edition: str | None = None) -> Address:
+    """The address of ``item``; ``edition`` is this edition's website root
+    (``Settings.edition_root``), if the book has a ``website_url``.
 
     This is the only status check outside ``resolve``: a draft has no ``edition_url``,
     because the website publishes published content only.
@@ -217,8 +217,8 @@ def address(item: Item, *, website_url: str | None = None) -> Address:
             on_website = False
     anchor = html_id(label)
     url = None
-    if website_url and published and on_website:
-        url = f"{edition_root(website_url)}{page_url(slug)}"
+    if edition and published and on_website:
+        url = f"{edition}{page_url(slug)}"
         url += f"#{anchor}" if anchored else ""
     return Address(kind, label, end, slug, page_source(slug), page_url(slug), anchor, url)
 
