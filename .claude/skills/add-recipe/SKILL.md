@@ -38,8 +38,29 @@ Fill every `TODO` and `null` the scaffold left. The conventions it does not show
 - `source.url` is the full canonical URL of the original, never a short link.
 - `location: City, ST` overrides the team's location when the dish comes from
   elsewhere.
-- A photo is `image: <id>.jpg` next to the `.md`, with `photo_credit:` naming who took
-  it.
+- Photos remain optional. Look for a representative photo of the exact dish and
+  variety; a reusable photo may come from a different source. Verify that its terms
+  allow distributing the source asset in this repository and the prepared image in the
+  book and website. “Free to use” or permission to include a photo in a book does not
+  establish permission to distribute the image separately as a repository asset. Do not
+  use a license that forbids this standalone distribution, or that forbids the image
+  transformations required here. For CC BY-SA, preserve the image's share-alike terms
+  and attribution; do not imply that third-party images are relicensed under the book's
+  CC BY 4.0 license. If no suitable, permitted photo is found, leave the image absent
+  and report the gap; validation warns for published recipes without one.
+- Add the source image beside the recipe and point `image:` at it. Then run
+  `uv run nfl-book prepare-photos`. This offline, book-wide command converts every
+  referenced `.jpg`, `.jpeg`, `.png`, or `.webp` photo to an adjacent same-stem `.webp`,
+  updates each recipe's `image:` path, records the prepared output hash in
+  `data/photo-manifest.yml`, and removes an original
+  only after the prepared image and metadata are safely written. Review the full diff:
+  it can convert photos beyond the new recipe. The command checks photo files and
+  references; it does not replace `nfl-book validate`. Set `photo_credit:` to the
+  required displayed credit, including creator, license name and license URL; disclose
+  WebP conversion and any resize, crop, or other edit. Record the exact file/source URL,
+  author, license or permission evidence, and all transformations in the PR, following
+  `THIRD_PARTY.md`. A representative photo must visually match the recipe; do not use
+  one that shows a prominent ingredient, protein, or garnish absent from it.
 - `quick_options: {<component-id>: Store-bought suggestion}` overrides a referenced
   component's `quick_buy`.
 - Index values are bucket ids from `data/indexes.yml`, decided from the ingredients and
@@ -74,12 +95,14 @@ referenced from a published recipe must be published; create one with `add-compo
 ## 5. Check it
 
 ```sh
+uv run nfl-book prepare-photos
 uv run nfl-book validate recipes/<conf>/<div>/<team>/<id>.md
 make preview FILE=recipes/<conf>/<div>/<team>/<id>.md    # drafts allowed
 ```
 
-Done when validate reports no errors and no warnings for the file, and the preview
-shows each group beside the steps that use it.
+Done when `prepare-photos` succeeds, `validate` reports no errors for the file, and the
+preview shows each group beside the steps that use it. An absent photo can still produce
+the published-recipe photo warning; report that gap rather than treating it as an error.
 
 ## 6. Publish
 

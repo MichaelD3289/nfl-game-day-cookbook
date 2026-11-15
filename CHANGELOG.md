@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Validation warns when a published recipe has no photo, and the recipe-adding guide now asks contributors to find and document a reusable photo.
+- Add offline `nfl-book prepare-photos` (`make photos`) to convert referenced JPEG, PNG, and WebP photos into size-limited WebP assets, update recipe references, and record prepared-output hashes in a manifest.
+
+### Changed
+
+- Validation checks every referenced recipe photo, including drafts, against the preparation manifest and reports unprepared or stale assets. The separate missing-photo warning remains limited to published recipes. The conversion library normalizes orientation and color, resizes and recompresses photos, and only removes source files after the prepared assets and metadata are written successfully.
+
 ## [0.22.0] - 2026-11-11
 
 ### Added

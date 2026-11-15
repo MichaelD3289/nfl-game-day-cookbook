@@ -2,10 +2,13 @@
 
 from __future__ import annotations
 
+import hashlib
 import re
 from collections.abc import Callable, Iterable, Sequence
 from datetime import date
 from pathlib import Path
+
+from PIL import Image
 
 from nfl_book.config import Settings
 from nfl_book.dependencies import DependencyGraph
@@ -13,6 +16,13 @@ from nfl_book.errors import Diagnostics
 from nfl_book.indexes import IndexDefinition, build_index
 from nfl_book.models.common import Status
 from nfl_book.models.content import Component, Content, Recipe
+from nfl_book.photo_prepare import (
+    MAX_BYTES,
+    MAX_EDGE,
+    POLICY_VERSION,
+    PhotoPreparationError,
+    parse_photo_manifest,
+)
 from nfl_book.reviews import check_review_ages
 from nfl_book.shortlinks import ShortlinkCache
 
@@ -69,15 +79,19 @@ def validate_content(
     diags: Diagnostics,
     *,
     indexes_path: Path,
+    content_root: Path,
+    photo_manifest_path: Path,
     require_shortlinks: bool,
     today: date | None = None,
 ) -> None:
     indexes = build_indexes(settings, diags, indexes_path)
+    photo_manifest = _load_photo_manifest(photo_manifest_path, diags)
     components = {c.id: c for c in content.components}
     recipes = {r.id: r for r in content.recipes}
 
     for recipe in content.recipes:
         _validate_recipe(recipe, indexes, components, diags)
+        _validate_photo_preparation(recipe, content_root, photo_manifest, diags)
     for component in content.components:
         _validate_component(component, components, diags)
     _validate_duplicates(content.recipes, diags)
@@ -111,9 +125,109 @@ def _validate_recipe(
                 f"quick_options.{key}: component is not referenced in '## Ingredients'",
                 path,
             )
+    if published and not recipe.meta.image:
+        diags.warning("photo", "published recipe has no photo", path)
     if recipe.meta.image and not (path.parent / recipe.meta.image).is_file():
         diags.error("asset", f"image not found: {recipe.meta.image}", path)
     _check_ingredient_groups(recipe, diags)
+
+
+def _load_photo_manifest(path: Path, diags: Diagnostics) -> dict[str, tuple[str, int]] | None:
+    """Load the optional preparation manifest; malformed data is a named diagnostic."""
+    if not path.exists():
+        return {}
+    try:
+        entries = parse_photo_manifest(path.read_bytes(), path)
+    except OSError as exc:
+        diags.error("photo-manifest", f"cannot read photo manifest: {exc}", path)
+        return None
+    except PhotoPreparationError as exc:
+        diags.error("photo-manifest", str(exc), path)
+        return None
+    return {key: (entry["sha256"], entry["policy"]) for key, entry in entries.items()}
+
+
+def _validate_photo_preparation(
+    recipe: Recipe,
+    content_root: Path,
+    manifest: dict[str, tuple[str, int]] | None,
+    diags: Diagnostics,
+) -> None:
+    """Warn when a recipe image is absent or stale in the preparation manifest."""
+    if not recipe.meta.image:
+        return
+    source = recipe.path.parent / recipe.meta.image
+    if not source.is_file():
+        return  # _validate_recipe already reports the missing referenced asset.
+
+    reasons: list[str] = []
+    suffix = source.suffix.casefold()
+    if suffix not in {".jpg", ".jpeg", ".png", ".webp"}:
+        diags.warning(
+            "photo-preparation",
+            f"unsupported source format {suffix or '(no extension)'}; supported formats are "
+            ".jpg, .jpeg, .png, or .webp",
+            recipe.path,
+        )
+        return
+    try:
+        key = source.resolve().relative_to(content_root.resolve()).as_posix()
+    except ValueError:
+        key = ""
+        reasons.append("image path is outside the content root")
+
+    if not key:
+        diags.warning(
+            "photo-preparation",
+            "photo is outside the content root; update the recipe image path",
+            recipe.path,
+        )
+        return
+
+    recorded = manifest.get(key) if manifest is not None else None
+    if recorded is None:
+        reasons.append("image is not listed in data/photo-manifest.yml")
+    else:
+        expected_hash, policy = recorded
+        try:
+            actual_hash = hashlib.sha256(source.read_bytes()).hexdigest()
+        except OSError:
+            reasons.append("image bytes could not be checked")
+        else:
+            if actual_hash != expected_hash:
+                reasons.append("manifest hash is stale")
+        if policy != POLICY_VERSION:
+            reasons.append(
+                f"policy version is stale (manifest says {policy}, expected {POLICY_VERSION})"
+            )
+
+    try:
+        with Image.open(source) as image:
+            if image.format != "WEBP" or source.suffix.casefold() != ".webp":
+                reasons.append("image is not in WebP format")
+            if max(image.size) > MAX_EDGE:
+                reasons.append(f"image exceeds the {MAX_EDGE} px edge limit")
+    except (OSError, SyntaxError, ValueError, Image.DecompressionBombError):
+        reasons.append("image is not a readable WebP")
+
+    try:
+        if source.stat().st_size > MAX_BYTES:
+            reasons.append(f"image exceeds {MAX_BYTES // 1024} KB")
+    except OSError:
+        reasons.append("image size could not be checked")
+
+    if reasons:
+        detail = "; ".join(reasons)
+        diags.warning(
+            "photo-preparation",
+            f"photo needs preparation ({detail}); "
+            + (
+                "repair data/photo-manifest.yml before running validation"
+                if manifest is None
+                else "run `nfl-book prepare-photos`"
+            ),
+            recipe.path,
+        )
 
 
 def _check_ingredient_groups(recipe: Recipe, diags: Diagnostics) -> None:
