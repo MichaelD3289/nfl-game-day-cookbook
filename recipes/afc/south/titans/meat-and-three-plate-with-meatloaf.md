@@ -12,7 +12,7 @@ location: Nashville, TN
 yield: 6 servings
 prep: About 35 minutes active (estimated)
 cook: About 65 minutes, with sides cooked in parallel; allow 10 minutes meatloaf rest
-image: meat-and-three-plate-with-meatloaf.jpg
+image: meat-and-three-plate-with-meatloaf.webp
 photo_credit: The Local Palate
 index:
   main_ingredient: beef

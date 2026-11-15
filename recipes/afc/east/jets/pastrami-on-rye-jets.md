@@ -13,7 +13,7 @@ yield: 4 sandwiches
 servings: 4
 prep: 5–10 min (estimated)
 cook: 5–8 min steam + 2–3 min toast
-image: pastrami-on-rye-jets.jpg
+image: pastrami-on-rye-jets.webp
 photo_credit: Central Market New York
 index:
   main_ingredient: beef

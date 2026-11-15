@@ -9,7 +9,7 @@ last_reviewed_notes: >-
   Report: docs/reviews/2026-09-26-recipe-review-all/report.md#kansas-city-style-barbecue-chicken
 course: meals
 location: Kansas City, MO
-image: kansas-city-style-barbecue-chicken.jpg
+image: kansas-city-style-barbecue-chicken.webp
 photo_credit: KC Masterpiece
 yield: 6–8 servings
 prep: 20 minutes active (estimated)

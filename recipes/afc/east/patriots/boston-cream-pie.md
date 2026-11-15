@@ -12,7 +12,7 @@ location: Boston, MA
 yield: One 9-inch double-layer cake
 prep: 40 min (source listed)
 cook: 30–35 min cake bake
-image: boston-cream-pie.jpg
+image: boston-cream-pie.webp
 photo_credit: King Arthur Baking
 index:
   main_ingredient: meatless

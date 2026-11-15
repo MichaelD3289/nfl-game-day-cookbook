@@ -12,7 +12,7 @@ location: Denver, CO
 yield: 6 servings
 prep: 30–45 min active (estimated)
 cook: 20–25 min roast + 20–30 min steam + 1–2 hr simmer
-image: colorado-pork-green-chile.jpg
+image: colorado-pork-green-chile.webp
 photo_credit: Edible Denver
 index:
   main_ingredient: pork-and-sausage

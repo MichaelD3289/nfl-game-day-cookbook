@@ -12,8 +12,8 @@ location: Phoenix metro, AZ
 yield: 6 servings
 prep: 10 minutes
 cook: 10 minutes
-image: fry-bread-tacos.jpg
-photo_credit: Gregg Montesi, CC0, via Wikimedia Commons
+image: fry-bread-tacos.webp
+photo_credit: "Gregg Montesi, CC0 1.0, https://creativecommons.org/publicdomain/zero/1.0/deed.en; via Wikimedia Commons; resized to 1600 px and converted to WebP, cropped and resized for book/site"
 index:
   main_ingredient: beef
   practical_time: up-to-30-minutes

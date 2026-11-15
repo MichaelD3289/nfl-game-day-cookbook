@@ -12,7 +12,7 @@ location: Los Angeles, CA
 yield: 4 people
 prep: 5 minutes
 cook: 22 minutes
-image: bacon-wrapped-la-street-dogs.jpg
+image: bacon-wrapped-la-street-dogs.webp
 photo_credit: Latinas Que Comen
 index:
   main_ingredient: mixed-meat

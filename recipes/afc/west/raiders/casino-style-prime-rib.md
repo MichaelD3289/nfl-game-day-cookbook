@@ -10,7 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Las Vegas, NV
 yield: 6–8 servings
-image: casino-style-prime-rib.jpg
+image: casino-style-prime-rib.webp
 photo_credit: Certified Angus Beef
 index:
   main_ingredient: beef

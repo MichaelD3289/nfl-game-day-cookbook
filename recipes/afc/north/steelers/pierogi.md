@@ -10,7 +10,7 @@ last_reviewed_notes: >-
 course: meals
 location: Pittsburgh, PA
 yield: About 2 1/2 dozen
-image: pierogi.jpg
+image: pierogi.webp
 photo_credit: briarpatch.coop
 index:
   main_ingredient: meatless

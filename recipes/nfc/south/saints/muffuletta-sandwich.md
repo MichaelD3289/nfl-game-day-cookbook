@@ -13,7 +13,7 @@ yield: 4 sandwiches
 servings: 4
 prep: 25 minutes active, plus chilling (estimated)
 cook: 10–12 minutes for the olive salad
-image: muffuletta-sandwich.jpg
+image: muffuletta-sandwich.webp
 photo_credit: Saveur
 index:
   main_ingredient: pork-and-sausage

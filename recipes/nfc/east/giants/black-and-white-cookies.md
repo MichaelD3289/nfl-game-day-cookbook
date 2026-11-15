@@ -12,7 +12,7 @@ location: New York City metro
 yield: 24 large cookies
 prep: 30 minutes
 cook: 10 to 12 minutes bake; about 1 hour 11 minutes total
-image: black-and-white-cookies.jpg
+image: black-and-white-cookies.webp
 photo_credit: King Arthur Baking
 index:
   main_ingredient: meatless

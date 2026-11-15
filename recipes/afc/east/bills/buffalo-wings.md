@@ -12,7 +12,7 @@ location: Buffalo, NY
 yield: 6–8 servings
 prep: About 25 minutes active, plus at least 1 hour dip chilling (estimated)
 cook: About 60–90 minutes for batches; 12–15 minutes per batch
-image: buffalo-wings.jpg
+image: buffalo-wings.webp
 photo_credit: Frank's RedHot
 index:
   main_ingredient: poultry

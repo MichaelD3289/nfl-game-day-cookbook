@@ -12,7 +12,7 @@ location: Detroit, MI
 yield: 8 servings
 prep: 10 minutes
 cook: 40 minutes
-image: detroit-coney-dogs.jpg
+image: detroit-coney-dogs.webp
 photo_credit: Simply Scratch
 index:
   main_ingredient: beef

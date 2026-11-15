@@ -12,7 +12,7 @@ location: Cleveland, OH
 yield: 3–4 dozen
 prep: 45–75 min active (estimated)
 cook: Variable boiling in batches
-image: potato-and-cheese-pierogi.jpg
+image: potato-and-cheese-pierogi.webp
 photo_credit: Everyday Healthy Recipes
 index:
   main_ingredient: meatless

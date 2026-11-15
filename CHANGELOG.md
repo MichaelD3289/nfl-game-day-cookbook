@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Validation checks every referenced recipe photo, including drafts, against the preparation manifest and reports unprepared or stale assets. The separate missing-photo warning remains limited to published recipes. The conversion library normalizes orientation and color, resizes and recompresses photos, and only removes source files after the prepared assets and metadata are written successfully.
+- Recipe photos are stored as compressed WebP files, cutting the photo library from 61.6 MB to 18.9 MB. Credits for photos with documented licenses note the conversion.
 
 ## [0.22.0] - 2026-11-11
 

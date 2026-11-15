@@ -12,7 +12,7 @@ location: Cleveland, OH
 yield: 2 servings
 prep: 5 minutes
 cook: 10 minutes
-image: polish-boy-sandwich.jpg
+image: polish-boy-sandwich.webp
 photo_credit: reneeskitchenadventures.com
 index:
   main_ingredient: pork-and-sausage

@@ -13,7 +13,7 @@ yield: 5 burgers
 servings: 5
 prep: 20–30 min active (estimated)
 cook: Variable frying in batches
-image: cuban-frita-burger.jpg
+image: cuban-frita-burger.webp
 photo_credit: Burger Beast
 index:
   main_ingredient: beef

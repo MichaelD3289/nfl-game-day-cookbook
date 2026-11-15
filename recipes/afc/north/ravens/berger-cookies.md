@@ -12,7 +12,7 @@ location: Baltimore, MD
 yield: 30 cookies
 prep: 20 minutes
 cook: 25 minutes
-image: berger-cookies.jpg
+image: berger-cookies.webp
 photo_credit: Sugar Spun Run
 index:
   main_ingredient: meatless

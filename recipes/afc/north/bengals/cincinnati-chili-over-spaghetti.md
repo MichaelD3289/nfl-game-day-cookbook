@@ -12,7 +12,7 @@ location: Cincinnati, OH
 yield: 8 servings
 prep: 20 minutes
 cook: 1 hour 40 minutes
-image: cincinnati-chili-over-spaghetti.jpg
+image: cincinnati-chili-over-spaghetti.webp
 photo_credit: Certified Angus Beef
 index:
   main_ingredient: beef

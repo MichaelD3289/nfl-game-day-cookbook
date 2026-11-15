@@ -12,7 +12,7 @@ location: Phoenix metro, AZ
 yield: 8 dogs
 prep: 20 minutes estimated active
 cook: About 25 minutes; source total 45 minutes
-image: sonoran-hot-dogs.jpg
+image: sonoran-hot-dogs.webp
 photo_credit: Saveur
 index:
   main_ingredient: mixed-meat

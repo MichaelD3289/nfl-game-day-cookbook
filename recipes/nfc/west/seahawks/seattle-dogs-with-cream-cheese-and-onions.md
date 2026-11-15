@@ -12,7 +12,7 @@ location: Seattle, WA
 yield: 8 servings
 prep: 5–10 min (estimated)
 cook: 8–10 min onion sauté plus grilling
-image: seattle-dogs-with-cream-cheese-and-onions.jpg
+image: seattle-dogs-with-cream-cheese-and-onions.webp
 photo_credit: Applegate
 index:
   main_ingredient: beef

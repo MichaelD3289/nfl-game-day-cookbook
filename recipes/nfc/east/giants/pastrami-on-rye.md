@@ -13,7 +13,7 @@ yield: 4 sandwiches
 servings: 4
 prep: About 5 minutes assembly
 cook: About 5 minutes warming chilled pastrami; none if already hot
-image: pastrami-on-rye.jpg
+image: pastrami-on-rye.webp
 photo_credit: La Brea Bakery
 index:
   main_ingredient: beef

@@ -12,7 +12,7 @@ location: Atlanta, GA
 yield: 36 wing sections
 prep: 20 minutes (source listed)
 cook: About 45–50 minutes for 6–7 batches; roughly 7 minutes each
-image: lemon-pepper-wet-wings.jpg
+image: lemon-pepper-wet-wings.webp
 photo_credit: coinedcuisine.com
 index:
   main_ingredient: poultry

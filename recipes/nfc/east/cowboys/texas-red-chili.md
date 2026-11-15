@@ -12,7 +12,7 @@ location: Dallas, TX
 yield: 6 servings
 prep: 30 minutes
 cook: 3 hours
-image: texas-red-chili.jpg
+image: texas-red-chili.webp
 photo_credit: Inspired Taste
 index:
   main_ingredient: beef

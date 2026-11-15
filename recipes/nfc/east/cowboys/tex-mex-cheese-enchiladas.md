@@ -12,7 +12,7 @@ location: Dallas, TX
 yield: 4 servings, 3 enchiladas each
 prep: 30 minutes
 cook: 30 minutes
-image: tex-mex-cheese-enchiladas.jpg
+image: tex-mex-cheese-enchiladas.webp
 photo_credit: texascooking.com
 index:
   main_ingredient: meatless

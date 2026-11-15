@@ -12,7 +12,7 @@ location: Pittsburgh, PA
 yield: 2 servings
 prep: 15–25 min active (estimated)
 cook: 8–10 min fry + about 2 min sear
-image: primanti-style-sandwiches.jpg
+image: primanti-style-sandwiches.webp
 photo_credit: My Home Made Recipe
 index:
   main_ingredient: pork-and-sausage

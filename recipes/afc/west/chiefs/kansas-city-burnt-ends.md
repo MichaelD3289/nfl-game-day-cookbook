@@ -11,7 +11,7 @@ course: meals
 location: Kansas City, MO
 yield: 8 servings
 cook: About 10 hours, temperature-guided
-image: kansas-city-burnt-ends.jpg
+image: kansas-city-burnt-ends.webp
 photo_credit: Reynolds Brands
 index:
   main_ingredient: beef

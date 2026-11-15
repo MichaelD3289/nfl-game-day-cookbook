@@ -12,7 +12,7 @@ location: New Orleans, LA
 yield: 4 servings
 prep: 15–25 min active (estimated)
 cook: About 4 min fry per batch
-image: shrimp-po-boy.jpg
+image: shrimp-po-boy.webp
 photo_credit: Epicurious
 index:
   main_ingredient: seafood
