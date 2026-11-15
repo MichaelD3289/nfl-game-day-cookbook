@@ -2,10 +2,7 @@
 
 from __future__ import annotations
 
-import html
 import shutil
-import subprocess
-import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -24,12 +21,13 @@ from nfl_book.digital_text import (
 )
 from nfl_book.errors import Diagnostics, ValidationFailed
 from nfl_book.images import PhotoStats
-from nfl_book.pipeline import load
 from nfl_book.project import Project
-from nfl_book.publishing import EPUB_FILENAME, RELEASES
+from nfl_book.publishing import RELEASES
 from nfl_book.references import html_id, menu_label, page_source, recipe_label
 from nfl_book.render.pages import PageSpec, build_pages, menu_view
-from nfl_book.render.views import CoverView, DivisionView, IndexView, ItemView, view_fields
+from nfl_book.render.quarto import Quarto, QuartoCli, run_quarto
+from nfl_book.render.views import CoverView, ItemView, view_fields
+from nfl_book.site_config import STYLES, active_assets, navigation, quarto_config
 from nfl_book.website_pages import RecipeCard, WebRecipeView, marked, site_builders
 
 
@@ -45,39 +43,15 @@ def _filename(page: PageSpec) -> str:
     return page_source(page.slug)
 
 
+def cover_title(pages: list[PageSpec]) -> str:
+    cover = pages[0].view
+    assert isinstance(cover, CoverView)
+    return cover.title
+
+
 def _scalable(item: ItemView) -> str:
     """Ingredient Markdown with each scalable amount wrapped for website-scale.js."""
     return marked(item.text, item.amounts)
-
-
-def _navigation(pages: list[PageSpec]) -> list[dict[str, Any]]:
-    result: list[dict[str, Any]] = [
-        {"text": "Start here", "href": "index.qmd"},
-        {"text": "All recipes", "href": "contents.qmd"},
-        {"text": "Browse recipes", "href": "browse.qmd"},
-    ]
-    indexes = [
-        {"text": p.view.title, "href": _filename(p)} for p in pages if isinstance(p.view, IndexView)
-    ]
-    result.append({"section": "Find a recipe", "contents": indexes})
-    for p in pages:
-        if isinstance(p.view, DivisionView):
-            teams = [
-                {"text": t.name, "href": f"{_filename(p)}#{html_id(t.label)}"}
-                for t in p.view.teams
-                if t.recipes
-            ]
-            if teams:
-                result.append({"section": p.view.name, "href": _filename(p), "contents": teams})
-    result.extend(
-        [
-            {"text": "Game Day Menus", "href": "game-day-menus.qmd"},
-            {"text": "Build your own menu", "href": "menu-builder.qmd"},
-            {"text": "Matchup menu", "href": "matchup.qmd"},
-            {"text": "Make It or Buy It", "href": "make-it-or-buy-it.qmd"},
-        ]
-    )
-    return result
 
 
 def _discovery(catalog: Catalog) -> dict[str, Any]:
@@ -111,16 +85,21 @@ def _discovery(catalog: Catalog) -> dict[str, Any]:
     }
 
 
-def build_website(project: Project, *, render: bool = True, preview: str = "") -> WebsiteResult:
+def build_website(
+    project: Project, *, render: bool = True, preview: str = "", quarto: Quarto | None = None
+) -> WebsiteResult:
     """Build the site; ``preview`` labels an unreleased build (a branch and commit) on
     every page, so it cannot pass for the published edition."""
     build_dir = project.generated_dir / "site"
-    metadata = tomllib.loads((project.root / "pyproject.toml").read_text())
-    version = metadata["project"]["version"]
-    prepared = prepare_book(project, build_dir, web=True)
-    model, diags, photos = prepared.model, prepared.diagnostics, prepared.photos
-    catalog = recipe_catalog(model, prepared.media, edition=version)
-    pages = build_pages(model, prepared.media, site_builders(model, prepared.media, catalog))
+    edition = prepare_book(project, build_dir, web=True)
+    model, diags, photos, version = (
+        edition.model,
+        edition.diagnostics,
+        edition.photos,
+        edition.version,
+    )
+    catalog = recipe_catalog(model, edition.media, edition=version)
+    pages = build_pages(model, edition.media, site_builders(model, edition.media, catalog))
     if not diags.ok:
         raise ValidationFailed(diags)
     routes = {label: f"{_filename(p)}#{html_id(label)}" for p in pages for label in p.anchors}
@@ -137,7 +116,7 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
         scalable=_scalable,
         site_name=site_name,
     )
-    book = load(project).settings.book
+    book = edition.settings.book
     env.globals.update(
         route=lambda label: routes[label],
         suggestion_form_url=book.suggestion_form_url,
@@ -165,144 +144,37 @@ def build_website(project: Project, *, render: bool = True, preview: str = "") -
         f"PDF and downloadable website are also on [GitHub releases]({RELEASES}).\n\n"
         "```{=html}\n<!-- site-versions -->\n```\n"
     )
-    resources = [
-        "assets/**",
-        "scale.js",
-        "print.js",
-        "shop.js",
-        CATALOG_FILE,
-        "browse.js",
-        "menu.js",
-        "matchup.js",
-        "cook.js",
-        "timeline.js",
-    ]
+    assets = active_assets(bool(book.suggestion_form_url))
     write_catalog(catalog, build_dir / CATALOG_FILE)
-    shutil.copyfile(project.styles_dir / "website-browse.js", build_dir / "browse.js")
-    shutil.copyfile(project.styles_dir / "website-scale.js", build_dir / "scale.js")
-    shutil.copyfile(project.styles_dir / "website-print.js", build_dir / "print.js")
-    shutil.copyfile(project.styles_dir / "website-shop.js", build_dir / "shop.js")
-    shutil.copyfile(project.styles_dir / "website-menu.js", build_dir / "menu.js")
-    shutil.copyfile(project.styles_dir / "website-matchup.js", build_dir / "matchup.js")
-    shutil.copyfile(project.styles_dir / "website-cook.js", build_dir / "cook.js")
-    shutil.copyfile(project.styles_dir / "website-timeline.js", build_dir / "timeline.js")
-    scripts = ["print.js", "shop.js", "cook.js", "timeline.js"]
-    html_format: dict[str, Any] = {
-        "theme": ["cosmo", "website.scss"],
-        "css": ["website.css", "roadtrip.css"],
-        "grid": {"body-width": "1280px", "margin-width": "0px", "gutter-width": "1.5rem"},
-        "toc": False,
-        "anchor-sections": False,
-        "smooth-scroll": True,
-        "lang": "en",
-    }
-    if book.suggestion_form_url:
-        resources.append("suggest.js")
-        scripts.append("suggest.js")
-        shutil.copyfile(project.styles_dir / "website-suggest.js", build_dir / "suggest.js")
-    if preview:
-        html_format["include-before-body"] = {
-            "text": '<div class="preview-banner" role="note"><strong>Preview</strong> '
-            f"{html.escape(preview)}. Not a published edition: the version and download "
-            "links point to the latest release.</div>"
-        }
-    html_format["include-after-body"] = {
-        "text": "\n".join(f'<script src="{name}"></script>' for name in scripts)
-    }
-    cover = pages[0].view
-    assert isinstance(cover, CoverView)
-    config = {
-        "project": {
-            "type": "website",
-            "output-dir": "_site",
-            "render": ["*.qmd"],
-            "resources": resources,
-        },
-        "website": {
-            "title": cover.title,
-            "search": {"location": "navbar", "type": "overlay"},
-            "navbar": {
-                "collapse-below": "lg",
-                "left": [
-                    {"text": "Browse recipes", "href": "browse.qmd"},
-                    {"text": "Game Day Menus", "href": "game-day-menus.qmd"},
-                    {"text": "Build your own menu", "href": "menu-builder.qmd"},
-                    {"text": "Matchup menu", "href": "matchup.qmd"},
-                    {
-                        "text": "Explore",
-                        "menu": [
-                            {"text": "Make It or Buy It", "href": "make-it-or-buy-it.qmd"},
-                            {"text": "All recipes by team", "href": "contents.qmd"},
-                            *[
-                                {
-                                    "text": item.get("text", item.get("section", "")),
-                                    "href": item["href"],
-                                }
-                                for group in _navigation(pages)
-                                for item in (
-                                    group.get("contents", [])
-                                    if group.get("section") == "Find a recipe"
-                                    else [group]
-                                    if group.get("section")
-                                    else []
-                                )
-                                if "href" in item
-                            ],
-                        ],
-                    },
-                ],
-                "right": [
-                    {
-                        "text": "Downloads",
-                        "menu": [
-                            {"text": "Download PDF", "href": download},
-                            {
-                                "text": "Download EPUB",
-                                "href": f"{RELEASES}/download/v{version}/{EPUB_FILENAME}",
-                            },
-                            {"text": "All formats & recipe cards", "href": RELEASES + "/latest"},
-                            {"text": "All versions", "href": "versions.qmd"},
-                            {"text": "Earlier releases", "href": RELEASES},
-                            {"text": f"v{version}", "href": f"{RELEASES}/tag/v{version}"},
-                        ],
-                    },
-                ],
-            },
-            "page-footer": {
-                "left": "NFL Meals · A city-by-city game-day cookbook",
-                "right": f"Preview {html.escape(preview)}"
-                if preview
-                else f"Edition {html.escape(version)}",
-            },
-        },
-        "format": {"html": html_format},
-    }
+    for asset in assets:
+        if asset.source is not None:
+            shutil.copyfile(project.styles_dir / asset.source, build_dir / asset.name)
+    config = quarto_config(
+        title=cover_title(pages),
+        nav=navigation(pages),
+        assets=assets,
+        version=version,
+        download=download,
+        preview=preview,
+    )
     (build_dir / "_quarto.yml").write_text(yaml.safe_dump(config, sort_keys=False))
-    shutil.copyfile(project.styles_dir / "website.css", build_dir / "website.css")
-    shutil.copyfile(project.styles_dir / "website-roadtrip.css", build_dir / "roadtrip.css")
-    shutil.copyfile(project.styles_dir / "website.scss", build_dir / "website.scss")
+    for name, source in STYLES:
+        shutil.copyfile(project.styles_dir / source, build_dir / name)
     if not render:
         return WebsiteResult(build_dir / "index.qmd", None, diags, photos)
-    quarto = shutil.which("quarto")
-    if quarto is None:
-        diags.error(
-            "website",
-            "Quarto is required; install it or use website --no-render.",
-            build_dir / "_quarto.yml",
-        )
+    config_file = build_dir / "_quarto.yml"
+    if not run_quarto(
+        quarto or QuartoCli(),
+        build_dir,
+        ["render", "--to", "html"],
+        source=config_file,
+        diagnostics=diags,
+        code="website",
+        what="website",
+        skip="--no-render",
+    ):
         raise ValidationFailed(diags)
-    compiled = subprocess.run(
-        [quarto, "render", "--to", "html"],
-        cwd=build_dir,
-        capture_output=True,
-        text=True,
-        check=False,
-    )
     staged = build_dir / "_site"
-    if compiled.returncode:
-        tail = "\n".join((compiled.stdout + compiled.stderr).splitlines()[-35:])
-        diags.error("website", f"Quarto HTML build failed:\n{tail}", build_dir / "_quarto.yml")
-        raise ValidationFailed(diags)
     if not (staged / "index.html").is_file():
         diags.error(
             "website",

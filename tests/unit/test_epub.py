@@ -7,6 +7,7 @@ import yaml
 from PIL import Image
 from typer.testing import CliRunner
 
+from fake_quarto import FakeQuarto
 from nfl_book.cli import app
 from nfl_book.epub_check import check_epub
 from nfl_book.errors import Diagnostics, ValidationFailed
@@ -142,17 +143,14 @@ def test_book_details_are_stable_and_complete(fixture_book: Project) -> None:
     assert "this edition" in welcome and "of the website at" in welcome
 
 
-def test_missing_quarto_preserves_existing_epub(
-    fixture_book: Project, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_missing_quarto_preserves_existing_epub(fixture_book: Project) -> None:
     from nfl_book.epub import build_epub
 
     fixture_book.dist_dir.mkdir(parents=True)
     target = fixture_book.dist_dir / EPUB_FILENAME
     target.write_bytes(b"previous")
-    monkeypatch.setattr("nfl_book.epub.shutil.which", lambda _: None)
     with pytest.raises(ValidationFailed):
-        build_epub(fixture_book)
+        build_epub(fixture_book, quarto=FakeQuarto(installed=False))
     assert target.read_bytes() == b"previous"
 
 

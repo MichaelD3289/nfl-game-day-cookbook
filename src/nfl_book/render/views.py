@@ -317,3 +317,4 @@ class CardView(RecipeView):
     """A recipe card: the base recipe plus where each component can be found."""
 
     component_links: Mapping[str, ComponentLink]
+    recipe_file: str  # the recipe's file, named by the manifest's overflow errors

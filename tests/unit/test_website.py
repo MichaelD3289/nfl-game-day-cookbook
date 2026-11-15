@@ -10,6 +10,7 @@ import pytest
 import yaml
 from typer.testing import CliRunner
 
+from fake_quarto import FakeQuarto
 from nfl_book import pipeline
 from nfl_book.catalog import recipe_catalog
 from nfl_book.cli import app
@@ -107,18 +108,15 @@ def test_build_removes_stale_pages_and_keeps_review_notes_private(fixture_book: 
     )
 
 
-def test_missing_quarto_preserves_previous_site(
-    fixture_book: Project, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_missing_quarto_preserves_previous_site(fixture_book: Project) -> None:
     from nfl_book.errors import ValidationFailed
     from nfl_book.website import build_website
 
     site = fixture_book.dist_dir / "site"
     site.mkdir(parents=True)
     (site / "index.html").write_text("previous successful build")
-    monkeypatch.setattr("nfl_book.website.shutil.which", lambda _: None)
     with pytest.raises(ValidationFailed) as raised:
-        build_website(fixture_book)
+        build_website(fixture_book, quarto=FakeQuarto(installed=False))
     assert (site / "index.html").read_text() == "previous successful build"
     assert (
         raised.value.diagnostics.errors[0].path == fixture_book.generated_dir / "site/_quarto.yml"
@@ -135,24 +133,15 @@ def test_quarto_project_lists_its_pages(fixture_book: Project) -> None:
     assert config["project"]["render"] == ["*.qmd"]
 
 
-def test_quarto_rendering_no_pages_is_reported(
-    fixture_book: Project, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    import subprocess
-
+def test_quarto_rendering_no_pages_is_reported(fixture_book: Project) -> None:
     from nfl_book.errors import ValidationFailed
     from nfl_book.website import build_website
 
     site = fixture_book.dist_dir / "site"
     site.mkdir(parents=True)
     (site / "index.html").write_text("previous successful build")
-    monkeypatch.setattr("nfl_book.website.shutil.which", lambda _: "quarto")
-    monkeypatch.setattr(
-        "nfl_book.website.subprocess.run",
-        lambda args, **_: subprocess.CompletedProcess(args, 0, stdout="", stderr=""),
-    )
     with pytest.raises(ValidationFailed) as raised:
-        build_website(fixture_book)
+        build_website(fixture_book, quarto=FakeQuarto())
     error = raised.value.diagnostics.errors[0]
     assert "rendered no pages" in error.message
     assert error.path == fixture_book.generated_dir / "site/_quarto.yml"

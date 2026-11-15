@@ -28,9 +28,10 @@ class Photo:
 
 @dataclass
 class PhotoStats:
-    """Total bytes of the source photos and of the variants built from them."""
+    """Photo counts, and the bytes of the source photos and of the variants built from them."""
 
     count: int = 0
+    cached: int = 0  # variants reused from the photo cache
     source_bytes: int = 0
     output_bytes: int = 0
 
@@ -106,12 +107,13 @@ def build_photos(
     photos = {}
     for key, source in sources.items():
         try:
-            photo, _ = make_variant(source, variant, cache_dir)
+            photo, cached = make_variant(source, variant, cache_dir)
         except (OSError, SyntaxError, ValueError, Image.DecompressionBombError) as exc:
             diagnostics.error("image", f"cannot read image {source.name}: {exc}", source)
             continue
         photos[key] = photo
         stats.count += 1
+        stats.cached += cached
         stats.source_bytes += source.stat().st_size
         stats.output_bytes += photo.path.stat().st_size
     return photos

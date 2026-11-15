@@ -12,7 +12,6 @@ from collections.abc import Callable, Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any
 
-from nfl_book import __version__
 from nfl_book.models.content import Component, DishOff, GameDayMenu, IngredientGroup, Recipe
 from nfl_book.references import (
     Address,
@@ -21,7 +20,6 @@ from nfl_book.references import (
     SectionPage,
     address,
     component_label,
-    edition_root,
     menu_label,
     menu_page_slug,
     recipe_label,
@@ -145,8 +143,8 @@ def _source(item: Recipe | Component, model: BookModel) -> SourceView | None:
 
 def _web(item: Recipe | Component, model: BookModel) -> WebView | None:
     """The item's page in this edition of the website; drafts have none."""
-    href = address(item, website_url=model.settings.book.website_url).edition_url
-    return None if href is None else WebView(href, __version__)
+    href = address(item, edition=model.settings.edition_root).edition_url
+    return None if href is None else WebView(href, model.settings.version)
 
 
 def _meta(*parts: tuple[str, str | None]) -> tuple[tuple[str, str], ...]:
@@ -244,11 +242,10 @@ def menu_view(model: BookModel, menu: GameDayMenu | DishOff) -> MenuView:
 
 
 def _website(model: BookModel) -> WebsiteLink | None:
-    base = model.settings.book.website_url
-    if not base:
+    href = model.settings.edition_root
+    if not href:
         return None
-    href = edition_root(base)
-    return WebsiteLink(href, href.removeprefix("https://"), __version__)
+    return WebsiteLink(href, href.removeprefix("https://"), model.settings.version)
 
 
 def _span(where: Address) -> tuple[str, str]:

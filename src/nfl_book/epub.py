@@ -1,8 +1,6 @@
 """Independent reflowable EPUB generation from the published book model."""
 
 import shutil
-import subprocess
-import tomllib
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -25,6 +23,7 @@ from nfl_book.project import Project
 from nfl_book.publishing import EPUB_FILENAME, EPUB_IDENTIFIER
 from nfl_book.references import component_label, html_id, kind_label, recipe_label
 from nfl_book.render.pages import PageSpec, build_pages
+from nfl_book.render.quarto import Quarto, QuartoCli, run_quarto
 from nfl_book.render.views import (
     ComponentView,
     CoverView,
@@ -57,9 +56,7 @@ class EpubResult:
 
 
 def _author(project: Project) -> str:
-    metadata = tomllib.loads((project.root / "pyproject.toml").read_text())["project"]
-    names = [a["name"] for a in metadata.get("authors", []) if a.get("name")]
-    return " and ".join(names) or "NFL Game Day Cookbook contributors"
+    return " and ".join(project.authors) or "NFL Game Day Cookbook contributors"
 
 
 def _cover(path: Path, cover: CoverView, photos: list[Path]) -> None:
@@ -101,11 +98,13 @@ def _order(pages: list[PageSpec]) -> list[PageSpec]:
     return [p for p in pages if not isinstance(p.view, IndexView)] + indexes
 
 
-def build_epub(project: Project, *, render: bool = True) -> EpubResult:
+def build_epub(
+    project: Project, *, render: bool = True, quarto: Quarto | None = None
+) -> EpubResult:
     directory = project.generated_dir / "epub"
-    prepared = prepare_book(project, directory, qr=False)
-    model, diags = prepared.model, prepared.diagnostics
-    pages = _order(build_pages(model, prepared.media))
+    edition = prepare_book(project, directory, qr=False)
+    model, diags = edition.model, edition.diagnostics
+    pages = _order(build_pages(model, edition.media))
     env = Environment(
         loader=FileSystemLoader(project.templates_dir / "epub"),
         undefined=StrictUndefined,
@@ -140,9 +139,7 @@ def build_epub(project: Project, *, render: bool = True) -> EpubResult:
     )
     env.globals["route"] = route
     env.globals["descriptions"] = descriptions(model)
-    metadata = tomllib.loads((project.root / "pyproject.toml").read_text())
-    version = metadata["project"]["version"]
-    parts = _render(env, pages, model, kinds, version)
+    parts = _render(env, pages, model, kinds, edition.version)
 
     cover = pages[0].view
     assert isinstance(cover, CoverView)
@@ -177,25 +174,18 @@ def build_epub(project: Project, *, render: bool = True) -> EpubResult:
     shutil.copy2(project.styles_dir / "epub.css", directory / "epub.css")
     if not render:
         return EpubResult(document, None, diags)
-    quarto = shutil.which("quarto")
-    if not quarto:
-        diags.error("epub", "Quarto is required; install it or use epub --no-render.", document)
-        raise ValidationFailed(diags)
-    result = subprocess.run(
-        [quarto, "render", "book.qmd", "--to", "epub"],
-        cwd=directory,
-        capture_output=True,
-        text=True,
-        check=False,
-    )
     staged = directory / "book.epub"
-    if result.returncode or not staged.is_file():
-        diags.error(
-            "epub",
-            "Quarto EPUB build failed:\n"
-            + "\n".join((result.stdout + result.stderr).splitlines()[-35:]),
-            document,
-        )
+    if not run_quarto(
+        quarto or QuartoCli(),
+        directory,
+        ["render", "book.qmd", "--to", "epub"],
+        source=document,
+        diagnostics=diags,
+        code="epub",
+        what="EPUB",
+        skip="--no-render",
+        output=staged,
+    ):
         raise ValidationFailed(diags)
     check_epub(staged, diags, {html_id(label) for label in labels})
     if not diags.ok:
