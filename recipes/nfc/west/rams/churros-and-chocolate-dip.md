@@ -10,6 +10,8 @@ yield: 18 to 20 churros
 servings: 6
 prep: 40 minutes
 cook: 20 minutes
+image: churros-and-chocolate-dip.webp
+photo_credit: "Tim Lucas, CC BY 2.0, https://creativecommons.org/licenses/by/2.0; converted to WebP, center-cropped and resized in book/site"
 index:
   main_ingredient: meatless
   practical_time: 31-to-60-minutes

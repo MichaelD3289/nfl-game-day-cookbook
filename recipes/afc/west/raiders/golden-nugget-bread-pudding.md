@@ -3,6 +3,8 @@ id: golden-nugget-bread-pudding
 title: Golden Nugget bread pudding
 description: "Raisin bread pudding baked in a water bath, served with bourbon sauce, from the Golden Nugget buffet."
 status: published
+image: golden-nugget-bread-pudding.webp
+photo_credit: "Jason Perlow (author-released public domain; center-cropped and resized for book/site)"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: desserts

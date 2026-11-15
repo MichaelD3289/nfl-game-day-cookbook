@@ -3,6 +3,8 @@ id: racine-kringle
 title: Racine kringle
 description: "Pecan-filled kringle pastries shaped into ovals, from a recipe that comes from Racine, Wisconsin."
 status: published
+image: racine-kringle.webp
+photo_credit: "Phil Diser (Wis2fan), CC BY-SA 3.0, https://creativecommons.org/licenses/by-sa/3.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: desserts

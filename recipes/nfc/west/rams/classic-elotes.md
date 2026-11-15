@@ -9,6 +9,8 @@ course: sides
 yield: 4 servings
 prep: 5 minutes
 cook: 10 minutes
+image: classic-elotes.webp
+photo_credit: "jeffreyw, CC BY 2.0, https://creativecommons.org/licenses/by/2.0; converted to WebP, center-cropped and resized in book/site"
 index:
   main_ingredient: meatless
   practical_time: up-to-30-minutes

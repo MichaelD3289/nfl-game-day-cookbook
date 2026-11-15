@@ -11,6 +11,8 @@ yield: 24 candies
 servings: 12
 prep: 30 minutes, plus 15 to 20 minutes freezing
 cook: 10 minutes
+image: buckeyes.webp
+photo_credit: "Steven Depolo, CC BY 2.0 (Commons source cropped; converted to WebP; center-cropped and resized for book/site); https://creativecommons.org/licenses/by/2.0/"
 index:
   main_ingredient: meatless
   practical_time: 31-to-60-minutes

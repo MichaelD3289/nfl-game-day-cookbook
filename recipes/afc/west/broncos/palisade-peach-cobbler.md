@@ -3,6 +3,8 @@ id: palisade-peach-cobbler
 title: Palisade peach cobbler
 description: "A simple baked cobbler of ripe Palisade peaches over a Bisquick batter, served with vanilla ice cream."
 status: published
+image: palisade-peach-cobbler.webp
+photo_credit: "Ralph Daily (CC BY 2.0, https://creativecommons.org/licenses/by/2.0; converted to WebP, center-cropped and resized in book/site)"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: desserts

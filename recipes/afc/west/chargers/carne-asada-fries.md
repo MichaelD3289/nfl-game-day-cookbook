@@ -3,6 +3,8 @@ id: carne-asada-fries
 title: Carne asada fries
 description: "Crisp fries topped with grilled diced sirloin, cheddar, avocado, sour cream, and salsa, adapted from a San Diego taco shop."
 status: published
+image: carne-asada-fries.webp
+photo_credit: "Unibob (author-released public domain; center-cropped and resized for book/site)"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers

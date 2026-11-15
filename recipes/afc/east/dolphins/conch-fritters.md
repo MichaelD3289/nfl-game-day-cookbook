@@ -17,6 +17,8 @@ index:
 source:
   url: https://www.wlrn.org/post/conch
   title: Bahamian Style Conch Fritters (Norman Van Aken, WLRN A Word on Food)
+image: conch-fritters.webp
+photo_credit: "Sharon Hahn Darlin (CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; converted to WebP, cropped and resized for book/site)"
 ---
 
 ## Ingredients

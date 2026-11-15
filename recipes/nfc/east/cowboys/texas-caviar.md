@@ -3,6 +3,8 @@ id: texas-caviar
 title: Texas caviar
 description: "Helen Corbitt's pickled black-eyed peas, marinated in oil and vinegar with onion and garlic."
 status: published
+image: texas-caviar.webp
+photo_credit: "Krista (scaredykat) on Flickr, CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

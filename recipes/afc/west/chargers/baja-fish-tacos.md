@@ -3,6 +3,8 @@ id: baja-fish-tacos
 title: Baja fish tacos
 description: "Beer-battered halibut in corn tortillas with cabbage and a creamy lemon sauce, the San Diego way."
 status: published
+image: baja-fish-tacos.webp
+photo_credit: "T. Tseng (CC BY 2.0, https://creativecommons.org/licenses/by/2.0; converted to WebP, center-cropped and resized in book/site)"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: meals

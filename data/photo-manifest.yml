@@ -11,6 +11,9 @@ photos:
   recipes/afc/east/bills/sponge-candy.webp:
     sha256: 0a5b586ed02f0b5039d391ba232d19c023e246f4f2a3eaec7dbbbfa3a0a75397
     policy: 1
+  recipes/afc/east/dolphins/conch-fritters.webp:
+    sha256: 20e823727f0070982a7a2523768ff707f2b87d2f1470c706ee10950b716ef3e6
+    policy: 1
   recipes/afc/east/dolphins/cuban-black-beans-and-rice.webp:
     sha256: a1ffa41226fa7f6c7a1f5a3f542fa1fa9eb2a66d3957f3922ada31c78948cb4f
     policy: 1
@@ -40,6 +43,9 @@ photos:
     policy: 1
   recipes/afc/east/patriots/new-england-clam-chowder.webp:
     sha256: 5836ba23dc7178e5bdab23d4d04c79241779064b6e34039e3f98e390657dfb2a
+    policy: 1
+  recipes/afc/north/bengals/buckeyes.webp:
+    sha256: 9b8fe2393896a975e02d0043622595dfc624eaf02c2739dbd54100fcc137026d
     policy: 1
   recipes/afc/north/bengals/cheese-coneys.webp:
     sha256: 529da9461c05aeb690c187832c6664b1f311f27dc6ffd97c8a5ee807ded38fb8
@@ -119,11 +125,23 @@ photos:
   recipes/afc/west/broncos/green-chile-breakfast-burritos.webp:
     sha256: f79e1043638e438e2cc39b50ee9f783fd86655d1d3e499c5c09312b250d510d8
     policy: 1
+  recipes/afc/west/broncos/palisade-peach-cobbler.webp:
+    sha256: bd0e90733150236dabfb5b47947c3a6fe05803df54ab08761d4ddc42cc13fba7
+    policy: 1
   recipes/afc/west/chargers/bacon-wrapped-la-street-dogs-chargers.webp:
     sha256: 29fb0ece3820e335eb7662b3219aa90f59431d3226c20a4a6debd95367d38ed7
     policy: 1
+  recipes/afc/west/chargers/baja-fish-tacos.webp:
+    sha256: deb9434a5394671a1f5886157840a6f9dcf1a82679eaad7308fe6352ac7ca386
+    policy: 1
+  recipes/afc/west/chargers/carne-asada-fries.webp:
+    sha256: ceffb92034fdda06961ac7cf6b67e87c7b9e02b73f1a7c875643d24d246dff61
+    policy: 1
   recipes/afc/west/chargers/french-dip-sandwiches-chargers.webp:
     sha256: e4926e8618118a62b0541cbbd549ad7dd898c7255629dd2e120aa74e7d01fa6b
+    policy: 1
+  recipes/afc/west/chargers/tres-leches-cake.webp:
+    sha256: 89e8a5752a1be9b9f704d8891fd08a232160e3b36dbeeaa5a611dde188a8b74d
     policy: 1
   recipes/afc/west/chiefs/barbecue-baked-beans.webp:
     sha256: e27eab48d13fc012277eb2b7961714843108d2815dc03535d6b05d4070e9f065
@@ -140,6 +158,9 @@ photos:
   recipes/afc/west/raiders/casino-style-prime-rib.webp:
     sha256: dae39b1dfc02f7cc997846160543faecb43bdea46a5efbd0fe052f3eae6c7a9f
     policy: 1
+  recipes/afc/west/raiders/golden-nugget-bread-pudding.webp:
+    sha256: e54f2e57714156c81783ff33c25eb3369a70a7371b4389a83a98f673976fd084
+    policy: 1
   recipes/afc/west/raiders/old-vegas-shrimp-cocktail.webp:
     sha256: b1ee6bf6bba73596f1c19202e9a590deab124f4f93a7bdcdbf038ecbd1f93c0b
     policy: 1
@@ -149,8 +170,17 @@ photos:
   recipes/nfc/east/commanders/half-smoke-chili-dogs.webp:
     sha256: ebe9acab8c68512b21caf80d429b21f5288f7872d656b440b71f40dda202d9a0
     policy: 1
+  recipes/nfc/east/commanders/smith-island-cake.webp:
+    sha256: a08331e5630026191e679529450740163d50f24428da4f4ced30fd5241f69d69
+    policy: 1
   recipes/nfc/east/cowboys/tex-mex-cheese-enchiladas.webp:
     sha256: 70765388443732d054b47ea4d387caf818e45bf53dbb7fc6c44878dd745c4331
+    policy: 1
+  recipes/nfc/east/cowboys/texas-caviar.webp:
+    sha256: cb5ef979244ea03a1b5991ee83f7182a34f1accde84c87bcb11a892a9ab0585d
+    policy: 1
+  recipes/nfc/east/cowboys/texas-pecan-pie.webp:
+    sha256: 9d2c69a83d547f079937c8d5e03c050e28f96af5205e5314f2238683b3184c60
     policy: 1
   recipes/nfc/east/cowboys/texas-red-chili.webp:
     sha256: 316aee69e6014eed47e2dbfb7e03e0e1f8150c658185d0f833db0bcca7aeda95
@@ -163,6 +193,9 @@ photos:
     policy: 1
   recipes/nfc/east/eagles/roast-pork-sandwich.webp:
     sha256: 2f8c09fc915efa27373b077a1c3a88bade164781513af3061ad191eddade1d47
+    policy: 1
+  recipes/nfc/east/eagles/water-ice.webp:
+    sha256: 03823f098719cfa8ffcf6262a20eb2698c80eabc9f7021503fa102bde7459ad6
     policy: 1
   recipes/nfc/east/giants/black-and-white-cookies.webp:
     sha256: 273565577e1fc47c6d31f63a7b22986e985b8076fe1d2ce083baaf11c93adbbc
@@ -200,6 +233,9 @@ photos:
   recipes/nfc/north/packers/fried-wisconsin-cheese-curds.webp:
     sha256: 73d5f757889f7182dfe986225a075fa9951144a5d2e65b25d87940e10c858b7c
     policy: 1
+  recipes/nfc/north/packers/racine-kringle.webp:
+    sha256: 1a8b5075f320c6ed5687ce1624fbf0cf8d5c45ea2e81f4f6a474cd58e464658a
+    policy: 1
   recipes/nfc/north/vikings/jucy-lucy-cheese-stuffed-burgers.webp:
     sha256: 247d3f2c32b6b22f9824b049e81a16fb7d01881cb5f7f93f2f729d4898a47757
     policy: 1
@@ -209,17 +245,26 @@ photos:
   recipes/nfc/south/buccaneers/deviled-crab.webp:
     sha256: eca4665002a8ab9b6ffd3265d0cdde6f6b1382041d36f0a98ca0e9f040d5cbb4
     policy: 1
+  recipes/nfc/south/buccaneers/plant-city-strawberry-shortcake.webp:
+    sha256: b473c0c4615a4f8aecf8515bdc71e994452352adfeb6b429bf433fde9452edd9
+    policy: 1
   recipes/nfc/south/buccaneers/spanish-bean-soup.webp:
     sha256: 80e6af5978c8574e4a3d1cbfd5aae2a45b408190a99a50c0e2aa035f2ee77110
     policy: 1
   recipes/nfc/south/buccaneers/tampa-cuban-sandwich-with-salami.webp:
     sha256: 002980400ccaa558d303de4ad5d8733cc212c4b3cf8da466641e273c15e73095
     policy: 1
+  recipes/nfc/south/falcons/brunswick-stew.webp:
+    sha256: 57954dbb2ebfd402f86a0fa3886fb3e4d58c23f00a020f753605f466a4db694b
+    policy: 1
   recipes/nfc/south/falcons/lemon-pepper-wet-wings.webp:
     sha256: 48b9c0975769a89b7f5f0fdd2e8bf7620af4e38c052e4b13d2bf86256da32ba5
     policy: 1
   recipes/nfc/south/falcons/peach-cobbler.webp:
     sha256: edad317619a08245afcac6c604aca8b79fbb18b44b00cf5f5ba7ee16fa3f40a5
+    policy: 1
+  recipes/nfc/south/panthers/hushpuppies.webp:
+    sha256: 7edc779d28519377b9d5e8ef018c62f428bbfc83d66586e8bf1d973e5ddb72c3
     policy: 1
   recipes/nfc/south/panthers/livermush-sandwiches.webp:
     sha256: 6db87b6cbee77ac9e92ea52dbc99c3f589130a2690274059beb9423755a6d4b1
@@ -236,6 +281,9 @@ photos:
   recipes/nfc/south/saints/muffuletta-sandwich.webp:
     sha256: d8cfa5201d2023d5d404a8331a03f168d1c9115eb350309f81f531fd3c779d2c
     policy: 1
+  recipes/nfc/south/saints/new-orleans-barbecue-shrimp.webp:
+    sha256: dc4f961cd84df6ad9bf32ae3de7d10ca9f19620bb7b5d34a08e4a437c415561e
+    policy: 1
   recipes/nfc/south/saints/red-beans-and-rice.webp:
     sha256: cd8da387cd4ecc59783bce97d577c9affcbb7ec0671d6f358bc456cdd4215d40
     policy: 1
@@ -248,6 +296,9 @@ photos:
   recipes/nfc/west/49ers/mission-style-burritos.webp:
     sha256: ec52075105ec23ead03df8ad6b8b3e619bab7e33cbe65881fa1e5a6119a100ac
     policy: 1
+  recipes/nfc/west/49ers/san-francisco-sourdough.webp:
+    sha256: 9770fe9a7582d4e673fe46504db411e25d3dd92b011036667e51d2e237d2eccc
+    policy: 1
   recipes/nfc/west/cardinals/fry-bread-tacos.webp:
     sha256: 5cb4785120caf48e17a5f32efc9fc1e069ebd2b78eda3e85cdaaef00f72b0fe4
     policy: 1
@@ -256,6 +307,12 @@ photos:
     policy: 1
   recipes/nfc/west/rams/bacon-wrapped-la-street-dogs.webp:
     sha256: 29fb0ece3820e335eb7662b3219aa90f59431d3226c20a4a6debd95367d38ed7
+    policy: 1
+  recipes/nfc/west/rams/churros-and-chocolate-dip.webp:
+    sha256: e83949b9b4633e7d62b889cd3d27e956669f9265b91000e04480c5a13007d470
+    policy: 1
+  recipes/nfc/west/rams/classic-elotes.webp:
+    sha256: 0876b41acf25b93b1ccf9829020113e77d8555c89704f94010acd8e3822246c0
     policy: 1
   recipes/nfc/west/rams/french-dip-sandwiches.webp:
     sha256: e4926e8618118a62b0541cbbd549ad7dd898c7255629dd2e120aa74e7d01fa6b

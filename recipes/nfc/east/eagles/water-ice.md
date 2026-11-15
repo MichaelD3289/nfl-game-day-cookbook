@@ -12,8 +12,8 @@ location: Philadelphia, PA
 yield: About 6–8 small cups (estimate)
 prep: 5–10 min (estimated)
 cook: 20–25 min churning
-image: water-ice.jpg
-photo_credit: soufflebombay.com
+image: water-ice.webp
+photo_credit: "vige, CC BY 2.0 (Commons source cropped and rotated; converted to WebP; center-cropped and resized for book/site); https://creativecommons.org/licenses/by/2.0/"
 index:
   main_ingredient: meatless
   practical_time: 31-to-60-minutes
