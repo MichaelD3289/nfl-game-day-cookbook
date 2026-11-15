@@ -33,7 +33,7 @@ def _dish(
         "course": course,
         "team": team,
         "division": division,
-        "printPages": pages or [],
+        "print_pages": pages or [],
     }
 
 

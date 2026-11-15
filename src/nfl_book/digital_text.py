@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import json
 import re
 from urllib.parse import urlsplit
 
@@ -34,8 +33,3 @@ def site_name(url: str) -> str:
     """``https://www.example.com/a/b`` -> ``example.com``: link text for an untitled source."""
     host = urlsplit(url).hostname or url
     return host.removeprefix("www.")
-
-
-def json_script(data: object) -> str:
-    """JSON for a one-line <script> element: no newlines, and no "</" to close it early."""
-    return json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")

@@ -185,7 +185,7 @@
     });
     if (withComponents) {
       picked.forEach(function (dish) {
-        dish.printPages.forEach(function (url) {
+        dish.print_pages.forEach(function (url) {
           if (pages.indexOf(url) < 0) pages.push(url);
         });
       });
@@ -222,7 +222,7 @@
     return found ? found.textContent.replace(/\s+/g, " ").trim() : "";
   }
 
-  // [{id, course, url, title, team, printPages, facets, el, button}] from the rows.
+  // [{id, course, url, title, team, print_pages, facets, el, button}] from the rows.
   function readDishes(container) {
     var browse = sibling("NflBrowse");
     var rows = browse
@@ -238,7 +238,7 @@
         url: el.getAttribute("data-url"),
         title: text(el, ".menu-dish-name"),
         team: text(el, ".menu-dish-team"),
-        printPages: (el.getAttribute("data-print-pages") || "")
+        print_pages: (el.getAttribute("data-print-pages") || "")
           .split(/\s+/)
           .filter(Boolean),
         facets: row.facets,

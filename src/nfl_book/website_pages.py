@@ -10,15 +10,14 @@ list recipes (Browse, Build your own menu, Matchup) read from it.
 from __future__ import annotations
 
 import html
-import json
 from collections.abc import Callable, Iterable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import urlencode
 
 from nfl_book.catalog import Catalog, CatalogFacet, CatalogRecipe
-from nfl_book.digital_text import json_script
 from nfl_book.models.content import Component, DishOff, GameDayMenu, Recipe
+from nfl_book.payloads import attribute_json, script_json
 from nfl_book.publishing import REPOSITORY
 from nfl_book.quantities import Amount, find_yield_amounts
 from nfl_book.references import SectionPage, address
@@ -96,7 +95,7 @@ def suggestion(kind: str, lead: str, **fields: str) -> Suggestion:
         kind,
         lead,
         f"{REPOSITORY}/issues/new?{urlencode(query)}",
-        json.dumps(fields, ensure_ascii=False),
+        attribute_json(fields),
     )
 
 
@@ -397,6 +396,48 @@ class Picker:
 
 
 @dataclass(frozen=True)
+class MatchupCourse:
+    id: str
+    label: str
+    singular: str
+
+
+@dataclass(frozen=True)
+class MatchupDivision:
+    key: str
+    name: str
+
+
+@dataclass(frozen=True)
+class MatchupTeam:
+    slug: str
+    name: str
+    short: str
+    division: str
+
+
+@dataclass(frozen=True)
+class MatchupDish:
+    id: str
+    title: str
+    url: str
+    course: str
+    team: str
+    division: str
+    print_pages: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class MatchupData:
+    """The matchup page's embedded payload, read by ``readData`` in website-matchup.js."""
+
+    courses: tuple[MatchupCourse, ...]
+    divisions: tuple[MatchupDivision, ...]
+    teams: tuple[MatchupTeam, ...]
+    dishes: tuple[MatchupDish, ...]
+
+
+@dataclass(frozen=True)
 class MatchupView(PageView):
     title: str
     label: str
@@ -461,33 +502,20 @@ def matchup_page(model: BookModel, catalog: Catalog) -> PageSpec:
         if option.id in present:
             bucket = model.settings.course(option.id)
             singular = bucket.singular if bucket else option.label
-            courses.append({"id": option.id, "label": option.label, "singular": singular})
-    divisions = [
-        {"key": section.division.key, "name": section.division.name} for section in model.divisions
-    ]
-    teams = [
-        {
-            "slug": entry.team.slug,
-            "name": entry.team.name,
-            "short": entry.team.short_name,
-            "division": section.division.key,
-        }
-        for section in model.divisions
-        for entry in section.teams
-    ]
-    dishes = [
-        {
-            "id": recipe.id,
-            "title": recipe.title,
-            "url": recipe.url,
-            "course": recipe.course,
-            "team": recipe.team.slug,
-            "division": recipe.division,
-            "printPages": list(recipe_print_pages(model.recipes_by_id[recipe.id], model)),
-        }
+            courses.append(MatchupCourse(option.id, option.label, singular))
+    dishes = tuple(
+        MatchupDish(
+            id=recipe.id,
+            title=recipe.title,
+            url=recipe.url,
+            course=recipe.course,
+            team=recipe.team.slug,
+            division=recipe.division,
+            print_pages=recipe_print_pages(model.recipes_by_id[recipe.id], model),
+        )
         for recipe in catalog.recipes
-    ]
-    with_dishes = {dish["team"] for dish in dishes}
+    )
+    with_dishes = {dish.team for dish in dishes}
     pickers = tuple(
         Picker(
             section.division.name,
@@ -498,13 +526,27 @@ def matchup_page(model: BookModel, catalog: Catalog) -> PageSpec:
         )
         for section in model.divisions
     )
-    data = {"courses": courses, "divisions": divisions, "teams": teams, "dishes": dishes}
+    data = MatchupData(
+        courses=tuple(courses),
+        divisions=tuple(
+            MatchupDivision(section.division.key, section.division.name)
+            for section in model.divisions
+        ),
+        teams=tuple(
+            MatchupTeam(
+                entry.team.slug, entry.team.name, entry.team.short_name, section.division.key
+            )
+            for section in model.divisions
+            for entry in section.teams
+        ),
+        dishes=dishes,
+    )
     where = address(SectionPage("matchup"))
     view = MatchupView(
         title="Matchup menu",
         label=where.label,
         pickers=pickers,
-        data_json=json_script(data),
+        data_json=script_json(data),
         suggest=suggestion("menu", "Have an idea for a game-day menu?"),
     )
     return PageSpec(where.slug, "matchup.qmd.j2", view, anchors=(where.label,))
