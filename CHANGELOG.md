@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.24.0] - 2026-11-14
+
 ### Fixed
 
 - Production builds no longer generate QR codes or photos for draft or retired recipes and components, so an unreadable photo on a draft can no longer fail a build.
@@ -434,7 +436,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.23.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.24.0...HEAD
+[0.24.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.23.0...v0.24.0
 [0.23.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.22.0...v0.23.0
 [0.22.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.20.0...v0.21.0
