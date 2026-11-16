@@ -3,6 +3,8 @@ id: rainier-cherry-crisp
 title: Rainier cherry crisp
 description: "Rainier cherries baked beneath an oat, almond and cinnamon crisp topping."
 status: published
+image: rainier-cherry-crisp.webp
+photo_credit: "Neil Conway, CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: desserts

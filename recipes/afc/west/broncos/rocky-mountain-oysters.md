@@ -3,6 +3,8 @@ id: rocky-mountain-oysters
 title: Rocky Mountain oysters
 description: "Beer-soaked calf testicles in a cornmeal batter, deep-fried and served with cocktail or horseradish sauce."
 status: published
+image: rocky-mountain-oysters.webp
+photo_credit: "Vincent Diamante, CC BY-SA 2.0, https://creativecommons.org/licenses/by-sa/2.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers

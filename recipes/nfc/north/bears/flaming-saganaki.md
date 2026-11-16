@@ -3,6 +3,8 @@ id: flaming-saganaki
 title: Flaming saganaki
 description: "Floured kasseri fried in olive oil, flamed with brandy and finished with lemon, the Greektown way."
 status: published
+image: flaming-saganaki.webp
+photo_credit: "Tammy Green, CC BY-SA 2.0, https://creativecommons.org/licenses/by-sa/2.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers

@@ -107,6 +107,12 @@ photos:
   recipes/afc/south/jaguars/mayport-shrimp-and-grits.webp:
     sha256: 6fd8b8a4175aeb4f9a782e3e510aa9d6663e67ebdb9e25948145ca7aad1f49dc
     policy: 1
+  recipes/afc/south/jaguars/red-rice.webp:
+    sha256: b0185402e04dc8022f1b1efe6461db64154bd5b07ee7e0025148ea0f531a669f
+    policy: 1
+  recipes/afc/south/texans/charro-beans.webp:
+    sha256: 65baff0625c27332d8f121c64ee3377efd500747144895ce5364816be492367f
+    policy: 1
   recipes/afc/south/texans/fajitas.webp:
     sha256: a1afc5e712bbbc4e42bcb9b83afa645699b351b8ec357c629c71b68a2d11db9a
     policy: 1
@@ -136,6 +142,9 @@ photos:
     policy: 1
   recipes/afc/west/broncos/palisade-peach-cobbler.webp:
     sha256: bd0e90733150236dabfb5b47947c3a6fe05803df54ab08761d4ddc42cc13fba7
+    policy: 1
+  recipes/afc/west/broncos/rocky-mountain-oysters.webp:
+    sha256: a9538a46ddeaa57f4fff388d5784a83192cc28c8a2b9cd7664ef0701842644be
     policy: 1
   recipes/afc/west/chargers/bacon-wrapped-la-street-dogs-chargers.webp:
     sha256: 29fb0ece3820e335eb7662b3219aa90f59431d3226c20a4a6debd95367d38ed7
@@ -227,6 +236,9 @@ photos:
   recipes/nfc/north/bears/deep-dish-pizza.webp:
     sha256: 6d78df94c1c3c543b3714c37314877a1e0cda0178b2d469a0bc75b8f628ea2b4
     policy: 1
+  recipes/nfc/north/bears/flaming-saganaki.webp:
+    sha256: 0a1593d793b859c25f901d8f8b53f7423b3adafd3f810b26038c5848c725f8f8
+    policy: 1
   recipes/nfc/north/bears/italian-beef-sandwiches.webp:
     sha256: 1d644eb1a22832defa003da7bf2b483a1e8fcb5c3ff8c03e4c5d8bb51237e4fa
     policy: 1
@@ -248,11 +260,17 @@ photos:
   recipes/nfc/north/packers/fried-wisconsin-cheese-curds.webp:
     sha256: 73d5f757889f7182dfe986225a075fa9951144a5d2e65b25d87940e10c858b7c
     policy: 1
+  recipes/nfc/north/packers/german-potato-salad.webp:
+    sha256: 99d9762962db7cacd055656e0bff236c0f6a402ce50f8280cbcc8bcff73cf0e0
+    policy: 1
   recipes/nfc/north/packers/racine-kringle.webp:
     sha256: 1a8b5075f320c6ed5687ce1624fbf0cf8d5c45ea2e81f4f6a474cd58e464658a
     policy: 1
   recipes/nfc/north/vikings/jucy-lucy-cheese-stuffed-burgers.webp:
     sha256: 247d3f2c32b6b22f9824b049e81a16fb7d01881cb5f7f93f2f729d4898a47757
+    policy: 1
+  recipes/nfc/north/vikings/minnesota-sushi.webp:
+    sha256: 25e7e8d86196cf55c299f786faf116ecf3494a8705544116d1dd1185c12976ca
     policy: 1
   recipes/nfc/north/vikings/tater-tot-hotdish.webp:
     sha256: 71b9c0c8eb23bdcc9a5efe94bc970ccf235ba6e7ca5b4d50d29c395afa6461ac
@@ -283,6 +301,9 @@ photos:
     policy: 1
   recipes/nfc/south/panthers/livermush-sandwiches.webp:
     sha256: 6db87b6cbee77ac9e92ea52dbc99c3f589130a2690274059beb9423755a6d4b1
+    policy: 1
+  recipes/nfc/south/panthers/moravian-sugar-cake.webp:
+    sha256: 07a3067e3be16d5eee14f67541f6b85c6510e60ceab5c575c72836cea5003080
     policy: 1
   recipes/nfc/south/panthers/pimento-cheese-sandwiches.webp:
     sha256: 9b81c90668a4bfd85ee33b51fc041bd72d355a934d2be39687b47cf3b0d47a01
@@ -317,8 +338,14 @@ photos:
   recipes/nfc/west/cardinals/fry-bread-tacos.webp:
     sha256: 5cb4785120caf48e17a5f32efc9fc1e069ebd2b78eda3e85cdaaef00f72b0fe4
     policy: 1
+  recipes/nfc/west/cardinals/sonoran-coyotas.webp:
+    sha256: 3a8140d45bea966ebbfaf98889161d3688f7dfc7e2cc2b1bb4913256eaa02a42
+    policy: 1
   recipes/nfc/west/cardinals/sonoran-hot-dogs.webp:
     sha256: ed3049e8b9592128d0b277d3f2fc4cc209070d0e44c205e8e5e997ae708bde20
+    policy: 1
+  recipes/nfc/west/cardinals/tucson-cheese-crisp.webp:
+    sha256: 8f8d5f1ebd9956f2383ac65a3efcff26e91c5a72e327f3e7c16f05e9797fa846
     policy: 1
   recipes/nfc/west/rams/bacon-wrapped-la-street-dogs.webp:
     sha256: 29fb0ece3820e335eb7662b3219aa90f59431d3226c20a4a6debd95367d38ed7
@@ -331,6 +358,9 @@ photos:
     policy: 1
   recipes/nfc/west/rams/french-dip-sandwiches.webp:
     sha256: e4926e8618118a62b0541cbbd549ad7dd898c7255629dd2e120aa74e7d01fa6b
+    policy: 1
+  recipes/nfc/west/seahawks/rainier-cherry-crisp.webp:
+    sha256: f591a666e9d9353840b47048e62ec4203530f80883c137c0a1cc58a64408e8e8
     policy: 1
   recipes/nfc/west/seahawks/seattle-dogs-with-cream-cheese-and-onions.webp:
     sha256: 5c937478f85d4da6c1993b9249cf9b6c25af92b7fdc150ec3ea93b3faa2a174f

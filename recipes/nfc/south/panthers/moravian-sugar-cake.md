@@ -3,6 +3,8 @@ id: moravian-sugar-cake
 title: Moravian sugar cake
 description: "A Winston-Salem yeasted coffee cake topped with brown sugar, cinnamon and melted butter."
 status: published
+image: moravian-sugar-cake.webp
+photo_credit: "Ommni1, CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: desserts

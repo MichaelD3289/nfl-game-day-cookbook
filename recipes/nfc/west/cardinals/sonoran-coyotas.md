@@ -3,6 +3,8 @@ id: sonoran-coyotas
 title: Sonoran coyotas
 description: "Flaky, piloncillo-filled pastries baked until lightly browned."
 status: published
+image: sonoran-coyotas.webp
+photo_credit: "Glane23, CC BY-SA 3.0, https://creativecommons.org/licenses/by-sa/3.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: desserts

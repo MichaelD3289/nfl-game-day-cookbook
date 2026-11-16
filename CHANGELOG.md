@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - New photos accompany disco fries, half-sour pickles, sauerkraut balls, chile con queso and potato knishes, with their sources and licenses recorded in the photo provenance doc.
+- New photos accompany flaming saganaki, Moravian sugar cake, Sonoran coyotas, Tucson cheese crisp, Rainier cherry crisp, Gullah red rice, charro beans, Rocky Mountain oysters, German potato salad and Minnesota sushi, with sources and licenses in a new photo provenance doc.
 
 ## [0.24.0] - 2026-11-14
 

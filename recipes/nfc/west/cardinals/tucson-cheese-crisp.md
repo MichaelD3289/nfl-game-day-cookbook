@@ -3,6 +3,8 @@ id: tucson-cheese-crisp
 title: Tucson cheese crisp
 description: "A crisp flour tortilla baked with melted cheese."
 status: published
+image: tucson-cheese-crisp.webp
+photo_credit: "Zekerags, CC BY-SA 3.0, https://creativecommons.org/licenses/by-sa/3.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers
