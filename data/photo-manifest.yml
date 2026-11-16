@@ -8,6 +8,9 @@ photos:
   recipes/afc/east/bills/chicken-finger-sub.webp:
     sha256: 8f02644294ecd343ecc3d7ffd66e452336b66f13c54d5f2e6dbc85c063e0cc65
     policy: 1
+  recipes/afc/east/bills/kummelweck-rolls.webp:
+    sha256: 8e79f40a76aac424d94cb195a449432b5d2d81d2e2e60da1332b3eb15073db3c
+    policy: 1
   recipes/afc/east/bills/sponge-candy.webp:
     sha256: 0a5b586ed02f0b5039d391ba232d19c023e246f4f2a3eaec7dbbbfa3a0a75397
     policy: 1
@@ -56,6 +59,9 @@ photos:
   recipes/afc/north/bengals/cheese-coneys.webp:
     sha256: 529da9461c05aeb690c187832c6664b1f311f27dc6ffd97c8a5ee807ded38fb8
     policy: 1
+  recipes/afc/north/bengals/cincinnati-chili-dip.webp:
+    sha256: c75c3b987f0d90a107b2f1416f6bb9a8b3c1ea0f52a17f4ec36e0f2da57eb6c5
+    policy: 1
   recipes/afc/north/bengals/cincinnati-chili-over-spaghetti.webp:
     sha256: 4bb98191cab2eac27ff1569227d388b38a8a56a0879d749bc5c31dd6559aa074
     policy: 1
@@ -85,6 +91,9 @@ photos:
     policy: 1
   recipes/afc/north/steelers/haluski-cabbage-and-noodles.webp:
     sha256: 171b37060b0166226d236e985608454c3d18b3695c4ed7a8e202d71ed8c5f88c
+    policy: 1
+  recipes/afc/north/steelers/lady-locks.webp:
+    sha256: d8026a6f28bd5b500841fe483c969c3822addc16375730627ba3bef52d6324ee
     policy: 1
   recipes/afc/north/steelers/pierogi.webp:
     sha256: 0ca8b2a3e462afdbf8f899589452059a0b3f84b5d844deecb0a54d8f35156b93
@@ -335,6 +344,9 @@ photos:
   recipes/nfc/west/49ers/san-francisco-sourdough.webp:
     sha256: 9770fe9a7582d4e673fe46504db411e25d3dd92b011036667e51d2e237d2eccc
     policy: 1
+  recipes/nfc/west/cardinals/calabacitas-in-mole-adobo.webp:
+    sha256: c73000a50069d65a8108f2e279e8a9918ed4d775848a30775e079026bf38f6a1
+    policy: 1
   recipes/nfc/west/cardinals/fry-bread-tacos.webp:
     sha256: 5cb4785120caf48e17a5f32efc9fc1e069ebd2b78eda3e85cdaaef00f72b0fe4
     policy: 1
@@ -367,4 +379,7 @@ photos:
     policy: 1
   recipes/nfc/west/seahawks/seattle-style-chicken-teriyaki.webp:
     sha256: e2fec6ae92d0174baea2c5e2fb79a731b2101f3485e014379bed03eaf7ce395f
+    policy: 1
+  recipes/nfc/west/seahawks/slimmer-smoked-salmon-dip.webp:
+    sha256: 2fabef584693b1631bba1a1dbc6f6c793a821c9eaf9d241deeec80b8ccb56415
     policy: 1

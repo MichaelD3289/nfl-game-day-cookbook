@@ -3,6 +3,8 @@ id: slimmer-smoked-salmon-dip
 title: Slimmer smoked salmon dip
 description: "Smoked salmon dip with red onion, capers, dill, yogurt, lemon and horseradish."
 status: published
+image: slimmer-smoked-salmon-dip.webp
+photo_credit: "Laurel Fan, CC BY-SA 2.0, https://creativecommons.org/licenses/by-sa/2.0/; via Flickr; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers
