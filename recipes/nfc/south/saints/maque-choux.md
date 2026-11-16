@@ -3,6 +3,8 @@ id: maque-choux
 title: Maque choux
 description: "Fresh corn stewed with tomatoes, onion, garlic and green bell pepper."
 status: published
+image: maque-choux.webp
+photo_credit: "Craig Dugas, CC BY-SA 2.0, https://creativecommons.org/licenses/by-sa/2.0/; via Wikimedia Commons; cropped to the dish, converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

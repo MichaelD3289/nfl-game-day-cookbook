@@ -3,6 +3,8 @@ id: fried-whole-belly-clams
 title: Fried whole-belly clams
 description: "Whole-belly steamer clams dipped in evaporated milk and corn flour and fried crisp, the Woodman's of Essex way."
 status: published
+image: fried-whole-belly-clams.webp
+photo_credit: "snowpea&bokchoi, CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; via Flickr; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers

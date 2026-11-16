@@ -47,6 +47,9 @@ photos:
   recipes/afc/east/patriots/boston-cream-pie.webp:
     sha256: 31c84738d6b971adcda6819b9acd8bfbd4da7bf17ae00d0a206ce46e799cd27d
     policy: 1
+  recipes/afc/east/patriots/fried-whole-belly-clams.webp:
+    sha256: 4fc78d264f0e845eabf6dae9ad8e363485f551215247978f2546a24e0686fc20
+    policy: 1
   recipes/afc/east/patriots/lobster-rolls.webp:
     sha256: fbdcbdce455c0df9611c03f9d211e2f8e813f5c752f8f3ecc9e13cefa21d5f3d
     policy: 1
@@ -68,6 +71,12 @@ photos:
   recipes/afc/north/bengals/goetta.webp:
     sha256: 22837274989d3214dfd62dc27a3c6bb0a0ba033c79fc4d9792d27e2a0fbe45c6
     policy: 1
+  recipes/afc/north/bengals/izzys-style-potato-pancakes.webp:
+    sha256: dcfbcf7120cb7d49ca3f6cb1e8c46f12d01dcdbb37c875f7a887cd1d660124dd
+    policy: 1
+  recipes/afc/north/browns/balaton-spaetzle.webp:
+    sha256: 8aaf6b956bec0d1d592f97f3b311cc2ccf4a5de78c8096e1615c9f8a83719862
+    policy: 1
   recipes/afc/north/browns/polish-boy-sandwich.webp:
     sha256: 96967c9fc75cbcafad0b39bec71d77d4e2938b96c5d386845ed669f4fa79aa07
     policy: 1
@@ -82,6 +91,9 @@ photos:
     policy: 1
   recipes/afc/north/ravens/berger-cookies.webp:
     sha256: eab9e68808d94de03636cec276793aef6cedf3fd8adfccfec17c977334aaa6a1
+    policy: 1
+  recipes/afc/north/ravens/hot-baltimore-crab-dip.webp:
+    sha256: c8be4c90a513b4e60c67a4a4a495c887d9ca5add3e7791b0d00ae9f0c8af66ce
     policy: 1
   recipes/afc/north/ravens/pit-beef-sandwiches.webp:
     sha256: 9ee70e6f96bcb602d2cd854232b7b62a68e0539668eda7c83f6a3abb7fde028a
@@ -167,8 +179,14 @@ photos:
   recipes/afc/west/chargers/french-dip-sandwiches-chargers.webp:
     sha256: e4926e8618118a62b0541cbbd549ad7dd898c7255629dd2e120aa74e7d01fa6b
     policy: 1
+  recipes/afc/west/chargers/mexican-red-rice.webp:
+    sha256: a1663f85be85141660a0a43a9e9278fce57155bd2d4035394e3ce03f01b38e4f
+    policy: 1
   recipes/afc/west/chargers/tres-leches-cake.webp:
     sha256: 89e8a5752a1be9b9f704d8891fd08a232160e3b36dbeeaa5a611dde188a8b74d
+    policy: 1
+  recipes/afc/west/chiefs/baby-sweet-potato-pies.webp:
+    sha256: a2a59f5a6b3905b89ef8a7aef717f91e0d3477b1ff65b8af09c5e3183bc1a1bb
     policy: 1
   recipes/afc/west/chiefs/barbecue-baked-beans.webp:
     sha256: e27eab48d13fc012277eb2b7961714843108d2815dc03535d6b05d4070e9f065
@@ -184,6 +202,9 @@ photos:
     policy: 1
   recipes/afc/west/raiders/casino-style-prime-rib.webp:
     sha256: dae39b1dfc02f7cc997846160543faecb43bdea46a5efbd0fe052f3eae6c7a9f
+    policy: 1
+  recipes/afc/west/raiders/creamed-spinach.webp:
+    sha256: fda5d2a527c7b6be721ac5f9e48d8e6b09fc58b41f6ac37222006836c9aa0e72
     policy: 1
   recipes/afc/west/raiders/golden-nugget-bread-pudding.webp:
     sha256: e54f2e57714156c81783ff33c25eb3369a70a7371b4389a83a98f673976fd084
@@ -257,6 +278,9 @@ photos:
   recipes/nfc/north/lions/detroit-coney-dogs.webp:
     sha256: d1d8b42813b75212fae9c1a470f6d071de84ee8cb6bc16fb102e97cd34956c51
     policy: 1
+  recipes/nfc/north/lions/detroit-greek-salad.webp:
+    sha256: 7705fca3a699226b790cf95665deaea12cde0b8b58970a74537af0bbaeb0d66d
+    policy: 1
   recipes/nfc/north/lions/detroit-style-pizza.webp:
     sha256: 3ef66af56a9c1be48a7e9ba128dfb3f7dbaf7416de7b9a437b75bfe27de13c1c
     policy: 1
@@ -308,6 +332,9 @@ photos:
   recipes/nfc/south/panthers/hushpuppies.webp:
     sha256: 7edc779d28519377b9d5e8ef018c62f428bbfc83d66586e8bf1d973e5ddb72c3
     policy: 1
+  recipes/nfc/south/panthers/lexington-red-slaw.webp:
+    sha256: e1acae1819482c4debc408bdb09f08ad5630404f0da0811ae7c02eb6c1a409f3
+    policy: 1
   recipes/nfc/south/panthers/livermush-sandwiches.webp:
     sha256: 6db87b6cbee77ac9e92ea52dbc99c3f589130a2690274059beb9423755a6d4b1
     policy: 1
@@ -322,6 +349,9 @@ photos:
     policy: 1
   recipes/nfc/south/saints/jambalaya.webp:
     sha256: dbbf94ae54fbf108709aec8103d799f53010ba0b4d3189930f99c46e42ce7fe9
+    policy: 1
+  recipes/nfc/south/saints/maque-choux.webp:
+    sha256: 903f4653d1acf7c2fec2539f3ed9e682e73a7a2b5139d773d58fcb5d83db9665
     policy: 1
   recipes/nfc/south/saints/muffuletta-sandwich.webp:
     sha256: d8cfa5201d2023d5d404a8331a03f168d1c9115eb350309f81f531fd3c779d2c
@@ -382,4 +412,7 @@ photos:
     policy: 1
   recipes/nfc/west/seahawks/slimmer-smoked-salmon-dip.webp:
     sha256: 2fabef584693b1631bba1a1dbc6f6c793a821c9eaf9d241deeec80b8ccb56415
+    policy: 1
+  recipes/nfc/west/seahawks/walla-walla-onion-rings.webp:
+    sha256: 8e41240bdd38d12282703ea6a2c2cb6c45bc30e7b087f7088e85f3f122c9f00b
     policy: 1

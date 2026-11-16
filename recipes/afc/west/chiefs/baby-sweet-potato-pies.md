@@ -3,6 +3,8 @@ id: baby-sweet-potato-pies
 title: Baby sweet potato pies
 description: "Spiced sweet potato custard baked in small pie-crust rounds, a copycat of the Gates Bar-B-Q specialty."
 status: published
+image: baby-sweet-potato-pies.webp
+photo_credit: "UrsulaA38, CC BY 4.0, https://creativecommons.org/licenses/by/4.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: desserts
