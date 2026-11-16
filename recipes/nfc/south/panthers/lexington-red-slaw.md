@@ -3,6 +3,8 @@ id: lexington-red-slaw
 title: Lexington red slaw
 description: "Chopped cabbage tossed with Lexington's tangy ketchup, vinegar and hot-sauce dressing."
 status: published
+image: lexington-red-slaw.webp
+photo_credit: "Jeffery Loo, CC BY-SA 2.0, https://creativecommons.org/licenses/by-sa/2.0/; via Wikimedia Commons; cropped to the dish, converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

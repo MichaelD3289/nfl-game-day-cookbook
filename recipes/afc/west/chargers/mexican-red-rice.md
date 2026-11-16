@@ -3,6 +3,8 @@ id: mexican-red-rice
 title: Mexican red rice (arroz rojo)
 description: "Long grain rice simmered with tomato paste, chicken broth and a whole serrano chile."
 status: published
+image: mexican-red-rice.webp
+photo_credit: "Maryam S., CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; via Wikimedia Commons; cropped to the dish, converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

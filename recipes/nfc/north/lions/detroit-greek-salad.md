@@ -3,6 +3,8 @@ id: detroit-greek-salad
 title: Detroit Greek salad
 description: "Chopped iceberg Greek salad with chickpeas, olives, feta and pickled beets, tossed in a red wine vinaigrette."
 status: published
+image: detroit-greek-salad.webp
+photo_credit: "Todd Van Hoosear, CC BY-SA 2.0, https://creativecommons.org/licenses/by-sa/2.0/; via Wikimedia Commons; cropped to the dish, converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

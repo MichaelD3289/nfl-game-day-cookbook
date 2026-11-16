@@ -3,6 +3,8 @@ id: hot-baltimore-crab-dip
 title: Hot Baltimore crab dip
 description: "Baked cream cheese and sour cream dip with blue crab, Old Bay and a kick of hot sauce, served with French bread or crackers."
 status: published
+image: hot-baltimore-crab-dip.webp
+photo_credit: "Krista, CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers

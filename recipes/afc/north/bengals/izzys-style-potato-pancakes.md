@@ -3,6 +3,8 @@ id: izzys-style-potato-pancakes
 title: Izzy's-style potato pancakes
 description: "Thick, crisp potato pancakes made from chopped and shredded potatoes, in the style of Cincinnati's Izzy's."
 status: published
+image: izzys-style-potato-pancakes.webp
+photo_credit: "Daniel Spils, CC BY-SA 2.0, https://creativecommons.org/licenses/by-sa/2.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

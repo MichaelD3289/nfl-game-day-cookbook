@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - New photos accompany Cincinnati chili dip, lady locks, smoked salmon dip, calabacitas and kummelweck rolls, with sources, licenses and differences from each recipe in a new photo provenance doc.
+- Eleven more recipes get photos that show the dish with small differences, such as a different garnish or coating; the provenance doc notes each difference, and four photos are cropped to the dish.
 
 ## [0.25.0] - 2026-11-15
 

@@ -3,6 +3,8 @@ id: creamed-spinach
 title: Creamed spinach
 description: "Blanched spinach folded into a shallot-garlic béchamel with cream, Swiss and Parmesan, from Delmonico Steakhouse in Las Vegas."
 status: published
+image: creamed-spinach.webp
+photo_credit: "Gatorfan252525, CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

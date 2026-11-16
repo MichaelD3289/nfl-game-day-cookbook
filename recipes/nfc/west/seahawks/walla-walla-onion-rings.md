@@ -3,6 +3,8 @@ id: walla-walla-onion-rings
 title: Beer-battered Walla Walla onion rings
 description: "Walla Walla sweet onions dipped in chilled beer batter and fried until crisp."
 status: published
+image: walla-walla-onion-rings.webp
+photo_credit: "Krista, CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

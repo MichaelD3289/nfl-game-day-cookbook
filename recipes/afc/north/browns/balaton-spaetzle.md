@@ -3,6 +3,8 @@ id: balaton-spaetzle
 title: Hungarian spaetzle
 description: "Simple egg-and-flour dumplings in the style of Cleveland's Balaton, served under goulash."
 status: published
+image: balaton-spaetzle.webp
+photo_credit: "Jeremy Keith, CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; via Flickr; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides
