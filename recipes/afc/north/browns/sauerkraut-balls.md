@@ -3,6 +3,8 @@ id: sauerkraut-balls
 title: Sauerkraut balls
 description: "Akron-style breaded fritters of sauerkraut, onion and smoky speck, fried crisp and dipped in mustard and cocktail sauce."
 status: published
+image: sauerkraut-balls.webp
+photo_credit: "stu_spivack, CC BY-SA 2.0, https://creativecommons.org/licenses/by-sa/2.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers

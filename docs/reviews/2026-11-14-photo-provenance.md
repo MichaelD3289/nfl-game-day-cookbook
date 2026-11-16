@@ -1,6 +1,6 @@
 # Recipe photo provenance
 
-Prepared 2026-11-14 from the current recipe references, the photo-rights notes, and the Sep 26 recipe-review record. All 24 rows below were checked against a current recipe `image` field and an existing WebP file. Source links point to the recorded Commons or Flickr page; direct originals are included where the records provide them. Rejected or removed candidates are excluded.
+Prepared 2026-11-14 from the current recipe references, the photo-rights notes, and the Sep 26 recipe-review record. All 29 rows below were checked against a current recipe `image` field and an existing WebP file. Source links point to the recorded Commons or Flickr page; direct originals are included where the records provide them. Rejected or removed candidates are excluded.
 
 ## Added photos
 
@@ -24,6 +24,11 @@ Prepared 2026-11-14 from the current recipe references, the photo-rights notes, 
 | `recipes/nfc/west/rams/classic-elotes.md` | jeffreyw | [Commons](https://commons.wikimedia.org/wiki/File:Elote_con_crema_y_queso_cotija.jpg) · [original](https://upload.wikimedia.org/wikipedia/commons/d/df/Elote_con_crema_y_queso_cotija.jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | JPEG converted to WebP; book/site output center-cropped and resized. |
 | `recipes/nfc/south/panthers/hushpuppies.md` | Jeremy Keith | [Commons](https://commons.wikimedia.org/wiki/File:Hush_puppies_%281351024586%29.jpg) · [Flickr original](https://live.staticflickr.com/1240/1351024586_e316dfeb05_o.jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | JPEG converted to WebP; book/site output center-cropped and resized. |
 | `recipes/afc/north/bengals/buckeyes.md` | Steven Depolo | [Commons](https://commons.wikimedia.org/wiki/File:Buckeyes_Peanut_Butter_Balls(cropped).jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | Commons original is already cropped; converted to WebP; book/site output center-cropped and resized. |
+| `recipes/afc/east/jets/disco-fries.md` | BanjoZebra | [Commons](https://commons.wikimedia.org/wiki/File:Disco_fries.jpg) · [original](https://upload.wikimedia.org/wikipedia/commons/1/10/Disco_fries.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | JPEG converted to WebP; book/site output center-cropped and resized. Served on a branded paper liner. |
+| `recipes/afc/east/jets/half-sour-pickles.md` | Ll1324 | [Commons](https://commons.wikimedia.org/wiki/File:Half_Sour_vs_Kosher_Dill.jpg) · [original](https://upload.wikimedia.org/wikipedia/commons/e/e7/Half_Sour_vs_Kosher_Dill.jpg) | [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/) | JPEG converted to WebP; book/site output center-cropped and resized. Shows a half-sour beside a full-sour dill for comparison. |
+| `recipes/afc/north/browns/sauerkraut-balls.md` | stu_spivack | [Commons](https://commons.wikimedia.org/wiki/File:Sauerkraut_balls.jpg) · [original](https://upload.wikimedia.org/wikipedia/commons/0/01/Sauerkraut_balls.jpg) | [CC BY-SA 2.0](https://creativecommons.org/licenses/by-sa/2.0/) | JPEG converted to WebP; book/site output center-cropped and resized. Generic breaded sauerkraut balls, not documented as Akron/Cleveland. |
+| `recipes/nfc/east/cowboys/chile-con-queso.md` | Wackyrussell (English Wikipedia); description names photographer Robb Zipp | [Commons](https://commons.wikimedia.org/wiki/File:Queso.jpg) · [original](https://upload.wikimedia.org/wikipedia/commons/6/65/Queso.jpg) | Public domain; Commons records the author's release (no separate license URL). | JPEG converted to WebP; book/site output center-cropped and resized. Taken at Ninfa's, Houston. Original is 600 × 450 pixels. |
+| `recipes/nfc/east/giants/potato-knishes.md` | UeArtemis | [Commons](https://commons.wikimedia.org/wiki/File:Knish_with_potato.jpg) · [original](https://upload.wikimedia.org/wikipedia/commons/1/18/Knish_with_potato.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | JPEG converted to WebP; book/site output center-cropped and resized. Round, gathered knishes; the recipe makes log-cut knishes. |
 
 ## Water ice replacement
 
@@ -43,4 +48,4 @@ Prepared 2026-11-14 from the current recipe references, the photo-rights notes, 
 
 ## Scope and remaining verification
 
-The current repository has 108 recipe image references and 108 corresponding WebP files. This document covers 18 added photos, the water-ice replacement, and five previously documented licensed photos (24 current sources), leaving 84 referenced sources outside this verified set. The earlier interim count of 85 predated accounting for the water-ice replacement. No claims are made here about the reuse rights of those other sources.
+The current repository has 113 recipe image references and 113 corresponding WebP files. This document covers 23 added photos, the water-ice replacement, and five previously documented licensed photos (29 current sources), leaving 84 referenced sources outside this verified set. The earlier interim count of 85 predated accounting for the water-ice replacement. No claims are made here about the reuse rights of those other sources.

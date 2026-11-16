@@ -3,6 +3,8 @@ id: half-sour-pickles
 title: New York half-sour pickles
 description: "Crunchy, garlicky pickles brined in salt water rather than vinegar that taste just like New York crunchy pickles."
 status: published
+image: half-sour-pickles.webp
+photo_credit: "Ll1324, CC0 1.0, https://creativecommons.org/publicdomain/zero/1.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

@@ -51,7 +51,8 @@ def test_cards_escape_titles_and_fallback_links(fixture_book: Project) -> None:
     data["cards"]["width_inches"] = 5
     data["cards"]["height_inches"] = 7
     path.write_text(yaml.safe_dump(data))
-    recipe = next(fixture_book.content_root.glob("recipes/**/test-*.md"))
+    # Name a published recipe: glob order is filesystem-dependent, and cards omit drafts.
+    recipe = next(fixture_book.recipes_dir.rglob("test-buffalo-sliders.md"))
     text = recipe.read_text()
     # Keep the fixture's schema intact while exercising TeX macro arguments.
     text = text.replace("title: ", "title: Fish & Chips 50% ", 1)
