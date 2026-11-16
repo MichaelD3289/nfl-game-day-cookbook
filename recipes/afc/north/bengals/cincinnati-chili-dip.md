@@ -3,6 +3,8 @@ id: cincinnati-chili-dip
 title: Cincinnati chili dip
 description: "Cream cheese topped with spiced Cincinnati-style chili and cheddar, baked until bubbly."
 status: published
+image: cincinnati-chili-dip.webp
+photo_credit: "Drew Tarvin, CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; via Flickr; cropped to the dish, converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers

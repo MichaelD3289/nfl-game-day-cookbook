@@ -3,6 +3,8 @@ id: calabacitas-in-mole-adobo
 title: Calabacitas in mole adobo
 description: "Summer squash, corn, bell peppers, and tomatoes simmered with mole adobo."
 status: published
+image: calabacitas-in-mole-adobo.webp
+photo_credit: "Esther (just.peekin), CC BY-SA 2.0, https://creativecommons.org/licenses/by-sa/2.0/; via Flickr; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

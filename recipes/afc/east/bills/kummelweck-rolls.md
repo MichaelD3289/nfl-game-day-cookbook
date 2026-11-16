@@ -3,6 +3,8 @@ id: kummelweck-rolls
 title: Kummelweck rolls
 description: "Western New York's crusty hard rolls, slashed and crusted with coarse salt and caraway seeds, the roll behind beef on weck."
 status: published
+image: kummelweck-rolls.webp
+photo_credit: "Nickgray, CC BY-SA 2.0, https://creativecommons.org/licenses/by-sa/2.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

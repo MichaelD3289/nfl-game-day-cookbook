@@ -3,6 +3,8 @@ id: lady-locks
 title: Lady locks
 description: "Flaky pastry horns filled with a sweet whipped cream filling, a staple of the Pittsburgh cookie table."
 status: published
+image: lady-locks.webp
+photo_credit: "jeffreyw, CC BY 2.0, https://creativecommons.org/licenses/by/2.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: desserts
