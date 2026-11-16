@@ -3,6 +3,8 @@ id: red-rice
 title: Gullah red rice
 description: "Tomato-red Gullah Geechee rice baked with smoked sausage and bacon, from a Jacksonville Gullah Geechee chef."
 status: published
+image: red-rice.webp
+photo_credit: "lu3nar (Tumblr), CC0 1.0, https://creativecommons.org/publicdomain/zero/1.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

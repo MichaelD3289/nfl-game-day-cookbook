@@ -3,6 +3,8 @@ id: charro-beans
 title: Charro beans
 description: "Tex-Mex pinto beans simmered with garlic, then finished with bacon, onion, serrano chiles and tomato."
 status: published
+image: charro-beans.webp
+photo_credit: "Ivanmartinez, CC BY-SA 3.0, https://creativecommons.org/licenses/by-sa/3.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

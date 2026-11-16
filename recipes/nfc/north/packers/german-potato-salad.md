@@ -3,6 +3,8 @@ id: german-potato-salad
 title: German potato salad
 description: "Warm potato salad with bacon, onion and a sweet-sour vinegar dressing, in Milwaukee's German tradition."
 status: published
+image: german-potato-salad.webp
+photo_credit: "Oxfordian Kissuth, CC BY-SA 3.0, https://creativecommons.org/licenses/by-sa/3.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: sides

@@ -3,6 +3,8 @@ id: minnesota-sushi
 title: Minnesota sushi
 description: "Dill pickle spears rolled in cream cheese and deli ham, then sliced into bite-size rounds."
 status: published
+image: minnesota-sushi.webp
+photo_credit: "WxMom, CC BY-SA 2.0, https://creativecommons.org/licenses/by-sa/2.0/; via Wikimedia Commons; converted to WebP, center-cropped and resized in book/site"
 last_reviewed_at: null
 last_reviewed_notes: null
 course: appetizers
