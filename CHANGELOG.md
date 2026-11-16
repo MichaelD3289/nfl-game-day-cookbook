@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.26.0] - 2026-11-15
+
 ### Changed
 
 - New photos accompany Cincinnati chili dip, lady locks, smoked salmon dip, calabacitas and kummelweck rolls, with sources, licenses and differences from each recipe in a new photo provenance doc.
@@ -448,7 +450,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   more than 24 ingredient lines set each group as a run-in paragraph.
 - Unit and integration tests against a synthetic sample book.
 
-[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.25.0...HEAD
+[Unreleased]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.26.0...HEAD
+[0.26.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.25.0...v0.26.0
 [0.25.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.24.0...v0.25.0
 [0.24.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.23.0...v0.24.0
 [0.23.0]: https://github.com/MichaelD3289/nfl-game-day-cookbook/compare/v0.22.0...v0.23.0
